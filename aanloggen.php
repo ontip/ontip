@@ -41,6 +41,11 @@ if (isset($_GET['return'])){
  $return_page = $_GET['return'];
 }
 
+if ($return_page ==''){
+	$return_page = 'index.php';
+}
+
+
 $qry    = mysql_query("SELECT * from vereniging where Id = ".$vereniging_id." ")           or die(' Fout in select 1');  
 $result  = mysql_fetch_array( $qry);
 $vereniging_id     = $result['Id'];
