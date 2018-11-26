@@ -168,7 +168,7 @@ $bericht .= "<br><div style= 'font-family:verdana;font-size:8.5pt;color:black;pa
 if ($count > 0) {
    mail($to, $subject, $bericht, $headers);
 
-   echo " <div style='color:blue;'>Bericht met wachtwoord is verstuurd naar email van de beheerder ".$to;
+   echo " <div style='color:blue;'>Bericht met wachtwoord is verstuurd naar email van de beheerder.";
    echo "<br><br><a href='aanloggen.php'>Klik hier om terug te keren naar de aanlog pagina.</a><br></div>"; 
 } // end if count 
 
