@@ -165,10 +165,9 @@ $url_hostName = $_SERVER['HTTP_HOST'];
 
 $bericht.= "\r\n\r\n<a href = 'https://www.ontip.nl/ontip/OnTip_insert_beheerder_stap3.php?".$replace."' target= '_blank'>Klik hier voor activeren</a>";
 
-
-		
-mail($to, $subject, $bericht, $headers);
 $bericht .= "<hr/><div style= 'style= 'font-family:verdana;font-size:9pt;color:black;padding-top:20pt;'><br><img src = 'https://www.ontip.nl/ontip/images/OnTip_banner_klein.jpg' width='40'> Deze mail is aangemaakt vanuit OnTIP het digitaal inschrijf formulier (c) Erik Hendrikx ".date('Y ')."</div>" . "\r\n";
+$_subject = "=?utf-8?b?".base64_encode($subject)."?=";
+mail($to, $_subject, $bericht, $headers, "-finfo@ontip.nl");
 
 
 header ("location: aanvraag_verstuurd.php"); 

@@ -154,7 +154,8 @@ if( !isset($string )) { $string = '' ; }
         $string .= $characters[mt_rand(1, strlen($characters))];
     }
 
-$encrypt       = md5($string);
+// ivm melden wachtwoord in mail nog de eenvoudige versleuteling
+$encrypt       = versleutel($string);
 
 
 $replace = 'id='.$vereniging_id.'&naam='.$naam.'&encrypt='.$encrypt.'&rechten='.$rechten.'&email='.$email.'&naam_aanvrager='.$aanvrager;
