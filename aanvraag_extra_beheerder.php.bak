@@ -1,7 +1,9 @@
 <?php
 /*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-# aanvraag_extra_beheerder.php
-#  Formulier voor aanvragen OnTip beheerder voor de vereniging.  Start send_aanvraag_beheerder.php
+// aanvraag_extra_beheerder.php
+//  Formulier voor aanvragen OnTip beheerder voor de vereniging.  Start send_aanvraag_beheerder.php
+///
+# Vullen van wedstrijd indelingen tbv app
 # Record of Changes:
 #
 # Date              Version      Person
