@@ -1,0 +1,164 @@
+CREATE TABLE IF NOT EXISTS `hussel_config` (
+  `Id` int(6) unsigned NOT NULL,
+  `Vereniging` char(80) NOT NULL,
+  `Vereniging_id` int(3) NOT NULL DEFAULT '0',
+  `Variabele` char(80) NOT NULL,
+  `Waarde` char(10) NOT NULL,
+  `Parameters` char(80) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+
+
+
+INSERT INTO `hussel_config` (`Id`, `Vereniging`, `Vereniging_id`, `Variabele`, `Waarde`, `Parameters`) VALUES
+(1, 'Boulamis', 4, 'controle_13', 'Auto', ''),
+(2, 'Boulamis', 4, 'aantal_rondes', '2', ''),
+(3, 'Boulamis', 4, 'datum_lock', 'Off', '2015-06-25'),
+(4, 'Boulamis', 4, 'voorgeloot', 'On', ''),
+(9, 'Boulamis', 4, 'blokkeer_invoer', 'Off', ''),
+(17, 'Boulamis', 4, 'baan_schemas', 'On', '14'),
+(19, 'Boulamis', 4, 'verwijderen_spelers', 'Off', '');
+
+CREATE TABLE IF NOT EXISTS `hussel_schema` (
+  `Id` int(6) unsigned NOT NULL,
+  `Vereniging` char(40) NOT NULL DEFAULT '',
+  `Toernooi` char(40) NOT NULL DEFAULT '',
+  `Speler` int(3) unsigned NOT NULL DEFAULT '0',
+  `Naam` char(40) NOT NULL DEFAULT '',
+  `Ronde` int(3) unsigned NOT NULL,
+  `Wedstrijd` int(3) unsigned NOT NULL DEFAULT '0',
+  `Met1` int(3) unsigned NOT NULL DEFAULT '0',
+  `Met2` int(3) unsigned NOT NULL DEFAULT '0',
+  `Tegen1` int(3) unsigned NOT NULL DEFAULT '0',
+  `Tegen2` int(3) unsigned NOT NULL DEFAULT '0',
+  `Tegen3` int(3) unsigned NOT NULL DEFAULT '0'
+) ENGINE=MyISAM AUTO_INCREMENT=29097 DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `hussel_score` (
+  `Id` int(6) unsigned NOT NULL,
+  `Vereniging` char(80) NOT NULL,
+  `Vereniging_id` int(3) NOT NULL DEFAULT '0',
+  `Datum` date DEFAULT NULL,
+  `Naam` char(40) NOT NULL DEFAULT '',
+  `Lot_nummer` int(3) DEFAULT '0',
+  `Beperkt` char(1) NOT NULL DEFAULT 'N',
+  `Voor1` int(2) unsigned NOT NULL DEFAULT '0',
+  `Tegen1` int(2) unsigned NOT NULL DEFAULT '0',
+  `Score1` int(2) NOT NULL DEFAULT '0',
+  `Voor2` int(2) unsigned NOT NULL DEFAULT '0',
+  `Tegen2` int(2) unsigned NOT NULL DEFAULT '0',
+  `Score2` int(2) NOT NULL DEFAULT '0',
+  `Voor3` int(2) unsigned NOT NULL DEFAULT '0',
+  `Tegen3` int(2) unsigned NOT NULL DEFAULT '0',
+  `Score3` int(2) NOT NULL DEFAULT '0',
+  `Voor4` int(2) unsigned NOT NULL DEFAULT '0',
+  `Tegen4` int(2) unsigned NOT NULL DEFAULT '0',
+  `Score4` int(2) NOT NULL DEFAULT '0',
+  `Voor5` int(2) unsigned NOT NULL DEFAULT '0',
+  `Tegen5` int(2) unsigned NOT NULL DEFAULT '0',
+  `Score5` int(2) NOT NULL DEFAULT '0',
+  `Winst` int(2) unsigned NOT NULL DEFAULT '0',
+  `Saldo` int(3) NOT NULL DEFAULT '0',
+  `Laatst` datetime NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=3924 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE IF NOT EXISTS `hussel_serie` (
+  `Id` int(6) unsigned NOT NULL,
+  `Vereniging` char(80) NOT NULL,
+  `Vereniging_id` int(3) NOT NULL DEFAULT '0',
+  `Naam_serie` char(40) NOT NULL DEFAULT '',
+  `Datum` date DEFAULT NULL,
+  `Laatst` datetime NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=779 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE IF NOT EXISTS `hussel_serie_scores` (
+  `Id` int(6) unsigned NOT NULL,
+  `Vereniging` char(80) NOT NULL,
+  `Vereniging_id` int(3) NOT NULL DEFAULT '0',
+  `Naam_serie` char(80) NOT NULL,
+  `Datum` date NOT NULL,
+  `Naam` char(80) NOT NULL DEFAULT '',
+  `Score` int(3) NOT NULL DEFAULT '0',
+  `Saldo` int(3) NOT NULL DEFAULT '0',
+  `Laatst` datetime NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE IF NOT EXISTS `hussel_serie_stand` (
+  `Id` int(6) unsigned NOT NULL,
+  `Vereniging` char(80) NOT NULL,
+  `Vereniging_id` int(3) NOT NULL DEFAULT '0',
+  `Naam_serie` char(80) NOT NULL,
+  `Naam` char(80) NOT NULL DEFAULT '',
+  `Score1` int(3) NOT NULL DEFAULT '0',
+  `Score2` int(3) NOT NULL DEFAULT '0',
+  `Score3` int(3) NOT NULL DEFAULT '0',
+  `Score4` int(3) NOT NULL DEFAULT '0',
+  `Score5` int(3) NOT NULL DEFAULT '0',
+  `Score6` int(3) NOT NULL DEFAULT '0',
+  `Score7` int(3) NOT NULL DEFAULT '0',
+  `Score8` int(3) NOT NULL DEFAULT '0',
+  `Score9` int(3) NOT NULL DEFAULT '0',
+  `Score10` int(3) NOT NULL DEFAULT '0',
+  `Score11` int(3) NOT NULL DEFAULT '0',
+  `Score12` int(3) NOT NULL DEFAULT '0',
+  `Score13` int(3) NOT NULL DEFAULT '0',
+  `Score14` int(3) NOT NULL DEFAULT '0',
+  `Score15` int(3) NOT NULL DEFAULT '0',
+  `Score16` int(3) NOT NULL DEFAULT '0',
+  `Score17` int(3) NOT NULL DEFAULT '0',
+  `Score18` int(3) NOT NULL DEFAULT '0',
+  `Score19` int(3) NOT NULL DEFAULT '0',
+  `Score20` int(3) NOT NULL DEFAULT '0',
+  `Gespeeld` int(3) NOT NULL DEFAULT '0',
+  `Totaal` int(3) NOT NULL DEFAULT '0',
+  `Laagste` int(3) NOT NULL DEFAULT '0',
+  `Gemiddelde` decimal(4,1) NOT NULL DEFAULT '0.0',
+  `Hoogste` int(3) NOT NULL DEFAULT '0',
+  `Eind` int(3) NOT NULL DEFAULT '0',
+  `Laatst` datetime NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=3096 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `hussel_spelers` (
+  `Id` int(6) unsigned NOT NULL,
+  `Vereniging` char(80) NOT NULL,
+  `Vereniging_id` int(3) NOT NULL DEFAULT '0',
+  `Naam` char(120) NOT NULL,
+  `Soort` char(10) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=667 DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `vereniging` (
+  `Id` int(6) unsigned NOT NULL,
+  `Vereniging` char(80) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Vereniging_output_naam` char(80) NOT NULL,
+  `Vereniging_nr` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Plaats` char(40) NOT NULL,
+  `Url_website` char(120) NOT NULL,
+  `Url_redirect` char(80) NOT NULL,
+  `Kvk_nuummer` char(20) NOT NULL,
+  `Ideal_partner_id` char(10) NOT NULL,
+  `Naam_contactpersoon` char(40) NOT NULL,
+  `Tel_contactpersoon` char(25) NOT NULL,
+  `Vereniging_IBAN` char(19) NOT NULL,
+  `Email_organisatie` text NOT NULL,
+  `Email_penningmeester` text NOT NULL,
+  `Email_noreply` char(80) NOT NULL,
+  `Email` char(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Bond` char(20) NOT NULL,
+  `Prog_url` char(40) NOT NULL,
+  `Url_logo` char(250) NOT NULL,
+  `Grootte_logo` char(4) NOT NULL,
+  `Indexpagina_kop_jn` char(1) NOT NULL,
+  `Lijst_sortering` char(4) NOT NULL,
+  `Mail_trace` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'N',
+  `Mail_trace_email` char(80) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Verzendadres_SMS` char(80) NOT NULL,
+  `Max_aantal_sms` int(4) NOT NULL DEFAULT '100',
+  `Datumtijd_sms_saldo_update` datetime NOT NULL,
+  `Datum_verloop_licentie` date NOT NULL,
+  `Datum_laatste_factuur` date NOT NULL,
+  `Betaal_wijze` char(1) NOT NULL DEFAULT 'E',
+  `Hussel_gebruiker` char(1) NOT NULL DEFAULT 'N',
+  `Laatst` datetime DEFAULT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=120 DEFAULT CHARSET=utf8;

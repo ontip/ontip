@@ -1,0 +1,60 @@
+-- phpMyAdmin SQL Dump
+-- version 4.4.6
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Gegenereerd op: 30 jul 2015 om 14:40
+-- Serverversie: 5.5.27
+-- PHP-versie: 5.4.40
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `boulamis_db`
+--
+
+-- --------------------------------------------------------
+
+
+
+--
+-- Gegevens worden geëxporteerd voor tabel `hussel_config`
+--
+
+INSERT INTO `hussel_config` (`Id`, `Vereniging`, `Vereniging_id`, `Variabele`, `Waarde`, `Parameters`) VALUES
+(0, 'JBC Mazijk de Petanque', 11, 'controle_13', 'Auto', ''),
+(0, 'JBC Mazijk de Petanque', 11, 'aantal_rondes', '5', ''),
+(0, 'JBC Mazijk de Petanque', 11, 'datum_lock', 'On', '2015-05-26'),
+(0, 'JBC Mazijk de Petanque', 11, 'voorgeloot', 'On', ''),
+(0, 'JBC Mazijk de Petanque', 11, 'blokkeer_invoer', 'On', ''),
+;
+
+--
+-- Indexen voor geëxporteerde tabellen
+--
+
+--
+-- Indexen voor tabel `hussel_config`
+--
+ALTER TABLE `hussel_config`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- AUTO_INCREMENT voor geëxporteerde tabellen
+--
+
+--
+-- AUTO_INCREMENT voor een tabel `hussel_config`
+--
+ALTER TABLE `hussel_config`
+  MODIFY `Id` int(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

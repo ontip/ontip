@@ -1,0 +1,44 @@
+<?php 
+header("Location: ".$_SERVER['HTTP_REFERER']);
+ob_start();
+
+//// Database gegevens. 
+
+include ('mysql.php');
+
+if (isset($_GET['blokkeer_invoer'])){ 
+		
+	$sql_config     = mysql_query("SELECT Waarde  From hussel_config where Vereniging_id = ".$vereniging_id." and Variabele ='blokkeer_invoer' ")     or die(' Fout in select config');  
+  $result         = mysql_fetch_array( $sql_config );
+  $blokkeer_invoer       = $result['Waarde'];
+  
+  if ($blokkeer_invoer  == 'On'){
+  	$blokkeer_invoer = 'Off' ;
+  } else {
+  	$blokkeer_invoer = 'On';
+  }	
+} else { 	
+  $blokkeer_invoer  = $_POST['blokkeer_invoer'];
+}
+
+
+/// Deactiveer
+if ($blokkeer_invoer == 'Off') {     
+		
+	 
+   $query   = "UPDATE hussel_config SET Waarde = 'Off'   where  Vereniging_id = ".$vereniging_id." and Variabele = 'blokkeer_invoer'";   
+   //echo $query;
+   
+    mysql_query($query) or die(' Fout in deactiveren controle 13');  
+}
+
+else {
+	
+	 $query="UPDATE hussel_config SET Waarde = 'Auto'   where  Vereniging_id = ".$vereniging_id." and Variabele = 'blokkeer_invoer'";   
+	 // echo $query;
+    mysql_query($query) or die(' Fout in activeren controle 13');  
+ 	
+};//
+
+ob_end_flush();
+?> 
