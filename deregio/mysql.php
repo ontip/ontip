@@ -43,35 +43,6 @@ mysql_set_charset('utf8',$connection);
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//// init variabelen
-
-$vereniging = '';
-
-
-for ($i=1;$i<7;$i++){
-	
-	$var = 'naam'.$i;
-	$$var ='';
-	$var = 'vereniging'.$i;
-	$$var ='';
-  $var = 'licentie'.$i;
-	$$var ='';
-
-}
-$suffix ='';
-$lichtkranr = '';
-$simpel ='';
-$invulkop ='';
-$mobiel ='';
-$curl_url ='';
-$achtergrond_kleur ='';
-$Url_logo = '';
-$toernooi_voluit = '';
-$Grootte_logo = '';
-$user = '';
-$font_size = '';
-
-
 //// Lees configuratie bestand tbv verenigingsnaam
 
 $myFile   =  'myvereniging.txt';
@@ -100,19 +71,15 @@ fclose($fh);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Ophalen vereniging_nr e.d  uit vereniging
 
+if ($vereniging != ''){ 
 $qry            = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
 $row            = mysql_fetch_array( $qry );
 $vereniging_nr  = $row['Vereniging_nr'];
-$vereniging_id  = $row['Id'];
+$prog_url       = $row['Prog_url'];
 $grootte_logo   = $row['Grootte_logo'];
 $url_website    = $row['Url_website'];
-$url_base       = $row['Url_redirect'];
-$url_base       = str_replace('http://','https://', $url_base );
-$prog_url       = $row['Prog_url'];
+$vereniging_id  = $row['Id'];
 $datum_verloop_licentie = $row['Datum_verloop_licentie'];
-$subdomein       = substr($prog_url,3,-1);
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Lees configuratie tabel tbv toernooi gegevens
@@ -138,4 +105,11 @@ else {
 		//echo " Geen toernooi bekend :";
 	 
 };
+
+} // geen vereniging bekend
+
+	
+
+
+
 ?> 

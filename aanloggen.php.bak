@@ -1,19 +1,3 @@
-<?php
-# aanloggen.php
-# Aanmelden als gebruiker van OnTip als beheerder
-# Record of Changes:
-#
-# Date              Version      Person
-# ----              -------      ------
-#
-# 29dec2018          1.0.1            E. Hendrikx
-# Symptom:   		    None.
-# Problem:       	  Onbekende var vereniging_output_naam.
-# Fix:              Opgelost.
-# Feature:          None.
-# Reference: 
-#
-?>
 <html>
 <head>
 	<meta http-equiv="refresh">
@@ -68,12 +52,12 @@ if ($return_page ==''){
 
 $qry    = mysql_query("SELECT * from vereniging where Id = ".$vereniging_id." ")           or die(' Fout in select 1');  
 $result  = mysql_fetch_array( $qry);
-$vereniging_id            = $result['Id'];
-$url_redirect             = $result['Url_redirect'];
-$prog_url                 = $result['Prog_url'];
-$bond                     = $result['Bond'];
+$vereniging_id     = $result['Id'];
+$url_redirect      = $result['Url_redirect'];
+$prog_url          = $result['Prog_url'];
+$bond              = $result['Bond'];
 $datum_verloop_licentie   = $result['Datum_verloop_licentie'];
-$vereniging_output_naam   = $result['Vereniging_output_naam'];
+
 $today = date('ymd');
 
 echo "<input type= 'hidden'  name= 'zendform' value ='".$today."' />";
@@ -108,6 +92,10 @@ $_vereniging  = $vereniging;
 if ($vereniging_output_naam != '') {
    	$_vereniging = $vereniging_output_naam;
 }
+
+
+
+
 
 ?>
 <br>

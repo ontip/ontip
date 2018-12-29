@@ -22,8 +22,8 @@ mysql_query("Update namen set Laatst = now(),
                               IP_adres = '' ,
                               Aangelogd = 'N'
                        WHERE IP_adres = '". $_SERVER['REMOTE_ADDR']."'   ");
-
 // expire cookies to logoff
+
 setcookie ("aangelogd", "", time() - 3600);
 setcookie ("user", "", time() - 3600);
 
