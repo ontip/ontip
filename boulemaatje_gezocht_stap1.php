@@ -97,6 +97,15 @@ error_reporting(E_ALL);
 $toernooi = $_GET['toernooi'];
 $string = '';
 
+if ($toernooi ==''){
+	echo "Geen toernooi bekend!";
+	exit;
+}
+
+	
+
+
+
 //// SQL Queries
 if (isset($toernooi)) {
 	
@@ -126,7 +135,16 @@ switch($soort_inschrijving){
     case 'sextet' :   $soort = 'sextetten';  break;
  }
   
-  
+/// Ophalen tekst kleur
+
+$qry        = mysql_query("SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
+$row        = mysql_fetch_array( $qry );
+$tekstkleur = $row['Tekstkleur'];
+$koptekst   = $row['Koptekst'];
+$link       = $row['Link'];
+
+
+ 
 $qry_sel      = mysql_query("SELECT * from boule_maatje Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Naam " )    or die(mysql_error());  
 
 
@@ -137,13 +155,6 @@ $dag   = 	substr ($datum , 8,2);
 $maand = 	substr ($datum , 5,2); 
 $jaar  = 	substr ($datum , 0,4); 
 
-/// Ophalen tekst kleur
-
-$qry        = mysql_query("SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
-$row        = mysql_fetch_array( $qry );
-$tekstkleur = $row['Tekstkleur'];
-$koptekst   = $row['Koptekst'];
-$link       = $row['Link'];
 
 ?>
 

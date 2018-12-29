@@ -1,3 +1,19 @@
+<?php
+# boulemaatje_gezocht_stap1.php
+# Zoeken op opgeven als speelmaatje
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 18okt2018          1.0.1            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  None.
+# Fix:              Opgelost
+# Feature:          None.
+# Reference: 
+#
+?>
 <html>
 <head>
 <title>Boule Maatje gezocht</title>
@@ -81,6 +97,15 @@ error_reporting(E_ALL);
 $toernooi = $_GET['toernooi'];
 $string = '';
 
+if ($toernooi ==''){
+	echo "Geen toernooi bekend!";
+	exit;
+}
+
+	
+
+
+
 //// SQL Queries
 if (isset($toernooi)) {
 	
@@ -120,6 +145,14 @@ setlocale(LC_ALL, 'nl_NL');
 $dag   = 	substr ($datum , 8,2); 
 $maand = 	substr ($datum , 5,2); 
 $jaar  = 	substr ($datum , 0,4); 
+
+/// Ophalen tekst kleur
+
+$qry        = mysql_query("SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
+$row        = mysql_fetch_array( $qry );
+$tekstkleur = $row['Tekstkleur'];
+$koptekst   = $row['Koptekst'];
+$link       = $row['Link'];
 
 ?>
 

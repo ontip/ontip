@@ -177,7 +177,7 @@ if (!isset($sms_bevestigen_zichtbaar_jn)) {
        $email_tracer = $result['Mail_trace_email'];
    }
 
-if ($sms_bevestigen_zichtbaar_jn == 'J')  {
+if ($sms_bevestigen_zichtbaar_jn == 'J'  and isset($_POST['sms_confirmation']) )  {
     $sms_confirmation  = $_POST['sms_confirmation'];
     
    // check op al verstuurde sms berichten

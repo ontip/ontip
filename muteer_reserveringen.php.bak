@@ -386,7 +386,7 @@ if ($bevestig_jn == 'J' and $status == 'RE4'){                                  
 $i--;
 ?>
 <?php
-$replace = "toernooi=".$toernooi;
+$replace = "toernooi=".$toernooi."&tab=".$tab."";
 
 ?> 
 <script language="javascript">
