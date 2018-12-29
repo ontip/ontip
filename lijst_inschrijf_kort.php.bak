@@ -1,19 +1,4 @@
-<?php
-# lijst_inschrijf_kort.php
-# Inschrijf lijst deelnemers
-# Record of Changes:
-#
-# Date              Version      Person
-# ----              -------      ------
-#
-# 29dec2018          1.0.1            E. Hendrikx
-# Symptom:   		    None.
-# Problem:       	  Onbekende var link_lijst_zichtbaar_jn
-# Fix:              Opgelost.
-# Feature:          None.
-# Reference: 
-#
-?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -110,7 +95,6 @@ setlocale(LC_ALL, 'nl_NL');
 //// Lees configuratie tabel tbv toernooi gegevens
 
 $toernooi = $_GET['toernooi'];
-$link_lijst_zichtbaar_jn = '';
 
 if (isset($toernooi)) {
 	

@@ -106,11 +106,8 @@ else {
 	 
 };
 
-}
-else  { 
-	echo "Onbekende vereniging";
-	exit;
-}
+} // geen vereniging bekend
+
 	
 
 

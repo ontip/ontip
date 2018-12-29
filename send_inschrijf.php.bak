@@ -81,24 +81,19 @@ $ideal_betaling_jn ='';
 if(!isset($Naam3)){
 	$Naam3 ='';
 	$Licentie3 ='';
-	$Vereniging3 = '';
 }	
 
 if(!isset($Naam4)){
 	$Naam4 ='';
 	$Licentie4 ='';
-	$Vereniging4= '';
 }	
 if(!isset($Naam5)){
 	$Naam5 ='';
 	$Licentie5 ='';
-  $Vereniging5 = '';
 }	
 if(!isset($Naam6)){
 	$Naam6 ='';
 	$Licentie6 ='';
-  $Vereniging6 = '';
-
 }	
 
 

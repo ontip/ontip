@@ -3146,7 +3146,6 @@ if ($bestemd_voor !=''){
 	  if( !isset($string )) { $string = '' ; }
 	  
 //    $characters = "23456789abcdefhijkmnprstuvwxyABCDEFG-+";
-    $characters[] ='';
     $characters = "123456789123456789";
     
     

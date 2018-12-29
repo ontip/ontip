@@ -21,7 +21,8 @@ $url_hostName = $_SERVER['HTTP_HOST'];
      $ftp_server = 'ftp.ontip.nl'; 
      $ftp_user_name    = $username;
      $ftp_user_pass    = $password;
-
+     $vereniging = '';
+ 
  
 // Functie om eventuele MySQL errors te specificeren 
 
