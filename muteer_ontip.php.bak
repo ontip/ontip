@@ -1,19 +1,8 @@
-<?php
-# muteer_ontip
-# muteer tabel config
-#
-# Record of Changes:
-#
-# Date              Version      Person
-# ----              -------      ------
-#
-# 29dec2018          1.0.1            E. Hendrikx
-# Symptom:   		    None.
-# Problem:       	  None.
-# Fix:              Ontbrekende var  Voucher_code en Bankrekening
-# Feature:          None.
-# Reference: 
-
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<?php 
 //header("Location: ".$_SERVER['HTTP_REFERER']);
 
 ini_set('display_errors', 'OFF');

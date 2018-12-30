@@ -1062,6 +1062,15 @@ $result_i        = mysql_fetch_array( $qry_i);
 $aantal          = $result_i['Aantal'];
 $volg_nummer     = $aantal+1;
 
+if (!isset($Extra_compl)){
+	$Extra_compl ='';
+}
+
+if (!isset($Extra_invulveld_antwoord)){
+	$Extra_invulveld_antwoord ='';
+}
+
+
 
 $query = "INSERT INTO inschrijf(Id, Volgnummer, Toernooi, Vereniging,Vereniging_id, Datum, 
                                 Naam1, Licentie1, Vereniging1, 
@@ -1070,7 +1079,7 @@ $query = "INSERT INTO inschrijf(Id, Volgnummer, Toernooi, Vereniging,Vereniging_
                                 Naam4, Licentie4, Vereniging4, 
                                 Naam5, Licentie5, Vereniging5, 
                                 Naam6, Licentie6, Vereniging6, 
-                                Adres, Postcode,  Woonplaats,  Telefoon,Email,   Bank_rekening,
+                                Telefoon,Email,   Bank_rekening,
                                 Opmerkingen, Extra, Extra_invulveld, Status, Inschrijving, Kenmerk)
                VALUES (0,".$volg_nummer.", '".$toernooi."', '".$vereniging ."'  , ".$vereniging_id.", '".$datum."',
                          '".$Naam1."'     ,'".$Licentie1."'   , '".$Vereniging1."' ,
@@ -1079,7 +1088,6 @@ $query = "INSERT INTO inschrijf(Id, Volgnummer, Toernooi, Vereniging,Vereniging_
                          '".$Naam4."'     ,'".$Licentie4."'   , '".$Vereniging4."' ,
                          '".$Naam5."'     ,'".$Licentie5."'   , '".$Vereniging5."' ,
                          '".$Naam6."'     ,'".$Licentie6."'   , '".$Vereniging6."' , 
-                         '".$Adres."'     ,'".$Postcode."'    , '".$Woonplaats."',
                          '".$Telefoon."'  ,'".$Email."'       , '".$Bankrekening."',
                          '".$Opmerkingen."','".$Extra_compl."', '".$Extra_invulveld_antwoord."','".$status."','".$date."','".$kenmerk."'  )";
  //echo $query;

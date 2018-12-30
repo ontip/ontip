@@ -2915,6 +2915,7 @@ $koptekst_kleur  ='Red';
     </SELECT> 
 	
   	Koptekst en border :
+  	<!--input TYPE="TEXT" NAME="Koptekst_kleur" style='color:<?php echo $koptekst_kleur;?>;background-color:<?php echo $achtergond_kleur;?>;' SIZE="9" class="pink" id= 'Koptekstkleur' value = "<?php echo strtoupper($koptekst_kleur);?>"-->
 	<SELECT name='Koptekst_kleur' STYLE='font-size:10pt;color:<?php echo $koptekst_kleur;?>;background-color:<?php echo $achtergrond_kleur;?>;font-family: Courier;width:90px;'  id="selectBox13" onchange="changeFunc13();">
  		<option style='color:<?php echo $koptekst_kleur;?>;background:<?php echo $achtergrond_kleur;?>' value='<?php echo strtoupper($koptekst_kleur);?>' selected><?php echo strtoupper($koptekst_kleur);?></option>
 		<?php

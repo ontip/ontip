@@ -156,6 +156,9 @@ if (newwindow.location && !newwindow.closed) {
 </head>
 <body >
 	
+<script language="javascript">
+ document.title = "OnTip Image Gallery - <?php echo  $toernooi_voluit; ?>";
+</script> 
 
 <?php
 
@@ -191,10 +194,6 @@ if ($vereniging_output_naam !=''){
 
 
 ?>
-<script language="javascript">
- document.title = "OnTip Image Gallery - <?php echo  $toernooi_voluit; ?>";
-</script> 
-
 <div style='background-color:white;'>
 <table >
 <tr><td rowspan=2 width='280'><img src = '../ontip/images/ontip_logo.png' width='240'></td>

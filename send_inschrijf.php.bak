@@ -94,6 +94,7 @@ if(!isset($Naam5)){
 	$Licentie5 ='';
   $Vereniging5 = '';
 }	
+
 if(!isset($Naam6)){
 	$Naam6 ='';
 	$Licentie6 ='';
@@ -101,6 +102,13 @@ if(!isset($Naam6)){
 
 }	
 
+if(!isset($Woonplaats)){
+$Woonplaats ='';
+}
+
+if(!isset($Postcode)){
+$Postcode ='';
+}
 
 
 // 012345678901234567890
@@ -208,7 +216,8 @@ $vereniging_output_naam   = $result['Vereniging_output_naam'];
 $qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'toernooi_voluit'  ") ;  
 $result     = mysql_fetch_array( $qry);
 $toernooi_voluit  = $result['Waarde'];
-	
+
+$Bankrekening = '';	
 // Inschrijven als individu of vast team 
 
 $qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
@@ -1115,7 +1124,7 @@ if ($Telefoon !=''){
  }
 
 // versleutel bank rekening
-$Bankrekening = '';
+
 
 
 if ($Bankrekening !=''){
