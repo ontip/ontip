@@ -1,4 +1,19 @@
 <?php
+# verwerk_aanlog.php
+# Kontrole van wchtwoord op aanloggen.php
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 29dec2018          1.0.1            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  Onbekende var key
+# Fix:              Opgelost
+# Feature:          None.
+# Reference: 
+#
+
 ob_start();
 include 'mysql.php'; 
 //include 'versleutel.php'; 

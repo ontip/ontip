@@ -41,10 +41,6 @@ $maand = substr($datum,5,2);
 $dag   = substr($datum,8,2);
 
 $locatie = [];
-$locatie[1] ='';
-$locatie[2] ='';
-$locatie[3] ='';
-$locatie[4] ='';
 
 // woordje uur ervan af
 $meld_tijd = explode(" ", $meld_tijd);

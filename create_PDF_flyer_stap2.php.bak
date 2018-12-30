@@ -43,7 +43,6 @@ $sql2      = mysql_query("SELECT *  From vereniging where Vereniging = '".$veren
   $plaats    = $result['Plaats'];
   $contact   = $result['Tel_contactpersoon'];
   $email     = $result['Email'];
-  $vereniging_output_naam = $result['Vereniging_output_naam'];
   
   /*
   $vereniging_output_naam = $result['Vereniging_output_naam'];
@@ -171,21 +170,7 @@ if ($url_afbeelding == 'geen afbeelding' ) {
 }
 $copy_page          = $_POST['copy_page'] ;
 $check_qrc          = $_POST['check_qrc'] ;
-
-if (isset($_POST['check_text'])){
-	$check_text         = $_POST['check_text'] ;
-}
-else {
-	$check_text ='';
-}
-
-if (isset($_POST['check_soort'])){
-	$check_soort        = $_POST['check_soort'] ;
-}
-else {
-	$check_soort ='';
-}
-	
+$check_text         = $_POST['check_text'] ;
 $opmerkingen        = $_POST['opmerkingen'] ;
 $check_soort        = $_POST['check_soort'] ;
 

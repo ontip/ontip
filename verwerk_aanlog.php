@@ -39,7 +39,10 @@ $key ='';
 
 $naam          = $_POST['Naam']; 
 $wachtwoord    = $_POST['secureontip']; 
-$key           = $_POST['key'];
+
+if (isset($_POST['key'])){
+ $key           = $_POST['key'];
+}
 $url           = $_POST['return_page'];
 
 //include('action.php');
