@@ -15,17 +15,6 @@ a    {text-decoration:none;color:blue;}
  
 <?php
 include 'mysql.php'; 
-$qry          = mysql_query("SELECT * from vereniging where Vereniging ='".$vereniging."'  ")           or die(' Fout in select 1');  
-$result       = mysql_fetch_array( $qry);
-$vereniging   = $result['Vereniging'];
-$_vereniging  = $vereniging;
-
-
-if ($vereniging_output_naam != '') {
-   	$_vereniging = $vereniging_output_naam;
-}
-
-
 ?>
 
 
