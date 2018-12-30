@@ -1,18 +1,5 @@
 <?php 
 //header("Location: ".$_SERVER['HTTP_REFERER']);
-# beheer_bevestigingen_stap3.php
-# verwerken van bevestigingen in tabel inschrijf
-# Record of Changes:
-#
-# Date              Version      Person
-# ----              -------      ------
-#
-# 18okt2018          1.0.1            E. Hendrikx
-# Symptom:   		    None.
-# Problem:       	  Ontbrekende vars
-# Fix:              Opgelost
-# Feature:          None.
-# Reference: 
 
 ob_start();
 ini_set('display_errors', 'OFF');
@@ -111,7 +98,6 @@ $vereniging_id      = $row3['Id'];
 $qry                = mysql_query("SELECT * from inschrijf where Id= ".$id." " )    or die('Fout in select id');  
 $row                = mysql_fetch_array( $qry);
 $Naam1              = $row['Naam1'];
-$current_status     = $row['Status'];
 
 $Email            = $row['Email'];
 $Email_encrypt    = $row['Email_encrypt'];

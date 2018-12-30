@@ -702,6 +702,8 @@ if (isset($_GET['email_notificatie'])){
 if (!isset($bestemd_voor)) {
 	$bestemd_voor = '';
 }
+$font_koptekst ='';
+
 
 if ($font_koptekst =='' ) {
 	$font_koptekst = 'Verdana';

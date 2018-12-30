@@ -19,7 +19,7 @@ $qry          = mysql_query("SELECT * from vereniging where Vereniging ='".$vere
 $result       = mysql_fetch_array( $qry);
 $vereniging   = $result['Vereniging'];
 $_vereniging  = $vereniging;
-
+$vereniging_output_naam = $result['Vereniging_output_naam'];
 
 if ($vereniging_output_naam != '') {
    	$_vereniging = $vereniging_output_naam;
