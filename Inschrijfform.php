@@ -3,9 +3,19 @@
 // Inschrijform.php
 // Inschrijf programma voor OnTip
 //
-// 27 aug 2018 EHE
-// Aanpassingen email notificatie
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 18okt2018          1.0.1            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  Ontbrekende vars
+# Fix:              Opgelost
+# Feature:          None.
+# Reference:
+
+ /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Database gegevens. 
 include('mysql.php');
