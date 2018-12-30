@@ -8,7 +8,7 @@
 #
 # 18okt2018          1.0.1            E. Hendrikx
 # Symptom:   		    None.
-# Problem:       	  None.
+# Problem:       	  Ontbrekende vars
 # Fix:              Opgelost
 # Feature:          None.
 # Reference: 
@@ -101,10 +101,6 @@ if ($toernooi ==''){
 	echo "Geen toernooi bekend!";
 	exit;
 }
-
-	
-
-
 
 //// SQL Queries
 if (isset($toernooi)) {
