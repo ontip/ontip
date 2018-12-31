@@ -123,11 +123,11 @@ if (isset ($_POST['qrc_code']) and $_POST['qrc_code'] == 'Ja'){
   include "../ontip/phpqrcode/qrlib.php"; 
 
 // hier volledig path 
-$form_link = 'https://www.ontip.nl/'.substr($prog_url,3)."Inschrijfform.php?toernooi=".$_toernooi;
+$form_link = 'http://www.ontip.nl/'.substr($prog_url,3)."Inschrijfform.php?toernooi=".$_input_toernooi;
 
 // bij aanmaak relatief path, anders fout op volledig path. In de mail wordt het volledige path gelinkt
 
-$qrc_link  = "images/qrc/qrcf_".$_toernooi.".png";
+$qrc_link  = "images/qrc/qrcf_".$_input_toernooi.".png";
 
 QRcode::png("".$form_link."", "".$qrc_link."", "L", 4, 4); 
 

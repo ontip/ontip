@@ -422,7 +422,7 @@ $i=0;
        
 ?>
 	 <td width='250' STYLE ='background-color:white;color:blue;'>Anti Spam </td>
-        <td colspan = 2><input TYPE="text" NAME="respons" id= 'respons' SIZE="32" class="pink" onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur; ?>');"  style='background-color:<?php echo $achtergrond_kleur; ?>;font-size:9pt;' Value='Typ hier de aangegeven cijfercode' onclick="make_blank_spam();"  >
+        <td colspan = 2><input TYPE="text" NAME="respons" id= 'respons' SIZE="32" class="pink" onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  style='background-color:<?php echo $achtergrond_kleur_input ?>;font-size:9pt;' Value='Typ hier de aangegeven cijfercode' onclick="make_blank_spam();"  >
         	
    <span style='font-size:14pt; color:black;background-color:lightgrey;width:100pt;height:14pt;text-align:center;font-family:courier;padding:5pt;'  id ='challenge' onclick="changeFunc7(<?php echo $string; ?>);"><b><?php echo $string; ?></b></span>
    <?php
