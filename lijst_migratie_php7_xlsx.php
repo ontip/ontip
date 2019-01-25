@@ -156,12 +156,25 @@ foreach ($files as $file) {
            ->setCellValue('B'.$j, $file)
            ->setCellValue('C'.$j, date ("d M Y H:i:s.", filemtime($file))  ) ;
     
-         $doel_file = 'php7/'.$file;
-      
+          $doel_file = 'php7/'.$file;
+          $bron_mtime= date ("d M Y H:i:s.", filemtime($file)) ;
+          
+          
           if (file_exists($doel_file)){
         		  $objPHPExcel->setActiveSheetIndex(0)
                ->setCellValue('D'.$j, $doel_file)
                ->setCellValue('E'.$j, date ("d M Y H:i:s.", filemtime($doel_file))  ) ;
+               $doel_mtime= date ("d M Y H:i:s.", filemtime($doel_file)) ;
+            
+            if ($doel_mtime  == $bron_mtime) {
+             	$style= array('font'  => 
+                   array('bold'  => true,
+                         'color' => array('rgb' => '009933'),
+                         'size'  => 10,
+                         'name'  => 'Verdana'
+                 )) ;
+             $objPHPExcel->getActiveSheet()->getStyle('B'.$j)->applyFromArray($style);     	   
+            }     
           } 
           else {
           	$url= 'https://www.ontip.nl/boulamis/upgrade_php_to_7.php?bron='.$file;
@@ -169,19 +182,19 @@ foreach ($files as $file) {
           	
           	$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit('D'.$j, $id, PHPExcel_Cell_DataType::TYPE_STRING2, TRUE)->getHyperlink()->setUrl(strip_tags($url));
          
-         $style= array('font'  => 
+             $style= array('font'  => 
              array('bold'  => false,
                    'color' => array('rgb' => '0033cc'),
                    'size'  => 10,
                    'name'  => 'Verdana'
-       )) ;
-   $objPHPExcel->getActiveSheet()->getStyle('D'.$j)->applyFromArray($style);     	
-          	
-          	
-          
-          	
-          	
-          }
+                  )) ;
+            $objPHPExcel->getActiveSheet()->getStyle('D'.$j)->applyFromArray($style);     	
+        
+             
+             
+         
+   	
+        }// if file exist
            
           $i++;  
           $j++;

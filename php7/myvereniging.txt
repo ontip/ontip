@@ -1,8 +1,0 @@
-$vereniging         = Boulamis
-$url_website        = http://www.ontip.nl/
-$email_organisatie  = erik.hendrikx@gmail.com
-$email_noreply      = noreply@boulamis.nl
-$url_logo           = http://www.ontip.nl/boulamis/images/logo_boulamis.png
-$grootte_logo       = 160
-$bron_toernooi      = http://www.ontip.nl/boulamis/mytoernooi.txt
-$prog_url           = http://www.ontip.nl/boulamis/
