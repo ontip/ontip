@@ -26,6 +26,14 @@ ob_start();
 # Fix:              Ontbrekende var  Voucher_code en Bankrekening
 # Feature:          None.
 # Reference: 
+#
+# 25jan2019         1.0.2            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  None
+# Fix:              None
+# Feature:          Migratie naar PHP 7
+# Reference:
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
@@ -283,8 +291,6 @@ else {
    $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select voucher code');  
    $result    = mysqli_fetch_array( $qry1); 	
    $voucher_code_jn         = $result['Waarde'];
-
-
 
 if ($voucher_code_jn =='J'){
    $parameter               = explode('#', $result['Parameters']);
@@ -655,10 +661,6 @@ if (strpos($Email, ',') > 0 or strpos($Email, '/') > 0 or strpos($Email, ':') > 
 	}
 
 
-//	if (strpos( strtoupper($Email),'@HOTMAIL.NL') > 0 ){
-//	  $message .= " * @hotmail.nl is een verdacht Email adres. Wordt niet ondersteund .<br>";
-//	  $error = 1;
-//	}
 	
 // einde email kontrole	
 } // end else
@@ -829,7 +831,7 @@ $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Verenigin
 //echo $sql;
 
 $result= mysqli_query($con,$sql);
-$count=mysqli_num_rows($result);
+$count = mysqli_num_rows($result);
 
 if($count > 0){
  $message .= "* Er is al een inschrijving ingevuld voor ".$Naam1." van ".$Vereniging1."<br>";
@@ -838,8 +840,8 @@ if($count > 0){
 
 if ($Naam2 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$Naam2."' and Vereniging_speler = '".$Vereniging2."' " ;
-$result= mysqli_query($con,$sql);
-$count=mysqli_num_rows($result);
+$result = mysqli_query($con,$sql);
+$count  = mysqli_num_rows($result);
 
 if($count > 0){
   $message .= "* Er is al een inschrijving ingevuld voor ".$Naam2. " van ".$Vereniging2."<br>";
@@ -849,8 +851,8 @@ if($count > 0){
 	
 if ($Naam3 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$Naam3."' and Vereniging_speler = '".$Vereniging3."' " ;
-$result= mysqli_query($con,$sql);
-$count=mysqli_num_rows($result);
+$result = mysqli_query($con,$sql);
+$count  = mysqli_num_rows($result);
 
 if($count > 0){
   $message .= "* Er is al een inschrijving ingevuld voor ".$Naam3." van ".$Vereniging3. "<br>";
@@ -860,8 +862,8 @@ if($count > 0){
 
 if ($Naam4 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$Naam4."' and Vereniging_speler = '".$Vereniging4."'" ;
-$result= mysqli_query($con,$sql);
-$count=mysqli_num_rows($result);
+$result = mysqli_query($con,$sql);
+$count  = mysqli_num_rows($result);
 
 if($count > 0){
   $message .= "* Er is al een inschrijving ingevuld voor ".$Naam4. " van ".$Vereniging4."<br>";
@@ -871,8 +873,8 @@ if($count > 0){
 
 if ($Naam5 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$Naam5."' and Vereniging_speler = '".$Vereniging5."'" ;
-$result= mysqli_query($con,$sql);
-$count=mysqli_num_rows($result);
+$result = mysqli_query($con,$sql);
+$count =  mysqli_num_rows($result);
 
 if($count > 0){
   $message .= "* Er is al een inschrijving ingevuld voor ".$Naam5. " van ".$Vereniging5."<br>";
@@ -882,8 +884,8 @@ if($count > 0){
 
 if ($Naam6 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$Naam6."' and Vereniging_speler = '".$Vereniging6."' " ;
-$result= mysqli_query($con,$sql);
-$count=mysqli_num_rows($result);
+$result = mysqli_query($con,$sql);
+$count  = mysqli_num_rows($result);
 
 if($count > 0){
   $message .= "* Er is al een inschrijving ingevuld voor ".$Naam6. " van ".$Vereniging6."<br>";
@@ -1016,8 +1018,6 @@ if ($error == 0 and $message == ''){
 if ($Opmerkingen == "Typ hier evt opmerkingen."){
  $Opmerkingen = '';
  }
-
-
 
 /// Soort licentie opzoeken en opslaan  uitgezet 17 mei 2013 ivm verouderde lijst
 
