@@ -34,13 +34,6 @@ a    {text-decoration:none;color:blue;font-size: 8pt}
 
 <?php
 
-
-// Database gegevens. 
-include('mysql.php');
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 $timest  = date('Ymd');
 $xlsx_file ="php7/xlsx/migratie_".$timest.".xlsx";
 
@@ -127,8 +120,6 @@ $j=4;
     $objPHPExcel->setActiveSheetIndex(0)
                     ->setCellValue('C1', $dir)           ;
 
-
-
 // Maak een gesorteerde lijst op naam
 if ($handle = @opendir($dir)) {
     $files = array();
@@ -136,8 +127,7 @@ if ($handle = @opendir($dir)) {
     sort($files);
     closedir($handle);
 }
-
-  	
+	
 	
 		
 foreach ($files as $file) {
@@ -189,12 +179,7 @@ foreach ($files as $file) {
                    'name'  => 'Verdana'
                   )) ;
             $objPHPExcel->getActiveSheet()->getStyle('D'.$j)->applyFromArray($style);     	
-        
-             
-             
-         
-   	
-        }// if file exist
+         }// if file exist
            
           $i++;  
           $j++;
@@ -202,9 +187,6 @@ foreach ($files as $file) {
          }// end if strln
   
   }// end each
-
-   
-
 
   // Rename worksheet
   echo date('H:i:s') , " Migratie status" , EOL;
@@ -217,8 +199,6 @@ foreach ($files as $file) {
   $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
  // $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
   $objWriter->save($xlsx_file);
-
- 
 
  
 ?>
