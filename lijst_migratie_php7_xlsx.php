@@ -42,7 +42,7 @@ include('mysql.php');
 
 
 $timest  = date('Ymd');
-$xlsx_file ="php7/migratie_".$timest.".xlsx";
+$xlsx_file ="php7/xlsx/migratie_".$timest.".xlsx";
 
 // verwijder bestand indien aanwezig
 unlink($xlsx_file);
