@@ -477,10 +477,13 @@ $qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereni
 $count        = mysql_num_rows($qry);
 
 if ($count > 0) {                
-$result       = mysql_fetch_array( $qry);
 $id           = $result['Id'];
-$waarde       = $_POST['Waarde-'.$id]; 
-$query        = "UPDATE config  SET Waarde  = '".$url_website."',  Laatst  = NOW()  WHERE  Id  = '".$id."'  ";
+if (isset($_POST['Waarde-'.$id])){
+   $waarde       = $_POST['Waarde-'.$id]; 
+   $query        = "UPDATE config  SET Waarde  = '".$waarde."',  Laatst  = NOW()  WHERE  Id  = '".$id."'  ";
+  }
+ 
+  
 } else {
 $query        = "INSERT INTO  config (Id, Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Laatst) VALUES (0, '".$vereniging."',".$vereniging_id.",'".$_input_toernooi."', 'url_website','".$url_website."', now() ) ";
 //echo $query."<br>";
@@ -506,10 +509,13 @@ $qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereni
 $count        = mysql_num_rows($qry);
 
 if ($count > 0) {                
-$result       = mysql_fetch_array( $qry);
 $id           = $result['Id'];
-$waarde       = $_POST['Waarde-'.$id]; 
-$query        = "UPDATE config  SET Waarde  = '".$waarde."',  Laatst  = NOW()  WHERE  Id  = '".$id."'  ";
+if (isset($_POST['Waarde-'.$id])){
+   $waarde       = $_POST['Waarde-'.$id]; 
+   $query        = "UPDATE config  SET Waarde  = '".$waarde."',  Laatst  = NOW()  WHERE  Id  = '".$id."'  ";
+  }
+ 
+
 } else {
 $query        = "INSERT INTO  config (Id, Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Laatst) VALUES (0, '".$vereniging."',".$vereniging_id.",'".$_input_toernooi."', 'vereniging_selectie_zichtbaar_jn','J', now() ) ";
 //echo $query."<br>";
@@ -526,10 +532,12 @@ $count        = mysql_num_rows($qry);
 
 
 if ($count > 0) {                
-$result       = mysql_fetch_array( $qry);
 $id           = $result['Id'];
-$waarde       = $_POST['Waarde-'.$id]; 
-$query        = "UPDATE config  SET Waarde  = '".$waarde."',  Laatst  = NOW()  WHERE  Id  = '".$id."'  ";
+if (isset($_POST['Waarde-'.$id])){
+   $waarde       = $_POST['Waarde-'.$id]; 
+   $query        = "UPDATE config  SET Waarde  = '".$waarde."',  Laatst  = NOW()  WHERE  Id  = '".$id."'  ";
+  }
+ 
 } else {
 $query        = "INSERT INTO  config (Id, Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Laatst) VALUES (0, '".$vereniging."',".$vereniging_id.",'".$_input_toernooi."', 'toernooi_gaat_door_jn','J', now() ) ";
 //echo $query."<br>";
