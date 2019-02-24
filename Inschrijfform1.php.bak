@@ -3123,7 +3123,7 @@ if ($bestemd_voor !=''){
             		if ($aantal_cyclus  >= ( $max_splrs + $aantal_reserves )  ){  ?>
             		      X <em><?php echo strftime("%a %e %B ", mktime(0, 0, 0, $maand , $dag, $jaar) );?>   (vol) </em><br>
                 <?php } else {?>
-          		     <input type='checkbox' name='meerdaags_datum[]' value ='<?php echo $_datum;?>'  checked><em><?php echo strftime("%a %e %B ", mktime(0, 0, 0, $maand , $dag, $jaar) );?> [al <?php echo $aantal_cyclus;?> ingeschreven]</em><br>
+          		     <input type='checkbox' name='meerdaags_datum[]' value ='<?php echo $_datum;?>'  checked><em><?php echo strftime("%a %e %B ", mktime(0, 0, 0, $maand , $dag, $jaar) );?> [<?php echo $aantal_cyclus;?>]</em><br>
          		     <?php
                 }
 	

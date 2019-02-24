@@ -813,43 +813,45 @@ $i++;
 }; //// end while
 
 // in een regel onder de tabel totalen ingeval van toernooi cyclus
+
    //  toernooi cyclus
-   // colspan =  1 + 2x aantal splrs
-   
-   $colspan=3;
+   $colspan=1;
 if ($meerdaags_toernooi_jn =='X'){
    
 if ($soort_inschrijving  != 'single' and $inschrijf_methode =='vast'){	
-   $colspan =5;
+   $colspan =2;
 }  
 
-if ($inschrijf_methode =='vast' and $soort_inschrijving == 'triplet'  ){	
-  $colspan = 7;
+if ($inschrijf_methode =='vast' and $soort_inschrijving == 'triplet')  ){	
+  $colspan =3;
 }
 
-if ($inschrijf_methode =='vast' and $soort_inschrijving == '4x4'  ){	
-  $colspan  =9;
+if ($inschrijf_methode =='vast' and ( $soort_inschrijving == '4x4')  ){	
+  $colspan =4;
 }
 
-if ($inschrijf_methode =='vast' and $soort_inschrijving == 'kwintet' ){	
-     $colspan =11;
+if ($inschrijf_methode =='vast' and ( $soort_inschrijving == 'kwintet' ) ){	
+     $colspan =5;
 }
 
-if ($inschrijf_methode =='vast' and $soort_inschrijving == 'sextet' ){	
-     $colspan =13;
+if ($inschrijf_methode =='vast' and ( $soort_inschrijving == 'sextet')){	
+     $colspan =6;
 }
 
-
-echo "<tr><td style='". $td_style_w.";text-align:center;'></td><td style='". $td_style_w.";text-align:center;font-weight:bold;' colspan = ".$colspan.">Totaal per datum</td>";
+echo "<tr><td></td><td colspan = ".$colspan.">Totaal per datum</td>";
      
- $sql      = mysql_query("SELECT Aantal_splrs as Aantal from toernooi_datums_cyclus  where  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."' order by Datum" )     ; 
+ $sql      = mysqli_query("SELECT * from toernooi_datums_cyclus  where  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."' order by Datum" )     ; 
 	while($row = mysql_fetch_array( $sql )) { 		
 		
-echo "<td style='". $td_style_w.";text-align:right;font-weight:bold;'>".$row['Aantal']."</td>";
+echo "<td>".$result['Aantal']."</td>";
 } // end while
 
 echo "</tr>";
+
+
 }// end if cyclus
+
+
 
 echo "</table><br><br>";
 

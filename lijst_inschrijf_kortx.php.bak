@@ -845,11 +845,19 @@ echo "<tr><td style='". $td_style_w.";text-align:center;'></td><td style='". $td
  $sql      = mysql_query("SELECT Aantal_splrs as Aantal from toernooi_datums_cyclus  where  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."' order by Datum" )     ; 
 	while($row = mysql_fetch_array( $sql )) { 		
 		
-echo "<td style='". $td_style_w.";text-align:right;font-weight:bold;'>".$row['Aantal']."</td>";
+echo "<td style='". $td_style_w.";text-align:right;'>".$row['Aantal']."</td>";
 } // end while
 
 echo "</tr>";
+
+echo "<tr>xxxxxxxxxxxxxxxxcol".$colspan;
+
+
 }// end if cyclus
+
+
+
+
 
 echo "</table><br><br>";
 

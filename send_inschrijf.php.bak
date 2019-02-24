@@ -1475,13 +1475,6 @@ $sql      = mysql_query("SELECT * from toernooi_datums_cyclus  where  Vereniging
       }
       $datums = substr($datums,1,250);
   }
- 
- // 24feb2019
- // pas aantal spelers per datum in cyclus an adhv van inschrijving 
- 
- include('verwerk_aantal_cyclus.php');
- 
- 
   
 } else {
  $meerdaags_toernooi_jn = 'N';	
