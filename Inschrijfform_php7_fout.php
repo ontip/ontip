@@ -15,12 +15,12 @@
 # Feature:          None.
 # Reference:
 #
-# 25jan2019         1.0.2            E. Hendrikx
+# 24feb2019         1.0.2         E. Hendrikx 
 # Symptom:   		    None.
-# Problem:       	  None
-# Fix:              None
-# Feature:          Migratie naar PHP 7
-# Reference:
+# Problem:     	    None.
+# Fix:              None.
+# Feature:          datum toernooi cyclus niet vermelden als max is bereeikt. Max wordt bijgehouden toernooi_datums_cyclus per datum
+# Reference: 
 
 #
 # 25feb2019         1.0.3         E. Hendrikx 
@@ -29,8 +29,6 @@
 # Fix:              None.
 # Feature:          PHP7
 # Reference: 
-
-
  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Database gegevens. 
@@ -593,10 +591,7 @@ error_reporting(E_ALL);
 ini_set('display_errors','Off');
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
-
-
 ini_set('default_charset','UTF-8');
-
 
 
 if ($datum_verloop_licentie !='0000-00-00'){
@@ -611,7 +606,7 @@ $week_ervoor    = strtotime ("-1 week", mktime(0,0,0,$maand,$dag,$jaar));
 $week6_erna     = strtotime ("+6 week", mktime(0,0,0,$maand,$dag,$jaar));
 $today          = date('Y-m-d');
 $_week6_erna    = date("Y-m-d", $week6_erna);
-}
+}// end if datum
 
 /// selectie bond  tbv vereniging lijst
 
@@ -769,7 +764,6 @@ if (!isset($email_notificaties_jn)) {
 	$email_notificaties_jn = 'N';
 }
 
-
 if (!isset($voucher_code_invoeren_jn)){
 	$voucher_code_invoeren_jn ='N';
 } else {
@@ -864,7 +858,6 @@ if ($_url_logo != basename($url_logo)  and $_url_logo != ''){
 
 $vereniging = str_replace('\"','&#148', $vereniging);
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //       0123456789012345
 //       2012-05-29 19:00
@@ -883,7 +876,6 @@ if ($begin_uur ==''){
 }
 
 $begin_inschrijving = $begin_jaar."-".$begin_maand."-".$begin_dag." ".$begin_uur.":".$begin_min;
-
 
 // dubbele spatie vervangen  door 1 (fout in invoer in
 $einde_inschrijving = str_replace('  ',' ', $einde_inschrijving);
@@ -914,10 +906,9 @@ $today        = date("Y") ."-".  date("m") . "-".  date("d");
 if (!isset ($achtergrond_kleur)){$achtergond_kleur= '#FFFFFF';};
 if (!isset ($logo_zichtbaar_jn)){$logo_zichtbaar_jn = 'J';};
 
+$aant_splrs_q = mysqli_query($con,"SELECT Count(*) from inschrijf WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' ")        or die(mysqli_error()); 
 /// Bepalen aantal spelers voor dit toernooi
-$aant_splrs_q  = mysqli_query($con,"SELECT Count(*) as Aantal from inschrijf WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' ")        or die(mysqli_error()); 
-$result        = mysqli_fetch_array( $aant_splrs_q);
-$aant_splrs    = $result['Aantal'];
+$aant_splrs =  mysqli_result($aant_splrs_q ,0); 
 
 ////
 $variabele = 'kosten_team';
@@ -991,7 +982,6 @@ if ($koptekst_kleur   ==''){ $koptekst_kleur  = 'red';};
 /// invul kader achtergrond en tekstkleur (nvt voor single inschrijvingwn)
 
 $invulkop         = $koptekst_kleur ;
-
 
 /// Afwijkende font voor koptekst
 
@@ -1146,6 +1136,7 @@ if (isset($meerdaags_toernooi_jn)){
  $eind_jaar  = 	substr ($eind_datum , 0,4); 
 
 } 
+
 // toernooi cyclus
 if ($meerdaags_toernooi_jn =='X'){
 
@@ -1168,8 +1159,7 @@ $sql      = mysqli_query($con,"SELECT * from toernooi_datums_cyclus  where  Vere
 } else {
  $meerdaags_toernooi_jn = 'N';	
 }// end isset
-
-    
+   
     
  
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1189,7 +1179,6 @@ if ($onderhoud_ontip =='J'){ ?>
 <?php
 if (isset($_GET['user_select'])){
      $replace = "key=IS&toernooi=".$toernooi."";
-     
        
     /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
@@ -1225,7 +1214,7 @@ if (isset($_GET['user_select'])){
   else {
   	$user_select =  'No';
   }	
-  
+ 
 
 /// bepaal hoogte sel box spelers adv aan spelers
 
@@ -1502,14 +1491,12 @@ if ($aant_splrs  >= $max_splrs and $einde == 0){
 /// 11 aug 2015  aanpassing ivm inschrijving beperkt tot 1 vereniging en inschrijving is vol
 
  	
- 	if ($einde == 0 and $aant_splrs  >= $max_splrs and  $aant_splrs <( $max_splrs + $aantal_reserves ) and $meerdaags_toernooi_jn !='X' ){
+ 	if ($einde == 0 and $aant_splrs  >= $max_splrs and  $aant_splrs <( $max_splrs + $aantal_reserves )  ){
    	$vol_geboekt = 1;
    	echo "<div style='font-weight:bold;font-size:10pt;border:1pt solid black;padding:2pt;'>Het toernooi is volgeboekt voor leden van ".$naam_vereniging.". U kunt zich nog als reserve team of speler inschrijven voor het geval er iemand afzegt (Max. ".$aantal_reserves." reserves). ";
 	  echo "Wij nemen contact met u op. Indien u de dag voor het toernooi nog niets heeft vernomen, neem dan gerust contact op om te vragen of u toch kunt deelnemen.";
 	  
-	  
-	   // 25 aug 2018 Email notificaties als toernooi vol is en aantal_reserves = 0 
-	   
+   // 25 aug 2018 Email notificaties als toernooi vol is en aantal_reserves = 0 
 	   
 	   if ($email_notificaties_jn =='J' and $aantal_reserves ==0) {
 	   	  echo"<center><h2><br>Via onderstaande link kunt u zich aanmelden voor email notificaties. Indien er een plek vrijkomt, krijgt u direct een email bericht.</h2><br>";
@@ -1518,7 +1505,7 @@ if ($aant_splrs  >= $max_splrs and $einde == 0){
 	  echo "</div>";
    }
  	
- 	if ($aant_splrs  >= $max_splrs and $aantal_reserves == 0  and $meerdaags_toernooi_jn !='X'){
+ 	if ($aant_splrs  >= $max_splrs and $aantal_reserves == 0 and $meerdaags_toernooi_jn !='X'){
      $vol_geboekt = 1;
      echo "<center><br><h2>Er hebben zich nu ". $aant_splrs . " teams van ".$_vereniging." ingeschreven voor dit toernooi. <br>Hiermee is het toernooi volgeboekt voor leden van ".$naam_vereniging.".</h2></center>";
      $einde  =1; 
@@ -1532,7 +1519,7 @@ if ($aant_splrs  >= $max_splrs and $einde == 0){
 	  echo "</div>";
   }    
  
-  if ($aant_splrs  >= ( $max_splrs + $aantal_reserves ) and $aantal_reserves > 0 and $meerdaags_toernooi_jn !='X'){
+  if ($aant_splrs  >= ( $max_splrs + $aantal_reserves ) and $aantal_reserves > 0 and $meerdaags_toernooi_jn !='X' ){
    	$vol_geboekt = 1;
     echo "<center><br><h2>Er hebben zich nu ". ($max_splrs + $aantal_reserves)  . " teams van ".$_vereniging." (incl ". $aantal_reserves." reserves)  ingeschreven voor dit toernooi. <br>Hiermee is het toernooi volgeboekt voor leden van ".$naam_vereniging.".</h2></center>";
     $einde  =1;
@@ -1554,7 +1541,6 @@ if ($aant_splrs  >= $max_splrs and $einde == 0){
 	   }	  
 	  echo "</div>";
    }
-	  
 
    if ($aant_splrs  >= $max_splrs and $aantal_reserves == 0 and $meerdaags_toernooi_jn !='X'){
      echo "<center><br><h2>Er hebben zich nu ". $aant_splrs . " teams ingeschreven voor dit toernooi. <br>Hiermee is het toernooi volgeboekt.</h2></center>";
@@ -1566,10 +1552,9 @@ if ($aant_splrs  >= $max_splrs and $einde == 0){
 	   	  echo"<center><h2><br>Via onderstaande link kunt u zich aanmelden voor email notificaties. Indien er een plek vrijkomt, krijgt u direct een email bericht.</h2><br>";
 	   	  echo "<a href ='toevoegen_email_notificatie_stap1.php?toernooi=".$toernooi."&email_notificatie' target='_self'>Klik hier voor aanmelden Email notificatie</a></center>";
 	   }	  
-	   
    }
    
-   if ($aant_splrs  >= ( $max_splrs + $aantal_reserves ) and $aantal_reserves > 0 and $meerdaags_toernooi_jn !='X' ){
+   if ($aant_splrs  >= ( $max_splrs + $aantal_reserves ) and $aantal_reserves > 0 and $meerdaags_toernooi_jn !='X'){
     echo "<center><br><h2>Er hebben zich nu ". ($max_splrs + $aantal_reserves)  . " teams (incl ". $aantal_reserves." reserves)  ingeschreven voor dit toernooi. <br>Hiermee is het toernooi volgeboekt.</h2></center>";
     $einde  =1;
     }
@@ -3092,11 +3077,10 @@ if ($bestemd_voor !=''){
          		     $dag   = 	substr ($_datum , 8,2);                                                                 
                  $maand = 	substr ($_datum , 5,2);                                                                 
                  $jaar  = 	substr ($_datum , 0,4);                                                                 
-	
-         		     ?>
-         		     <input type='checkbox' name='meerdaags_datum[]' value ='<?php echo $_datum;?>'  checked><em><?php echo strftime("%a %e %B ", mktime(0, 0, 0, $maand , $dag, $jaar) );?></em><br>
+	?>
+	        		     <input type='checkbox' name='meerdaags_datum[]' value ='<?php echo $_datum;?>'  checked><em><?php echo strftime("%a %e %B ", mktime(0, 0, 0, $maand , $dag, $jaar) );?> [<?php echo $aantal_cyclus;?>]</em><br>
          		     <?php
-  	             $_toernooi_datum    = strtotime ("+1 day", mktime(0,0,0,$maand,$dag,$jaar));
+                $_toernooi_datum    = strtotime ("+1 day", mktime(0,0,0,$maand,$dag,$jaar));
   	             $toernooi_datum     = date("Y-m-d",  $_toernooi_datum);
   	   }///end while
      ?>
@@ -3117,9 +3101,9 @@ if ($bestemd_voor !=''){
          $sql      = mysqli_query($con,"SELECT * from toernooi_datums_cyclus  where  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."' and Datum >= '".$today."'  order by Datum" )     ; 
          	
          	while($row = mysqli_fetch_array( $sql )) { 		
-         		     $_datum = $row['Datum']; 
-         	       $aantal_cyclus = $row['Aantal_splrs'];	    
-         	        
+         		     $_datum        = $row['Datum']; 
+                 $aantal_cyclus = $row['Aantal_splrs'];
+         		              		     
          		       $dag   = 	substr ($_datum , 8,2);                                                                 
                    $maand = 	substr ($_datum , 5,2);                                                                 
                    $jaar  = 	substr ($_datum , 0,4);   
@@ -3129,7 +3113,7 @@ if ($bestemd_voor !=''){
                  	$locatie = ".    [".$locatie."]";                                                       
 	               }
 	               
-                // als max bereikt is geen input mogelijk
+	               // als max bereikt is geen input mogelijk
 
             		if ($aantal_cyclus  >= ( $max_splrs + $aantal_reserves )  ){  ?>
             		      X <em><?php echo strftime("%a %e %B ", mktime(0, 0, 0, $maand , $dag, $jaar) );?>   (vol) </em><br>
@@ -3137,8 +3121,9 @@ if ($bestemd_voor !=''){
           		     <input type='checkbox' name='meerdaags_datum[]' value ='<?php echo $_datum;?>'  checked><em><?php echo strftime("%a %e %B ", mktime(0, 0, 0, $maand , $dag, $jaar) );?> [al <?php echo $aantal_cyclus;?> ingeschreven]</em><br>
          		     <?php
                 }
-         		     <?php
-         		    }// while	  	
+	
+         		   
+       		    }// while	  	
          	?>	    
          		    </tr>
    		    <?php
