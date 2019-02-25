@@ -3116,8 +3116,7 @@ if ($bestemd_voor !=''){
          	
          	while($row = mysqli_fetch_array( $sql )) { 		
          		     $_datum = $row['Datum']; 
-         		     $aantal_cyclus = $row['Aantal_splrs'];
-         		      
+         		     
          		       $dag   = 	substr ($_datum , 8,2);                                                                 
                    $maand = 	substr ($_datum , 5,2);                                                                 
                    $jaar  = 	substr ($_datum , 0,4);   
@@ -3127,16 +3126,9 @@ if ($bestemd_voor !=''){
                  	$locatie = ".    [".$locatie."]";                                                       
 	               }
 	               
-         		               
-	               // als max bereikt is geen input mogelijk
-
-            		if ($aantal_cyclus  >= ( $max_splrs + $aantal_reserves )  ){  ?>
-            		      X <em><?php echo strftime("%a %e %B ", mktime(0, 0, 0, $maand , $dag, $jaar) );?>   (vol) </em><br>
-                <?php } else {?>
-          		     <input type='checkbox' name='meerdaags_datum[]' value ='<?php echo $_datum;?>'  checked><em><?php echo strftime("%a %e %B ", mktime(0, 0, 0, $maand , $dag, $jaar) );?> [al <?php echo $aantal_cyclus;?> ingeschreven]</em><br>
+         		     ?>
+         		     <input type='checkbox' name='meerdaags_datum[]' value ='<?php echo $_datum;?>'   checked><em><?php echo strftime("%a %e %B ", mktime(0, 0, 0, $maand , $dag, $jaar) );?> <?php echo $locatie;?></em><br>
          		     <?php
-                }
-                
          		    }// while	  	
          	?>	    
          		    </tr>

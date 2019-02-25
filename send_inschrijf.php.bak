@@ -1472,9 +1472,43 @@ $sql      = mysql_query("SELECT * from toernooi_datums_cyclus  where  Vereniging
           $maand = 	substr ($datum , 5,2); 
           $jaar  = 	substr ($datum , 0,4); 
       		$datums  = $datums.",".strftime("%A %e %B %Y", mktime(0, 0, 0, $maand , $dag, $jaar) ); 
+   		
       }
       $datums = substr($datums,1,250);
   }
+ 
+ // 24feb2019
+ // pas aantal spelers per datum in cyclus an adhv van inschrijving 
+ 
+ //include('verwerk_aantal_cyclus.php');
+ 
+if ($meerdaags_toernooi_jn =='X'){
+ echo "test";
+
+
+// per datum aanpassen
+$sql_cyclus      = mysql_query("SELECT * from toernooi_datums_cyclus  where  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."' order by Datum" )     ; 
+	
+	while($row_cyclus = mysql_fetch_array( $sql_cyclus )) { 		
+
+
+		     $datum_cyclus = $row_cyclus['Datum'];
+                      
+         $qry2      = mysql_query("SELECT count(*) as Aantal  from inschrijf where  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."' 
+                      and Meerdaags_datums  like   '%".$datum_cyclus."%' " ); 
+         $result = mysql_fetch_array( $qry2 );
+
+         // update
+                      
+                      
+         $qry2      = mysql_query("UPDATE 	toernooi_datums_cyclus SET Aantal_splrs = ".$result['Aantal']." , Laatst = now()  
+                      WHERE  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."' and Datum = '".$datum_cyclus."'   ")  or die('Fout in update');
+
+   } // end while
+} // end if
+
+
+ 
   
 } else {
  $meerdaags_toernooi_jn = 'N';	

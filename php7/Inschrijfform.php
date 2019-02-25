@@ -22,14 +22,12 @@
 # Feature:          Migratie naar PHP 7
 # Reference:
 
-#
-# 25feb2019         1.0.3         E. Hendrikx 
+# 24feb2019         1.0.3           E. Hendrikx 
 # Symptom:   		    None.
 # Problem:     	    None.
 # Fix:              None.
-# Feature:          PHP7
+# Feature:          datum toernooi cyclus niet vermelden als max is bereeikt. Max wordt bijgehouden toernooi_datums_cyclus per datum
 # Reference: 
-
 
  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1502,7 +1500,7 @@ if ($aant_splrs  >= $max_splrs and $einde == 0){
 /// 11 aug 2015  aanpassing ivm inschrijving beperkt tot 1 vereniging en inschrijving is vol
 
  	
- 	if ($einde == 0 and $aant_splrs  >= $max_splrs and  $aant_splrs <( $max_splrs + $aantal_reserves ) and $meerdaags_toernooi_jn !='X' ){
+ 	if ($einde == 0 and $aant_splrs  >= $max_splrs and  $aant_splrs <( $max_splrs + $aantal_reserves )  and $meerdaags_toernooi_jn !='X' ){
    	$vol_geboekt = 1;
    	echo "<div style='font-weight:bold;font-size:10pt;border:1pt solid black;padding:2pt;'>Het toernooi is volgeboekt voor leden van ".$naam_vereniging.". U kunt zich nog als reserve team of speler inschrijven voor het geval er iemand afzegt (Max. ".$aantal_reserves." reserves). ";
 	  echo "Wij nemen contact met u op. Indien u de dag voor het toernooi nog niets heeft vernomen, neem dan gerust contact op om te vragen of u toch kunt deelnemen.";
@@ -1511,14 +1509,14 @@ if ($aant_splrs  >= $max_splrs and $einde == 0){
 	   // 25 aug 2018 Email notificaties als toernooi vol is en aantal_reserves = 0 
 	   
 	   
-	   if ($email_notificaties_jn =='J' and $aantal_reserves ==0) {
+	   if ($email_notificaties_jn =='J' and $aantal_reserves ==0  and $meerdaags_toernooi_jn !='X') {
 	   	  echo"<center><h2><br>Via onderstaande link kunt u zich aanmelden voor email notificaties. Indien er een plek vrijkomt, krijgt u direct een email bericht.</h2><br>";
 	   	  echo "<a href ='toevoegen_email_notificatie_stap1.php?toernooi=".$toernooi."&email_notificatie' target='_self'>Klik hier voor aanmelden Email notificatie</a></center>";
 	   }	  
 	  echo "</div>";
    }
  	
- 	if ($aant_splrs  >= $max_splrs and $aantal_reserves == 0  and $meerdaags_toernooi_jn !='X'){
+ 	if ($aant_splrs  >= $max_splrs and $aantal_reserves == 0){
      $vol_geboekt = 1;
      echo "<center><br><h2>Er hebben zich nu ". $aant_splrs . " teams van ".$_vereniging." ingeschreven voor dit toernooi. <br>Hiermee is het toernooi volgeboekt voor leden van ".$naam_vereniging.".</h2></center>";
      $einde  =1; 
@@ -1532,7 +1530,7 @@ if ($aant_splrs  >= $max_splrs and $einde == 0){
 	  echo "</div>";
   }    
  
-  if ($aant_splrs  >= ( $max_splrs + $aantal_reserves ) and $aantal_reserves > 0 and $meerdaags_toernooi_jn !='X'){
+  if ($aant_splrs  >= ( $max_splrs + $aantal_reserves ) and $aantal_reserves > 0 and $meerdaags_toernooi_jn !='X' ){
    	$vol_geboekt = 1;
     echo "<center><br><h2>Er hebben zich nu ". ($max_splrs + $aantal_reserves)  . " teams van ".$_vereniging." (incl ". $aantal_reserves." reserves)  ingeschreven voor dit toernooi. <br>Hiermee is het toernooi volgeboekt voor leden van ".$naam_vereniging.".</h2></center>";
     $einde  =1;
@@ -1541,7 +1539,7 @@ if ($aant_splrs  >= $max_splrs and $einde == 0){
   }
 	  else { 
 
-   if ($einde == 0 and $aant_splrs  >= $max_splrs and  $aant_splrs <( $max_splrs + $aantal_reserves ) and $meerdaags_toernooi_jn !='X' ){
+   if ($einde == 0 and $aant_splrs  >= $max_splrs and  $aant_splrs <( $max_splrs + $aantal_reserves ) and $meerdaags_toernooi_jn !='X'  ){
    	$vol_geboekt = 1;
    	echo "<div style='font-weight:bold;font-size:10pt;border:1pt solid black;padding:2pt;'>Het toernooi is volgeboekt. U kunt zich nog als reserve team of speler inschrijven voor het geval er iemand afzegt (Max. ".$aantal_reserves." reserves). ";
 	  echo "Wij nemen contact met u op. Indien u de dag voor het toernooi nog niets heeft vernomen, neem dan gerust contact op om te vragen of u toch kunt deelnemen.";
@@ -1556,7 +1554,7 @@ if ($aant_splrs  >= $max_splrs and $einde == 0){
    }
 	  
 
-   if ($aant_splrs  >= $max_splrs and $aantal_reserves == 0 and $meerdaags_toernooi_jn !='X'){
+   if ($aant_splrs  >= $max_splrs and $aantal_reserves == 0  and $meerdaags_toernooi_jn !='X'){
      echo "<center><br><h2>Er hebben zich nu ". $aant_splrs . " teams ingeschreven voor dit toernooi. <br>Hiermee is het toernooi volgeboekt.</h2></center>";
      $einde  =1; 
      
@@ -3118,8 +3116,8 @@ if ($bestemd_voor !=''){
          	
          	while($row = mysqli_fetch_array( $sql )) { 		
          		     $_datum = $row['Datum']; 
-         	       $aantal_cyclus = $row['Aantal_splrs'];	    
-         	        
+         		     $aantal_cyclus = $row['Aantal_splrs'];
+         		      
          		       $dag   = 	substr ($_datum , 8,2);                                                                 
                    $maand = 	substr ($_datum , 5,2);                                                                 
                    $jaar  = 	substr ($_datum , 0,4);   
@@ -3129,7 +3127,8 @@ if ($bestemd_voor !=''){
                  	$locatie = ".    [".$locatie."]";                                                       
 	               }
 	               
-                // als max bereikt is geen input mogelijk
+         		               
+	               // als max bereikt is geen input mogelijk
 
             		if ($aantal_cyclus  >= ( $max_splrs + $aantal_reserves )  ){  ?>
             		      X <em><?php echo strftime("%a %e %B ", mktime(0, 0, 0, $maand , $dag, $jaar) );?>   (vol) </em><br>
@@ -3137,7 +3136,7 @@ if ($bestemd_voor !=''){
           		     <input type='checkbox' name='meerdaags_datum[]' value ='<?php echo $_datum;?>'  checked><em><?php echo strftime("%a %e %B ", mktime(0, 0, 0, $maand , $dag, $jaar) );?> [al <?php echo $aantal_cyclus;?> ingeschreven]</em><br>
          		     <?php
                 }
-         		     <?php
+                
          		    }// while	  	
          	?>	    
          		    </tr>
