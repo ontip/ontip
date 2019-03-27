@@ -21,24 +21,24 @@ error_reporting(E_ALL);
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 $toernooi      = $_POST['toernooi'];   
-$qry           = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
-$result        = mysql_fetch_array( $qry);
+$qry           = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
+$result        = mysqli_fetch_array( $qry);
 $vereniging_id = $result['Id'];
 
 $toernooi = $_POST['toernooi'];
 
 /// Generieke update
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' order by Variabele") ;  
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' order by Variabele") ;  
 
 //echo "SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' order by Variabele<br>";
 
 
 $regel = 0;
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 
 $id         = $row['Id'];
 $var        = $row['Variabele'];
@@ -57,7 +57,7 @@ $query = "UPDATE config
 //echo $id."<br>";
 //echo $query. "<br>";
 //echo $var. "<br>";
-mysql_query($query) or die ('Fout in update id generiek'); 
+mysqli_query($con,$query) or die ('Fout in update id generiek'); 
 }
 
 
@@ -68,19 +68,19 @@ mysql_query($query) or die ('Fout in update id generiek');
 
 
 if (isset ($_POST['inschrijf_methode'])){
-	$qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
-  $result     = mysql_fetch_array( $qry);
+	$qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
+  $result     = mysqli_fetch_array( $qry);
   $query = "UPDATE config
              SET Parameters        = '".$_POST['inschrijf_methode']."' , 
                  Laatst  = NOW()     WHERE  Id  = ".$result['Id']."  ";
-  mysql_query($query) or die ('Fout in update id inschrijf methode'); 
+  mysqli_query($con,$query) or die ('Fout in update id inschrijf methode'); 
 }; 
 
  ////////////////////////////////////////////  einde loop wegschrijven records
 /// Aparte update ivm euro teken
 
-$qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'kosten_team' ") ;  
-$result     = mysql_fetch_array( $qry);
+$qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'kosten_team' ") ;  
+$result     = mysqli_fetch_array( $qry);
 $parameter  = explode('#', $result['Parameters']);
  
  //var_dump($result['Parameters']);
@@ -113,7 +113,7 @@ $query    = "UPDATE config
              WHERE  Id  = ".$result['Id']."  ";
 //echo $query;
            
-mysql_query($query) or die ('Fout in update euro'); 
+mysqli_query($con,$query) or die ('Fout in update euro'); 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Aparte update ivm extra_koptekst / lichtkrant
@@ -121,9 +121,9 @@ mysql_query($query) or die ('Fout in update euro');
 /// Laatste positie geeft tekst effect aan 
 /// #n = newline  , #m = marquee , #z = zonder
                
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' 
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' 
                 and Variabele = 'extra_koptekst' ") ;  
-$result       = mysql_fetch_array( $qry);
+$result       = mysqli_fetch_array( $qry);
 $extra_koptekst    = $result['Waarde'];
 $parameter = explode('#', $result['Parameters']);
 $new_line          =  substr($row['Waarde'],0,1);  // oude setting
@@ -142,14 +142,14 @@ $query = "UPDATE config
                  Laatst     = NOW()
                  WHERE  Id  = ".$result['Id']."  ";
             
-mysql_query($query) or die ('Fout in update koptekst'); 
+mysqli_query($con,$query) or die ('Fout in update koptekst'); 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Aparte update ivm positie afbeelding
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' 
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' 
                 and Variabele = 'url_afbeelding' ") ;  
-$result       = mysql_fetch_array( $qry);
+$result       = mysqli_fetch_array( $qry);
 $url_afbeelding   = $result['Waarde'];
 $parameter  = explode('#', $result['Parameters']);
 
@@ -188,14 +188,20 @@ $afb_height  = $size[1];
 
 // adhv van het veld afbeelding_grootte bepalen we de vewrhouding tussen breedte en hoogte
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' 
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' 
                 and Variabele = 'afbeelding_grootte' ") ;  
-$result       = mysql_fetch_array( $qry);
+$result       = mysqli_fetch_array( $qry);
 $afbeelding_grootte   = $result['Waarde'];
 
 $calc       = ( $afb_width / $afbeelding_grootte ) ;
 $afb_width  =   $afbeelding_grootte   ;    // width = gelijk aan afbeelding_grootte
+
+if ($calc > 0){
 $afb_height = ( $size[1] / $calc  );
+}
+else {
+	$afb_height = $size[1] ;
+}
 $afb_height = round($afb_height); 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,9 +211,9 @@ if (substr($url_afbeelding,-2) == '#r' or substr($url_afbeelding,-2) == '#l'){
   	$url_afbeelding   = substr($url_afbeelding,0,-2);
 }
 */
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' 
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' 
                 and Variabele = 'url_afbeelding' ") ;  
-$result       = mysql_fetch_array( $qry);
+$result       = mysqli_fetch_array( $qry);
 $url_afbeelding   = $result['Waarde'];
 $parameter  = explode('#', $result['Parameters']);
 
@@ -242,17 +248,17 @@ $query = "UPDATE config
   
 // echo $query;
             
-mysql_query($query) or die ('Fout in update afbeelding'); 
+mysqli_query($con,$query) or die ('Fout in update afbeelding'); 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Aparte update ivm bestemd_voor
 
-$qry             = mysql_query("SELECT * From config  where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi ."'  and Variabele = 'bestemd_voor' ") ;  
-$result          = mysql_fetch_array( $qry);
+$qry             = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi ."'  and Variabele = 'bestemd_voor' ") ;  
+$result          = mysqli_fetch_array( $qry);
 $id              = $result['Id'];
 $bestemd_voor    = $_POST['Waarde-'.$id]; 
 $wel_niet        = $_POST['Wel_niet'];
-$count           = mysql_num_rows($qry);
+$count           = mysqli_num_rows($qry);
 
 if ($count > 0) {                
 
@@ -268,7 +274,7 @@ if ($count > 0) {
                        WHERE  Id  = ".$result['Id']." ";
           //       echo $query;
       
-          mysql_query($query) or die ('Fout in update bestemd voor'); 
+          mysqli_query($con,$query) or die ('Fout in update bestemd voor'); 
           }
          else {
               
@@ -279,17 +285,17 @@ if ($count > 0) {
                        WHERE  Id  = ".$result['Id']." ";
             //         echo $query;
       
-          mysql_query($query) or die ('Fout in update bestemd voor'); 
+          mysqli_query($con,$query) or die ('Fout in update bestemd voor'); 
         
       }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Aparte update ivm datum selectie vanuit de drie selectie boxen
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'datum' ") ;  
-$result       = mysql_fetch_array( $qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'datum' ") ;  
+$result       = mysqli_fetch_array( $qry);
 $datum        = $_POST['datum_jaar']."-".sprintf("%02d",$_POST['datum_maand'])."-".sprintf("%02d",$_POST['datum_dag']);
-$count        = mysql_num_rows($qry);
+$count        = mysqli_num_rows($qry);
 
 if ($count > 0) {  
 //echo $datum;
@@ -298,15 +304,15 @@ if ($count > 0) {
                  Laatst     = NOW()
                  WHERE  Id  = ".$result['Id']." ";
 
-   mysql_query($query) or die ('Fout in update datum');                 
+   mysqli_query($con,$query) or die ('Fout in update datum');                 
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Aparte update ivm begin datum selectie vanuit de 5 selectie boxen  ( 4 apr 2016 Ook met tijd)
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'begin_inschrijving' ") ;  
-$result       = mysql_fetch_array( $qry);
-$count        = mysql_num_rows($qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'begin_inschrijving' ") ;  
+$result       = mysqli_fetch_array( $qry);
+$count        = mysqli_num_rows($qry);
 
 if ($count > 0) {  
 
@@ -317,7 +323,7 @@ $begin_datumtijd = $_POST['begin_datum_jaar']."-".sprintf("%02d",$_POST['begin_d
                  Laatst     = NOW()
                  WHERE  Id  = ".$result['Id']."  ";
   //echo $query;
-    mysql_query($query) or die ('Fout in update begin datumtijd');                 
+    mysqli_query($con,$query) or die ('Fout in update begin datumtijd');                 
 //exit;
 }
 
@@ -325,10 +331,10 @@ $begin_datumtijd = $_POST['begin_datum_jaar']."-".sprintf("%02d",$_POST['begin_d
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 /// Aparte update ivm einde datumtijd  einde _inschrijving selectie vanuit de 5 selectie boxen
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'    and Variabele = 'einde_inschrijving' ") ;  
-$result       = mysql_fetch_array( $qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'    and Variabele = 'einde_inschrijving' ") ;  
+$result       = mysqli_fetch_array( $qry);
 $einde_datumtijd   = $_POST['eind_inschrijving_jaar']."-".sprintf("%02d",$_POST['eind_inschrijving_maand'])."-".sprintf("%02d",$_POST['eind_inschrijving_dag'])." ".sprintf("%02d",$_POST['eind_inschrijving_uur']).":".sprintf("%02d",$_POST['eind_inschrijving_min']);
-$count        = mysql_num_rows($qry);
+$count        = mysqli_num_rows($qry);
 
 if ($count > 0) {  
  $query = "UPDATE config
@@ -336,13 +342,13 @@ if ($count > 0) {
                  Laatst     = NOW()
                  WHERE  Id  = ".$result['Id']."  ";
 
-mysql_query($query) or die ('Fout in update eind datumtijd');                 
+mysqli_query($con,$query) or die ('Fout in update eind datumtijd');                 
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Aparte update ivm meldtijd
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'meld_tijd' ") ;  
-$result       = mysql_fetch_array( $qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'meld_tijd' ") ;  
+$result       = mysqli_fetch_array( $qry);
 $meld_tijd    = sprintf("%02d",$_POST['meld_uur']).":".sprintf("%02d",$_POST['meld_min']). " uur";
 
 $parameter = '#'.$_POST['suffix'];
@@ -353,14 +359,14 @@ $query = "UPDATE config
                  Laatst      = NOW()
                  WHERE  Id   = ".$result['Id']."  ";
           
-mysql_query($query) or die ('Fout in update meldtijd'); 
+mysqli_query($con,$query) or die ('Fout in update meldtijd'); 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Aparte update ivm aanvang tijd
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' 
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' 
                 and Variabele = 'aanvang_tijd' ") ;  
-$result       = mysql_fetch_array( $qry);
+$result       = mysqli_fetch_array( $qry);
 $aanvang_tijd  = sprintf("%02d",$_POST['aanvang_uur']).":".sprintf("%02d",$_POST['aanvang_min'])." uur";
 
 
@@ -369,14 +375,14 @@ $aanvang_tijd  = sprintf("%02d",$_POST['aanvang_uur']).":".sprintf("%02d",$_POST
                  Laatst     = NOW()
                  WHERE  Id  = ".$result['Id']."  ";
 
-mysql_query($query) or die ('Fout in update aanvangtijd');               
+mysqli_query($con,$query) or die ('Fout in update aanvangtijd');               
    
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// bankrekening_invullen J/N   - opnieuw toegevoegd 6 sep 2015
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'bankrekening_invullen_jn' ") ;  
-$result       = mysql_fetch_array( $qry);
-$count        = mysql_num_rows($qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'bankrekening_invullen_jn' ") ;  
+$result       = mysqli_fetch_array( $qry);
+$count        = mysqli_num_rows($qry);
 
 if ($count > 0) {                
   $id           = $result['Id'];
@@ -385,12 +391,12 @@ if ($count > 0) {
   $query        = "UPDATE config  SET Waarde  = '".$waarde."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
   //echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update bankrekening_invullen ');   
+  mysqli_query($con,$query) or die ('Fout in update bankrekening_invullen ');   
 } else {
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'bankrekening_invullen_jn','N', now() ) ";
   //echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in insert bankrekening_invullen');   
+  mysqli_query($con,$query) or die ('Fout in insert bankrekening_invullen');   
   
 }//// end if
 
@@ -398,86 +404,86 @@ if ($count > 0) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// boulemaatje zichtbaar J/N
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'boulemaatje_gezocht_zichtbaar_jn' ") ;  
-$count        = mysql_num_rows($qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'boulemaatje_gezocht_zichtbaar_jn' ") ;  
+$count        = mysqli_num_rows($qry);
 
 if ($count > 0) {                
-  $result       = mysql_fetch_array( $qry);
+  $result       = mysqli_fetch_array( $qry);
   $id           = $result['Id'];
   $waarde       = $_POST['Waarde-'.$id]; 
   $query        = "UPDATE config  SET Waarde  = '".$waarde."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
   //echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update boulemaatje ');   
+  mysqli_query($con,$query) or die ('Fout in update boulemaatje ');   
 } else {
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'boulemaatje_gezocht_zichtbaar_jn','J', now() ) ";
   //echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in insert boulemaatje');   
+  mysqli_query($con,$query) or die ('Fout in insert boulemaatje');   
   
 }//// end if
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// minimum aantal spelers
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'min_splrs' ") ;  
-$count        = mysql_num_rows($qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'min_splrs' ") ;  
+$count        = mysqli_num_rows($qry);
 $id           = $result['Id'];
 
 if ($count > 0) {                
-  $result       = mysql_fetch_array( $qry);
+  $result       = mysqli_fetch_array( $qry);
   $id           = $result['Id'];
   $waarde       = $_POST['Waarde-'.$id]; 
   $query        = "UPDATE config  SET Waarde  = '".$waarde."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
   //echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update min splrs');   
+  mysqli_query($con,$query) or die ('Fout in update min splrs');   
 } else {
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'min_splrs','0', now() ) ";
   //echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in insert min splrs');   
+  mysqli_query($con,$query) or die ('Fout in insert min splrs');   
   
 }//// end if
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// url_website  tbv toernooi_ontip
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'url_website' ") ;  
-$count        = mysql_num_rows($qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'url_website' ") ;  
+$count        = mysqli_num_rows($qry);
 
-$qry_v           = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
-$result_v        = mysql_fetch_array( $qry_v);
+$qry_v           = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
+$result_v        = mysqli_fetch_array( $qry_v);
 $vereniging_id   = $result_v['Id'];
 $url_website     = $result_v['Url_website'];
 
 if ($count > 0) {                
-  $result       = mysql_fetch_array( $qry);
+  $result       = mysqli_fetch_array( $qry);
   $id           = $result['Id'];
   $waarde       = $_POST['Waarde-'.$id]; 
   $query        = "UPDATE config  SET Waarde  = '".$url_website."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  // echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update url_website');   
+  mysqli_query($con,$query) or die ('Fout in update url_website');   
  } else {
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'url_website','".$url_website."', now() ) ";
  // echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in insert url_website');   
+  mysqli_query($con,$query) or die ('Fout in insert url_website');   
 }//// end if
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Ideal_betaling
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'ideal_betaling_jn' ") ;  
-$count        = mysql_num_rows($qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'ideal_betaling_jn' ") ;  
+$count        = mysqli_num_rows($qry);
 
 
 /// Parameters bevat de waarde TEST of PROD . Opslag kosten kunnen wel handmatig aangepast worden. 
 /// In vereniging tabel staat voor deze verenigng een default waarde, die gebruikt wordt bij een nieuw toernooi.
 
 if ($count > 0) {                
-$result       = mysql_fetch_array( $qry);
+$result       = mysqli_fetch_array( $qry);
 $id           = $result['Id'];
 $waarde       = $_POST['Waarde-'.$id]; 
 $ideal_betaling_jn = $result['Waarde'];
@@ -504,22 +510,22 @@ $parameters ='#'.$testmode.'#'.$ideal_opslag_kosten;
 
 $query        = "UPDATE config  SET Waarde  = '".$ideal_betaling_jn."', Parameters = '".$parameters."' ,  Laatst  = NOW()  WHERE  Id  = '".$id."'  ";
 //echo $query. "<br>";
-mysql_query($query) or die ('Fout in update ideal_betaling');   
+mysqli_query($con,$query) or die ('Fout in update ideal_betaling');   
 
 } else {
   $query        = "INSERT INTO  config (Id, Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters , Laatst) VALUES
                                       (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'ideal_betaling_jn','N', '#TEST#0.00', now() ) ";
  // echo $query;
-  mysql_query($query) or die ('Fout in insert Ideal_betaling');   
+  mysqli_query($con,$query) or die ('Fout in insert Ideal_betaling');   
 }         
 
 if ($ideal_betaling_jn  =='J'){
 
 // als IDEAL is actief, dan ook afrekenen per equipe
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' 
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' 
                 and Variabele = 'kosten_team' ") ;  
-$result       = mysql_fetch_array( $qry);
+$result       = mysqli_fetch_array( $qry);
 $id_kosten    = $result['Id'];
 $parameter    = explode('#', $result['Parameters']);
  
@@ -529,15 +535,15 @@ $kosten_eenheid  = $parameter[2];
 $new_parameters   = '#'.$euro_ind.'#2';   // 2 = kosten per equipe  ( = totaal prijs)
 
 $query        = "UPDATE config  SET Parameters  = '".$new_parameters."' ,  Laatst  = NOW()  WHERE  Id  = ".$id_kosten."  ";
-mysql_query($query) or die ('Fout in update ideal');   
+mysqli_query($con,$query) or die ('Fout in update ideal');   
 
 }//// end if
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Home.nl wordt vaak gezien als spam     1-2-2013  (SPAMHAUS) toch proberen
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'email_organisatie' ") ;  
-$result       = mysql_fetch_array( $qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'email_organisatie' ") ;  
+$result       = mysqli_fetch_array( $qry);
 $email_organisatie  = $result['Waarde'];
 
 if (strpos( strtoupper($email_organisatie),'@HOTMAIL.NL') > 0 ){
@@ -545,32 +551,32 @@ $query = "UPDATE config
              SET Waarde  = '<< Fout: @hotmail.nl  niet toegestaan ivm vermeende spam  (SPAMHAUS)>>' , 
                  Laatst     = NOW()
                  WHERE  Id  = ".$result['Id']."  ";
-                 mysql_query($query) or die ('Fout in update email_cc');   
+                 mysqli_query($con,$query) or die ('Fout in update email_cc');   
 }
 // email organisatie en mail_cc mogen niet geljk zijn om spam te voorkomen
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'email_organisatie' ") ;  
-$result       = mysql_fetch_array( $qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'email_organisatie' ") ;  
+$result       = mysqli_fetch_array( $qry);
 $email_organisatie  = $result['Waarde'];
 $id_email           = $result['Id'];
 
 //check op meerdere email adressen   6-4-2017
 if (substr_count($email_organisatie, '@', 0) > 1) {
 
-$qry_v           = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
-$result_v              = mysql_fetch_array( $qry_v);
+$qry_v           = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
+$result_v              = mysqli_fetch_array( $qry_v);
 $email_organisatie     = $result_v['Email_organisatie'];
 
 $query = "UPDATE config
              SET Waarde  = '".$email_organisatie."' , 
                  Laatst     = NOW()
                  WHERE  Id  = ".$id_email."  ";
-                 mysql_query($query) or die ('Fout in update email_cc');   
+                 mysqli_query($con,$query) or die ('Fout in update email_cc');   
 }
 
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'email_cc' ") ;  
-$result       = mysql_fetch_array( $qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'email_cc' ") ;  
+$result       = mysqli_fetch_array( $qry);
 $email_cc     = $result['Waarde'];
 $id_cc        = $result['Id'];
 
@@ -579,7 +585,7 @@ $query = "UPDATE config
              SET Waarde  = '' , 
                  Laatst     = NOW()
                  WHERE  Id  = ".$id_cc."  ";
-                 mysql_query($query) or die ('Fout in update email_organisatie');   
+                 mysqli_query($con,$query) or die ('Fout in update email_organisatie');   
                 
 }
 
@@ -596,53 +602,53 @@ if (substr_count($email_cc, '@', 0) > 1) {
              SET Waarde  = '".$email_cc."' , 
                  Laatst     = NOW()
                  WHERE  Id  = ".$id_cc."  ";
-                 mysql_query($query) or die ('Fout in update email_cc');   
+                 mysqli_query($con,$query) or die ('Fout in update email_cc');   
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// vereniging_selectie zichtbaar J/N
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'vereniging_selectie_zichtbaar_jn' ") ;  
-$count        = mysql_num_rows($qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'vereniging_selectie_zichtbaar_jn' ") ;  
+$count        = mysqli_num_rows($qry);
 
 if ($count > 0) {                
-  $result       = mysql_fetch_array( $qry);
+  $result       = mysqli_fetch_array( $qry);
   $id           = $result['Id'];
   $waarde       = $_POST['Waarde-'.$id]; 
   $query        = "UPDATE config  SET Waarde  = '".$waarde."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
-   mysql_query($query) or die ('Fout in insert vereniging selectie');   
+   mysqli_query($con,$query) or die ('Fout in insert vereniging selectie');   
 }//// end if
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Niet doorgaan toernooi
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'toernooi_gaat_door_jn' ") ;  
-$count        = mysql_num_rows($qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'toernooi_gaat_door_jn' ") ;  
+$count        = mysqli_num_rows($qry);
 
  if ($count > 0) {                
-$result       = mysql_fetch_array( $qry);
+$result       = mysqli_fetch_array( $qry);
 $id           = $result['Id'];
 $waarde       = $_POST['Waarde-'.$id]; 
 $reden        = $_POST['Reden-'.$id]; 
 $query        = "UPDATE config  SET Waarde  = '".$waarde."', Parameters  = '".$reden."', Laatst  = NOW()  WHERE  Id  = '".$id."'  ";
 //echo $query."<br>";
-mysql_query($query) or die ('Fout in update doorgaan toernooi ');   
+mysqli_query($con,$query) or die ('Fout in update doorgaan toernooi ');   
 
 } else {
 $reden        = $_POST['Reden-'.$id];
 $query        = "INSERT INTO  config (Id, Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters, Laatst) VALUES (0, '".$vereniging."',".$vereniging_id.",'".$toernooi."', 'toernooi_gaat_door_jn','J','".$reden."', now() ) ";
 //echo $query."<br>";
- mysql_query($query) or die ('Fout in insert doorgaan toernooi ');   
+ mysqli_query($con,$query) or die ('Fout in insert doorgaan toernooi ');   
 }//// end if
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// extra invulveld
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'extra_invulveld' ") ;  
-$count        = mysql_num_rows($qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'extra_invulveld' ") ;  
+$count        = mysqli_num_rows($qry);
 
 if ($count > 0) {                
-  $result       = mysql_fetch_array( $qry);
+  $result       = mysqli_fetch_array( $qry);
   $id           = $result['Id'];
   $invulveld    = $_POST['Waarde-'.$id]; 
   $verplicht_jn = $_POST['Waarde-verplicht-'.$id];
@@ -655,7 +661,7 @@ if ($count > 0) {
                                       Laatst  = NOW()  WHERE  Id  = ".$id."  ";
   //echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update extra_invulveld ');   
+  mysqli_query($con,$query) or die ('Fout in update extra_invulveld ');   
 } else {
   $invulveld    = $_POST['Waarde-'.$id]; 
   $verplicht_jn = $_POST['Waarde-verplicht-'.$id];
@@ -667,18 +673,18 @@ if ($count > 0) {
                                 VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'extra_invulveld','".$invulveld."','".$parameters."' , now() ) ";
   //echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in insert extra_invulveld');   
+  mysqli_query($con,$query) or die ('Fout in insert extra_invulveld');   
   
 }//// end if
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// extra vraag
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'extra_vraag' ") ;  
-$count        = mysql_num_rows($qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'extra_vraag' ") ;  
+$count        = mysqli_num_rows($qry);
 
 if ($count > 0) {                
-  $result       = mysql_fetch_array( $qry);
+  $result       = mysqli_fetch_array( $qry);
   $id           = $result['Id'];
   $vraag_antwoord = $_POST['Waarde-'.$id]; 
   $lijst_jn       = $_POST['Op-lijst-2-'.$id];
@@ -691,7 +697,7 @@ if ($count > 0) {
                                       Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  // echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update extra_vraag ');   
+  mysqli_query($con,$query) or die ('Fout in update extra_vraag ');   
 } else {
   $vraag_antwoord = $_POST['Waarde-'.$id]; 
   $lijst_jn       = $_POST['Op-lijst-2-'.$id];
@@ -701,18 +707,18 @@ if ($count > 0) {
                                 VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'extra_vraag','".$vraag_antwoord."','".$parameters."' , now() ) ";
   //echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in insert extra_vraag');   
+  mysqli_query($con,$query) or die ('Fout in insert extra_vraag');   
   
 }//// end if
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// lijst zichtbaar
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'link_lijst_zichtbaar_jn' ") ;  
-$count        = mysql_num_rows($qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'link_lijst_zichtbaar_jn' ") ;  
+$count        = mysqli_num_rows($qry);
 
 if ($count > 0) {                
-  $result       = mysql_fetch_array( $qry);
+  $result       = mysqli_fetch_array( $qry);
   $id           = $result['Id'];
   $waarde       = $_POST['Waarde-'.$id]; 
   
@@ -723,24 +729,24 @@ if ($count > 0) {
   $query        = "UPDATE config  SET Waarde  = '".$waarde."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
 //  echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update lijst_zichtbaar ');   
+  mysqli_query($con,$query) or die ('Fout in update lijst_zichtbaar ');   
 } else {
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'link_lijst_zichtbaar_jn','J', now() ) ";
   //echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in insert lijst_zichtbaar');   
+  mysqli_query($con,$query) or die ('Fout in insert lijst_zichtbaar');   
   
 }//// end if
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// SMS bevestiging 
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'sms_bevestigen_zichtbaar_jn' ") ;  
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'sms_bevestigen_zichtbaar_jn' ") ;  
 
-$count        = mysql_num_rows($qry);
+$count        = mysqli_num_rows($qry);
 
 if ($count > 0) {                
-  $result       = mysql_fetch_array( $qry);
+  $result       = mysqli_fetch_array( $qry);
   $id           = $result['Id'];
   $waarde       = $_POST['Waarde-'.$id]; 
   
@@ -752,24 +758,24 @@ if ($count > 0) {
   $query        = "UPDATE config  SET Waarde  = '".$waarde."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  // echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update sms bevestiging_zichtbaar ');  
+  mysqli_query($con,$query) or die ('Fout in update sms bevestiging_zichtbaar ');  
    
 } else {
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde,  Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'sms_bevestigen_zichtbaar_jn','N', now() ) ";
   //echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in insert sms bevestiging_zichtbaar');   
+  mysqli_query($con,$query) or die ('Fout in insert sms bevestiging_zichtbaar');   
   
 }//// end if
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// SMS laaste inschrijvingen
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'sms_laatste_inschrijvingen' ") ;  
-$count        = mysql_num_rows($qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'sms_laatste_inschrijvingen' ") ;  
+$count        = mysqli_num_rows($qry);
 
 if ($count > 0) {                
-  $result       = mysql_fetch_array( $qry);
+  $result       = mysqli_fetch_array( $qry);
   $id           = $result['Id'];
   $waarde       = $_POST['Waarde-'.$id];          ////  grenswaarde
   $parameters   = $_POST['Parameters-'.$id];      ////  telefoon nummer     
@@ -785,13 +791,13 @@ if ($count > 0) {
   $query        = "UPDATE config  SET Waarde  = '".$waarde."', Parameters = '".$parameters."', Laatst  = NOW()  WHERE  Id  = ".$id."  ";
   //echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update sms_laatste_inschrijvingen ');  
+  mysqli_query($con,$query) or die ('Fout in update sms_laatste_inschrijvingen ');  
    
 } else {
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde,  Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'sms_laatste_inschrijvingen','0', now() ) ";
   //echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in insert sms_laatste_inschrijvingen');   
+  mysqli_query($con,$query) or die ('Fout in insert sms_laatste_inschrijvingen');   
   
 }//// end if
 
@@ -799,9 +805,9 @@ if ($count > 0) {
 /// Achtergrondkleur input velden
 
 $variabele = 'achtergrond_kleur_invulvelden';
- $qry          = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $count        = mysql_num_rows($qry);
- $result       = mysql_fetch_array( $qry);
+ $qry          = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $count        = mysqli_num_rows($qry);
+ $result       = mysqli_fetch_array( $qry);
 
 if ($count > 0) {                
   
@@ -815,14 +821,14 @@ if ($count > 0) {
   $query        = "UPDATE config  SET Waarde  = '".$waarde."', Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  // echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update achtergrond_kleur_invulvelden ');  
+  mysqli_query($con,$query) or die ('Fout in update achtergrond_kleur_invulvelden ');  
    
 } else {
 	$waarde = '#F2F5A9';
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde,  Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'achtergrond_kleur_invulvelden','#F2F5A9', now() ) ";
  // echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in insert achtergrond_kleur_invulvelden');   
+  mysqli_query($con,$query) or die ('Fout in insert achtergrond_kleur_invulvelden');   
   
 }//// end if
 
@@ -830,12 +836,12 @@ if ($count > 0) {
 /// Achtergrondkleur buttons
 
 $variabele = 'achtergrond_kleur_buttons';
- $qry          = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $count        = mysql_num_rows($qry);
+ $qry          = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $count        = mysqli_num_rows($qry);
 
 if ($count > 0) {             
 	
-  $result       = mysql_fetch_array( $qry);
+  $result       = mysqli_fetch_array( $qry);
   $id           = $result['Id'];
     
   $kleur_verzenden      = explode( ";", $_POST['kleur_verzenden'] ) ;         
@@ -850,22 +856,22 @@ if ($count > 0) {
   $query        = "UPDATE config  SET Waarde  = '".$waarde."', Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  // echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update achtergrond_kleur_buttons');
+  mysqli_query($con,$query) or die ('Fout in update achtergrond_kleur_buttons');
   
 } else {
 	$waarde = 'Red;White;Blue;White';
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde,  Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'achtergrond_kleur_buttons','".$waarde."', now() ) ";
 //  echo $query. "<br>";
-  mysql_query($query) or die ('Fout in insert achtergrond_kleur_buttons');   
+  mysqli_query($con,$query) or die ('Fout in insert achtergrond_kleur_buttons');   
 }//// end if
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Tekst kleur (apart sinds 5-2-2015)
 
 $variabele = 'tekst_kleur';
- $qry      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $count    = mysql_num_rows($qry);
- $result   = mysql_fetch_array( $qry); 
+ $qry      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $count    = mysqli_num_rows($qry);
+ $result   = mysqli_fetch_array( $qry); 
  
 if ($count > 0) {             
 	
@@ -879,13 +885,13 @@ if ($count > 0) {
   $query        = "UPDATE config  SET Waarde  = '".$tekst_kleur."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
 //echo $query. "<br>";
   
- mysql_query($query) or die ('Fout in update tekst_kleur');
+ mysqli_query($con,$query) or die ('Fout in update tekst_kleur');
   
 } else {
 	$tekst_kleur = '#000000'; 
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde,  Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'tekst_kleur','".$tekst_kleur."' , now() ) ";
   //echo $query. "<br>";
-  mysql_query($query) or die ('Fout in insert tekst_kleur');   
+  mysqli_query($con,$query) or die ('Fout in insert tekst_kleur');   
 }//// end if
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -893,11 +899,11 @@ if ($count > 0) {
 /// Link onderstreept toegevoegd als parameter sinds 22-6-2015
 
 $variabele = 'link_kleur';
- $qry      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $count    = mysql_num_rows($qry);
+ $qry      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $count    = mysqli_num_rows($qry);
  
 if ($count > 0) {             
-	$result            = mysql_fetch_array( $qry);
+	$result            = mysqli_fetch_array( $qry);
   $id                = $result['Id'];
 	$link_kleur        = $_POST['Link_kleur'];
 	
@@ -916,22 +922,22 @@ if ($count > 0) {
   $query        = "UPDATE config  SET Waarde  = '".$link_kleur."', Parameters  = '".$link_onderstreept."', Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  //echo $query. "<br>";
   
- mysql_query($query) or die ('Fout in update link_kleur');
+ mysqli_query($con,$query) or die ('Fout in update link_kleur');
   
 } else {
 	$link_kleur = 'blue'; 
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters,  Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'link_kleur','".$link_kleur."' , 'N', now() ) ";
  // echo $query. "<br>";
-  mysql_query($query) or die ('Fout in insert link_kleur');   
+  mysqli_query($con,$query) or die ('Fout in insert link_kleur');   
 }//// end if
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Koptekst kleur (apart sinds 5-2-2015)
 
 $variabele = 'koptekst_kleur';
- $qry      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $count    = mysql_num_rows($qry);
- $result   = mysql_fetch_array( $qry);
+ $qry      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $count    = mysqli_num_rows($qry);
+ $result   = mysqli_fetch_array( $qry);
 
 if ($count > 0) {             
 	
@@ -946,13 +952,13 @@ if ($count > 0) {
   $query        = "UPDATE config  SET Waarde  = '".$koptekst_kleur."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  //echo $query. "<br>";
   
- mysql_query($query) or die ('Fout in update koptekst_kleur');
+ mysqli_query($con,$query) or die ('Fout in update koptekst_kleur');
   
 } else {
 	$koptekst_kleur = 'red'; 
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde,  Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'koptekst_kleur','".$koptekst_kleur."' , now() ) ";
  //echo $query. "<br>";
-  mysql_query($query) or die ('Fout in insert koptekst_kleur');   
+  mysqli_query($con,$query) or die ('Fout in insert koptekst_kleur');   
 }//// end if
 
 
@@ -960,9 +966,9 @@ if ($count > 0) {
 /// Achtergrond kleur (apart sinds 5-2-2015)
 
 $variabele = 'achtergrond_kleur';
- $qry      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $count    = mysql_num_rows($qry);
- $result   = mysql_fetch_array( $qry);
+ $qry      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $count    = mysqli_num_rows($qry);
+ $result   = mysqli_fetch_array( $qry);
 
 if ($count > 0) {             
 	
@@ -976,22 +982,22 @@ if ($count > 0) {
   $query        = "UPDATE config  SET Waarde  = '".$achtergrond_kleur."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  //echo $query. "<br>";
   
- mysql_query($query) or die ('Fout in update achtergrond_kleur');
+ mysqli_query($con,$query) or die ('Fout in update achtergrond_kleur');
   
 } else {
 	$achtergrond_kleur = '#FFFFFF'; 
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde,  Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'achtergrond_kleur','".$achtergrond_kleur."' , now() ) ";
  //echo $query. "<br>";
-  mysql_query($query) or die ('Fout in insert achtergrond_kleur');   
+  mysqli_query($con,$query) or die ('Fout in insert achtergrond_kleur');   
 }//// end if
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// toernooi_selectie_zichtbaar_jn  (sinds 5-2-2015)
 
 $variabele = 'toernooi_selectie_zichtbaar_jn';
- $qry      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $count    = mysql_num_rows($qry);
- $result   = mysql_fetch_array( $qry);
+ $qry      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $count    = mysqli_num_rows($qry);
+ $result   = mysqli_fetch_array( $qry);
 
 if ($count > 0) {                
   $id           = $result['Id'];
@@ -999,12 +1005,12 @@ if ($count > 0) {
   $query        = "UPDATE config  SET Waarde  = '".$waarde."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  // echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update toernooi_selectie_zichtbaar_jn');   
+  mysqli_query($con,$query) or die ('Fout in update toernooi_selectie_zichtbaar_jn');   
 } else {
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'toernooi_selectie_zichtbaar_jn','J', now() ) ";
  // echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in insert toernooi_selectie_zichtbaar_jn');   
+  mysqli_query($con,$query) or die ('Fout in insert toernooi_selectie_zichtbaar_jn');   
   
 }//// end if
 
@@ -1012,9 +1018,9 @@ if ($count > 0) {
 /// website link _zichtbaar_jn  (sinds 6-2-2015)
 
 $variabele = 'website_link_zichtbaar_jn';
- $qry      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $count    = mysql_num_rows($qry);
- $result   = mysql_fetch_array( $qry);
+ $qry      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $count    = mysqli_num_rows($qry);
+ $result   = mysqli_fetch_array( $qry);
 
 if ($count > 0) {                
   $id           = $result['Id'];
@@ -1022,12 +1028,12 @@ if ($count > 0) {
   $query        = "UPDATE config  SET Waarde  = '".$waarde."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  // echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update website_link_zichtbaar_jn');   
+  mysqli_query($con,$query) or die ('Fout in update website_link_zichtbaar_jn');   
 } else {
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'website_link_zichtbaar_jn','J', now() ) ";
  // echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in insert website_link_zichtbaar_jn');   
+  mysqli_query($con,$query) or die ('Fout in insert website_link_zichtbaar_jn');   
   
 }//// end if
 
@@ -1035,9 +1041,9 @@ if ($count > 0) {
 /// toernooi zichtbaar op kalender _jn  (sinds 6-2-2015)
 
 $variabele = 'toernooi_zichtbaar_op_kalender_jn';
- $qry      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $count    = mysql_num_rows($qry);
- $result   = mysql_fetch_array( $qry);
+ $qry      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $count    = mysqli_num_rows($qry);
+ $result   = mysqli_fetch_array( $qry);
 
 if ($count > 0) {                
   $id           = $result['Id'];
@@ -1045,12 +1051,12 @@ if ($count > 0) {
   $query        = "UPDATE config  SET Waarde  = '".$waarde."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  // echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update toernooi_zichtbaar_op_kalender_jn');   
+  mysqli_query($con,$query) or die ('Fout in update toernooi_zichtbaar_op_kalender_jn');   
 } else {
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Laatst) VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'toernooi_zichtbaar_op_kalender_jn','".$_POST['toernooi_zichtbaar']."', now() ) ";
  // echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in insert toernooi_zichtbaar_op_kalender_jn');   
+  mysqli_query($con,$query) or die ('Fout in insert toernooi_zichtbaar_op_kalender_jn');   
   
 }//// end if
 
@@ -1058,9 +1064,9 @@ if ($count > 0) {
 /// url_logo  (sinds 12-2-2015)   alternatief logo  (bijv ivm andere achtergrondkleur)    2-3-2015:grootte logo 
 
 $variabele = 'url_logo';
- $qry      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $count    = mysql_num_rows($qry);
- $result   = mysql_fetch_array( $qry);
+ $qry      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $count    = mysqli_num_rows($qry);
+ $result   = mysqli_fetch_array( $qry);
 
 if ($count > 0) {                
   $id           = $result['Id'];
@@ -1069,13 +1075,13 @@ if ($count > 0) {
   $query        = "UPDATE config  SET Waarde  = '".$waarde."', Parameters = '".$grootte_logo."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  //  echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update url_logo');   
+  mysqli_query($con,$query) or die ('Fout in update url_logo');   
 } else {
 	$waarde       = $_POST['url_logo']; 
   $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters, Laatst) 
                            VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'url_logo','".$waarde."', '".$grootte_logo."',  now() ) ";
  // echo $query. "<br>";
-  mysql_query($query) or die ('Fout in insert url_logo');   
+  mysqli_query($con,$query) or die ('Fout in insert url_logo');   
   
 }//// end if
 
@@ -1085,8 +1091,8 @@ if ($count > 0) {
 if (isset($_POST['Limiet_bevestiging'])){
 
 $variabele = 'uitgestelde_bevestiging_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select limiet');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select limiet');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $keuze     = $result['Waarde'];
  $limiet    = $result['Parameters'];
@@ -1098,7 +1104,7 @@ $variabele = 'uitgestelde_bevestiging_jn';
  $query     = "UPDATE config  SET Waarde  = '".$keuze."', Parameters = '".$_POST['Limiet_bevestiging']."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  
 //  echo $query. "<br>";
- mysql_query($query) or die ('Fout in update Limiet');   
+ mysqli_query($con,$query) or die ('Fout in update Limiet');   
 
 }//// end if
 
@@ -1108,17 +1114,17 @@ $variabele = 'uitgestelde_bevestiging_jn';
 if (isset($_POST['Ontip_map_locatie'])){
 
 $variabele = 'Ontip_map_locatie';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select limiet');  
- $count     = mysql_num_rows($qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select limiet');  
+ $count     = mysqli_num_rows($qry1);
   
  if ($count > 0) {   
-  $result     = mysql_fetch_array( $qry1);             
+  $result     = mysqli_fetch_array( $qry1);             
   $id         = $result['Id'];
   $locatie    = $_POST['Ontip_map_locatie']; 
   
   if ($locatie ==''){
-      $qry      = mysql_query("SELECT Ontip_map_locatie,Plaats from vereniging where Vereniging = '".$vereniging."' ")     or die(' Fout in select vereniging locatie'); 
-      $result   = mysql_fetch_array( $qry );
+      $qry      = mysqli_query($con,"SELECT Ontip_map_locatie,Plaats from vereniging where Vereniging = '".$vereniging."' ")     or die(' Fout in select vereniging locatie'); 
+      $result   = mysqli_fetch_array( $qry );
       $locatie  = $result['Ontip_map_locatie'];
   }
   
@@ -1129,20 +1135,20 @@ $variabele = 'Ontip_map_locatie';
   $query      = "UPDATE config  SET Waarde  = '".$locatie."', Parameters = '',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
 //  echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update ontip map locatie');   
+  mysqli_query($con,$query) or die ('Fout in update ontip map locatie');   
 //  exit;
 } else {
   $locatie    = $_POST['Ontip_map_locatie'];
   if ($locatie ==''){
-            $qry      = mysql_query("SELECT Plaats from vereniging where Vereniging = '".$vereniging."' ")     or die(' Fout in select vereniging locatie'); 
-            $result   = mysql_fetch_array( $qry );
+            $qry      = mysqli_query($con,"SELECT Plaats from vereniging where Vereniging = '".$vereniging."' ")     or die(' Fout in select vereniging locatie'); 
+            $result   = mysqli_fetch_array( $qry );
             $locatie   = $result['Plaats'];
   }
    
   $query      = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters, Laatst) 
                            VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'Ontip_map_locatie','".$locatie."', '',  now() ) ";
 //  echo $query. "<br>";
-  mysql_query($query) or die ('Fout in insert ontip map locatie');   
+  mysqli_query($con,$query) or die ('Fout in insert ontip map locatie');   
 //  exit;
  } // count 0
  
@@ -1154,10 +1160,10 @@ $variabele = 'Ontip_map_locatie';
 
 if (isset($_POST['wedstrijd_schema'])){
 $variabele = 'wedstrijd_schema';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select wedstrijd schema');  
- $count     = mysql_num_rows($qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select wedstrijd schema');  
+ $count     = mysqli_num_rows($qry1);
 
-$result     = mysql_fetch_array( $qry1);             
+$result     = mysqli_fetch_array( $qry1);             
   $id         = $result['Id'];
   $wedstrijd_schema    = $_POST['wedstrijd_schema']; 
  
@@ -1166,12 +1172,12 @@ if ($count == 1)  {
   
 $query      = "UPDATE config  SET Waarde  = '".$wedstrijd_schema."', Parameters = 'J',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
 //echo $query. "<br>";
-mysql_query($query) or die ('Fout in update wedstrijd schema');   
+mysqli_query($con,$query) or die ('Fout in update wedstrijd schema');   
 } else { 
 $query      = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters, Laatst) 
                            VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'wedstrijd_schema','', 'N',  now() ) ";
 //echo $query. "<br>";
-mysql_query($query) or die ('Fout in insert wedstrijd schema');   
+mysqli_query($con,$query) or die ('Fout in insert wedstrijd schema');   
 
 } // count 1
 
@@ -1182,10 +1188,10 @@ mysql_query($query) or die ('Fout in insert wedstrijd schema');
 
 if (isset($_POST['voucher_code_invoeren_jn'])){
 $variabele = 'voucher_code_invoeren_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select voucher_code_invoeren_jn');  
- $count     = mysql_num_rows($qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select voucher_code_invoeren_jn');  
+ $count     = mysqli_num_rows($qry1);
 
-$result     = mysql_fetch_array( $qry1);             
+$result     = mysqli_fetch_array( $qry1);             
   $id        = $result['Id'];
   $keuze     = $_POST['voucher_code_invoeren_jn']; 
   
@@ -1206,12 +1212,12 @@ if ($count == 1)  {
  
     $query       = "UPDATE config  SET Waarde  = '".$keuze."', Parameters = '".$parameters ."',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  //   echo $query. "<br>";
-    mysql_query($query) or die ('Fout in update voucher_code_invoeren_jn');   
+    mysqli_query($con,$query) or die ('Fout in update voucher_code_invoeren_jn');   
   } else { 
     $query       = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters, Laatst) 
                         VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'voucher_code_invoeren_jn','N', '".$parameters ."',  now() ) ";
   //  echo $query. "<br>";
-    mysql_query($query) or die ('Fout in insert voucher_code_invoeren_jn');   
+    mysqli_query($con,$query) or die ('Fout in insert voucher_code_invoeren_jn');   
 
 } // count 1
 
@@ -1222,10 +1228,10 @@ if ($count == 1)  {
 
 if (isset($_POST['meerdaags_toernooi_jn'])){
 $variabele = 'meerdaags_toernooi_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select meerdaags_toernooi_jn');  
- $count     = mysql_num_rows($qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select meerdaags_toernooi_jn');  
+ $count     = mysqli_num_rows($qry1);
 
-$result     = mysql_fetch_array( $qry1);             
+$result     = mysqli_fetch_array( $qry1);             
   $id        = $result['Id'];
   $keuze     = $_POST['meerdaags_toernooi_jn']; 
   
@@ -1237,12 +1243,12 @@ if ($count == 1)  {
      
     $query       = "UPDATE config  SET Waarde  = '".$keuze."', Parameters = '',  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  //   echo $query. "<br>";
-    mysql_query($query) or die ('Fout in update meerdaags_toernooi_jn');   
+    mysqli_query($con,$query) or die ('Fout in update meerdaags_toernooi_jn');   
   } else { 
     $query       = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters, Laatst) 
                         VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'meerdaags_toernooi_jn','N', '',  now() ) ";
 //   echo $query. "<br>";
-    mysql_query($query) or die ('Fout in insert meerdaags_toernooi_jn');   
+    mysqli_query($con,$query) or die ('Fout in insert meerdaags_toernooi_jn');   
 
 } // count 1
 
@@ -1250,9 +1256,9 @@ if ($count == 1)  {
 if ($keuze == 'J'  ){
 	//// eind datum
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'eind_datum' ") ;  
-$result       = mysql_fetch_array( $qry);
-$count        = mysql_num_rows($qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'eind_datum' ") ;  
+$result       = mysqli_fetch_array( $qry);
+$count        = mysqli_num_rows($qry);
 $eind_datum   = $result['Waarde'];
 
 
@@ -1275,7 +1281,7 @@ else {
                  Laatst      = NOW()  
                  WHERE  Id   = ".$result['Id']."  ";
 //  echo $query;
-   mysql_query($query) or die ('Fout in update einddatum');                 
+   mysqli_query($con,$query) or die ('Fout in update einddatum');                 
 //exit;
 }
  else {
@@ -1283,7 +1289,7 @@ else {
    $query       = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters, Laatst) 
                         VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'eind_datum','".$eind_datum."', '',  now() ) ";
  //   echo $query. "<br>";
-    mysql_query($query) or die ('Fout in insert einddatum');   
+    mysqli_query($con,$query) or die ('Fout in insert einddatum');   
 
 } // end count
 
@@ -1299,22 +1305,22 @@ else {
 
 if (isset($_POST['email_notificaties_jn'])){
 $variabele = 'email_notificaties_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select email_notificaties_jn');  
- $count     = mysql_num_rows($qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select email_notificaties_jn');  
+ $count     = mysqli_num_rows($qry1);
 
- $result     = mysql_fetch_array( $qry1);             
+ $result     = mysqli_fetch_array( $qry1);             
  $id        = $result['Id'];
  
 if ($count == 1)  {  
 	  $keuze       = $_POST['email_notificaties_jn'];
     $query       = "UPDATE config  SET Waarde  = '".$keuze."',   Laatst  = NOW()  WHERE  Id  = ".$id."  ";
 //    echo $query. "<br>";
-    mysql_query($query) or die ('Fout in update email_notificatie_jn');   
+    mysqli_query($con,$query) or die ('Fout in update email_notificatie_jn');   
   } else { 
     $query       = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters, Laatst) 
                         VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'email_notificaties_jn','N', '',  now() ) ";
 //    echo $query. "<br>";
-    mysql_query($query) or die ('Fout in insert email_notificatie_jn');   
+    mysqli_query($con,$query) or die ('Fout in insert email_notificatie_jn');   
 
 } // count 1
 

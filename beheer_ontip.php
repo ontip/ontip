@@ -23,7 +23,7 @@
 ////    4. Tab Uitleg
 
 ////  Als een formulier gesubmit wordt, wordt via de naam van het formulier bepaald op welke tab er moet worden teruggekeerd. De tab wordt dan als parameter teruggegeven. 
-////  De naam van de vereniging en wat andere zaken worden gelezen uit myvereniging.txt in mysql.php dat in beheer_condig.php wordt aangeroepen. 
+////  De naam van de vereniging en wat andere zaken worden gelezen uit myvereniging.txt in mysqli.php dat in beheer_condig.php wordt aangeroepen. 
 ////  Voor het gebruik van beheer_ontip.php is een usernaam + wachtwoord nodig + de benodigde rechten (A of C) 
 # Record of Changes:
 #
@@ -352,7 +352,7 @@ self.resizeTo(screen.availWidth,screen.availHeight);
 </SCRIPT>	 
 <?php 
 // Database gegevens. 
-include('mysql.php');	
+include('mysqli.php');	
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
 $today = date('Y-m-d');
@@ -370,7 +370,7 @@ ini_set('display_errors', 'On');
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -406,8 +406,8 @@ if (!isset($toernooi)){
 
 // Definieer variabelen en vul ze met waarde uit tabel config
 
-$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
-while($row = mysql_fetch_array( $qry )) {
+$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -423,8 +423,8 @@ if (!isset($begin_inschrijving)){
 
 // uit vereniging tabel	
 	
-$qry                            = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
-$row                            = mysql_fetch_array( $qry );
+$qry                            = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
+$row                            = mysqli_fetch_array( $qry );
 $url_logo                       = $row['Url_logo'];
 $url_website                    = $row['Url_website'];
 $url_redirect                   = $row['Url_redirect'];
@@ -444,7 +444,7 @@ if (!isset($min_splrs)){
 
 /// Ophalen fonts nodig voor configuratie item font_koptekst
 $sql        = "SELECT * from fonts        order by Font_family  ";
-$fonts      = mysql_query($sql);
+$fonts      = mysqli_query($con,$sql);
 
 //// Change Title //////
 ?>
@@ -777,8 +777,8 @@ $logo_height = ( $logo_height / $calc) ;
          
          $now       = date ('Y-m-d H:i');
          $variabele = 'einde_inschrijving';
-         $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
-         $result    = mysql_fetch_array( $qry1);
+         $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+         $result    = mysqli_fetch_array( $qry1);
          $einde_inschrijving =  $result['Waarde'];
       ?>
           	
@@ -1047,8 +1047,8 @@ $screen = 'Formulier';
 <?php 
  ////// Adres
 $variabele = 'adres';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $adres     = $result['Waarde'];
  $id        = $result['Id'];
 
@@ -1071,8 +1071,8 @@ $variabele = 'adres';
 <?php 
  ////// OnTip map locatie
 $variabele = 'Ontip_map_locatie';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select map locatie');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select map locatie');  
+ $result    = mysqli_fetch_array( $qry1);
  $locatie     = $result['Waarde'];
  $id        = $result['Id'];
 
@@ -1095,8 +1095,8 @@ $variabele = 'Ontip_map_locatie';
 <?php
   ////// Datum
  $variabele = 'datum';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select adres');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select adres');  
+ $result    = mysqli_fetch_array( $qry1);
  $datum     = $result['Waarde'];
  
   /* Set locale to Dutch */
@@ -1158,8 +1158,8 @@ $variabele = 'Ontip_map_locatie';
 /// Aanvang
 
 $variabele = 'aanvang_tijd';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $aanvang_tijd   = $result['Waarde'];
  
@@ -1203,8 +1203,8 @@ $variabele = 'aanvang_tijd';
  		 	<?php
  		 	
 $variabele = 'meerdaags_toernooi_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $meerdaags_toernooi_jn   = $result['Waarde'];
  
@@ -1214,8 +1214,8 @@ $variabele = 'meerdaags_toernooi_jn';
    
    if ($meerdaags_toernooi_jn =='X'){ 
    	$count = 0;
-    $qry2    = mysql_query("SELECT count(*) as Aantal From toernooi_datums_cyclus where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' " )     or die(' Fout in select cyc');  
-    $result    = mysql_fetch_array( $qry2);
+    $qry2    = mysqli_query($con,"SELECT count(*) as Aantal From toernooi_datums_cyclus where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' " )     or die(' Fout in select cyc');  
+    $result    = mysqli_fetch_array( $qry2);
     $count       = $result['Aantal'];
    }
    		switch($meerdaags_toernooi_jn){
@@ -1241,8 +1241,8 @@ $variabele = 'meerdaags_toernooi_jn';
   if ($meerdaags_toernooi_jn =='J'){
 
  $variabele = 'eind_datum';
-   $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select adres');  
-   $result    = mysql_fetch_array( $qry1);
+   $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select adres');  
+   $result    = mysqli_fetch_array( $qry1);
    $eind_datum     = $result['Waarde'];
    $verschil       = $result['Parameters'];
  
@@ -1315,8 +1315,8 @@ $variabele = 'meerdaags_toernooi_jn';
  //////  Begin inschrijving
 
  $variabele = 'begin_inschrijving';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $datumtijd     = $result['Waarde'];
  $today     = date("Y") ."-".  date("m") . "-".  date("d");
@@ -1416,8 +1416,8 @@ $variabele = 'meerdaags_toernooi_jn';
 //////  Einde inschrijving (datum + tijd)
 
  $variabele = 'einde_inschrijving';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  
  //// 0123456789 01234
@@ -1524,8 +1524,8 @@ $variabele = 'meerdaags_toernooi_jn';
  
 <?php 
  $variabele = 'soort_inschrijving';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  
  $soort_inschrijving = $result['Waarde'];
@@ -1617,8 +1617,8 @@ $variabele = 'meerdaags_toernooi_jn';
  	<?php
 //// email_organisatie
 $variabele = 'email_organisatie';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
 
  ?>
@@ -1639,8 +1639,8 @@ echo "'><span><br>Maximaal 1 email adres !!";
 <?php
 //// email_cc
 $variabele = 'email_cc';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
 
  ?>
@@ -1662,14 +1662,14 @@ echo "'><span><br>Maximaal 1 email adres !!";
 <?php
 //// email_notificaties_jn
 $variabele = 'email_notificaties_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $keuze     = $result['Waarde'];
 
 $variabele = 'aantal_reserves';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $aantal_reserves   = $result['Waarde'];
 
 if ($aantal_reserves > 0){
@@ -1723,16 +1723,16 @@ echo "<span style='padding-left:25pt;'> Email notificaties zijn uitgeschakeld.";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Gaat niet door
 $variabele  = 'toernooi_gaat_door_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $count     = mysql_num_rows($qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $count     = mysqli_num_rows($qry1);
  
 if ($count == 0) {
 	 $query        = "INSERT INTO  config (Id, Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Laatst) 
 	                 VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."',  'toernooi_gaat_door_jn','J', now() ) ";
-    mysql_query($query) or die ('Fout in insert toernooi gaat door');  
-    $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+    mysqli_query($con,$query) or die ('Fout in insert toernooi gaat door');  
+    $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
  }
- $result    = mysql_fetch_array( $qry1);
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $suffix    = substr($variabele,-2,2);
  if ($suffix == 'jn'){
@@ -1777,8 +1777,8 @@ echo "</span></td>";
 ////// Meld tijd en aanvang 
 
 $variabele = 'meld_tijd';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $parameter = explode('#', $result['Parameters']);
  
@@ -1874,8 +1874,8 @@ $variabele = 'meld_tijd';
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Bestemd voor
 $variabele = 'bestemd_voor';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
 
 $naam_vereniging = $result['Waarde'];
@@ -1923,8 +1923,8 @@ if ($naam_vereniging != '' and $wel_niet == ''){
 <?php
 ////// Ideal betaling
 $variabele   = 'ideal_betaling_jn';
- $qry1       = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result     = mysql_fetch_array( $qry1);
+ $qry1       = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result     = mysqli_fetch_array( $qry1);
  $id         = $result['Id'];
  $parameter  = explode('#', $result['Parameters']);
  
@@ -1994,8 +1994,8 @@ if ($keuze =='J') { ?>
 <?php
 ////// Kosten
 $variabele = 'kosten_team';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $parameter  = explode('#', $result['Parameters']);
  
@@ -2005,8 +2005,8 @@ $variabele = 'kosten_team';
  
  
  //$variabele = 'soort_inschrijving';
- //$qry2      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- //$result2   = mysql_fetch_array( $qry2);
+ //$qry2      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ //$result2   = mysqli_fetch_array( $qry2);
  //$soort_inschrijving = $result2['Waarde'];
  
   //var_dump($result['Parameters']);
@@ -2100,8 +2100,8 @@ if ($soort_inschrijving == 'single' or $inschrijf_methode =='single'){
 <?php
 ////// Licentie verplicht
 $variabele = 'licentie_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $suffix     = substr($variabele,-2,2);
  if ($suffix == 'jn'){
@@ -2135,8 +2135,8 @@ echo "</span></td>";
 ////// Maximum aantal spelers
 
  $variabele = 'max_splrs';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
 ?>
  <tr>
@@ -2165,8 +2165,8 @@ echo "</span></td>";
 ////// Minimum aantal spelers
 
  $variabele = 'min_splrs';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $min_splrs = $result['Waarde'];
  
@@ -2202,8 +2202,8 @@ echo "</span></td>";
 ////// Maximum aantal reserves
 
 $variabele = 'aantal_reserves';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
 ?>
  <tr>
@@ -2228,8 +2228,8 @@ $variabele = 'aantal_reserves';
 <?php
 ////// Prijzen
 $variabele = 'prijzen';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
 ?>
  <tr>
@@ -2253,8 +2253,8 @@ $variabele = 'prijzen';
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////// SMS bevestigigng
 $variabele = 'sms_bevestigen_zichtbaar_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $suffix     = substr($variabele,-2,2);
  if ($suffix == 'jn'){
@@ -2297,8 +2297,8 @@ else { ?>
 
 
 $variabele = 'uitgestelde_bevestiging_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select limiet');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select limiet');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $keuze     = $result['Waarde'];
  $limiet    = $result['Parameters'];
@@ -2338,17 +2338,17 @@ $variabele = 'uitgestelde_bevestiging_jn';
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Uitgestelde bevestiging vanaf
 $variabele = 'uitgestelde_bevestiging_vanaf';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $count     = mysql_num_rows($qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $count     = mysqli_num_rows($qry1);
  
 if ($count == 0) {
 	 $query        = "INSERT INTO  config (Id, Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Laatst) 
 	                         VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."',  'uitgestelde_bevestiging_vanaf','0', now() ) ";
-    mysql_query($query) or die ('Fout in insert uitgestelde_bevestiging_vanaf');  
-    $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+    mysqli_query($con,$query) or die ('Fout in insert uitgestelde_bevestiging_vanaf');  
+    $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
  }
  
- $result    = mysql_fetch_array( $qry1);
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $aantal    = $result['Waarde']
  ?>
@@ -2382,8 +2382,8 @@ if ($count == 0) {
 <?php
 ////// _laatste_inschrijvingen
 $variabele = 'sms_laatste_inschrijvingen';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
   
 
@@ -2413,8 +2413,8 @@ $variabele = 'sms_laatste_inschrijvingen';
 <?php
 ////// Toegang
 $variabele = 'toegang';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
 
 ?>
@@ -2442,8 +2442,8 @@ $variabele = 'toegang';
 // aangepast 9 maart 2017 
 
 $variabele = 'toernooi_zichtbaar_op_kalender_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $keuze     = $result['Waarde'];
 
@@ -2469,8 +2469,8 @@ $variabele = 'toernooi_zichtbaar_op_kalender_jn';
 <?php 
 // 9 maart 2017
 
-  $qry1           = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select');  
-  $result1        = mysql_fetch_array( $qry1);
+  $qry1           = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select');  
+  $result1        = mysqli_fetch_array( $qry1);
   $bond           = $result1['Bond']; 
 
 
@@ -2526,8 +2526,8 @@ $variabele = 'toernooi_zichtbaar_op_kalender_jn';
 // aangepast 7 dec 2017
 
 $variabele = 'voucher_code_invoeren_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $keuze     = $result['Waarde'];
  $parameter            = explode('#', $result['Parameters']);
@@ -2607,11 +2607,11 @@ if ($per_inschrijving_jn  =='J') {
 <?php
 
 $variabele = 'wedstrijd_schema';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $keuze     = $result['Parameters'];
- $count     = mysql_num_rows($qry1);
+ $count     = mysqli_num_rows($qry1);
  $schema_sel = "Geen wedstrijdschema geselecteerd."; 
  
  
@@ -2620,10 +2620,10 @@ if ($count == 0) {
 	 
 	 echo "<input type = 'hidden' name = 'wedstrijd_schema' value ='Geen wedstrijdschema geselecteerd.'>";
 	}	 else {
-		$qry_schema_sel     = mysql_query("SELECT * From wedstrijd_systemen  where Code = '".$result['Waarde']."'  ")     or die(' Fout in select wedstrijd schema 1');  
-		$result_sel         = mysql_fetch_array( $qry_schema_sel);
+		$qry_schema_sel     = mysqli_query($con,"SELECT * From wedstrijd_systemen  where Code = '".$result['Waarde']."'  ")     or die(' Fout in select wedstrijd schema 1');  
+		$result_sel         = mysqli_fetch_array( $qry_schema_sel);
 		$schema_sel         = $result_sel['Omschrijving']; 
-    $qry_schema         = mysql_query("SELECT * From wedstrijd_systemen  order by Id ")     or die(' Fout in select wedstrijd schema');   
+    $qry_schema         = mysqli_query($con,"SELECT * From wedstrijd_systemen  order by Id ")     or die(' Fout in select wedstrijd schema');   
 	}
 	if ( $result['Waarde'] =='') { 
 		$schema_sel = "Geen wedstrijdschema geselecteerd."; 
@@ -2640,7 +2640,7 @@ if ($count == 0) {
 
   <option style='color:black;background:white;' value ='<?php echo $result['Waarde'];?>'  SELECTED>(<?php echo $result['Waarde'];?>) <?php echo $schema_sel;?></option>
  <?php 
- while($row2 = mysql_fetch_array( $qry_schema )) {
+ while($row2 = mysqli_fetch_array( $qry_schema )) {
  ?>
    <option style='color:black;background:white;' value ='<?php echo $row2['Code'];?>'  >(<?php echo $row2['Code'];?>) <?php echo $row2['Omschrijving'];?></option>
  <?php
@@ -2699,8 +2699,8 @@ $screen = 'Formulier';
  <?php
  ////// Datum (niet aan te passen)
  $variabele = 'datum';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  
  /* Set locale to Dutch */
  setlocale(LC_ALL, 'nl_NL');
@@ -2718,8 +2718,8 @@ $screen = 'Formulier';
 <?php
 //// Toernooi voluit
  $variabele = 'toernooi_voluit';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  ?>
  
  <tr>
@@ -2739,8 +2739,8 @@ $screen = 'Formulier';
 <?php
 //// Afbeelding en grootte
  $variabele  = 'url_afbeelding';
- $qry1       = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result     = mysql_fetch_array( $qry1);
+ $qry1       = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result     = mysqli_fetch_array( $qry1);
  $id         = $result['Id'];
  $parameter  = explode('#', $result['Parameters']);
 
@@ -2796,8 +2796,8 @@ echo "<br>Selecteer afbeelding in Image Gallery</td><td class='content' colspan=
      // ophalen waarde voor afbeelding grootte
 
      $variabele = 'afbeelding_grootte'; 
-     $qry1      =  mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele."'")     or die(' Fout in select');  
-     $result    = mysql_fetch_array( $qry1);
+     $qry1      =  mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele."'")     or die(' Fout in select');  
+     $result    = mysqli_fetch_array( $qry1);
      $afbeelding_grootte = $result['Waarde'];
      
     if ($afb_width  > 0){
@@ -2823,31 +2823,31 @@ echo "<br>Selecteer afbeelding in Image Gallery</td><td class='content' colspan=
 <?php
 //// Achtergrond kleur
 $variabele = 'achtergrond_kleur';
- $qry1              = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result1           = mysql_fetch_array( $qry1);
+ $qry1              = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result1           = mysqli_fetch_array( $qry1);
  $achtergrond_kleur = $result1['Waarde'];
 
 $variabele = 'link_kleur';
- $qry1              = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result1           = mysql_fetch_array( $qry1);
+ $qry1              = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result1           = mysqli_fetch_array( $qry1);
  $link              = $result1['Waarde'];
  $link_onderstreept = $result1['Parameters'];
 
 $variabele = 'tekst_kleur';
- $qry1              = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result1           = mysql_fetch_array( $qry1);
+ $qry1              = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result1           = mysqli_fetch_array( $qry1);
  $tekstkleur        = $result1['Waarde'];
 
 $variabele = 'koptekst_kleur';
- $qry1              = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result1           = mysql_fetch_array( $qry1);
+ $qry1              = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result1           = mysqli_fetch_array( $qry1);
  $koptekst_kleur    = $result1['Waarde'];
  
 if ($link ==''){
  /// Ophalen tekst kleur nodig voor configuratie item achtergrond_kleur
 
-$qry2        = mysql_query("SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
-$result2     = mysql_fetch_array( $qry2 );
+$qry2        = mysqli_query($con,"SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
+$result2     = mysqli_fetch_array( $qry2 );
 $tekstkleur = $result2['Tekstkleur'];
 $link       = $result2['Link'];
 $link_onderstreept = 'N';
@@ -2872,9 +2872,9 @@ $koptekst_kleur  ='Red';
   	  <option style='color:<?php echo $tekstkleur;?>;background:<?php echo $achtergrond_kleur;?>' value='<?php echo strtoupper($achtergrond_kleur);?>' selected><?php echo strtoupper($achtergrond_kleur);?></option>
  <?php   
       // ophalen kleurcodes tbv selectie
-        $qry_kl1  = mysql_query("SELECT * From kleuren group by Kleurcode order by Kleurcode ")     or die(' Fout in select');  
+        $qry_kl1  = mysqli_query($con,"SELECT * From kleuren group by Kleurcode order by Kleurcode ")     or die(' Fout in select');  
 
-      while($row = mysql_fetch_array( $qry_kl1 )) {
+      while($row = mysqli_fetch_array( $qry_kl1 )) {
  	    
 	      echo "<OPTION style='color:".$row['Tekstkleur'].";background:".$row['Kleurcode'].";'  value='".strtoupper($row['Kleurcode'])."'><keuze>".strtoupper($row['Kleurcode'])."";
     	  echo "</keuze></OPTION>";	
@@ -2888,9 +2888,9 @@ $koptekst_kleur  ='Red';
  		<option style='color:<?php echo $tekstkleur;?>;background:<?php echo $achtergrond_kleur;?>' value='<?php echo strtoupper($tekst_kleur);?>' selected><?php echo strtoupper($tekst_kleur);?></option>
 		<?php
 		// ophalen kleurcodes tbv selectie
-         $qry_kl1  = mysql_query("SELECT * From kleuren group by Kleurcode order by Kleurcode ")     or die(' Fout in select');  
+         $qry_kl1  = mysqli_query($con,"SELECT * From kleuren group by Kleurcode order by Kleurcode ")     or die(' Fout in select');  
 
-      while($row = mysql_fetch_array( $qry_kl1 )) {
+      while($row = mysqli_fetch_array( $qry_kl1 )) {
  	    
 	      echo "<OPTION style='color:".$row['Tekstkleur'].";background:".$row['Kleurcode'].";'  value='".strtoupper($row['Kleurcode'])."'><keuze>".strtoupper($row['Kleurcode'])."";
     	  echo "</keuze></OPTION>";	
@@ -2904,9 +2904,9 @@ $koptekst_kleur  ='Red';
  		<option style='color:<?php echo $link;?>;background:<?php echo $achtergrond_kleur;?>' value='<?php echo strtoupper($link);?>' selected><?php echo strtoupper($link);?></option>
 		<?php
 		// ophalen kleurcodes tbv selectie
-      $qry_kl1  = mysql_query("SELECT * From kleuren group by Kleurcode order by Kleurcode ")     or die(' Fout in select');  
+      $qry_kl1  = mysqli_query($con,"SELECT * From kleuren group by Kleurcode order by Kleurcode ")     or die(' Fout in select');  
 
-      while($row = mysql_fetch_array( $qry_kl1 )) {
+      while($row = mysqli_fetch_array( $qry_kl1 )) {
  	    
 	      echo "<OPTION style='color:".$row['Tekstkleur'].";background:".$row['Kleurcode'].";'  value='".strtoupper($row['Kleurcode'])."'><keuze>".strtoupper($row['Kleurcode'])."";
     	  echo "</keuze></OPTION>";	
@@ -2919,9 +2919,9 @@ $koptekst_kleur  ='Red';
  		<option style='color:<?php echo $koptekst_kleur;?>;background:<?php echo $achtergrond_kleur;?>' value='<?php echo strtoupper($koptekst_kleur);?>' selected><?php echo strtoupper($koptekst_kleur);?></option>
 		<?php
 		// ophalen kleurcodes tbv selectie
-      $qry_kl1  = mysql_query("SELECT * From kleuren group by Kleurcode order by Kleurcode ")     or die(' Fout in select');  
+      $qry_kl1  = mysqli_query($con,"SELECT * From kleuren group by Kleurcode order by Kleurcode ")     or die(' Fout in select');  
 
-      while($row = mysql_fetch_array( $qry_kl1 )) {
+      while($row = mysqli_fetch_array( $qry_kl1 )) {
  	    
 	      echo "<OPTION style='color:".$row['Tekstkleur'].";background:".$row['Kleurcode'].";'  value='".strtoupper($row['Kleurcode'])."'><keuze>".strtoupper($row['Kleurcode'])."";
     	  echo "</keuze></OPTION>";	
@@ -2944,8 +2944,8 @@ $koptekst_kleur  ='Red';
 <?php
 //// Achtergrond kleur invulvelden
 $variabele = 'achtergrond_kleur_invulvelden';
- $qry1              = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result1           = mysql_fetch_array( $qry1);
+ $qry1              = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result1           = mysqli_fetch_array( $qry1);
  $id                = $result1['Id'];
  $achtergrond_kleur_input = $result1['Waarde'];
 
@@ -2967,9 +2967,9 @@ $variabele = 'achtergrond_kleur_invulvelden';
   	   <option style='color:<?php echo $tekstkleur;?>;background-color:<?php echo $achtergrond_kleur_input;?>' value='<?php echo strtoupper($achtergrond_kleur_input);?>' selected><?php echo strtoupper($achtergrond_kleur_input);?></option>
    <?php
        // ophalen kleurcodes tbv selectie
-      $qry_kl1  = mysql_query("SELECT * From kleuren group by Kleurcode order by Kleurcode ")     or die(' Fout in select');  
+      $qry_kl1  = mysqli_query($con,"SELECT * From kleuren group by Kleurcode order by Kleurcode ")     or die(' Fout in select');  
 
-      while($row = mysql_fetch_array( $qry_kl1 )) {
+      while($row = mysqli_fetch_array( $qry_kl1 )) {
  	    
 	      echo "<OPTION style='color:".$row['Tekstkleur'].";background:".$row['Kleurcode'].";'  value='".strtoupper($row['Kleurcode'])."'><keuze>".strtoupper($row['Kleurcode'])."";
     	  echo "</keuze></OPTION>";	
@@ -2982,8 +2982,8 @@ $variabele = 'achtergrond_kleur_invulvelden';
 <?php
 //// Achtergrond kleur buttons
 $variabele = 'achtergrond_kleur_buttons';
- $qry1              = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result1           = mysql_fetch_array( $qry1);
+ $qry1              = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result1           = mysqli_fetch_array( $qry1);
  $id                = $result1['Id'];
  
  if ($id ==''){
@@ -3052,8 +3052,8 @@ else {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Banknummer invullen J/N
 $variabele = 'bankrekening_invullen_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $suffix    = substr($variabele,-2,2);
  if ($suffix == 'jn'){
@@ -3093,9 +3093,9 @@ echo "</span></td>";
 //// Boulemaatje gezocht zichtbaar j/n  (niet bij melee (single))
 
 $variabele = 'boulemaatje_gezocht_zichtbaar_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")
      or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $suffix    = substr($variabele,-2,2);
  if ($suffix == 'jn'){
@@ -3132,8 +3132,8 @@ if ($keuze =='J') { ?>
 //// email_organisatie
 
 $variabele = 'email_organisatie';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
 
  ?>
@@ -3142,8 +3142,8 @@ $variabele = 'email_organisatie';
 <?php
 //// Extra koptekst + lichtkrant
 $variabele = 'extra_koptekst';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
 
  ?>
@@ -3221,8 +3221,8 @@ $variabele = 'extra_koptekst';
 <?php
 //// Extra invulveld
 $variabele = 'extra_invulveld';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  
  if ($result['Parameters'] !='') {
@@ -3301,8 +3301,8 @@ echo "</span></td>";
 <?php
 //// Extra vraag
 $variabele = 'extra_vraag';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $keuze     = explode('#',$result['Parameters']);
  $lijst_jn = $keuze[1];
@@ -3351,8 +3351,8 @@ echo "</span></td>";
 <?php
 //// Font text
 $variabele = 'font_koptekst';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  
  $font_koptekst     = $result['Waarde'];
@@ -3380,7 +3380,7 @@ $variabele = 'font_koptekst';
  echo "<option value='".$font_koptekst."' selected>".$font_koptekst."</option>"; 
            
   $i=0; 
-   while($row = mysql_fetch_array( $fonts )) {
+   while($row = mysqli_fetch_array( $fonts )) {
  	   	echo "<OPTION  value='".$row['Font_family']."'>";
       echo $row['Font_family'];
       echo "</OPTION>";	
@@ -3402,8 +3402,8 @@ $variabele = 'font_koptekst';
 ///// Klok zichtbaar  J/N
  
 $variabele = 'klok_zichtbaar_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $suffix    = substr($variabele,-2,2);
  if ($suffix == 'jn'){
@@ -3439,8 +3439,8 @@ echo "</span></td>";
 <?php
 //// Link naar lijst zichtbaar J/N
 $variabele = 'link_lijst_zichtbaar_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $keuze     = $result['Waarde'];
  $id        = $result['Id'];
  
@@ -3480,8 +3480,8 @@ echo "</span></td>";
 <?php
 //// Website link zichtbaar J/N
 $variabele = 'website_link_zichtbaar_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $keuze     = $result['Waarde'];
  
@@ -3521,15 +3521,15 @@ echo "</span></td>";
 
  
 $variabele = 'url_logo';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $_url_logo  = $result['Waarde'];
  $param      = $result['Parameters'];
  
  if ($param ==''){
-   $qry1           = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select');  
-   $result1        = mysql_fetch_array( $qry1);
+   $qry1           = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select');  
+   $result1        = mysqli_fetch_array( $qry1);
    $grootte_logo   = $result1['Grootte_logo'];
 }	
 else { 
@@ -3599,8 +3599,8 @@ if ($handle = @opendir($dir))
 <?php 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $variabele = 'logo_zichtbaar_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $keuze     = $result['Waarde'];
  
@@ -3627,8 +3627,8 @@ echo "</span></td>";
 ////Selectie toernooien zichtbaar
 
 $variabele = 'toernooi_selectie_zichtbaar_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $keuze     = $result['Waarde'];
 
@@ -3668,16 +3668,16 @@ echo "</span></td>";
 <?php
 ///// Vereniging selectie zichtbaar  J/N
 $variabele = 'vereniging_selectie_zichtbaar_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $count      = mysql_num_rows($qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $count      = mysqli_num_rows($qry1);
  
 if ($count == 0) {
 	 $query        = "INSERT INTO  config (Id, Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Laatst) 
 	                 VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."',  'vereniging_selectie_zichtbaar_jn','J', now() ) ";
-    mysql_query($query) or die ('Fout in insert vereniging selectie');  
-    $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+    mysqli_query($con,$query) or die ('Fout in insert vereniging selectie');  
+    $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
  }
- $result    = mysql_fetch_array( $qry1);
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $suffix    = substr($variabele,-2,2);
  if ($suffix == 'jn'){
@@ -3730,8 +3730,8 @@ Op de Tab 'Uitleg' kunt u vinden waar welke instelling te vinden is.
 
 <?php
  $screen = 'Algemeen';
- $qry1                   = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     or die(' Fout in select');  
- $result1                = mysql_fetch_array( $qry1);
+ $qry1                   = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     or die(' Fout in select');  
+ $result1                = mysqli_fetch_array( $qry1);
  $prog_url               = $result1['Prog_url'];
  $partner_id             = $result1['Ideal_partner_id'];
  $sortering_korte_lijst  = $result1['Lijst_sortering'];
@@ -3739,8 +3739,8 @@ Op de Tab 'Uitleg' kunt u vinden waar welke instelling te vinden is.
  $indexpagina_achtergrond_kleur  = $result1['Indexpagina_achtergrond_kleur']; 
  
  $qry2  
-                 = mysql_query("SELECT Naam,Beheerder , Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select ip check');  
- $result2               = mysql_fetch_array( $qry2);
+                 = mysqli_query($con,"SELECT Naam,Beheerder , Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select ip check');  
+ $result2               = mysqli_fetch_array( $qry2);
   
  
  /// Koptekst  toernooi_all.php aan (J) of uit (N)
@@ -3873,8 +3873,8 @@ Op de Tab 'Uitleg' kunt u vinden waar welke instelling te vinden is.
    </td>
  <td class='content' colspan= 2>
  	<?php 
- 	$qry  = mysql_query("SELECT count(*) as Aantal From sms_confirmations where Vereniging  = '".$vereniging."' ")     or die(' Fout in select');  
-  $row  = mysql_fetch_array( $qry );
+ 	$qry  = mysqli_query($con,"SELECT count(*) as Aantal From sms_confirmations where Vereniging  = '".$vereniging."' ")     or die(' Fout in select');  
+  $row  = mysqli_fetch_array( $qry );
   $sms_aantal  = $row['Aantal'];
   ?>
   Er zijn nu <?php echo $sms_aantal; ?> berichten gelogd.
