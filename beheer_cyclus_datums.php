@@ -1,3 +1,17 @@
+<?php
+# beheer_cyclus_datums.php.
+# definieren van de datums voor een cyclus
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 1apr2019         -            E. Hendrikx 
+# Symptom:   		   None.
+# Problem:     	   None.
+# Fix:             PHP7 en aantal datums van 10 naar 20
+# Reference: 
+?>
+
 <html>
 <head>
 <title>OnTip - beheer datums toernooi cyclus</title>
@@ -53,7 +67,7 @@ function changeFunc7(challenge) {
 <?php 
 ob_start();
 
-include('mysql.php');
+include('mysqli.php');
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 /* Set locale to Dutch */
@@ -70,7 +84,7 @@ error_reporting(E_ALL);
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -82,8 +96,8 @@ exit;
 }
 
 //// Check op rechten
-$sql      = mysql_query("SELECT Beheerder,Naam FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select'); 
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT Beheerder,Naam FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select'); 
+$result   = mysqli_fetch_array( $sql );
 $rechten  = $result['Beheerder'];
 
 if ($rechten != "A"  and $rechten != "I"){
@@ -95,14 +109,14 @@ if ($rechten != "A"  and $rechten != "I"){
 $toernooi = $_GET['toernooi'];
 
 //// SQL Queries
-//$qry      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."'
+//$qry      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."'
 //              and Status in ('BE0','BE1','BE2','BE3','BE8','BE9','BED', 'BEG', 'IM0', 'ID0')  order by Inschrijving ASC" )    or die(mysql_error());  
                
 // Ophalen toernooi gegevens
 
-$qry2             = mysql_query("SELECT * From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row2 = mysql_fetch_array( $qry2 )) {
+while($row2 = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row2['Variabele'];
 	 $$var = $row2['Waarde'];
 	}              
@@ -110,15 +124,13 @@ while($row2 = mysql_fetch_array( $qry2 )) {
 // als er nog geen datum in zit,dan toernooi datum vast toevoegen
 
 $count     = 0;
-$qry      = mysql_query("SELECT * From toernooi_datums_cyclus where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' order by Datum" )     or die(' Fout in select1');  
-$count    = mysql_num_rows($qry);
+$qry      = mysqli_query($con,"SELECT * From toernooi_datums_cyclus where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' order by Datum" )     or die(' Fout in select1');  
+$count    = mysqli_num_rows($qry);
 
 if ($count == 0){
-   mysql_query("insert into toernooi_datums_cyclus (Id, Vereniging_id, Vereniging, Toernooi,Datum, Laatst) 
+   mysqli_query($con,"insert into toernooi_datums_cyclus (Id, Vereniging_id, Vereniging, Toernooi,Datum, Laatst) 
                    values (0, ".$vereniging_id.",'".$vereniging."','".$toernooi."','".$datum."', now() )") ;	
 }
-
-
   
 //// Change Title //////
 ?>
@@ -147,7 +159,7 @@ if ($count == 0){
 
 
 <borderquote>
-<span style='color:black;font-size:10pt;font-family:arial;'>Een toernooi cyclus bestaat uit een aantal toernooien (max 10) volgens een bepaald formaat. In dit scherm kan je datums koppelen aan dit toernooi om een cyclus aan te maken. De eerste datum is gelijk aan de opgegeven datum voor het toernooi.<br>
+<span style='color:black;font-size:10pt;font-family:arial;'>Een toernooi cyclus bestaat uit een aantal toernooien (max 10) volgens een bepaald formaat. In dit scherm kan je datums (max 20) koppelen aan dit toernooi om een cyclus aan te maken. De eerste datum is gelijk aan de opgegeven datum voor het toernooi.<br>
 	De datums worden automatisch op volgorde gesorteerd.<br>
 	Indien gewenst kan je een afwijkende speellocatie opgeven die als extra informatie op het formulier wordt getoond.<br>	    
       Wijzigingen zijn niet direct zichtbaar in de OnTip kalender. Forceer de aanmaak van een actuele kalender via de link in de kalender.
@@ -166,10 +178,10 @@ if ($count == 0){
 	       <input type='hidden'  name = 'toernooi'           value ="<?php echo $toernooi;?>" />			
 	        
 			 <?php
-			          $qry      = mysql_query("SELECT * From toernooi_datums_cyclus where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' order by Datum" )     or die(' Fout in select2');  
+			          $qry      = mysqli_query($con,"SELECT * From toernooi_datums_cyclus where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' order by Datum" )     or die(' Fout in select2');  
                     
                     $i=1;
-                    while($row = mysql_fetch_array( $qry )) {
+                    while($row = mysqli_fetch_array( $qry )) {
 	
 	                  $id = $row['Id'];
 	                  $_datum = $row['Datum'];

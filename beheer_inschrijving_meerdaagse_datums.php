@@ -1,3 +1,17 @@
+<?php
+# beheer_inschrijving_meerdaagse_datums.php.
+# definieren van de datums voor een cyclus
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 1apr2019         -            E. Hendrikx 
+# Symptom:   		   None.
+# Problem:     	   None.
+# Fix:             PHP7 en aantal datums van 10 naar 20
+# Reference: 
+?>
+
 <html>
 <head>
 <title>OnTip - beheer bevestigingen, betalingen en voorlopige inschrijvingen</title>
@@ -53,7 +67,7 @@ function changeFunc7(challenge) {
 <?php 
 ob_start();
 
-include('mysql.php');
+include('mysqli.php');
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 /* Set locale to Dutch */
@@ -70,7 +84,7 @@ error_reporting(E_ALL);
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -82,8 +96,8 @@ exit;
 }
 
 //// Check op rechten
-$sql      = mysql_query("SELECT Beheerder,Naam FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select'); 
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT Beheerder,Naam FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select'); 
+$result   = mysqli_fetch_array( $sql );
 $rechten  = $result['Beheerder'];
 
 if ($rechten != "A"  and $rechten != "I"){
@@ -95,15 +109,15 @@ if ($rechten != "A"  and $rechten != "I"){
 $id = $_GET['id'];
 
 //// SQL Query
-$qry      = mysql_query("SELECT * from inschrijf Where Id = ".$id." " )    or die('Fout in select inschrijving '.$id);  
-$result   = mysql_fetch_array( $qry );
+$qry      = mysqli_query($con,"SELECT * from inschrijf Where Id = ".$id." " )    or die('Fout in select inschrijving '.$id);  
+$result   = mysqli_fetch_array( $qry );
 $deelname = $result['Meerdaags_datums'];
 $naam1    = $result['Naam1'];
               
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$result['Vereniging'] ."' and Toernooi = '".$result['Toernooi']."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$result['Vereniging'] ."' and Toernooi = '".$result['Toernooi']."'  ")     or die(' Fout in select2');  
 
-while($row2 = mysql_fetch_array( $qry2 )) {
+while($row2 = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row2['Variabele'];
 	 $$var = $row2['Waarde'];
 	}              
@@ -135,13 +149,13 @@ while($row2 = mysql_fetch_array( $qry2 )) {
 if ($meerdaags_toernooi_jn =='J'){
 	
 	  $variabele = 'datum';
-   $qry2       = mysql_query("SELECT Waarde From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and  Variabele = '".$variabele ."'    ")     or die(' Fout in select meerdaags1');    
-   $row2       = mysql_fetch_array( $qry2 );
+   $qry2       = mysqli_query($con,"SELECT Waarde From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and  Variabele = '".$variabele ."'    ")     or die(' Fout in select meerdaags1');    
+   $row2       = mysqli_fetch_array( $qry2 );
    $toernooi_datum = $row2['Waarde'] ;
    
    $variabele = 'eind_datum';
-   $qry2       = mysql_query("SELECT Waarde From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and  Variabele = '".$variabele ."'    ")     or die(' Fout in select meerdaags2');    
-   $row2       = mysql_fetch_array( $qry2 );
+   $qry2       = mysqli_query($con,"SELECT Waarde From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and  Variabele = '".$variabele ."'    ")     or die(' Fout in select meerdaags2');    
+   $row2       = mysqli_fetch_array( $qry2 );
    $eind_datum = $row2['Waarde'] ;
              
  ?>
@@ -218,9 +232,9 @@ if ($meerdaags_toernooi_jn =='J'){?>
 			$i=1;
 	
 	  $datums ='';
-         $sql      = mysql_query("SELECT * from toernooi_datums_cyclus  where  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."'   order by Datum" )     ; 
+         $sql      = mysqli_query($con,"SELECT * from toernooi_datums_cyclus  where  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."'   order by Datum" )     ; 
          	
-         	while($row = mysql_fetch_array( $sql )) { 		
+         	while($row = mysqli_fetch_array( $sql )) { 		
           		     $toernooi_datum = $row['Datum']; 
          		       $dag    = 	substr ($toernooi_datum  , 8,2);                                                                 
                    $maand  = 	substr ($toernooi_datum  , 5,2);                                                                 

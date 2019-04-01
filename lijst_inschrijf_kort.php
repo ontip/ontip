@@ -13,6 +13,12 @@
 # Feature:          None.
 # Reference: 
 #
+# 1apr2019         -            E. Hendrikx 
+# Symptom:   		   None.
+# Problem:     	   None.
+# Fix:             PHP7
+# Reference: 
+
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>

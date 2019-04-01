@@ -30,12 +30,12 @@ $sql      = mysql_query("SELECT * from toernooi_datums_cyclus  where  Vereniging
 $count    = mysql_num_rows($sql);
 
 
-if ($_POST['datum_new'] != '' and $count > 9 and $delete  =='' ){
+if ($_POST['datum_new'] != '' and $count > 20 and $delete  =='' ){
 	
 $error =1;
 	?>
 	<script type="text/javascript">
-	   	alert("Max 10 datums per toernooi!")
+	   	alert("Max 20 datums per toernooi!")
 		  window.location.replace('<?php echo $url;?>')
 </script>
 <?php
