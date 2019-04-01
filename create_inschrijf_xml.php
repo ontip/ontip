@@ -1,4 +1,18 @@
 <?php 
+# create_inschrijf_xml.php
+# Wordt aangeroepen vanuit muteer.ontip
+# Maakt een xml file met de toernooi inschrijvingen
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 1apr2019         -            E. Hendrikx 
+# Symptom:   		None.
+# Problem:     	None.
+# Fix:          PHP7
+# Reference: 
+
+
 // Database gegevens. 
 //include('mysql.php');	
 //$pageName = basename($_SERVER['SCRIPT_NAME']);
@@ -16,16 +30,16 @@ $today = date("Y-m-d h:i:s");
 //// Lees configuratie tabel tbv toernooi gegevens
 	 	 
 	 // ophalen toernooi gegevens
-	 $qry_cfg  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select 1');  
-   while($row = mysql_fetch_array( $qry_cfg )) {
+	 $qry_cfg  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select 1');  
+   while($row = mysqli_fetch_array( $qry_cfg )) {
 	
 	    $var  = $row['Variabele'];
 	    $$var = $row['Waarde'];
 	  }
 	
 		 // ophalen toernooi gegevens
-	 $qry_ver        = mysql_query("SELECT * From vereniging where Id = ".$vereniging_id ."  ")     or die(' Fout in select 2');  
-   $result         = mysql_fetch_array( $qry_ver);
+	 $qry_ver        = mysqli_query($con,"SELECT * From vereniging where Id = ".$vereniging_id ."  ")     or die(' Fout in select 2');  
+   $result         = mysqli_fetch_array( $qry_ver);
    $vereniging_nr  = $result['Vereniging_nr'];
    $plaats         = $result['Plaats'];  
    $bond           = $result['Bond'];  
@@ -38,16 +52,16 @@ $today = date("Y-m-d h:i:s");
     	$_vereniging = $result['Vereniging'];
    }
 	 
-	 $qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
-   $result     = mysql_fetch_array( $qry);
+	 $qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
+   $result     = mysqli_fetch_array( $qry);
    $inschrijf_methode   = $result['Parameters'];
 
    if  ($inschrijf_methode == ''){
 	      $inschrijf_methode = 'vast';
    }
 	
-	$qry    = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'datum' ")     or die(' Fout in select');  
-  $result = mysql_fetch_array( $qry );
+	$qry    = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'datum' ")     or die(' Fout in select');  
+  $result = mysqli_fetch_array( $qry );
   $datum  = $result['Waarde'];
 
 	//  Aanmaak xml per toernooi
@@ -91,8 +105,8 @@ $today = date("Y-m-d h:i:s");
 	//  alle inschrijvingen
 $i=1;
 	
-$spelers      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Inschrijving  " )    or die(mysql_error());  
-while($row_spl = mysql_fetch_array( $spelers )) {
+$spelers      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Inschrijving  " )    or die(mysql_error());  
+while($row_spl = mysqli_fetch_array( $spelers )) {
 
 
  fwrite($fp, "<inschrijving  nr = '".$i."'>\n");

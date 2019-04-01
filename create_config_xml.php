@@ -17,15 +17,15 @@ if (isset($_GET['toernooi'])){
 
 //echo "Create xml voor ". $toernooi."<br>";
 
-$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'datum' ")     or die(' Fout in select');  
-$result = mysql_fetch_array( $qry );
+$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'datum' ")     or die(' Fout in select');  
+$result = mysqli_fetch_array( $qry );
 $datum  = $result['Waarde'];
 	
 $today = date("Y-m-d h:i:s");
 
 		 // ophalen toernooi gegevens
-$qry_ver        = mysql_query("SELECT * From vereniging where Id = ".$vereniging_id ."  ")     or die(' Fout in select 2');  
-$result         = mysql_fetch_array( $qry_ver);
+$qry_ver        = mysqli_query($con,"SELECT * From vereniging where Id = ".$vereniging_id ."  ")     or die(' Fout in select 2');  
+$result         = mysqli_fetch_array( $qry_ver);
 $vereniging_nr  = $result['Vereniging_nr'];
 $plaats         = $result['Plaats'];  
 $bond           = $result['Bond'];  
@@ -63,8 +63,8 @@ fwrite($fp, "<toernooi>\n");
 fwrite($fp, "<naam>".$toernooi."</naam>\n");
 
 
-$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
-while($row = mysql_fetch_array( $qry )) {
+$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+while($row = mysqli_fetch_array( $qry )) {
 	
 	$waarde = $row['Waarde'];
 	if ($waarde == '<selecteer uit image gallery>'){
