@@ -1,3 +1,18 @@
+<?php
+# change_password.php
+# Aanpassen wachtwoord beheerder ontip vereniging
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 2april2019          1.0.2            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  None
+# Fix:              None
+# Feature:          PHP7.
+# Reference: 
+?>
 <html>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<Title>OnTip Change password (c) Erik Hendrikx</title>
@@ -25,7 +40,7 @@ a    {text-decoration:none;color:blue;}
  </script>
 <?php
 
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 ?>
 <div style='background-color:white;'>
@@ -52,8 +67,8 @@ else { $naam = '';
 
 
 $ip        = $_SERVER['REMOTE_ADDR'];
-$sql      = mysql_query("SELECT Naam,Beheerder , Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT Naam,Beheerder , Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
+$result   = mysqli_fetch_array( $sql );
 $naam     = $result['Naam'];
 ?>
 

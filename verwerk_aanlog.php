@@ -13,9 +13,15 @@
 # Feature:          None.
 # Reference: 
 #
+# 2april2019          1.0.2            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  None
+# Fix:              None
+# Feature:          PHP7.
+# Reference: 
 
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 //include 'versleutel.php'; 
 
 function redirect($url) {
@@ -109,13 +115,13 @@ if ($error == 0){
 $encrypt = md5($wachtwoord);
 
 
-$sql      = mysql_query("SELECT count(*) as Aantal FROM namen WHERE  Naam='".$naam."' and (Wachtwoord='".$encrypt."' or Wachtwoord_encrypt ='".$encrypt."' ) and Vereniging_id = ".$vereniging_id."  ") or die('Aanloggen: Fout in select');  
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT count(*) as Aantal FROM namen WHERE  Naam='".$naam."' and (Wachtwoord='".$encrypt."' or Wachtwoord_encrypt ='".$encrypt."' ) and Vereniging_id = ".$vereniging_id."  ") or die('Aanloggen: Fout in select');  
+$result   = mysqli_fetch_array( $sql );
 $count    = $result['Aantal'];
 
 if ($count == 1){
 
-mysql_query("Update namen set Laatst = now(),
+mysqli_query($con,"Update namen set Laatst = now(),
                               Aangelogd = 'J',
                               Wachtwoord = '[versleuteld]',
                               Wachtwoord_encrypt = '".$encrypt."' ,

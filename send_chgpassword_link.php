@@ -1,3 +1,18 @@
+<?php
+# send_chg_password_link.php
+# Aanpassen wachtwoord beheerder ontip vereniging
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 2april2019          1.0.2            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  None
+# Fix:              None
+# Feature:          PHP7.
+# Reference: 
+?>
 <html>
 	<Title>PHP Inschrijvingen (c) Erik Hendrikx</title>
 	<head>
@@ -61,13 +76,13 @@ if ($wachtwoord_oud != ''  and  $wachtwoord_new1 !=''  and strlen($wachtwoord_ne
 
 
 	/// kontrole wachtwoord
-include 'mysql.php'; 
+include 'mysqli.php'; 
 include 'versleutel.php'; 
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
 $encrypt= versleutel($wachtwoord_oud);
-$sql      = mysql_query("SELECT count(*) as Aantal FROM namen WHERE  Naam='".$naam."' and ( Wachtwoord='".$encrypt."' or Wachtwoord = '".md5($wachtwoord_oud)."'   )and Vereniging_id = ".$vereniging_id."  ") or die(' Fout in select');  
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT count(*) as Aantal FROM namen WHERE  Naam='".$naam."' and ( Wachtwoord='".$encrypt."' or Wachtwoord = '".md5($wachtwoord_oud)."'   )and Vereniging_id = ".$vereniging_id."  ") or die(' Fout in select');  
+$result   = mysqli_fetch_array( $sql );
 $count    = $result['Aantal'];
 
 
@@ -103,8 +118,8 @@ if ($error != 0 ){
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $date     = date('YmdHis');
 
-$sql       = mysql_query("SELECT * FROM namen WHERE  Vereniging_id = ".$vereniging_id." and Naam = '".$naam."'   ") or die(' Fout in select aantal');  
-$result    = mysql_fetch_array( $sql );
+$sql       = mysqli_query($con,"SELECT * FROM namen WHERE  Vereniging_id = ".$vereniging_id." and Naam = '".$naam."'   ") or die(' Fout in select aantal');  
+$result    = mysqli_fetch_array( $sql );
 $id        = $result['Id'];
 
 $Email            = $result['Email'];
@@ -132,8 +147,8 @@ $Email      = versleutel_string($Email_encrypt);
  	
 <?php
 
-$qry3          = mysql_query("SELECT * from vereniging where Vereniging =  '".$vereniging."' ");
-$row3          = mysql_fetch_array( $qry3 );
+$qry3          = mysqli_query($con,"SELECT * from vereniging where Vereniging =  '".$vereniging."' ");
+$row3          = mysqli_fetch_array( $qry3 );
 $email_noreply = $row3['Email_noreply'];
   
 if ($email_noreply == '') {
