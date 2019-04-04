@@ -12,6 +12,13 @@
 # Fix:              Ontbrekende var  Voucher_code en Bankrekening
 # Feature:          None.
 # Reference: 
+#
+# 4apr2019           -            E. Hendrikx 
+# Symptom:   		None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          PHP7
+# Reference: 
 ?>
 <html>
 <head>
@@ -86,7 +93,7 @@ if (window.attachEvent) window.attachEvent("onload", sfFocus);
 <?php 
 
 //// Database gegevens. 
-include ('mysql.php');
+include ('mysqli.php');
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
 $toernooi      = $_POST['toernooi'];
@@ -103,11 +110,11 @@ if (isset($toernooi)) {
 //	echo $vereniging;
 //  echo $toernooi;
 	
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -125,13 +132,13 @@ else {
 	 
 };
 
-$sql        = mysql_query("SELECT * from config where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Variabele ='soort_inschrijving' ")     or die(' Fout in select');  
-$result     = mysql_fetch_array( $sql );
+$sql        = mysqli_query($con,"SELECT * from config where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Variabele ='soort_inschrijving' ")     or die(' Fout in select');  
+$result     = mysqli_fetch_array( $sql );
 $soort_inschrijving  = $result['Waarde'];
 $inschrijf_methode   = $result['Parameters'];
 
-$sql       = mysql_query("SELECT count(*) as Aantal From inschrijf where Toernooi = '" . $toernooi. "' and Vereniging = '".$vereniging."'  ")                  or die(' Fout in select 2');  
-$result    = mysql_fetch_array( $sql );
+$sql       = mysqli_query($con,"SELECT count(*) as Aantal From inschrijf where Toernooi = '" . $toernooi. "' and Vereniging = '".$vereniging."'  ")                  or die(' Fout in select 2');  
+$result    = mysqli_fetch_array( $sql );
 $aant_rows = $result['Aantal'];
 
 if ($aant_rows > 25){
@@ -251,20 +258,20 @@ $query="UPDATE inschrijf
             WHERE  Id           = ".$id.";  ";
 
 //echo $i.".    ". $query."<br>";
- mysql_query($query) or die ('Fout in update inschrijving'); 
+ mysqli_query($con,$query) or die ('Fout in update inschrijving'); 
 
 // versleutel email
 if ($email !='' and $email != '[versleuteld]' ){
   $encrypt_email = versleutel_string('@##'.$email);
   $query="UPDATE inschrijf SET Email_encrypt  = '".$encrypt_email."' , Email ='[versleuteld]' WHERE  Id = ".$id.";  ";
-  mysql_query($query) or die ('Fout in update inschrijf : Encrypt email:'.$query);
+  mysqli_query($con,$query) or die ('Fout in update inschrijf : Encrypt email:'.$query);
 }
 
 // versleutel telefoon
 if ($telefoon !='' and $telefoon != '[versleuteld]' ){
   $encrypt_telefoon = versleutel_string('@##'.$telefoon);
   $query="UPDATE inschrijf SET Telefoon_encrypt  = '".$encrypt_telefoon."' , Telefoon ='[versleuteld]' WHERE  Id = ".$id.";  ";
-  mysql_query($query) or die ('Fout in update inschrijf : Encrypt telefoon:'.$query);
+  mysqli_query($con,$query) or die ('Fout in update inschrijf : Encrypt telefoon:'.$query);
 }
 
 
@@ -283,8 +290,8 @@ if ($draai !=''){
 foreach ($draai as $draaiid)
 {
 
-$qry      = mysql_query("SELECT * from inschrijf where Id= '".$draaiid."' " )    or die(mysql_error());  
-$row      = mysql_fetch_array( $qry);
+$qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$draaiid."' " )    or die(mysql_error());  
+$row      = mysqli_fetch_array( $qry);
 $naam1    = $row['Naam1'];
 $naam2    = $row['Naam2'];
 $naam3    = $row['Naam3'];
@@ -369,7 +376,7 @@ $query="UPDATE inschrijf
 
 //echo $query . "<br>";
  
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
 
 }// end foreach
 } // end if draai
@@ -396,8 +403,8 @@ echo "<h3 style='padding:10pt;font-size:20pt;color:green;'>Herzenden email  ".$t
 foreach ($mail_herzend as $mailid)
 {
 	
-	$qry      = mysql_query("SELECT * from inschrijf where Id= '".$mailid."' and Email <> '' " )    or die('Fout in select inschrijf');  
-  $row      = mysql_fetch_array( $qry);
+	$qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$mailid."' and Email <> '' " )    or die('Fout in select inschrijf');  
+  $row      = mysqli_fetch_array( $qry);
   $email    = $row['Email'];
 	
 	if ($email != ''){
@@ -484,8 +491,8 @@ $i=1;
 foreach ($mail_herzend as $mailid)
 {
 	
-	$qry      = mysql_query("SELECT * from inschrijf where Id= '".$mailid."' and Email <> ''  " )    or die(mysql_error());  
-  $row      = mysql_fetch_array( $qry);
+	$qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$mailid."' and Email <> ''  " )    or die(mysql_error());  
+  $row      = mysqli_fetch_array( $qry);
   $Email     = $row['Email'];
    if ($Email =='[versleuteld]'){
    	$Email =  versleutel_string($row['Email_encrypt']);
@@ -597,8 +604,8 @@ if ($sms_herzend !=''  and $check ==''){
 foreach ($sms_herzend as $smsid)
 {
 	
-	$qry      = mysql_query("SELECT * from inschrijf where Id= '".$smsid."' and Telefoon <> ''    " )    or die('Fout in select inschrijf');  
-  $row      = mysql_fetch_array( $qry);
+	$qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$smsid."' and Telefoon <> ''    " )    or die('Fout in select inschrijf');  
+  $row      = mysqli_fetch_array( $qry);
   $telefoon   = $row['Telefoon'];
   
 		
@@ -685,8 +692,8 @@ $i=1;
 foreach ($sms_herzend as $smsid)
 {
 	
-	$qry      = mysql_query("SELECT * from inschrijf where Id= '".$smsid."' and Telefoon <> '' " )    or die(mysql_error());  
-  $row      = mysql_fetch_array( $qry);
+	$qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$smsid."' and Telefoon <> '' " )    or die(mysql_error());  
+  $row      = mysqli_fetch_array( $qry);
 
 echo  "<tr>"   ;
 echo  "<td style= 'font-family:arial;font-size:10pt;color:black;text-align:right;'>"   . $i. ".</td>";
@@ -863,8 +870,8 @@ $i=1;
 foreach ($check as $checkid)
 {
 
-$qry      = mysql_query("SELECT * from inschrijf where Id= '".$checkid."' " )    or die('Fout in select inschrijf 2' );  
-$row      = mysql_fetch_array( $qry);
+$qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$checkid."' " )    or die('Fout in select inschrijf 2' );  
+$row      = mysqli_fetch_array( $qry);
 
 echo  "<tr>"   ;
 echo  "<td style= 'font-family:arial;font-size:10pt;color:black;text-align:right;'>"   . $checkid. ".</td>";
@@ -948,8 +955,8 @@ $i--;
   </blockquote>
   
 <?php
-$sql      = mysql_query("SELECT * FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT * FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
+$result   = mysqli_fetch_array( $sql );
 $naam     = $result['Naam'];
 $email    = $result['Email'];
 $to       = $email;
