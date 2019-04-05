@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 $naam            = $_POST['bestaande_speler'];
 $datum           = $_POST['datum'];
@@ -20,7 +20,7 @@ $vereniging_id   = $_POST['vereniging_id'];
 if ($naam !=''){ 
 $query = "INSERT INTO hussel_score (Vereniging, Vereniging_id,Datum,  Naam, Winst, Saldo)
                VALUES ('".$vereniging."',".$vereniging_id.",'".$datum."','".$naam."' , 0,0)";
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
 
 
 }

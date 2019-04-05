@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 
 // ophalen aantal score regels
@@ -26,7 +26,7 @@ $query="UPDATE hussel_spelers
            WHERE  Id      = '".$id."'  ";
 //echo $query;
 
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
 }// end for
 
 
@@ -37,7 +37,7 @@ $check=$_POST['Check'];
 foreach ($check as $checkid)
 {
 //echo "$checkid is checked en zal verwijderd worden";
-mysql_query("DELETE FROM hussel_spelers where Id= '".$checkid."'");
+mysqli_query($con,"DELETE FROM hussel_spelers where Id= '".$checkid."'");
 }
 }
    

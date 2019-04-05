@@ -4,7 +4,7 @@ ob_start();
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 
 if (isset($_GET['aantal_rondes'])){ 
@@ -16,7 +16,7 @@ if (isset($_GET['aantal_rondes'])){
 
  
   $query   = "UPDATE hussel_config SET Waarde = '".$aantal_rondes."'   where  Vereniging_id = ".$vereniging_id." and Variabele = 'aantal_rondes'";   
-  mysql_query($query) or die(' Fout in aanpassen aantal rondes');  
+  mysqli_query($con,$query) or die(' Fout in aanpassen aantal rondes');  
 
 ob_end_flush();
 ?> 

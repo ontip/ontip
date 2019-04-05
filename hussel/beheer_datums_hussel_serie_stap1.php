@@ -80,13 +80,11 @@ error_reporting(E_ALL);
 
 //// Database gegevens. 
 
-include ('mysql.php');
-
+include ('mysqli.php');
 
 $dag   = 	substr ($datum , 8,2); 
 $maand = 	substr ($datum , 5,2); 
 $jaar  = 	substr ($datum , 0,4); 
-
 
 echo "<table width=90%>";
 echo "<tr>";
@@ -118,18 +116,16 @@ echo "<hr style='border:1 pt  solid red;'/>";
 
 
 <?php
-$sql_datums   = mysql_query("SELECT * FROM hussel_serie WHERE  Vereniging_id = ".$vereniging_id."  order by Datum limit 1 ") or die(' Fout in select datum1'); 
-$result       = mysql_fetch_array( $sql_datums );
+$sql_datums   = mysqli_query($con,"SELECT * FROM hussel_serie WHERE  Vereniging_id = ".$vereniging_id."  order by Datum limit 1 ") or die(' Fout in select datum1'); 
+$result       = mysqli_fetch_array( $sql_datums );
 $hussel_serie = $result['Naam_serie'];
 
-$sql_datums   = mysql_query("SELECT * FROM hussel_serie WHERE  Vereniging_id = ".$vereniging_id." and Datum <> '' and Datum <> '0000-00-00' order by Datum  ") or die(' Fout in select datums'); 
+$sql_datums   = mysqli_query($con,"SELECT * FROM hussel_serie WHERE  Vereniging_id = ".$vereniging_id." and Datum <> '' and Datum <> '0000-00-00' order by Datum  ") or die(' Fout in select datums'); 
 $count       = mysql_num_rows($sql_datums);	
 $i=1;
 ?>
 
 <h2 style='text-align:left;color:blue;font-size:10pt;font-family:arial;'> Gegevens hussel serie</h2>
-
-
 
 
 	<form action="beheer_datums_hussel_serie_stap2.php" method="POST" >
@@ -145,7 +141,7 @@ Om regel te verwijderen, zet vinkje in de kolom Del en klik op Opslaan.
 	<TABLE  border = 1 width = 40%>
 	<tr><th style='background-color:red;color:white;'>Del</th><th>Omschrijving</th><th>Datum</th></tr>
 	<?php
-         while($row = mysql_fetch_array( $sql_datums )) {
+         while($row = mysqli_fetch_array( $sql_datums )) {
 	             $id  = $row['Id'];
 	             
 	             $dag   = 	substr ($row['Datum'] , 8,2); 
@@ -188,9 +184,6 @@ Om regel te verwijderen, zet vinkje in de kolom Del en klik op Opslaan.
    
              	     <INPUT style ='font-size:12pt;color;darkblue;font-weight:bold;' type='submit' value='Opslaan'>
     </FORM>     
-
-
-
 <br>
 
 

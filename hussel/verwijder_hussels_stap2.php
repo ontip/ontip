@@ -3,7 +3,7 @@ ob_start();
 $url = 'verwijder_hussels_stap1.php';
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 $check         = $_POST['Check'];
 
 
@@ -15,7 +15,7 @@ if (isset($_POST['verwijder_scores'])){
     {
   	 $query="DELETE FROM hussel_score    where  Vereniging_id = ".$vereniging_id." and Datum = '".$datum."'   ";   
 	   //echo $query;
-    mysql_query($query) or die(' Fout in verwijder spelers beperkt');  
+    mysqli_query($con,$query) or die(' Fout in verwijder spelers beperkt');  
  
 	}  // end foreach
 }  // end if

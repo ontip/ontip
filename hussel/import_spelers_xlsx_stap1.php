@@ -78,7 +78,7 @@ error_reporting(E_ALL);
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 
 $dag   = 	substr ($datum , 8,2); 

@@ -4,7 +4,7 @@ ob_start();
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 //echo "SELECT count(*)as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id." and Voor1 > 0 and Tegen1 > 0 and  Datum = '".$datum."'  ";
 
@@ -13,7 +13,7 @@ include ('mysql.php');
     $query   = "UPDATE hussel_config SET Waarde = '".$reset_loting."'   where  Vereniging_id = ".$vereniging_id." and Variabele = 'reset_loting'";   
    //echo $query;
    
-    mysql_query($query) or die(' Fout in reset loting');  
+    mysqli_query($con,$query) or die(' Fout in reset loting');  
 
 
 // als reset loting = 1 moeten alle lot nummers worden gewist
@@ -21,7 +21,7 @@ include ('mysql.php');
 
 if ($reset_loting ==1 ) {
    $query   = "UPDATE hussel_score SET Lot_nummer = 0  where  Vereniging_id = ".$vereniging_id." and Datum = '".$datum."'  ";   
-   mysql_query($query) or die ('Fout in reset hussel_score vooor lotnr ');   
+   mysqli_query($con,$query) or die ('Fout in reset hussel_score vooor lotnr ');   
 
 
 // na schonen op 3 gezet zodat ze niet kunnen worden aangepast
@@ -29,7 +29,7 @@ if ($reset_loting ==1 ) {
   $query   = "UPDATE hussel_config SET Waarde = '3'   where  Vereniging_id = ".$vereniging_id." and Variabele = 'reset_loting'";   
    //echo $query;
    
-    mysql_query($query) or die(' Fout in reset loting');  
+    mysqli_query($con,$query) or die(' Fout in reset loting');  
 
 }
 

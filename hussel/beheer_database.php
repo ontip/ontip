@@ -23,7 +23,7 @@ a {text-decoration:none;color:blue;padding-left:2px;padding-right:2pt;font-size:
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 
 $dag   = 	substr ($datum , 8,2); 
@@ -52,8 +52,8 @@ echo "<hr style='border:1 pt  solid red;'/>";
 <?php 
 echo "<tr>";
 
-	$qry  = mysql_query("SELECT * From hussel_config where Vereniging_id = ".$vereniging_id ." and Variabele ='datum_lock' ")     or die(' Fout in select');  
-	$result     = mysql_fetch_array( $qry );
+	$qry        = mysqli_query($con,"SELECT * From hussel_config where Vereniging_id = ".$vereniging_id ." and Variabele ='datum_lock' ")     or die(' Fout in select');  
+	$result     = mysqli_fetch_array( $qry );
 	$datum_lock =  $result['Waarde']; 
 
 if ($datum_lock == 'On'){	

@@ -78,7 +78,7 @@ error_reporting(E_ALL);
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 
 $dag   = 	substr ($datum , 8,2); 
@@ -91,8 +91,8 @@ echo "<tr>";
 echo "<td><img src = 'http://www.boulamis.nl/boulamis_toernooi/hussel/images/OnTip_voorgeloot.png' width='240'><br><span style='margin-left:15pt;font-size:12pt;font-weight:bold;color:darkgreen;'>".$vereniging."</span></td>";
 echo "<td width=70%><h1 style='color:blue;font-weight:bold;font-size:32pt; text-shadow: 3px 3px darkgrey;'>";
 
-$qry                 = mysql_query("SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'voorgeloot'  ") ;  
-$result              = mysql_fetch_array( $qry);
+$qry                 = mysqli_query($con,"SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'voorgeloot'  ") ;  
+$result              = mysqli_fetch_array( $qry);
 $toernooi            = $result['Parameters'];	
 
 if ($voorgeloot == 'On') {
@@ -136,7 +136,7 @@ echo "<hr style='border:1 pt  solid red;'/>";
 <?php
 // maak hulptabel leeg
 
-mysql_query("Delete from hulp_toernooi where Vereniging_id = '".$vereniging_id."'  ") or die('Fout in schonen tabel');   
+mysqli_query($con,"Delete from hulp_toernooi where Vereniging_id = '".$vereniging_id."'  ") or die('Fout in schonen tabel');   
 
 
 // selectie toernooi
@@ -144,10 +144,10 @@ $query = "insert into hulp_toernooi (Toernooi, Vereniging, Vereniging_id, Datum)
 ( select Toernooi,Vereniging, Vereniging_id, Waarde from config     where Vereniging_id = '".$vereniging_id."' and Variabele ='datum' group by Vereniging, Vereniging_id, Toernooi,Waarde   )" ;
 //echo $query;
 
-mysql_query($query) or die ('Fout in vullen hulp_toernooi'); 
+mysqli_query($con,$query) or die ('Fout in vullen hulp_toernooi'); 
 
 
-$update = mysql_query("UPDATE hulp_toernooi as h
+$update = mysqli_query($con,"UPDATE hulp_toernooi as h
  join config as c
   on c.Vereniging_id        = h.Vereniging_id 
   set h.Toernooi_voluit    = c.Waarde 
@@ -156,7 +156,7 @@ $update = mysql_query("UPDATE hulp_toernooi as h
    and c.Vereniging_id    = '".$vereniging_id."'  ");
    
 
-$toernooien = mysql_query("SELECT h.Toernooi,  Waarde , Datum from config as c
+$toernooien = mysqli_query($con,"SELECT h.Toernooi,  Waarde , Datum from config as c
  join hulp_toernooi as h
   on c.Vereniging_id        = h.Vereniging_id and
      c.Toernooi          = h.Toernooi 
@@ -164,8 +164,8 @@ $toernooien = mysql_query("SELECT h.Toernooi,  Waarde , Datum from config as c
      and c.Vereniging_id    = '".$vereniging_id."' order by Datum ");
  
  
-$toernooien        = mysql_query("SELECT * from hulp_toernooi  where Vereniging_id = ".$vereniging_id."              ORDER BY Datum DESC" )       or die('Fout in select');  
-$aantal_toernooien = mysql_num_rows($toernooien);
+$toernooien        = mysqli_query($con,"SELECT * from hulp_toernooi  where Vereniging_id = ".$vereniging_id."              ORDER BY Datum DESC" )       or die('Fout in select');  
+$aantal_toernooien = mysqli_num_rows($toernooien);
 $color= 'black';
 
 if ($voorgeloot == 'On') {     
@@ -180,11 +180,9 @@ if ($voorgeloot == 'On') {
 	   	<SELECT name='toernooi' STYLE='font-size:10pt;background-color:white;font-family: Courier;width:480px;vertical-align:top;'  id="selectBox"  >
   <?php
    //    echo "<option  
-        while($row = mysql_fetch_array( $toernooien )) {
+        while($row = mysqli_fetch_array( $toernooien )) {
   	           $var = substr($row['Datum'],0,10);
  	           
- 	           
-
  	           
  	           
 	      echo "<OPTION  value='".$row['Toernooi']."' >";

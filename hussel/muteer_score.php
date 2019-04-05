@@ -1,7 +1,7 @@
 <?php
 
  ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 ?>
 <?php
 // ophalen aantal score regels
@@ -331,9 +331,9 @@ $query        = "UPDATE hussel_score
                     Saldo          = ".$saldo.",     
                     Beperkt        = 'N' ,
                     Laatst  = NOW()  WHERE  Id  = ".$id."  ";
- echo $query. "<br>";
+ //echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update hussel_score '.$query);   	 		
+  mysqli_query($con,$query) or die ('Fout in update hussel_score '.$query);   	 		
 }
 
 if ($error == 0   and $voorgeloot == 'On'  and $lotnummer !='' ){	 		  
@@ -344,7 +344,7 @@ $query        = "UPDATE hussel_score
                     Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update hussel_score lotnummer');   	 		
+  mysqli_query($con,$query) or die ('Fout in update hussel_score lotnummer');   	 		
 }
                          		 
 	}// next line
@@ -353,17 +353,17 @@ $query        = "UPDATE hussel_score
 if ($error == 0   and $voorgeloot == 'On'){	 		  
 // check op dubbel ingevoerde voorgeloot
 
-$sql    =   mysql_query( "SELECT Lot_nummer, Count(*) from hussel_score where Vereniging_id = ".$vereniging_id."  
+$sql    =   mysqli_query($con, "SELECT Lot_nummer, Count(*) from hussel_score where Vereniging_id = ".$vereniging_id."  
                    and Datum = '".$datum."' and Lot_nummer <> ''   group by Lot_nummer HAVING  COUNT(*) > 1") or die('Fout in select duplicates'); 
     
   //echo  "SELECT Naam, Lot_nummer, Count(*) from hussel_score where Vereniging_id = ".$vereniging_id."  
  //                  and Datum = '".$datum."'  group by  Lot_nummer HAVING  COUNT(*) > 1";
     
                    
-while($row = mysql_fetch_array( $sql)) {
+while($row = mysqli_fetch_array( $sql)) {
   $message .="*  Lotnummer ".$row['Lot_nummer']. "  is niet uniek : <br>";
-    $qry            = mysql_query("SELECT * From hussel_score where Vereniging_id = ".$vereniging_id ." and Datum = '".$datum."' and Lot_nummer = '".$row['Lot_nummer']."'  ")     ;
-      while($result = mysql_fetch_array( $qry)) {
+    $qry            = mysqli_query($con,"SELECT * From hussel_score where Vereniging_id = ".$vereniging_id ." and Datum = '".$datum."' and Lot_nummer = '".$row['Lot_nummer']."'  ")     ;
+      while($result = mysqli_fetch_array( $qry)) {
            	$message .="- Lotnummer ".$row['Lot_nummer']." gebruikt bij ".$result['Naam']."<br>";
       }
  
@@ -377,9 +377,9 @@ while($row = mysql_fetch_array( $sql)) {
 $beperkt = $_POST['Beperkt'];
 
 foreach ($beperkt as $beperktid)  { 
-echo $beperktid;
+//echo $beperktid;
 
- mysql_query("UPDATE hussel_score set Beperkt = 'J' where Id= ".$beperktid." ");
+ mysqli_query($con,"UPDATE hussel_score set Beperkt = 'J' where Id= ".$beperktid." ");
  
 
 } // end foreach

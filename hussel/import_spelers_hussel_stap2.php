@@ -19,10 +19,10 @@ td {color:blue;font-size: 9pt;background-color:white;}
 <?php
 
 
-include('mysql.php');
+include('mysqli.php');
 ini_set('display_errors', 0); 
-$qry            = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
-$row            = mysql_fetch_array( $qry );
+$qry            = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
+$row            = mysqli_fetch_array( $qry );
 
 // 0123456
 // ../naam/
@@ -166,8 +166,8 @@ $nr             =   $parts[0];
 $naam           =   $parts[1];
 
 if ($naam !=''){
-$sql            = mysql_query("SELECT count(*) as Aantal  From  hussel_scorewhere Vereniging_id = ".$vereniging_id." and Naam ='".$naam."' and Datum = '".$datum."'   " );
-$row            = mysql_fetch_array( $sql);
+$sql            = mysqli_query($con,"SELECT count(*) as Aantal  From  hussel_scorewhere Vereniging_id = ".$vereniging_id." and Naam ='".$naam."' and Datum = '".$datum."'   " );
+$row            = mysqli_fetch_array( $sql);
 $count          = $row['Aantal'];	
 
 
@@ -182,7 +182,7 @@ echo "** ". $naam." wordt toegevoegd.<br>";
 
 $query="INSERT INTO hussel_score (Id, Vereniging, Vereniging_id,Datum, Naam) VALUES (0,'".$vereniging."',".$vereniging_id.",'".$datum."','".$naam."' )";   
 
-mysql_query($query) or die(' Fout in insert speler');  
+mysqli_query($con,$query) or die(' Fout in insert speler');  
 $i++;
 }
 }

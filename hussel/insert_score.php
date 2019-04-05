@@ -1,7 +1,7 @@
 <?php
 header("Location: ".$_SERVER['HTTP_REFERER']);
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 // ophalen aantal score regels
 $count_score   = $_POST['count_score'];
@@ -111,7 +111,7 @@ $query        = "UPDATE hussel_score
                     Laatst  = NOW()  WHERE  Id  = ".$id."  ";
  // echo $query. "<br>";
   
-  mysql_query($query) or die ('Fout in update hussel_score ');   	 		
+  mysqli_query($con,$query) or die ('Fout in update hussel_score ');   	 		
 	                         		 
 	}// next line
 ob_end_flush();

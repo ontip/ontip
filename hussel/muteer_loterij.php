@@ -4,7 +4,7 @@ ob_start();
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 $voorgeloot  = $_POST['voorgeloot'];
 
@@ -17,14 +17,14 @@ if ($voorgeloot == 0) {
    $query   = "UPDATE hussel_config SET Waarde = 'Off'   where  Vereniging_id = ".$vereniging_id." and Variabele = 'voorgeloot'";   
    //echo $query;
    
-    mysql_query($query) or die(' Fout in deactiveren controle 13');  
+    mysqli_query($con,$query) or die(' Fout in deactiveren controle 13');  
 }
 
 else {
 	
 	 $query="UPDATE hussel_config SET Waarde = 'On'   where  Vereniging_id = ".$vereniging_id." and Variabele = 'voorgeloot'";   
 	 // echo $query;
-    mysql_query($query) or die(' Fout in activeren voorgeloot');  
+    mysqli_query($con,$query) or die(' Fout in activeren voorgeloot');  
  	
 };//
 

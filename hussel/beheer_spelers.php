@@ -60,7 +60,7 @@ error_reporting(E_ALL);
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 
 $dag   = 	substr ($datum , 8,2); 
@@ -122,8 +122,8 @@ Na aanbrengen van wijzingen en of verwijderen op de knop bevestigen drukken onde
 <?php
 //// Tabel met users
 //// SQL Queries
-$spelers      = mysql_query("SELECT Id,Naam From  hussel_spelers where Vereniging_id = ".$vereniging_id." order by Naam  " )    or die(mysql_error());  
-$count          = mysql_num_rows($spelers);	
+$spelers      = mysqli_query($con,"SELECT Id,Naam From  hussel_spelers where Vereniging_id = ".$vereniging_id." order by Naam  " )    or die(mysql_error());  
+$count          = mysqli_num_rows($spelers);	
 
 // tabel binnen div
 
@@ -145,7 +145,7 @@ $i=1;                        // intieer teller
 
 echo "  <tr>";
 
-while($row = mysql_fetch_array( $spelers )) {
+while($row = mysqli_fetch_array( $spelers )) {
 
    echo "<td style='text-align:right;padding:5pt;' >";
    echo $i;

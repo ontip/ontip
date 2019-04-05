@@ -59,7 +59,7 @@ function img_aanzetten(i){
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 
 //// 2015-05-19
@@ -74,12 +74,12 @@ $sort = $_GET['sort'];
 
 
 if ($sort =='Naam') {
-	$score   = mysql_query("SELECT * From hussel_score WHERE Vereniging_id = ".$vereniging_id." and Datum = '".$datum."'  and Naam <> '' ORDER BY Naam " )     or die(mysql_error());  
+	$score   = mysqli_query($con,"SELECT * From hussel_score WHERE Vereniging_id = ".$vereniging_id." and Datum = '".$datum."'  and Naam <> '' ORDER BY Naam " )     or die(mysql_error());  
 
 }
 
 if ($sort =='Lot') {
-	$score   = mysql_query("SELECT * From hussel_score WHERE Vereniging_id = ".$vereniging_id." and Datum = '".$datum."'  and Naam <> '' ORDER BY Lot_nummer" )     or die(mysql_error());  
+	$score   = mysqli_query($con,"SELECT * From hussel_score WHERE Vereniging_id = ".$vereniging_id." and Datum = '".$datum."'  and Naam <> '' ORDER BY Lot_nummer" )     or die(mysql_error());  
 
 }
 
@@ -170,7 +170,7 @@ echo "  </tr>";
 //<!---- Standaard regel ---->
 $i=1;
 echo "  <tr>";
-  while($row = mysql_fetch_array( $score )) {
+  while($row = mysqli_fetch_array( $score )) {
 	
 	 
       

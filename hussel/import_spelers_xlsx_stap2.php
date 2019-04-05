@@ -1,8 +1,8 @@
 <?php
 
-include('mysql.php');
-$qry            = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
-$row            = mysql_fetch_array( $qry );
+include('mysqli.php');
+$qry            = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
+$row            = mysqli_fetch_array( $qry );
 
 $prog_url = substr($row['Prog_url'],3,-1);
 $paths            = "/public_html/".$prog_url."/hussel/xlsx/";

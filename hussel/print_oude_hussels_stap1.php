@@ -13,7 +13,7 @@ a {text-decoration:none;color:blue;padding-left:2px;padding-right:2pt;font-size:
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 
 $dag   = 	substr ($datum , 8,2); 
@@ -39,8 +39,8 @@ echo "<td width=70%><h1 style='color:blue;font-weight:bold;font-size:32pt; text-
 
 if ($voorgeloot == 'On') {
 	
-$qry                 = mysql_query("SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'voorgeloot'  ") ;  
-$result              = mysql_fetch_array( $qry);
+$qry                 = mysqli_query($con,"SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'voorgeloot'  ") ;  
+$result              = mysqli_fetch_array( $qry);
 $toernooi            = $result['Parameters'];	
 
 echo $toernooi . " ". $datum_string."</h1></td>";
@@ -88,8 +88,8 @@ De volgende scores worden verwijderd als je Akkoord aanvinkt en op verwijderen k
 	<?php
 	$i=1;
 	
-	$qry  = mysql_query("SELECT Datum, count(*) as Aantal From hussel_score where Vereniging_id = ".$vereniging_id ." group by Datum order by Datum  ")     or die(' Fout in select');  
-	while($row = mysql_fetch_array( $qry )) {
+	$qry  = mysqli_query($con,"SELECT Datum, count(*) as Aantal From hussel_score where Vereniging_id = ".$vereniging_id ." group by Datum order by Datum  ")     or die(' Fout in select');  
+	while($row = mysqli_fetch_array( $qry )) {
 		
 	?>
 	<tr>
@@ -102,8 +102,8 @@ De volgende scores worden verwijderd als je Akkoord aanvinkt en op verwijderen k
 		
 		/// hussels die deel uit maken van een serie kunnen niet verwijderd worden
 		
-		$sql_datums   = mysql_query("SELECT * FROM hussel_serie WHERE  Vereniging_id = ".$vereniging_id." and Datum = '".$row['Datum']."'  ") or die(' Fout in select datums'); 
-    $result       = mysql_fetch_array( $sql_datums );
+		$sql_datums   = mysqli_query($con,"SELECT * FROM hussel_serie WHERE  Vereniging_id = ".$vereniging_id." and Datum = '".$row['Datum']."'  ") or die(' Fout in select datums'); 
+    $result       = mysqli_fetch_array( $sql_datums );
     $naam_serie   = $result['Naam_serie'];
         
      if ($naam_serie  ==''){

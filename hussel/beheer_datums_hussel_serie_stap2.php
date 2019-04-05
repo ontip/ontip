@@ -4,10 +4,10 @@ ob_start();
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 $hussel_serie  = $_POST['hussel_serie'];
-echo $hussel_serie."<br>";
+//echo $hussel_serie."<br>";
 
 
  for ($j=1;$j<21;$j++){
@@ -20,7 +20,7 @@ echo $hussel_serie."<br>";
  		  // update
  			$query   = "UPDATE hussel_serie SET Naam_serie = '".$hussel_serie."' , Datum = '".$datum."'  where Id = ".$id." ";   
  		 // echo $query;
- mysql_query($query) or die ('Fout in update hussel_serie');  
+ mysqli_query($con,$query) or die ('Fout in update hussel_serie');  
  
  } else {
  
@@ -30,7 +30,7 @@ echo $hussel_serie."<br>";
  		  // insert
  			$query   = "INSERT hussel_serie (Id, Vereniging, Vereniging_id ,Naam_serie, Datum) VALUES ( 0, '".$vereniging."' ,".$vereniging_id." ,'".$hussel_serie."' ,'".$datum."'   )";   
  			//echo $query;
- 			mysql_query($query) or die ('Fout in insert hussel_serie');   	 		
+ 			mysqli_query($con,$query) or die ('Fout in insert hussel_serie');   	 		
   }			  // endif
  
  
@@ -43,7 +43,7 @@ $delete = $_POST['Check'];
 
 foreach ($delete as $deleteid)  { 
 
- mysql_query("DELETE FROM hussel_serie  where Id= ".$deleteid." ");
+ mysqli_query($con,"DELETE FROM hussel_serie  where Id= ".$deleteid." ");
 
 } // end foreach
 

@@ -1,3 +1,18 @@
+<?php
+# beheer_settings.php
+#
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 5apr2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          PHP7
+# Reference: 
+?>
 <html>
 <head>
 <title>Jeu de Boules Hussel (C) 2009  Erik Hendrikx</title>
@@ -23,7 +38,7 @@ a {text-decoration:none;color:blue;padding-left:2px;padding-right:2pt;font-size:
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 
 $dag   = 	substr ($datum , 8,2); 
@@ -48,8 +63,8 @@ echo "<td width=70%><h1 style='color:blue;font-weight:bold;font-size:32pt; text-
 
 if ($voorgeloot == 'On') {
 	
-$qry                 = mysql_query("SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'voorgeloot'  ") ;  
-$result              = mysql_fetch_array( $qry);
+$qry                 = mysqli_query($con,"SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'voorgeloot'  ") ;  
+$result              = mysqli_fetch_array( $qry);
 $toernooi            = $result['Parameters'];	
 
 echo $toernooi . " ". $datum_string."</h1></td>";
@@ -73,9 +88,9 @@ echo "<hr style='border:1 pt  solid red;'/>";
 <?php 
 echo "<tr>";
 
-	$qry  = mysql_query("SELECT * From hussel_config where Vereniging_id = ".$vereniging_id ." and Variabele ='datum_lock' ")     or die(' Fout in select');  
-	$result     = mysql_fetch_array( $qry );
-	$datum_lock =  $result['Waarde']; 
+	$qry        = mysqli_query($con,"SELECT * From hussel_config where Vereniging_id = ".$vereniging_id ." and Variabele ='datum_lock' ")     or die(' Fout in select');  
+	$result     = mysqli_fetch_array( $qry );
+	$datum_lock = $result['Waarde']; 
 
 if ($datum_lock == 'On'){	
 	$datum   = $result['Parameters'];
@@ -99,8 +114,6 @@ echo "<img src='images/3rondes.png' height=40><br>rondes";
 if ($aantal_rondes == 5){
 echo "<img src='images/5rondes.png' height=40><br>rondes";
 }
-
-
 
 echo "</td>";
 echo "<td  style='text-align:bottom;'><form action='muteer_rondes.php' method='post'><span style='color:black;font-weight:bold;'>Hiermee kan het aantal spelrondes aangepast worden. Zet een vinkje bij de gewenste keuze klik op de knop.</span><br><br>";
@@ -375,8 +388,8 @@ echo "</tr>";
     <td><a style='padding-left:8px;color:black;font-weight:bold;font-size:10pt;' href='import_pdf_schemas_stap1.php'>Klik hier voor Uploaden van PDF schema tbv baan toewijzing.</a>
     <br><form action='muteer_baanschema.php' method='post'>
     	<?php
-    	$qry                = mysql_query("SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'baan_schemas'  ") ;  
-      $result             = mysql_fetch_array( $qry);
+    	$qry                = mysqli_query($con,"SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'baan_schemas'  ") ;  
+      $result             = mysqli_fetch_array( $qry);
       $min_aantal         = $result['Parameters'];
       $baan_schema        = $result['Waarde'];
       if ($min_aantal =='') {

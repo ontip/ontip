@@ -60,11 +60,11 @@ error_reporting(E_ALL);
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 
 //// SQL Queries
-$spelers      = mysql_query("SELECT Id,Naam, Poule From hussel_spelers where Vereniging_id = ".$vereniging_id." order by Naam  " )    or die(mysql_error());  
+$spelers      = mysqli_query($con,"SELECT Id,Naam, Poule From hussel_spelers where Vereniging_id = ".$vereniging_id." order by Naam  " )    or die(mysql_error());  
 
 
 echo "<div style='border: red solid 1px;padding-left:5px;'>";  
@@ -123,7 +123,7 @@ $i=1;                        // intieer teller
 
 echo "  <tr>";
 
-while($row = mysql_fetch_array( $spelers )) {
+while($row = mysqli_fetch_array( $spelers )) {
 
    echo "<td style='text-align:right;padding:5pt;' >";
    echo $i;

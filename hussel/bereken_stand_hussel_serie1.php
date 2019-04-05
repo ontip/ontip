@@ -64,31 +64,31 @@ error_reporting(E_ALL);
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 
 // Schonen
 $query = "DELETE FROM hussel_serie_scores where Vereniging_id = ".$vereniging_id." ";
-mysql_query($query) or die ('Fout in schonen 1'); 
+mysqli_query($con,$query) or die ('Fout in schonen 1'); 
 
 $query = "DELETE FROM hussel_serie_stand where Vereniging_id = ".$vereniging_id." ";
-mysql_query($query) or die ('Fout in schonen 2'); 
+mysqli_query($con,$query) or die ('Fout in schonen 2'); 
 
 
 //// Via lezen van datums hussel_serie  de scores voor de hussel ophalen
 
-$sql_datums   = mysql_query("SELECT * FROM hussel_serie WHERE  Vereniging_id = ".$vereniging_id." and Datum <> '' and Datum <> '0000-00-00' order by Datum  ") or die(' Fout in select datums'); 
+$sql_datums   = mysqli_query($con,"SELECT * FROM hussel_serie WHERE  Vereniging_id = ".$vereniging_id." and Datum <> '' and Datum <> '0000-00-00' order by Datum  ") or die(' Fout in select datums'); 
 
 
-   while($row = mysql_fetch_array( $sql_datums )) {
+   while($row = mysqli_fetch_array( $sql_datums )) {
 
     $naam_serie    = $row['Naam_serie'];
     $datum         = $row['Datum'];
        
-    $sql_score  = mysql_query("SELECT * FROM hussel_score WHERE  Vereniging_id = ".$vereniging_id." and Datum = '".$row['Datum']."' order by Naam  ") or die(' Fout in select scores'); 
+    $sql_score  = mysqli_query($con,"SELECT * FROM hussel_score WHERE  Vereniging_id = ".$vereniging_id." and Datum = '".$row['Datum']."' order by Naam  ") or die(' Fout in select scores'); 
     
 
-   while($row_score = mysql_fetch_array( $sql_score )) {
+   while($row_score = mysqli_fetch_array( $sql_score )) {
 
     $naam   = $row_score['Naam'];
     $datum  = $row_score['Datum'];
@@ -100,7 +100,7 @@ $sql_datums   = mysql_query("SELECT * FROM hussel_serie WHERE  Vereniging_id = "
    	$query   = "INSERT INTO hussel_serie_scores (Id, Vereniging, Vereniging_id, Naam_serie ,Datum, Naam, Score, Saldo, Laatst)
  	              VALUES ( 0, '".$vereniging."' ,".$vereniging_id." ,'".$naam_serie."','".$datum."','".$naam."', ".$score.",".$saldo.", now()    )";   
  	//		echo $query;
- 			mysql_query($query) or die ('Fout in insert hussel_serie_scores');   	 		
+ 			mysqli_query($con,$query) or die ('Fout in insert hussel_serie_scores');   	 		
 
 
 } // end while  row score
@@ -123,8 +123,8 @@ $d = 1;
 
    <?php
    // datums tbv kopregel
-      $sql_datums   = mysql_query("SELECT * FROM hussel_serie WHERE  Vereniging_id = ".$vereniging_id." and Datum <> '' and Datum <> '0000-00-00' order by Datum  ") or die(' Fout in select datums'); 
-         while($row = mysql_fetch_array( $sql_datums )) {
+      $sql_datums   = mysqli_query($con,"SELECT * FROM hussel_serie WHERE  Vereniging_id = ".$vereniging_id." and Datum <> '' and Datum <> '0000-00-00' order by Datum  ") or die(' Fout in select datums'); 
+         while($row = mysqli_fetch_array( $sql_datums )) {
          	$naam_serie = $row['Naam_serie'];
          	
     ?> 
@@ -142,8 +142,8 @@ $d = 1;
 /// detail regels per speler
  $i=1;
  
-    $sql_score  = mysql_query("SELECT * FROM hussel_serie_scores WHERE  Vereniging_id = ".$vereniging_id." Group by Naam order by Saldo desc ") or die(' Fout in select scores'); 
-         while($row_score = mysql_fetch_array( $sql_score )) {
+    $sql_score  = mysqli_query($con,"SELECT * FROM hussel_serie_scores WHERE  Vereniging_id = ".$vereniging_id." Group by Naam order by Saldo desc ") or die(' Fout in select scores'); 
+         while($row_score = mysqli_fetch_array( $sql_score )) {
          	
          	$aantal_dagen = 0;
          	$tot_saldo    = 0;
@@ -155,22 +155,22 @@ $d = 1;
      <?php
      
      $query        = "INSERT INTO hussel_serie_stand (Vereniging,Vereniging_id,Naam_serie,Naam) values ('".$vereniging."', ".$vereniging_id." ,'".$naam_serie."','".$row_score['Naam']."'  ) ";
-     mysql_query($query) or die ('Fout in insert hussel_serie_stand');   	 		
+     mysqli_query($con,$query) or die ('Fout in insert hussel_serie_stand');   	 		
      
      //Datums een voor een af gaan
      $datum_teller = 1;
-     $sql_datums   = mysql_query("SELECT * FROM hussel_serie WHERE  Vereniging_id = ".$vereniging_id." and Datum <> '' and Datum <> '0000-00-00' order by Datum  ") or die(' Fout in select datums'); 
+     $sql_datums   = mysqli_query($con,"SELECT * FROM hussel_serie WHERE  Vereniging_id = ".$vereniging_id." and Datum <> '' and Datum <> '0000-00-00' order by Datum  ") or die(' Fout in select datums'); 
      
       // kontroleer of de speler op die datum heeft meegedaan
-     while($result = mysql_fetch_array( $sql_datums )) {
+     while($result = mysqli_fetch_array( $sql_datums )) {
 
      $count = 0;
      
-     $sql_score_speler_datum   = mysql_query("SELECT * FROM hussel_serie_scores WHERE  Vereniging_id = ".$vereniging_id." and Naam = '".$row_score['Naam']."'  and Datum = '".$result['Datum']."'   ") ;   
-     $count       = mysql_num_rows($sql_score_speler_datum);	
+     $sql_score_speler_datum   = mysqli_query($con,"SELECT * FROM hussel_serie_scores WHERE  Vereniging_id = ".$vereniging_id." and Naam = '".$row_score['Naam']."'  and Datum = '".$result['Datum']."'   ") ;   
+     $count       = mysqli_num_rows($sql_score_speler_datum);	
      
        if ($count > 0){
-          $result_score_speler_datum  = mysql_fetch_array( $sql_score_speler_datum );
+          $result_score_speler_datum  = mysqli_fetch_array( $sql_score_speler_datum );
           $score = $result_score_speler_datum['Score'];
           $saldo = $result_score_speler_datum['Saldo'];
          
@@ -184,7 +184,7 @@ $d = 1;
        }	 // end if  count
        
         $query        = "UPDATE hussel_serie_stand set Score".$datum_teller." = '".$score."'  WHERE  Vereniging_id = ".$vereniging_id." and Naam = '".$row_score['Naam']."'    ";
-        mysql_query($query) or die ('Fout in update hussel_serie_stand');   	 		
+        mysqli_query($con,$query) or die ('Fout in update hussel_serie_stand');   	 		
     
     ?>
      <td><?php echo $score;?></td>
@@ -196,7 +196,7 @@ $d = 1;
     
      // laatste waarden updaten per speler    
      $query        = "UPDATE hussel_serie_stand set Totaal = '".$tot_score."' , Gespeeld = ".$aantal_dagen." WHERE  Vereniging_id = ".$vereniging_id." and Naam = '".$row_score['Naam']."'    ";
-     mysql_query($query) or die ('Fout in update hussel_serie_stand');   	 		
+     mysqli_query($con,$query) or die ('Fout in update hussel_serie_stand');   	 		
 
    ?>
     <td><?php echo $aantal_dagen;?></td>

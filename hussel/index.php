@@ -2,6 +2,12 @@
 ////  HUSSEL index.php (c) Erik Hendrikx 2015 ev
 ////
 //// 7 sep 2017 muteer_score kan maximaal 125 records updaten per scherm.  Parameter boven_100  toegevoegd.
+# 5apr2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          PHP7
+# Reference: 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 ?>
 <html>
@@ -213,11 +219,11 @@ function fill_input_naam_field()
 <body>
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 // variabelen worden geladen in mysql.php
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
-
+/*
 $aangelogd = 'N';
 
 include('aanlog_check_hussel.php');	
@@ -230,7 +236,7 @@ if ($aangelogd !='J'){
 <?php
 exit;
 }
-
+*/
 
 setlocale(LC_ALL, 'nl_NL');
 ini_set('default_charset','UTF-8');
@@ -253,18 +259,17 @@ if ($jaar <> date('Y') ){
 	$datum_string = strftime("%A %e %B ", mktime(0, 0, 0, $maand , $dag, $jaar) );
 }	
 
-$sql_score      = mysql_query("SELECT count(*)as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id."  and  Datum = '".$datum."'  ")     or die(' Fout in select spelers');  
-$result = mysql_fetch_array( $sql_score );
-$aantal = $result['Aantal'];
+$sql_score      = mysqli_query($con,"SELECT count(*)as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id."  and  Datum = '".$datum."'  ")     or die(' Fout in select spelers');  
+$result         = mysqli_fetch_array( $sql_score );
+$aantal         = $result['Aantal'];
 
-$sql_score      = mysql_query("SELECT count(*) as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id." and Voor1 > 0 and Tegen1 > 0 and  Datum = '".$datum."'  ")     or die(' Fout in select aantal');  
-$result = mysql_fetch_array( $sql_score );
+$sql_score       = mysqli_query($con,"SELECT count(*) as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id." and Voor1 > 0 and Tegen1 > 0 and  Datum = '".$datum."'  ")     or die(' Fout in select aantal');  
+$result          = mysqli_fetch_array( $sql_score );
 $aantal_ingevuld = $result['Aantal'];
 
-$sql_score      = mysql_query("SELECT count(*) as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id." and Beperkt ='J' and  Datum = '".$datum."'  ")     or die(' Fout in select aantal');  
-$result = mysql_fetch_array( $sql_score );
+$sql_score      = mysqli_query($con,"SELECT count(*) as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id." and Beperkt ='J' and  Datum = '".$datum."'  ")     or die(' Fout in select aantal');  
+$result         = mysqli_fetch_array( $sql_score );
 $aantal_beperkt = $result['Aantal'];
-
 
 
 echo "<table width=99% border =0>";
@@ -276,8 +281,8 @@ echo "<td width=60%><h1 style='color:blue;font-weight:bold;font-size:32pt; text-
 
 if ($voorgeloot == 'On') {
 	
-$qry                 = mysql_query("SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'voorgeloot'  ") ;  
-$result              = mysql_fetch_array( $qry);
+$qry                 = mysqli_query($con,"SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'voorgeloot'  ") ;  
+$result              = mysqli_fetch_array( $qry);
 $toernooi            = $result['Parameters'];	
 
 echo $toernooi . "<br>". $datum_string."</h1>";
@@ -286,16 +291,12 @@ echo "Hussel ". $datum_string."</h1>";
 }
 
 if ($baan_schemas == 'On') {
-$qry                 = mysql_query("SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'baan_schemas'  ") ;  
-$result              = mysql_fetch_array( $qry);
+$qry                 = mysqli_query($con,"SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'baan_schemas'  ") ;  
+$result              = mysqli_fetch_array( $qry);
 $min_aantal         = $result['Parameters'];	
 }
 
-
 /// 7 sep 2017  indien > 100 splitsen
-
-
-
 
 
 echo "</td>";
@@ -377,10 +378,6 @@ echo "<td width = 50><a style='font-size:8pt;text-align:center;'href='http://www
 
 echo "<td width = 50><a style='font-size:8pt;text-align:center;'href='demo_filmpje_hussel.php' class='tooltip' target='_top'  title='Demo'><img src='../../boulamis/hussel/images/Youtube_logo.PNG' width =40 border =0 ><br>Demo</a></td>";
 
-
-
-
-
 echo "</tr>";
 echo "</table>";
 
@@ -396,15 +393,15 @@ if ($datum_lock=='On'){
 // indien een stand in ronde1 is ingevuld verdwijnt de marquee met invul tip
 
 //echo "SELECT count(*)as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id." and Voor1 > 0 and Tegen1 > 0 and  Datum = '".$datum."'  ";
-$sql_score      = mysql_query("SELECT count(*)as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id." and Voor1 > 0 and Tegen1 > 0 and  Datum = '".$datum."'  ")     or die(' Fout in select spelers');  
-$result = mysql_fetch_array( $sql_score );
-$aantal = $result['Aantal'];
+$sql_score      = mysqli_query($con,"SELECT count(*)as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id." and Voor1 > 0 and Tegen1 > 0 and  Datum = '".$datum."'  ")     or die(' Fout in select spelers');  
+$result         = mysqli_fetch_array( $sql_score );
+$aantal         = $result['Aantal'];
 
 
 if ($aantal == 0 ){
 	// blokkeren uitschakelen bij aantal 0
 	$query   = "UPDATE hussel_config SET Waarde = 'Off'   where  Vereniging_id = ".$vereniging_id." and Variabele = 'blokkeer_invoer'";   
-  mysql_query($query) or die(' Fout in deactiveren invoer');
+  mysqli_query($con,$query) or die(' Fout in deactiveren invoer');
 }
 
 if ($aantal < 5 and $blokkeer_invoer == 'Off' ){
@@ -418,7 +415,7 @@ if ($aantal < 5 and $blokkeer_invoer == 'Off' ){
 
 //// Query voor spelers ophalen die nog niet eerder zijn geselecteerd
 
-$sql_splrs      = mysql_query("SELECT * From hussel_spelers  where Vereniging_id = ".$vereniging_id." and Naam not in ( select Naam from hussel_score where Vereniging_id = ".$vereniging_id." and  Datum = '".$datum."' ) order by Naam ")     or die(' Fout in select spelers');  
+$sql_splrs      = mysqli_query($con,"SELECT * From hussel_spelers  where Vereniging_id = ".$vereniging_id." and Naam not in ( select Naam from hussel_score where Vereniging_id = ".$vereniging_id." and  Datum = '".$datum."' ) order by Naam ")     or die(' Fout in select spelers');  
 
 ?>
 <?php
@@ -441,7 +438,7 @@ if ($blokkeer_invoer == 'Off' or $aantal ==0 ){
          <option value='' selected>Selecteer uit lijst..</option>
        <?php
         $i=1;
-         while($row = mysql_fetch_array( $sql_splrs )) {
+         while($row = mysqli_fetch_array( $sql_splrs )) {
          	?>
          	
           <option STYLE='font-size:14pt;background-color:WHITE;font-family: Courier;width:450px;' value='<?php echo $row['Naam']; ?>' ><?php echo $row['Naam']; ?></option>
@@ -624,12 +621,12 @@ Beperkt</a></th>
  
   
 if ($voorgeloot == 'On') {
-$sql_score      = mysql_query("SELECT * FROM hussel_score WHERE  Vereniging_id = ".$vereniging_id." and Datum = '".$datum."' order by Lot_nummer , Naam ") or die(' Fout in select score');  
+$sql_score      = mysqli_query($con,"SELECT * FROM hussel_score WHERE  Vereniging_id = ".$vereniging_id." and Datum = '".$datum."' order by Lot_nummer , Naam ") or die(' Fout in select score');  
 } else {
-$sql_score      = mysql_query("SELECT * FROM hussel_score WHERE  Vereniging_id = ".$vereniging_id." and Datum = '".$datum."' order by Naam Limit ".$limit_tekst."  " ) or die(' Fout in select score');  
+$sql_score      = mysqli_query($con,"SELECT * FROM hussel_score WHERE  Vereniging_id = ".$vereniging_id." and Datum = '".$datum."' order by Naam Limit ".$limit_tekst."  " ) or die(' Fout in select score');  
 }
 
-$count          = mysql_num_rows($sql_score);	
+$count          = mysqli_num_rows($sql_score);	
 
 echo "<input type='hidden'  name ='count_score'   value ='".$count."'>";  
 echo "<input type='hidden'  name ='boven_100'     value ='".$boven_100."'>";  
@@ -638,7 +635,7 @@ echo "<input type='hidden'  name ='controle_13'   value =".$controle_13.">";
 echo "<input type='hidden'  name ='aantal_rondes' value =".$aantal_rondes.">";  
 
 //// detail regels
-    while($row_score = mysql_fetch_array( $sql_score )) {
+    while($row_score = mysqli_fetch_array( $sql_score )) {
 
    //  store id waarde
     echo "<input type='hidden'  name ='Id_".$i."' value =".$row_score['Id'].">";  
@@ -771,10 +768,9 @@ $i++;
 </table>
 
 <?php
-$sql_score      = mysql_query("SELECT count(*)as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id."  and  Datum = '".$datum."'  ")     or die(' Fout in select spelers');  
-$result = mysql_fetch_array( $sql_score );
-$aantal = $result['Aantal'];
-
+$sql_score      = mysqli_query($con,"SELECT count(*)as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id."  and  Datum = '".$datum."'  ")     or die(' Fout in select spelers');  
+$result         = mysqli_fetch_array( $sql_score );
+$aantal         = $result['Aantal'];
 
 if ($aantal > 100 and  isset($_GET['boven_100'])){
 ?>

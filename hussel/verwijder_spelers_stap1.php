@@ -24,7 +24,7 @@ a {text-decoration:none;color:blue;padding-left:2px;padding-right:2pt;font-size:
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 
 $dag   = 	substr ($datum , 8,2); 
@@ -53,8 +53,8 @@ echo "<td width=70%><h1 style='color:blue;font-weight:bold;font-size:32pt; text-
 
 if ($voorgeloot == 'On') {
 	
-$qry                 = mysql_query("SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'voorgeloot'  ") ;  
-$result              = mysql_fetch_array( $qry);
+$qry                 = mysqli_query($con,"SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'voorgeloot'  ") ;  
+$result              = mysqli_fetch_array( $qry);
 $toernooi            = $result['Parameters'];	
 
 echo $toernooi . " ". $datum_string."</h1></td>";
@@ -110,8 +110,8 @@ $j=1;
 for ($i=0;$i<$aantal;$i++){
 		
 	
-		$qry  = mysql_query("SELECT * From hussel_score where Id = ".$deleteid[$i]."  ")     or die(' Fout in select');  
-	  $row = mysql_fetch_array( $qry );
+		$qry  = mysqli_query($con,"SELECT * From hussel_score where Id = ".$deleteid[$i]."  ")     or die(' Fout in select');  
+	  $row = mysqli_fetch_array( $qry );
 
 		
 	?>
@@ -134,10 +134,6 @@ for ($i=0;$i<$aantal;$i++){
 </a>
 </blockquote>
 </form>
-	
-	
-	
-	
 	
 	
 	

@@ -66,16 +66,16 @@ $toernooi= $_POST['toernooi'];
 
 // Inschrijven als individu of vast team
 
-$qry                 = mysql_query("SELECT * From config  where Vereniging_id = '".$vereniging_id ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
-$result              = mysql_fetch_array( $qry);
+$qry                 = mysqli_query($con,"SELECT * From config  where Vereniging_id = '".$vereniging_id ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
+$result              = mysqli_fetch_array( $qry);
 $inschrijf_methode   = $result['Parameters'];
 
-$spelers      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging_id = '".$vereniging_id."' order by Inschrijving" )    or die(mysql_error());  
+$spelers      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging_id = '".$vereniging_id."' order by Inschrijving" )    or die(mysql_error());  
 echo "Inschrijvingen ". $toernooi_voluit . "\r\n"; 
 
 $i=1;
 
-while($row = mysql_fetch_array( $spelers )) {
+while($row = mysqli_fetch_array( $spelers )) {
 
 
 if ($soort_inschrijving =='single' or $inschrijf_methode =='vast'){
@@ -104,7 +104,7 @@ $query = "INSERT INTO hussel_score (Vereniging, Vereniging_id,Datum,  Naam, Wins
                echo $query."<br>";
                
                
-//mysql_query($query) or die (mysql_error()); 
+//mysqli_query($con,$query) or die (mysql_error()); 
 
 
 

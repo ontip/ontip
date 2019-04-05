@@ -57,7 +57,7 @@ $message ='';
 
        if ($naam !=''){
         $query="INSERT INTO hussel_spelers (Id, Vereniging, Vereniging_id,Naam) VALUES (0,'".$vereniging."',".$vereniging_id.",'".$naam."' )";   
-        mysql_query($query) or die(' Fout in insert speler');  
+        mysqli_query($con,$query) or die(' Fout in insert speler');  
         $j++;
      } 	
    else {

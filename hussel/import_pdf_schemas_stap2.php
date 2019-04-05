@@ -19,10 +19,10 @@ td {color:blue;font-size: 9pt;background-color:white;}
 <?php
 
 // Database gegevens voor username en password
-include('mysql.php');
+include('mysqli.php');
 ini_set('display_errors', 0); 
-$qry            = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
-$row            = mysql_fetch_array( $qry );
+$qry            = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
+$row            = mysqli_fetch_array( $qry );
 
 // 0123456
 // ../naam/
