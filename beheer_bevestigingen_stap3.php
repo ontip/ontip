@@ -13,6 +13,13 @@
 # Fix:              Opgelost
 # Feature:          None.
 # Reference: 
+#
+# 5apr2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          PHP7
+# Reference: 
 
 ob_start();
 ini_set('display_errors', 'OFF');
@@ -21,7 +28,7 @@ setlocale(LC_ALL, 'nl_NL');
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 include ('versleutel_kenmerk.php'); 
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
@@ -85,9 +92,9 @@ if ($error == 1){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -97,8 +104,8 @@ $maand = 	substr ($datum , 5,2);
 $jaar  = 	substr ($datum , 0,4);     
 
 // Ophalen sms gegevens en mail tracer
-$qry3             = mysql_query("SELECT *  From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select3');  
-$row3             = mysql_fetch_array( $qry3 );
+$qry3             = mysqli_query($con,"SELECT *  From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select3');  
+$row3             = mysqli_fetch_array( $qry3 );
 $verzendadres_sms   = $row3['Verzendadres_SMS'];
 $trace              = $row3['Mail_trace'];
 $url_logo           = $row3['Url_logo']; 
@@ -108,8 +115,8 @@ $vereniging_id      = $row3['Id'];
  if ($trace =='J') {
      $email_tracer = $row3['Mail_trace_email'];
  }
-$qry                = mysql_query("SELECT * from inschrijf where Id= ".$id." " )    or die('Fout in select id');  
-$row                = mysql_fetch_array( $qry);
+$qry                = mysqli_query($con,"SELECT * from inschrijf where Id= ".$id." " )    or die('Fout in select id');  
+$row                = mysqli_fetch_array( $qry);
 $Naam1              = $row['Naam1'];
 $current_status     = $row['Status'];
 
@@ -163,7 +170,7 @@ $minuut2 = substr ($Inschrijving , 14,2);
    $query="UPDATE inschrijf 
                SET Status = '".$input_status."'
             WHERE  Id           = '".$id."'  ";
-    mysql_query($query) or die ('error in update generic : '. $input_status); 
+    mysqli_query($con,$query) or die ('error in update generic : '. $input_status); 
     
     
  // voor betaalde trx betaal datum aanpassen muv Ideal   
@@ -173,7 +180,7 @@ $minuut2 = substr ($Inschrijving , 14,2);
                SET Betaal_datum = NOW() ,
                    Status = '".$input_status."'
             WHERE  Id           = '".$id."'  ";
-    mysql_query($query) or die ('error in update BE3 or 4'); 
+    mysqli_query($con,$query) or die ('error in update BE3 or 4'); 
 }
   //echo $query;
   
@@ -441,7 +448,7 @@ $Kenmerk  = "BVST:J:".$Kenmerk;
                VALUES (0,'".$toernooi."', '".$vereniging ."'  , ".$vereniging_id.", '".$datum."','".$verzendadres_sms."' ,
                          '".$Naam1."'   ,  '".$Vereniging1."'   ,'".$Telefoon."', '".$Kenmerk."',".$sms_bericht_lengte."  , NOW()   )";                        
  //echo $query;
- mysql_query($query) or die (mysql_error()); 
+ mysqli_query($con,$query) or die (mysql_error()); 
  
  //echo $sms_bericht;
  
@@ -541,7 +548,7 @@ if ($sms_bevestigen_zichtbaar_jn == 'J' and $sms_tegoed > 1){
                VALUES (0,'".$toernooi."', '".$vereniging ."'  , ".$vereniging_id.", '".$datum."','".$verzendadres_sms."' ,
                          '".$Naam1."'   ,  '".$Vereniging1."'   ,'".$Telefoon."', '".$Kenmerk."',".$sms_bericht_lengte."  , NOW()   )";                        
  //echo $query;
- mysql_query($query) or die (mysql_error()); 
+ mysqli_query($con,$query) or die (mysql_error()); 
 }      // sms zichtbaar 
  //echo $sms_bericht;
        
@@ -554,9 +561,7 @@ ob_end_flush();
         alert("Status van inschrijving voor <?php echo $Naam1; ?> is veranderd in <?php echo $input_status; ?> en " + '\r\n' + 
               "evt Email of SMS is verzonden. Dit window kan veilig afgesloten worden.")
     </script>
-  <script type="text/javascript">
-       window.close(); 
-		</script>
+
 		
 		
 <script language="javascript">

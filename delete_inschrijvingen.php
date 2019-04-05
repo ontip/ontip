@@ -1,5 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
+<?php
+# delete_inschrijvingen.php
+#
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 5apr2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          PHP7
+# Reference: 
+?><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src='https://www.google.com/recaptcha/api.js'></script>
@@ -61,7 +74,7 @@ if ($error == 1){
 //echo "Aantal : " . $Aantal;
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
@@ -75,8 +88,8 @@ for ($i=1;$i<= $Aantal;$i++){
 		
 	$id         = $_POST['Del-'.$i];     
 	
-  $sql        = mysql_query("SELECT * from inschrijf where Id = ".$id." ")     or die(' Fout in select: '.$id);  
-  $result     = mysql_fetch_array( $sql );
+  $sql        = mysqli_query($con,"SELECT * from inschrijf where Id = ".$id." ")     or die(' Fout in select: '.$id);  
+  $result     = mysqli_fetch_array( $sql );
   
   
   $naam1[$i]        = $result['Naam1'];
@@ -96,24 +109,24 @@ for ($i=1;$i<= $Aantal;$i++){
 	//echo " Te verwijderen : " . $id."<br>";
 
 	
-  mysql_query("DELETE FROM inschrijf where Id= ".$id." ");
+  mysqli_query($con,"DELETE FROM inschrijf where Id= ".$id." ");
 
 // ook uit hulp_naam
 
-mysql_query("Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam1[$i]."'  ") ;  
-mysql_query("Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam2[$i]."'  ") ;  
-mysql_query("Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam3[$i]."'  ") ;  
-mysql_query("Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam4[$i]."'  ") ;  
-mysql_query("Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam5[$i]."'  ") ;  
-mysql_query("Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam6[$i]."'  ") ;  
+mysqli_query($con,"Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam1[$i]."'  ") ;  
+mysqli_query($con,"Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam2[$i]."'  ") ;  
+mysqli_query($con,"Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam3[$i]."'  ") ;  
+mysqli_query($con,"Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam4[$i]."'  ") ;  
+mysqli_query($con,"Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam5[$i]."'  ") ;  
+mysqli_query($con,"Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam6[$i]."'  ") ;  
 
 
 }
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -122,8 +135,8 @@ while($row = mysql_fetch_array( $qry2 )) {
 
 // uit vereniging tabel	
     
-$qry_v           = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
-$result_v        = mysql_fetch_array( $qry_v);
+$qry_v           = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
+$result_v        = mysqli_fetch_array( $qry_v);
 $vereniging_id   = $result_v['Id'];
 $url_logo        = $result_v['Url_logo']; 
 
@@ -148,8 +161,8 @@ $maand = 	substr ($datum , 5,2);
 $jaar  = 	substr ($datum , 0,4);      
 
 $ip       = $_SERVER['REMOTE_ADDR'];
-$sql      = mysql_query("SELECT * FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select mail from namen') ;
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT * FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select mail from namen') ;
+$result   = mysqli_fetch_array( $sql );
 $user     = $result['Naam'];
 $email    = $result['Email'];
 $to       = $email;
@@ -198,8 +211,8 @@ $bericht .= "<table border =1>"   . "\r\n";
 
  // Inschrijven als individu of vast team
 
-$qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
-$result     = mysql_fetch_array( $qry);
+$qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
+$result     = mysqli_fetch_array( $qry);
 $inschrijf_methode   = $result['Parameters'];
 
 $bericht .= "<tr>"   . "\r\n";
@@ -307,7 +320,7 @@ if 	($email_notificaties_jn =='J'   and $notificaties !='' ){
 	echo "<br>Max aantal spelers : ".$max_splrs;
 	echo "<br>Aantal reserves    : ".$aantal_reserves;
 	
-$qry                = mysql_query("SELECT * from inschrijf where Toernooi = '".$toernooi."' and Vereniging_id = ".$vereniging_id."  ")    or die(' Fout in select inschrijf count' ); 
+$qry                = mysqli_query($con,"SELECT * from inschrijf where Toernooi = '".$toernooi."' and Vereniging_id = ".$vereniging_id."  ")    or die(' Fout in select inschrijf count' ); 
 $aantal_deelnemers  = mysql_num_rows($qry);
 
 	echo "<br>Aantal deelnemers    : ".$aantal_deelnemers;
@@ -318,8 +331,8 @@ if ($aantal_deelnemers < $max_splrs  and $aantal_reserves  == 0){
 
   // Ophalen notificatie gegevens
    
-   $qry             = mysql_query("SELECT * From email_notificaties where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."'  and Ingeschreven ='N'  ")     or die(' Fout in select notificaties');  
-    while($row = mysql_fetch_array( $qry )) {
+   $qry             = mysqli_query($con,"SELECT * From email_notificaties where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."'  and Ingeschreven ='N'  ")     or die(' Fout in select notificaties');  
+    while($row = mysqli_fetch_array( $qry )) {
 
    $id               = $row['Id'];
    $naam             = $row['Naam'];

@@ -14,7 +14,7 @@
 # Reference: 
 #
 # 4apr2019           -            E. Hendrikx 
-# Symptom:   		None.
+# Symptom:   		    None.
 # Problem:     	    None
 # Fix:              None
 # Feature:          PHP7
@@ -95,6 +95,21 @@ if (window.attachEvent) window.attachEvent("onload", sfFocus);
 //// Database gegevens. 
 include ('mysqli.php');
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
+
+/// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
+
+$aangelogd = 'N';
+
+include('aanlog_checki.php');	
+
+if ($aangelogd !='J'){
+?>	
+<script language="javascript">
+		window.location.replace("aanloggen.php");
+</script>
+<?php
+exit;
+}
 
 $toernooi      = $_POST['toernooi'];
 $check         = $_POST['Check'];

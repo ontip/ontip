@@ -1,3 +1,18 @@
+<?php
+# beheer_bevestigingen_stap2.php
+#
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 5apr2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          PHP7
+# Reference: 
+?>
 <html>
 	<Title>OnTip Inschrijvingen (c) Erik Hendrikx</title>
 	<head>
@@ -58,7 +73,7 @@ function make_blank_spam()
  
 <?php
 // Database gegevens. 
-include('mysql.php');	
+include('mysqli.php');	
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
@@ -68,7 +83,7 @@ include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -80,8 +95,8 @@ exit;
 }
 
 //// Check op rechten
-$sql      = mysql_query("SELECT Beheerder,Naam FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select'); 
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT Beheerder,Naam FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select'); 
+$result   = mysqli_fetch_array( $sql );
 $rechten  = $result['Beheerder'];
 
 if ($rechten != "A"  and $rechten != "I"){
@@ -96,8 +111,8 @@ $toernooi   = $_GET['toernooi'];
 
 //// SQL Query. 
 
-$qryIns     = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Id = ".$id." " )    or die('Fout in select inschrijving:'.$id);  
-$result     = mysql_fetch_array( $qryIns );           
+$qryIns     = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Id = ".$id." " )    or die('Fout in select inschrijving:'.$id);  
+$result     = mysqli_fetch_array( $qryIns );           
  
   $Email            = $result['Email'];
   $Email_encrypt    = $result['Email_encrypt'];
@@ -115,9 +130,9 @@ $Telefoon            = versleutel_string($Telefoon_encrypt);
  
                           
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in toernooi:'.$toernooi);  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in toernooi:'.$toernooi);  
 
-while($row2 = mysql_fetch_array( $qry2 )) {
+while($row2 = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row2['Variabele'];
 	 $$var = $row2['Waarde'];
 	}              
