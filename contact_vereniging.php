@@ -1,3 +1,16 @@
+<?php
+# contact_vereniging.php.
+# stel vraag aan beheerder ontip
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 11apr2019         -            E. Hendrikx 
+# Symptom:   		   None.
+# Problem:     	   None.
+# Fix:             PHP7 
+# Reference: 
+?>
 <html>
 <title>PHP Toernooi Inschrijvingen</title>
 <head>
@@ -44,7 +57,7 @@ function make_blank_opmerkingen()
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli_fetch.php'; 
 $ip_adres = $_SERVER['REMOTE_ADDR'];
 
 $vereniging_id =$_GET['id'];
@@ -52,7 +65,7 @@ $vereniging_id =$_GET['id'];
 
 // uit vereniging tabel	
 	
-$qry          = mysql_query("SELECT * From vereniging where Id  = ".$vereniging_id ."   ")     or die(' Fout in select');  
+$qry          = mysqli_query($con,"SELECT * From vereniging where Id  = ".$vereniging_id ."   ")     or die(' Fout in select');  
 $row          = mysql_fetch_array( $qry );
 $url_logo     = $row['Url_logo'];
 $url_website  = $row['Url_website'];

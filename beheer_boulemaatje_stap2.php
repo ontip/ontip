@@ -1,6 +1,18 @@
-<?php 
+<?php
+# beheer_boulemaatje_stap1.php.
+# aanmelden zonder boule partner of juist op zoek naar een
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 11apr2019         -            E. Hendrikx 
+# Symptom:   		   None.
+# Problem:     	   None.
+# Fix:             PHP7 
+# Reference: 
+ 
 header("Location: ".$_SERVER['HTTP_REFERER']);
-include 'mysql.php';
+include 'mysqli.php';
 
 // formulier POST variabelen ophalen 
 
@@ -36,7 +48,7 @@ for ($i=1;$i<=$aantal_records;$i++){
 	$query="UPDATE boule_maatje 
                SET Status    = '".$_POST['Status-'.$i]."'    WHERE  Id           = '".$id."'  ";
   
-  mysql_query($query) or die (mysql_error()); 
+  mysqli_query($con,$query) or die (mysql_error()); 
 }
  
 
@@ -46,7 +58,7 @@ foreach ($_POST['Delete']  as $deleteid)
 
 //echo "Delete from boule_maatje where Id='".$deleteid."'  <br>  ";
 
-mysql_query("Delete from boule_maatje where Id='".$deleteid."'    ") ;  
+mysqli_query($con,"Delete from boule_maatje where Id='".$deleteid."'    ") ;  
 
 
 }

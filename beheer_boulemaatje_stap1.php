@@ -1,3 +1,16 @@
+<?php
+# beheer_boulemaatje_stap1.php.
+# aanmelden zonder boule partner of juist op zoek naar een
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 11apr2019         -            E. Hendrikx 
+# Symptom:   		   None.
+# Problem:     	   None.
+# Fix:             PHP7 
+# Reference: 
+?>
 <html>
 <head>
 <title>Beheer Boule Maatje </title>
@@ -69,7 +82,7 @@ that.style.backgroundColor = bgcolor;
 <?php 
 ob_start();
 
-include('mysql.php');
+include('mysqli.php');
 ?>
 <body bgcolor=white>
 <?php
@@ -104,14 +117,14 @@ $string = '';
 //// SQL Queries
 if (isset($toernooi)) {
 	
-	$qry_sel      = mysql_query("SELECT * from boule_maatje Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Naam " )    or die(mysql_error());  
+	$qry_sel      = mysqli_query($con,"SELECT * from boule_maatje Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Naam " )    or die(mysql_error());  
 
 
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -133,7 +146,7 @@ switch($soort_inschrijving){
     case 'sextet' :   $soort = 'sextetten';  break;
  }
  
-$qry_sel      = mysql_query("SELECT * from boule_maatje Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Naam " )    or die(mysql_error());  
+$qry_sel      = mysqli_query($con,"SELECT * from boule_maatje Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Naam " )    or die(mysql_error());  
 
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
@@ -197,7 +210,7 @@ $jaar  = 	substr ($datum , 0,4);
 
 $i=1;                        // intieer teller 
 
-while($row = mysql_fetch_array( $qry_sel )) {
+while($row = mysqli_fetch_array( $qry_sel )) {
 
 if ($row['Soort_aanvraag'] =='R') { $status = 'Reserve'; }
 

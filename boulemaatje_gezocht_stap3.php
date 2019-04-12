@@ -1,6 +1,19 @@
-<?php 
+<?php
+# beheer_boulemaatje_stap3.php.
+# aanmelden zonder boule partner of juist op zoek naar een
+# stuur mail
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 11apr2019         -            E. Hendrikx 
+# Symptom:   		   None.
+# Problem:     	   None.
+# Fix:             PHP7 
+# Reference: 
+
 header("Location: ".$_SERVER['HTTP_REFERER']);
-include 'mysql.php';
+include 'mysqli.php';
 
 // formulier POST variabelen ophalen 
 
@@ -147,8 +160,8 @@ $i=1;
 foreach ($Select as $selectid)
 {
 
-$qry      = mysql_query("SELECT * from boule_maatje where Id= '".$selectid."' " )    or die(mysql_error());  
-$row      = mysql_fetch_array( $qry);
+$qry      = mysqli_query($con,("SELECT * from boule_maatje where Id= '".$selectid."' " )    or die(mysql_error());  
+$row      = mysqli_fetch_array( $qry);
 
 $bericht .= "<table Style='font-family:verdana;font-size:9pt;'>"   . "\r\n";
 $bericht .= "<tr><td  width=200>(". $i."). Naam</td><td>"         .  $row['Naam']    ."</td></tr>".  "\r\n";
@@ -222,8 +235,8 @@ if ($Email != $email_organisatie){
 foreach ($Select as $selectid)
 {
 
-$qry      = mysql_query("SELECT * from boule_maatje where Id= '".$selectid."' " )    or die(mysql_error());  
-$row      = mysql_fetch_array( $qry);
+$qry      = mysqli_query($con,("SELECT * from boule_maatje where Id= '".$selectid."' " )    or die(mysql_error());  
+$row      = mysqli_fetch_array( $qry);
 
 echo $row['Naam'];
 

@@ -1,4 +1,16 @@
-<? 
+<?php
+# send_vraag_vereniging.php.
+# stel vraag aan beheerder ontip
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 11apr2019         -            E. Hendrikx 
+# Symptom:   		   None.
+# Problem:     	   None.
+# Fix:             PHP7 
+# Reference: 
+
 ob_start();
 
 // formulier POST variabelen ophalen en kontroleren
@@ -49,13 +61,12 @@ if ($error == 1){
  /// alle controles goed 
 if ($error == 0){
 	ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 
 
 // Als mail versturen
 $Klant_PC     = $_SERVER['REMOTE_ADDR'];
-
 
 $van     = 'info@ontip.nl';
 $subject = $_POST['Subject'];
@@ -90,7 +101,7 @@ $bericht .= "<div style= 'font-family:verdana;font-size:9pt;'>". $Opmerkingen . 
 
 
 
-echo $bericht;
+//echo $bericht;
 
 mail($to, $subject, $bericht, $headers);
 
@@ -117,10 +128,7 @@ mail($reply_to, $subject, $bericht, $headers);
 
 };              /// indien email ingevuld
 
-	
-	
-	
-	
+		
 	
 header ("location: vraag_gesteld.php"); 
 
