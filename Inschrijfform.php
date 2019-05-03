@@ -26,8 +26,15 @@
 # Symptom:   		    None.
 # Problem:     	    None.
 # Fix:              None.
-# Feature:          datum toernooi cyclus niet vermelden als max is bereeikt. Max wordt bijgehouden toernooi_datums_cyclus per datum
+# Feature:          datum toernooi cyclus niet vermelden als max is bereikt. Max wordt bijgehouden toernooi_datums_cyclus per datum
 # Reference: 
+
+# 3mei2019         1.0.4            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  Bij voorlopige bevesting = J en $uitgestelde_bevestiging_vanaf boven 0, dan staat er twee keer de melding dat het een voorlopige bevestiging is
+# Fix:              $uitgestelde_bevestiging_vanaf alleen in combinatie met uitgestelde_bevesting = N  
+# Feature:          None
+# Reference:
 
  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1617,7 +1624,7 @@ if ($einde == 0) {
   	echo "<br><span style='font-size:10pt;'>Dit betreft een <u>voorlopige inschrijving</u>. U ontvangt tzt van de organisatie een definitieve bevestiging of afwijzing.</span>";
   }
  	
- 	if ($uitgestelde_bevestiging_vanaf > 0 and $aant_splrs >= $uitgestelde_bevestiging_vanaf ){
+ 	if ($uitgestelde_bevestiging_vanaf > 0 and $aant_splrs >= $uitgestelde_bevestiging_vanaf and $uitgestelde_bevestiging_jn != 'J'){
   	echo "<br><span style='font-size:10pt;'>Dit betreft een <u>voorlopige inschrijving</u>. U ontvangt tzt van de organisatie een definitieve bevestiging of afwijzing.</span>";
   }
  	 	
@@ -1626,7 +1633,7 @@ if ($einde == 0) {
   }
  
  if  (!isset($_GET['simpel'])){  
-  echo "<br><br>";
+  echo "<br>";
 }
 else {
   	echo "<br>";
@@ -1640,7 +1647,7 @@ else {
 } 
 
   if ($inschrijf_methode == 'vast'){  	
-  	  	echo  "<span style='font-size:".$font_size."pt;font-weight:bold;maRGIN-LEFT:5PT;font-weight:NORMAL'>";
+  	  	echo  "<span style='font-size:".$font_size."pt;font-weight:bold;maRGIN-LEFT:5PT;font-weight:NORMAL'><br>";
   	 	
 	switch ($soort_inschrijving) {
 		case "single":     echo "Aantal inschrijvingen tot nu toe :  "  .  $aant_splrs  . " tête-a-tête spelers (max.  ". $max_splrs .")";     break;
@@ -1653,11 +1660,11 @@ else {
     echo "</span>"; 
  } 
   else { 
-         echo "<div style='font-size:10pt;font-weight:bold;'>Aantal inschrijvingen tot nu toe :  "  .  $aant_splrs  . " (max.  ". $max_splrs .").  </div>"; 
+         echo "<div style='font-size:10pt;font-weight:bold;'><br>Aantal inschrijvingen tot nu toe :  "  .  $aant_splrs  . " (max.  ". $max_splrs .").  </div>"; 
   }// end if
  
  if ($wedstrijd_schema !=''){
-       echo "<div style='font-size:10pt;font-weight:bold;'>Toegepast wedstrijd systeem :  "  .  $wedstrijd_schema.".</div>"; 
+       echo "<div style='font-size:10pt;font-weight:bold;'><br>Toegepast wedstrijd systeem :  "  .  $wedstrijd_schema.".</div>"; 
 } 	
    
   

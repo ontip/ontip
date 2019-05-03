@@ -14,6 +14,21 @@
 # Feature:          None.
 # Reference: 
 
+#
+# 25jan2019         1.0.2            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  None
+# Fix:              None
+# Feature:          Migratie naar PHP 7
+# Reference:
+
+# 3mei2019         1.0.3            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  Bij voorlopige bevesting = J en $uitgestelde_bevestiging_vanaf boven 0, dan staat er twee keer de melding dat het een voorlopige bevestiging is
+# Fix:              $uitgestelde_bevestiging_vanaf alleen in combinatie met uitgestelde_bevesting = N  
+# Feature:          None
+# Reference:
+
 //header("Location: ".$_SERVER['HTTP_REFERER']);
 
 ini_set('display_errors', 'OFF');
@@ -1326,7 +1341,49 @@ if ($count == 1)  {
 
 }// email_notificatie_jn 
 
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///  $uitgestelde_bevestiging_vanaf boven (3 mei 2019) 
+
+$variabele = 'uitgestelde_bevestiging_vanaf';
+$qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select '. $variabele);  
+$count     = mysqli_num_rows($qry1);
+
+if ($count > 0){
+	
+	 $result     = mysqli_fetch_array( $qry1);    
+	 $uitgestelde_bevestiging_vanaf  = $result['Waarde'];
+	 
+	if ($uitgestelde_bevestiging_vanaf > 0  ){
+		
+		$variabele = 'uitgestelde_bevestiging_jn';
+		$qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."' and Waarde ='J'")     or die(' Fout in select '.$variabele);  
+    $count     = mysqli_num_rows($qry1);
+
+     if ($count > 0 ){
+   	
+     $result     = mysqli_fetch_array( $qry1);             
+     $id        = $result['Id'];
+ 
+     $query       = "UPDATE config  SET Waarde  = 'N',   Laatst  = NOW()  WHERE  Id  = ".$id."  ";
+	   mysqli_query($con,$query) or die ('Fout in update uitgestelde_bevestiging_jn');   
+	}// end if count
+ } // end if uitgesteld vanaf 0
+ 
+ 	} // isset
+else {
+  $query       = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters, Laatst) 
+                        VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'uitgestelde_bevestiging_vanaf','0', '',  now() ) ";
+   mysqli_query($con,$query) or die ('Fout in insert uitgestelde_bevestiging_vanaf');   
+    
+    
+ } // end if isset	
+	 
+	 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 /// Naam van form wordt wel meegegeven maar heeft geen inhoud
  if (isset($_POST['myForm1'])){
