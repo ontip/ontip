@@ -13,6 +13,13 @@
 # Feature:          None.
 # Reference: 
 #
+# 5mei2019          1.0.2           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None.
+# Fix:               PHP7.
+# Feature:           None.
+# Reference: 
+
 
 ob_start();
 
@@ -22,7 +29,7 @@ setlocale(LC_ALL, 'nl_NL');
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 // 6 jul 2018 EHE  versleutel_string voor Email
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
@@ -83,23 +90,23 @@ $Bevestigen  = $_POST['Bevestigen'];
 $toernooi = $_POST['toernooi'];
 
 $variabele = 'uitgestelde_bevestiging_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select 1');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select 1');  
+ $result    = mysqli_fetch_array( $qry1);
  $uitgestelde_bevestiging_jn     = $result['Waarde'];
 
 $variabele = 'sms_bevestigen_zichtbaar_jn';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select 2');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select 2');  
+ $result    = mysqli_fetch_array( $qry1);
  $sms_bevestigen_zichtbaar_jn     = $result['Waarde'];
 
 $variabele = 'toernooi_voluit';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select 3');  
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select 3');  
  $result    = mysql_fetch_array( $qry1);
  $toernooi_voluit     = $result['Waarde'];
 
 
 // Ophalen sms gegevens en mail tracer
-$qry3             = mysql_query("SELECT *  From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select3');  
+$qry3             = mysqli_query($con,"SELECT *  From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select3');  
 $row3             = mysql_fetch_array( $qry3 );
 $verzendadres_sms   = $row3['Verzendadres_SMS'];
 $trace              = $row3['Mail_trace'];
@@ -122,7 +129,7 @@ $bevestig_ms   = substr($reply,-1);          // Laatste karakter : M = mail  S =
 
 	// ophalen gegevens uit inschrijf voor doorgeven waarden aan send_inschrijf 
 
-$qry      = mysql_query("SELECT * from inschrijf where Id= '".$id."' " )    or die('Fout in select');  
+$qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$id."' " )    or die('Fout in select');  
 $row      = mysql_fetch_array( $qry);
 
 $Naam1        = $row['Naam1'];
@@ -326,7 +333,7 @@ if ($bevestig_jn  == 'J'){
                VALUES (0,'".$toernooi."', '".$vereniging ."'  , ".$vereniging_id.", '".$datum."','".$verzendadres_sms."' ,
                          '".$Naam1."'   ,  '".$Vereniging1."'   ,'".$Telefoon."', '".$kenmerk."',".$sms_bericht_lengte."  , NOW()   )";                        
   //echo $query;
- mysql_query($query) or die (mysql_error()); 
+ mysqli_query($con,$query) or die (mysql_error()); 
   
 }       
        
@@ -342,7 +349,7 @@ if ($bevestig_jn == 'J' and $Email != ''  ){
 $query="UPDATE inschrijf       SET Status  = 'IN0',
                                    Bevestiging_verzonden = NOW()  
             WHERE  Id           = '".$id."'  ";
-             mysql_query($query) or die ('Fout in update IN0'); 
+             mysqli_query($con,$query) or die ('Fout in update IN0'); 
 }
 
 
@@ -352,14 +359,14 @@ if ($bevestig_jn == 'N' and $Email != ''  ){
 $query="UPDATE inschrijf       SET Status  = 'RE2',
                                    Bevestiging_verzonden = NOW()  
             WHERE  Id           = '".$id."'  ";
-             mysql_query($query) or die ('Fout in update RE2'); 
+             mysqli_query($con,$query) or die ('Fout in update RE2'); 
 } 
 
             
 if ($bevestig_jn == 'N' and $Email == ''  ){
 $query="UPDATE inschrijf       SET Status  = 'RE3'
             WHERE  Id           = '".$id."'  ";
- mysql_query($query) or die ('Fout in update RE3'); 
+ mysqli_query($con,$query) or die ('Fout in update RE3'); 
 } 
    
    // sms bevestiging
@@ -369,7 +376,7 @@ if ($bevestig_jn == 'J' and $status == 'RE4'){                                  
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'IN4' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
   }
   
   
@@ -378,7 +385,7 @@ if ($bevestig_jn == 'J' and $status == 'RE4'){                                  
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'IN5' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
   }         
             
   

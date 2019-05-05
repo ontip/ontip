@@ -1,6 +1,14 @@
 <?php
 //// lijst_export_inschrijf_alleen_namen.xlsx.php  (c) Erik Hendrikx 2017
 //// Maakt een Excel xlsx bestand met de inschrijvingen voor een toernooi.
+# 5mei2019          1.0.2           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None.
+# Fix:               PHP7.
+# Feature:           None.
+# Reference: 
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
 <html>
@@ -20,7 +28,7 @@ a    {text-decoration:none;color:blue;font-size: 8pt}
 $toernooi = $_GET['toernooi'];
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 
 setlocale(LC_ALL, 'nl_NL');
 
@@ -40,9 +48,9 @@ exit;
 }
 // Ophalen toernooi gegevens
 
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row2 = mysql_fetch_array( $qry2 )) {
+while($row2 = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row2['Variabele'];
 	 $$var = $row2['Waarde'];
 	}              
@@ -77,8 +85,8 @@ if (!isset($toernooi)) {
 if (isset($toernooi)) {
 	// Inschrijven als individu of vast team
 
-$qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
-$result     = mysql_fetch_array( $qry);
+$qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
+$result     = mysqli_fetch_array( $qry);
 $inschrijf_methode   = $result['Parameters'];
 
 $timest    = date('Y-m-d h:i:s');
@@ -211,11 +219,11 @@ unlink($xlsx_file);
 /// Detail regels Excel
 //// SQL Queries
 
-$spelers      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Volgnummer " )    or die(mysql_error());  
+$spelers      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Volgnummer " )    or die(mysql_error());  
 
 $i=1;
 
-while($row = mysql_fetch_array( $spelers )) {
+while($row = mysqli_fetch_array( $spelers )) {
 $j=$i+2;
 if ($soort_inschrijving =='single' or $inschrijf_methode =='single' ){
 		  $objPHPExcel->setActiveSheetIndex(0)

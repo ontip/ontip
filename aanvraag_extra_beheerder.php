@@ -12,6 +12,14 @@
 # Fix:              None.
 # Feature:          None.
 # Reference: 
+
+# 29nov2018          1.0.2           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None.
+# Fix:               PHP7.
+# Feature:           None.
+# Reference: 
+
 *//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
 
@@ -58,7 +66,7 @@ function make_blank_opmerkingen()
  
 <?php
 // Database gegevens. 
-include('mysql.php');	
+include('mysqli.php');	
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 
@@ -67,7 +75,7 @@ include('page_stats.php');
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -81,8 +89,8 @@ exit;
 
 //include 'convert_text_string.php'; 
 $ip        = $_SERVER['REMOTE_ADDR'];
-$sql      = mysql_query("SELECT Naam,Beheerder , Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT Naam,Beheerder , Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
+$result   = mysqli_fetch_array( $sql );
 $naam     = $result['Naam'];
 $email     = $result['Email'];
 $vereniging_id = $result['Vereniging_id'];

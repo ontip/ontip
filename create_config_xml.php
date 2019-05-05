@@ -1,3 +1,16 @@
+<?php
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 5apr2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          PHP7
+# Reference: 
+?>
 <?php 
 // Database gegevens. 
 //include('mysql.php');	

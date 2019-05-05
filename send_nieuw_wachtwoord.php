@@ -1,3 +1,16 @@
+<?php
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 5apr2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          PHP7
+# Reference: 
+?>
 <html>
 	<Title>OnTip Inschrijvingen (c) Erik Hendrikx</title>
 	<head>
@@ -15,7 +28,7 @@ ob_start();
 
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 include 'versleutel.php'; 
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
@@ -75,13 +88,13 @@ if ($error == 1){
 $count =0;
 
 // ophalen gegevens vereniging
-$qry1            = mysql_query("SELECT * From vereniging where Id = ".$vereniging_id ." ")     or die(' Fout in select 1');  
-$result1         = mysql_fetch_array( $qry1 );
+$qry1            = mysqli_query($con,"SELECT * From vereniging where Id = ".$vereniging_id ." ")     or die(' Fout in select 1');  
+$result1         = mysqli_fetch_array( $qry1 );
 $email_noreply   = $result1['Email_noreply'];
 $ip              = $_SERVER['REMOTE_ADDR'];
 
-$sql             = mysql_query("SELECT count(*) as Aantal FROM namen WHERE  Vereniging_id = ".$vereniging_id." and Naam = '".$_POST['Naam']."'   ") or die(' Fout in select aantal');  
-$result1         = mysql_fetch_array( $sql );
+$sql             = mysqli_query($con,"SELECT count(*) as Aantal FROM namen WHERE  Vereniging_id = ".$vereniging_id." and Naam = '".$_POST['Naam']."'   ") or die(' Fout in select aantal');  
+$result1         = mysqli_fetch_array( $sql );
 $count           = $result1['Aantal'];
 
 
@@ -110,8 +123,8 @@ if ($count == 0){
 }
 
 if ($count ==1){
-$sql       = mysql_query("SELECT * FROM namen WHERE  Vereniging_id = ".$vereniging_id." and Naam = '".$naam."'   ") or die(' Fout in select aantal');  
-$result    = mysql_fetch_array( $sql );
+$sql       = mysqli_query($con,"SELECT * FROM namen WHERE  Vereniging_id = ".$vereniging_id." and Naam = '".$naam."'   ") or die(' Fout in select aantal');  
+$result    = mysqli_fetch_array( $sql );
 $id        = $result['Id'];
 
 $Email            = $result['Email'];

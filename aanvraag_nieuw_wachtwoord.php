@@ -1,3 +1,16 @@
+<?php
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 5apr2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          PHP7
+# Reference: 
+?>
 <html>
 	<Title>OnTip Inschrijvingen (c) Erik Hendrikx</title>
 	<head>
@@ -14,9 +27,9 @@ a    {text-decoration:none;color:blue;}
 <br>
  
 <?php
-include 'mysql.php'; 
-$qry          = mysql_query("SELECT * from vereniging where Vereniging ='".$vereniging."'  ")           or die(' Fout in select 1');  
-$result       = mysql_fetch_array( $qry);
+include 'mysqli.php'; 
+$qry          = mysqli_query($con,"SELECT * from vereniging where Vereniging ='".$vereniging."'  ")           or die(' Fout in select 1');  
+$result       = mysqli_fetch_array( $qry);
 $vereniging   = $result['Vereniging'];
 $_vereniging  = $vereniging;
 $vereniging_output_naam = $result['Vereniging_output_naam'];

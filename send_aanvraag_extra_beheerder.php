@@ -12,6 +12,14 @@
 # Fix:              None.
 # Feature:          None.
 # Reference: 
+
+# 5mei2019          1.0.2           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None.
+# Fix:               PHP7.
+# Feature:           None.
+# Reference: 
+
 *//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  
 ob_start();
@@ -95,15 +103,15 @@ if ($error == 1){
  /// alle controles goed 
 if ($error == 0){
 	ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 
 
 // Als mail versturen
 $Klant_PC     = $_SERVER['REMOTE_ADDR'];
 
-$qry          = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
-$row          = mysql_fetch_array( $qry );
+$qry          = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
+$row          = mysqli_fetch_array( $qry );
 $vereniging_id = $row['Id'];
 
 
@@ -176,12 +184,6 @@ header ("location: aanvraag_verstuurd.php");
 
 
 }
-
-	
-	
-	
-
-
 
 ob_end_flush();
 ?> 

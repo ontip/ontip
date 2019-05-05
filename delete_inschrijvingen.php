@@ -12,6 +12,15 @@
 # Fix:              None
 # Feature:          PHP7
 # Reference: 
+
+# 5mei2019          1.0.2           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None.
+# Fix:               PHP7.
+# Feature:           None.
+# Reference: 
+
+
 ?><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

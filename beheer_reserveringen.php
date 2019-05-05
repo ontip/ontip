@@ -1,3 +1,23 @@
+<?php
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+# beheer_reserveringen.php
+# 
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+
+
+# 5mei2019          1.0.2           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None.
+# Fix:               PHP7.
+# Feature:           None.
+# Reference: 
+
+*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
+
 <html>
 <head>
 <title>Beheer reserve inschrijvingen</title>
@@ -79,7 +99,7 @@ function CopyToClipboard()
 ob_start();
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 // 6 jul 2018 EHE  versleutel_string voor Email
@@ -89,7 +109,7 @@ include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -118,9 +138,9 @@ if ($rechten != "A"  and $rechten != "I"){
 <?php
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -135,25 +155,25 @@ while($row = mysql_fetch_array( $qry2 )) {
 
 
  //// SQL Queries
-$qry      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Status in ('RE0', 'RE1','RE4') order by Inschrijving  ASC" )    or die(mysql_error());  
+$qry      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Status in ('RE0', 'RE1','RE4') order by Inschrijving  ASC" )    or die(mysql_error());  
 
 if (!isset($sms_bevestigen_zichtbaar_jn)){
 	$sms_bevestigen_zichtbaar_jn = 'N';
 }
 
- $qry2        = mysql_query("SELECT * From vereniging  where Vereniging = '".$vereniging ."'  ") ;  
- $result2     = mysql_fetch_array( $qry2);
+ $qry2        = mysqli_query($con,"SELECT * From vereniging  where Vereniging = '".$vereniging ."'  ") ;  
+ $result2     = mysqli_fetch_array( $qry2);
  $sender_sms = $result2['Verzendadres_SMS'];
 
 /// bereken sms tegoed
 
 if ($sms_bevestigen_zichtbaar_jn == 'J'){
- $qry1      = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select sms aantal');  
- $result1   = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select sms aantal');  
+ $result1   = mysqli_fetch_array( $qry1);
  $max_aantal_sms  =  $result1['Max_aantal_sms'];
  
- $qry2        = mysql_query("SELECT count(*) as Aantal From sms_confirmations where Vereniging  = '".$vereniging."' ")     or die(' Fout in select sms gebruikt');  
- $result2     = mysql_fetch_array( $qry2 );
+ $qry2        = mysqli_query($con,"SELECT count(*) as Aantal From sms_confirmations where Vereniging  = '".$vereniging."' ")     or die(' Fout in select sms gebruikt');  
+ $result2     = mysqli_fetch_array( $qry2 );
  $sms_aantal  = $result2['Aantal'];
  
  $sms_tegoed = ($max_aantal_sms - $sms_aantal);
@@ -280,7 +300,7 @@ echo "</tr>";
 
 $i=1;                        // intieer teller 
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	
 	 if ($row['Email'] == ''){

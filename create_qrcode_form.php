@@ -1,4 +1,16 @@
 <?php
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 5apr2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          PHP7
+# Reference: 
+
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
 ?>
@@ -17,7 +29,7 @@ a    {text-decoration:none;color:blue;font-size: 8pt;}
 
 <?php
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
 
@@ -27,7 +39,7 @@ $toernooi= $_GET['toernooi'];
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -56,11 +68,11 @@ include "../ontip/phpqrcode/qrlib.php";
 
 // Querie
 
-$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -73,8 +85,8 @@ $jaar  = substr($datum,0,4);
 $maand = substr($datum,5,2);
 $dag   = substr($datum,8,2);
 
-$qry  = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     or die(' Fout in select');  
-$row = mysql_fetch_array( $qry );
+$qry  = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     or die(' Fout in select');  
+$row = mysqli_fetch_array( $qry );
 $url_redirect = $row['Url_redirect'];
 
 ?>
@@ -103,10 +115,6 @@ $url_redirect = $row['Url_redirect'];
 
 <?php
 
-if ($vereniging =='Boulamis'){
-	  $url_redirect = 'http://www.ontip.nl/boulamis/';
-	 // $url_redirect ='';
-}	  
 
 
 if ($toernooi !=''){
@@ -143,7 +151,6 @@ $fotoH = imagesy($photo);
 $logoImage = imagecreatefrompng($logo_file); 
 $logoW = imagesx($logoImage); 
 $logoH = imagesy($logoImage); 
-
 
 $photoFrame = imagecreatetruecolor($fotoW,$fotoH); 
 

@@ -1,3 +1,16 @@
+<?php
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 5apr2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          PHP7
+# Reference: 
+?>
 <html>
 	<Title>OnTip Change password (c) Erik Hendrikx</title>
 	<head>
@@ -17,7 +30,7 @@ a    {text-decoration:none;color:blue;}
 ob_start();
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 include 'versleutel.php'; 
 
 ?>
@@ -63,8 +76,8 @@ $tijdstip = mktime ($uur, $minuut+30, $seconde, $maand, $dag, $jaar);
 $grens_waarde = date ("YmdHis",$tijdstip)   ; 
 
 $nu = date("YmdHis");
-$sql           = mysql_query("SELECT * FROM config WHERE Id='".$id."'  and Regel = 9998  and Variabele = 'password_key' and ".$nu."  between  ".$key." and  ".$grens_waarde."") or die(' Fout in select');  
-$result        = mysql_fetch_array( $sql );
+$sql           = mysqli_query($con,"SELECT * FROM config WHERE Id='".$id."'  and Regel = 9998  and Variabele = 'password_key' and ".$nu."  between  ".$key." and  ".$grens_waarde."") or die(' Fout in select');  
+$result        = mysqli_fetch_array( $sql );
 $encrypt       = $result['Parameters'];
 $naam          = $result['Toernooi'];
 $vereniging_id = $result['Vereniging_id'];
@@ -79,13 +92,13 @@ if ($count == 1){
  //echo "Userid ".$userid.".<br>";
 // Wijzig wachtwoord
 
-$sql2      = mysql_query("SELECT * FROM namen WHERE Vereniging_id = '".$vereniging_id."' and Naam ='".$naam."' ") or die(' Fout in select namen');  
-$result2   = mysql_fetch_array( $sql2 );
+$sql2      = mysqli_query($con,"SELECT * FROM namen WHERE Vereniging_id = '".$vereniging_id."' and Naam ='".$naam."' ") or die(' Fout in select namen');  
+$result2   = mysqli_fetch_array( $sql2 );
 $id_naam   = $result2['Id'];
 
 
-mysql_query("Update namen set Wachtwoord = '".$encrypt."', Laatst= now()  where Id = ".$id_naam." ")  or die(' Fout in update');    
-mysql_query("DELETE from config where Id = '".$id ."' ")   or die(' Fout in delete');  
+mysqli_query($con,"Update namen set Wachtwoord = '".$encrypt."', Laatst= now()  where Id = ".$id_naam." ")  or die(' Fout in update');    
+mysqli_query($con,"DELETE from config where Id = '".$id ."' ")   or die(' Fout in delete');  
 
 ?>
 <script language="javascript">
