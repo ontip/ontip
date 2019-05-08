@@ -1,3 +1,19 @@
+<?php
+//// Welp_download_inschrijvingen.php
+//// Maakt een Excel xlsx bestand met de inschrijvingen voor een toernooi.
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 8mei2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
 <html>
 	<Title>OnTip inschrijvingen (c) Erik Hendrikx</title>
 	<head>
@@ -27,13 +43,13 @@ function timedRefresh(timeoutPeriod) {
 <?php
 $toernooi            = $_GET['toernooi'];
 
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -48,13 +64,7 @@ if (isset($_GET['toernooi'])){
 	$toernooi = $_GET['toernooi'];
 }
 
-//// Check op rechten
 
-if ($rechten != "A"  and $rechten != "C"){
- echo '<script type="text/javascript">';
- echo 'window.location = "rechten.php"';
- echo '</script>'; 
-}
 
 // statistieken van de pagina bijhouden
 $pageName = basename($_SERVER['SCRIPT_NAME']);

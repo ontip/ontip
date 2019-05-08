@@ -1,4 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php
+//// toernooi_regio.php
+//// Kalender voor toernooien de regio
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 8mei2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7 en tonen PDF link
+# Reference: 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
+
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
 	<head>
 	<Title>OnTip (c) Erik Hendrikx</title>	     
@@ -31,7 +47,7 @@ a {text-decoration:none;font-size: 11.0pt ;}
 <?php
 ini_set('default_charset','UTF-8');
 
-include 'mysql.php'; 
+include 'mysqli.php'; 
 //// Omrekenen datum
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
@@ -58,11 +74,11 @@ else {
 
 /// Schoon hulp tabel
 
-mysql_query("Delete from regio_toernooi ") ;  
+mysqli_query($con,"Delete from regio_toernooi ") ;  
 
 // Insert alle toernooien voor de verenigingen van de opgegeven bond
 
- $insert = mysql_query("INSERT INTO regio_toernooi
+ $insert = mysqli_query($con,"INSERT INTO regio_toernooi
     (`Toernooi`, `Vereniging`, Vereniging_nr, `Datum`) 
       select distinct Toernooi, c.Vereniging,c.Vereniging_id, Waarde from config c
         join vereniging as v 
@@ -71,7 +87,7 @@ mysql_query("Delete from regio_toernooi ") ;
 
   // Update soort Toernooi
  
-$update = mysql_query("UPDATE regio_toernooi as t
+$update = mysqli_query($con,"UPDATE regio_toernooi as t
  join config as c
   on t.Toernooi             = c.Toernooi and
      t.Vereniging_nr        = c.Vereniging_id 
@@ -81,7 +97,7 @@ $update = mysql_query("UPDATE regio_toernooi as t
 
 // Update Inschrijving_open
  
-$update = mysql_query("UPDATE regio_toernooi as t
+$update = mysqli_query($con,"UPDATE regio_toernooi as t
  join config as c
   on t.Toernooi          = c.Toernooi and
      t.Vereniging_nr        = c.Vereniging_id
@@ -89,11 +105,11 @@ $update = mysql_query("UPDATE regio_toernooi as t
    where  c.Variabele    = 'begin_inschrijving'
   and c.Waarde > '".$today."'  ");
 
-$update = mysql_query("UPDATE regio_toernooi set Soort_toernooi = '1.Tete-a-tete'   where  Soort_toernooi = 'single' ");
-$update = mysql_query("UPDATE regio_toernooi set Soort_toernooi = '2.Doublet'       where  Soort_toernooi = 'doublet' ");
-$update = mysql_query("UPDATE regio_toernooi set Soort_toernooi = '3.Triplet'       where  Soort_toernooi = 'triplet' ");
-$update = mysql_query("UPDATE regio_toernooi set Soort_toernooi = '5.Kwintet'       where  Soort_toernooi = 'kwintet' ");
-$update = mysql_query("UPDATE regio_toernooi set Soort_toernooi = '6.Sextet'        where  Soort_toernooi = 'sextet' ");
+$update = mysqli_query($con,"UPDATE regio_toernooi set Soort_toernooi = '1.Tete-a-tete'   where  Soort_toernooi = 'single' ");
+$update = mysqli_query($con,"UPDATE regio_toernooi set Soort_toernooi = '2.Doublet'       where  Soort_toernooi = 'doublet' ");
+$update = mysqli_query($con,"UPDATE regio_toernooi set Soort_toernooi = '3.Triplet'       where  Soort_toernooi = 'triplet' ");
+$update = mysqli_query($con,"UPDATE regio_toernooi set Soort_toernooi = '5.Kwintet'       where  Soort_toernooi = 'kwintet' ");
+$update = mysqli_query($con,"UPDATE regio_toernooi set Soort_toernooi = '6.Sextet'        where  Soort_toernooi = 'sextet' ");
 
 $achtergrond_kleur  = 'white';
 $tekstkleur         = 'black';
@@ -107,18 +123,18 @@ if (!isset($boulemaatje_gezocht_zichtbaar_jn)) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-$qry          = mysql_query("SELECT distinct Vereniging,Toernooi, Datum From regio_toernooi where   Inschrijving_open = 'J' order by Datum ")     or die(' Fout in select 2');  
+$qry          = mysqli_query($con,"SELECT distinct Vereniging,Toernooi, Datum From regio_toernooi where   Inschrijving_open = 'J' order by Datum ")     or die(' Fout in select 2');  
 
 
 /// Toon alle toernooien
 if (isset($_POST['check']) and $_POST['check'] =='Yes'){
-$qry          = mysql_query("SELECT distinct Vereniging,Toernooi, Datum From regio_toernooi   order by Datum ")     or die(' Fout in select 2');  
+$qry          = mysqli_query($con,"SELECT distinct Vereniging,Toernooi, Datum From regio_toernooi   order by Datum ")     or die(' Fout in select 2');  
 }
 
-$aantal       = mysql_num_rows($qry);
+$aantal       = mysqli_num_rows($qry);
 
-$qry1               = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     or die(' Fout in select');  
- $result             = mysql_fetch_array( $qry1);
+$qry1               = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     or die(' Fout in select');  
+ $result             = mysqli_fetch_array( $qry1);
  $indexpagina_kop_jn = $result['Indexpagina_kop_jn'];
  $url_logo           = $result['Url_logo'];
  $prog_url           = $result['Prog_url'];
@@ -249,7 +265,7 @@ if (isset($beknopt)){?>
  
 <?php } 
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 
 //echo "xxxx  ".$row['Vereniging'];
 //echo "xxxx  ".$row['Toernooi'];
@@ -259,10 +275,10 @@ while($row = mysql_fetch_array( $qry )) {
 
 	$toernooi   = $row['Toernooi'];
 	$vereniging = $row['Vereniging'];
-	$sql  = mysql_query("SELECT * From config where Vereniging = '".$row['Vereniging'] ."' and Toernooi = '".$row['Toernooi'] ."' ")     or die(' Fout in select');  
+	$sql  = mysqli_query($con,"SELECT * From config where Vereniging = '".$row['Vereniging'] ."' and Toernooi = '".$row['Toernooi'] ."' ")     or die(' Fout in select');  
 
-$sql2      = mysql_query("SELECT Prog_url, Url_logo,Plaats, Vereniging_nr  From vereniging where Vereniging = '".$row['Vereniging'] ."' ")     or die(' Fout in select');  
-  $result    = mysql_fetch_array( $sql2 );
+$sql2      = mysqli_query($con,"SELECT Prog_url, Url_logo,Plaats, Vereniging_nr  From vereniging where Vereniging = '".$row['Vereniging'] ."' ")     or die(' Fout in select');  
+  $result    = mysqli_fetch_array( $sql2 );
   $prog_url  = $result['Prog_url'];
   $logo_url  = $result['Url_logo'];
   $plaats    = $result['Plaats'];
@@ -273,7 +289,7 @@ $sql2      = mysql_query("SELECT Prog_url, Url_logo,Plaats, Vereniging_nr  From 
   
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -291,8 +307,8 @@ if (!isset($toernooi_gaat_door_jn)) {
 
 if ($toernooi_gaat_door_jn == 'N'){
 $variabele = 'toernooi_gaat_door_jn';
- $qry1           = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result         = mysql_fetch_array( $qry1);
+ $qry1           = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result         = mysqli_fetch_array( $qry1);
  $reden_niet_doorgaan = $result['Parameters'];
  }
  
@@ -300,6 +316,8 @@ $variabele = 'toernooi_gaat_door_jn';
 $dag   = 	substr ($datum , 8,2); 
 $maand = 	substr ($datum , 5,2); 
 $jaar  = 	substr ($datum , 0,4); 
+$datum_toernooi = $jaar.$maand.$dag;
+
 
 //echo "today : ". $today. "<br>";
 //echo "begin : ". $begin_inschrijving. "<br>";
@@ -307,14 +325,14 @@ $jaar  = 	substr ($datum , 0,4);
 if ($datum >= $today  ){
 	
 	
-$sql2       = mysql_query("SELECT count(*) as Aantal FROM inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi."' ")     or die(' Fout in select 4');  
-$result     = mysql_fetch_array( $sql2 );
+$sql2       = mysqli_query($con,"SELECT count(*) as Aantal FROM inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi."' ")     or die(' Fout in select 4');  
+$result     = mysqli_fetch_array( $sql2 );
 $aantal     = $result['Aantal'];
 
 // kosten team
 
-$qry2        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'kosten_team' ") ;  
-$result2     = mysql_fetch_array( $qry2);
+$qry2        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'kosten_team' ") ;  
+$result2     = mysqli_fetch_array( $qry2);
 
 if ($result2['Parameters']  != ''){
  $parameter       = explode('#', $result2['Parameters']);
@@ -322,8 +340,8 @@ if ($result2['Parameters']  != ''){
  $kosten_eenheid  = $parameter[2];
  $kosten          = $result2['Waarde'];
 
- $qry21        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving' ") ;  
- $result21     = mysql_fetch_array( $qry21);
+ $qry21        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving' ") ;  
+ $result21     = mysqli_fetch_array( $qry21);
  $soort_inschrijving = $result21['Waarde'];
  
  if ($kosten_eenheid == '1'){  
@@ -373,8 +391,8 @@ $euro_ind = substr($kosten_team,-1);
 }  // einde parameter ''
 
 /// extra koptekst
-$qry3         = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'   and Variabele = 'extra_koptekst' ") ;  
-$result3      = mysql_fetch_array( $qry3);
+$qry3         = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'   and Variabele = 'extra_koptekst' ") ;  
+$result3      = mysqli_fetch_array( $qry3);
 
 if ($result3['Parameters'] != '') {
 	 $extra_koptekst    = $result3['Waarde'];
@@ -428,8 +446,8 @@ $marquee         = substr($extra_koptekst,-2);
   
  if ($toernooi_gaat_door_jn == 'N'){
  $variabele = 'toernooi_gaat_door_jn';
-  $qry1           = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
-  $result         = mysql_fetch_array( $qry1);
+  $qry1           = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+  $result         = mysqli_fetch_array( $qry1);
   $reden_niet_doorgaan = $result['Parameters'];
  }
   
@@ -452,7 +470,7 @@ if (isset($beknopt)){
 $jaar  = substr($datum,0,4);
 $maand = substr($datum,5,2);
 $dag   = substr($datum,8,2);
-
+$datum_toernooi = $jaar.$maand.$dag;
 	
 //$toernooi   = str_replace("â","&#226", $row['Toernooi']);	 
 //$toernooi   = str_replace("&#226","â", $row['Toernooi']);	 
@@ -472,10 +490,6 @@ switch ($soort_inschrijving) {
 ?>
 </td>
 <td>
-	
-	
-	
-	
 	
 	
 	<a href= "toernooi_regio_detail.php?toernooi=<?php echo $toernooi; ?>&vereniging_nr=<?php echo $vereniging_nr; ?>" style='color:blue;' target ="_self">
@@ -522,7 +536,8 @@ switch ($soort_inschrijving) {
 <?php } ?>		
 	
 <?php
-      $output_pdf  = $prog_url.'images/'.$toernooi.'.pdf';
+   $output_pdf = $prog_url.'images/'.$toernooi.'_'.$datum_toernooi.'.pdf';    
+  
    		if (file_exists($output_pdf)){ ?>
 	     			<a  style= 'font-size:9pt;color:red;' href= '<?php echo $output_pdf;?>' border = 0 width =28 target='_blank' ><img src='../ontip/images/pdf_ontip_logo.gif' border = 0 width =26 ></a>
 	<?php }	 ?>	
