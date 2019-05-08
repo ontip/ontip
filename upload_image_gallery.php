@@ -4,16 +4,28 @@
 ////  Programma voor het uploaden van een img bestand 
 ////
 ////
+
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 8mei2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Database gegevens voor username en password
-include('mysql.php');
+include('mysqli.php');
 ini_set('display_errors', 0); 
 
 
 set_time_limit(300);//for setting 
 
 $prog_url     = $_POST['url'];
-echo $prog_url;
+//echo $prog_url;
 
 
 if ($prog_url =='../boulamis_toernooi/'){
