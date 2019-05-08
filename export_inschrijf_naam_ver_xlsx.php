@@ -1,6 +1,17 @@
 <?php
 //// export_inschrijf_naam_ver_xlsx.php  (c) Erik Hendrikx 2017
 //// Maakt een Excel xlsx bestand met de inschrijvingen voor een toernooi.
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 8mei2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
 <html>
@@ -17,7 +28,7 @@ a    {text-decoration:none;color:blue;font-size: 8pt}
 <body>
 <?php
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
@@ -26,7 +37,7 @@ error_reporting(E_ALL);
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -65,17 +76,17 @@ if (!isset($toernooi)) {
 <?php
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Lees configuratie tabel tbv toernooi gegevens  (soort inschrijving e.d)
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row2 = mysql_fetch_array( $qry2 )) {
+while($row2 = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row2['Variabele'];
 	 $$var = $row2['Waarde'];
 	}     
 
 	// Inschrijven als individu of vast team
 
-$qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
-$result     = mysql_fetch_array( $qry);
+$qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
+$result     = mysqli_fetch_array( $qry);
 $inschrijf_methode   = $result['Parameters'];
 
 $timest    = date('Y-m-d h:i:s');
@@ -324,11 +335,11 @@ unlink($xlsx_file);
 /// Detail regels Excel
 //// SQL Queries
 
-$spelers      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Volgnummer " )    or die(mysql_error());  
+$spelers      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Volgnummer " )    or die(mysql_error());  
 
 $i=1;
 
-while($row = mysql_fetch_array( $spelers )) {
+while($row = mysqli_fetch_array( $spelers )) {
 $j=$i+3;
 
  if ($soort_inschrijving =='single' or $inschrijf_methode =='single' ){
