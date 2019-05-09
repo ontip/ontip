@@ -1,3 +1,17 @@
+<?php 
+# beheer_bevesigigingen_stap1.php
+# 
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 9mei2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+?>
 <html>
 <head>
 <title>OnTip - beheer bevestigingen, betalingen en voorlopige inschrijvingen</title>
@@ -80,7 +94,7 @@ function CopyToClipboard()
 <?php 
 ob_start();
 
-include('mysql.php');
+include('mysqli.php');
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 
@@ -96,7 +110,7 @@ error_reporting(E_ALL);
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -108,8 +122,8 @@ exit;
 }
 
 //// Check op rechten
-$sql      = mysql_query("SELECT Beheerder,Naam FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select'); 
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT Beheerder,Naam FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select'); 
+$result   = mysqli_fetch_array( $sql );
 $rechten  = $result['Beheerder'];
 
 if ($rechten != "A"  and $rechten != "I"){
@@ -121,13 +135,13 @@ if ($rechten != "A"  and $rechten != "I"){
 $toernooi = $_GET['toernooi'];
 
 //// SQL Queries
-$qry      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."'
+$qry      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."'
                and Status in ('BE0','BE1','BE2','BE3','BE8','BE9','BED', 'BEG', 'IM0', 'ID0')  order by Inschrijving ASC" )    or die(mysql_error());  
                
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row2 = mysql_fetch_array( $qry2 )) {
+while($row2 = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row2['Variabele'];
 	 $$var = $row2['Waarde'];
 	}              
@@ -246,7 +260,7 @@ if (!isset($sms_bevestigen_zichtbaar_jn)){
 
 $i=1;                        // intieer teller 
 
-while($row = mysql_fetch_array( $qry )) {?>
+while($row = mysqli_fetch_array( $qry )) {?>
 	
 	       
     <tr>
