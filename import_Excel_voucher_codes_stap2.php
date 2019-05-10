@@ -1,6 +1,19 @@
 <?php
 
-include('mysql.php');
+# import_Excel_voucher_codes_stap2.php
+# 
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 10mei2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+
+include('mysqli.php');
 
 $paths            = "/public_html/".substr($prog_url,3, strlen($prog_url))."csv/";
 $paths            = "/public_html/ontip/xlsx/";

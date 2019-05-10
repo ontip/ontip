@@ -1,4 +1,18 @@
 <?php
+
+# import_Excel_voucher_codes_stap3.php
+# 
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 10mei2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+
 		/** Error reporting */
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
@@ -48,7 +62,7 @@ $max_lines       = $aantal_kopregels+100;$j=1;
 
 if ($check =='J'  ){
  // verwijder bestaande codes voor dit toernooi
- //mysql_query("DELETE FROM `voucher_codes` where Toernooi ='".$toernooi."' and Vereniging_id = ".$vereniging_id." and Datum = '".$datum."'");
+ mysqli_query($con,"DELETE FROM `voucher_codes` where Toernooi ='".$toernooi."' and Vereniging_id = ".$vereniging_id." and Datum = '".$datum."'");
 }
 
 
@@ -66,7 +80,7 @@ if ($check =='J'  ){
                $sqlcmd = "INSERT INTO `voucher_codes` (`Id`, `Vereniging_id`, `Vereniging`, `Toernooi`, `Datum`, `Voucher_code`, `Laatst`) 
                       VALUES (0, ".$vereniging_id.", '".$vereniging."', '".$toernooi."', '".$datum."', '".$voucher_code."', now() );"; 
               
-         //      mysql_query($sqlcmd) or die ('fout in insert'); 
+              mysqli_query($con,$sqlcmd) or die ('fout in insert'); 
                
                
                

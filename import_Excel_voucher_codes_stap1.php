@@ -1,3 +1,17 @@
+<?php 
+# import_Excel_voucher_codes_stap1.php
+# 
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 10mei2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+?>
 <html
 <head>
 <title>Import Excel voucher codes</title>
@@ -27,12 +41,12 @@ a    {text-decoration:none ;color:blue;font-size: 8pt;}
 <?php
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 ob_start();
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -53,9 +67,9 @@ $jaar  = date('Y');
 $toernooi = $_GET['toernooi'];
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row2 = mysql_fetch_array( $qry2 )) {
+while($row2 = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row2['Variabele'];
 	 $$var = $row2['Waarde'];
 	}              
@@ -91,7 +105,7 @@ while($row2 = mysql_fetch_array( $qry2 )) {
 <td style='color:black;font-size:10pt;font-family:verdana;text-align:justify;'>Een Excel xlsx bestand bevat voucher codes voor het toernooi. Je kan hieronder aangegeven welk bestand ingelezen moet worden, hoeveel kopregels het bevat en welke kolom (A,B of C) de codes bevat.
 	<br>Als je niet weet hoeveel kopregels het bestand bevat of welke kolom de codes, kan je Test aanvinken, Dan wordt de inhoud van het betand getoond zonder deze in te lezen.<br>Er wordt niet gecontroleerd of de codes uniek zijn.<br> 
 	De import stopt bij de eerste gevonden lege regel.De voucher codes worden ingelezen in het systeem, waarna ze direct beschikbaar zijn t.b.v. de inschrijvingen voor het aangegeven toernooi.<br>
-	Maximum aantal codes =100. Bestand mag geen lege regels bevatten.</td>
+	Maximum aantal codes = 100. Bestand mag geen lege regels bevatten.</td>
 </tr>
 </table>
 <br>
