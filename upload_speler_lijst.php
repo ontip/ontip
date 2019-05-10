@@ -1,3 +1,17 @@
+<?php
+# upload_speler_lijst.php
+#
+# Date              Version      Person
+# ----              -------      ------
+
+
+# 10mei2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+?>
 <html
 <head>
 <title>Upload ledenlijst</title>
@@ -56,7 +70,7 @@ alert("Internet Explorer required");
 <?php
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 ob_start();
 ?>
 <table width=90% border = 0 style='position:absolute;padding-top:-10pt;'>
@@ -70,13 +84,13 @@ ob_start();
 
 
 
-<div style='padding:10pt;font-size:20pt;color:green;'><br>Upload spelerslijst eigen vereniging <img src="http://www.boulamis.nl/boulamis_toernooi/images/file_upload_icon.jpg" width=50 border =0 ></div>
+<div style='padding:10pt;font-size:20pt;color:green;'><br>Upload spelerslijst eigen vereniging <img src="../boulamis/images/file_upload_icon.jpg" width=50 border =0 ></div>
 <?php
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -87,17 +101,9 @@ if ($aangelogd !='J'){
 exit;
 }
 
-if ($rechten != "A"  and $rechten != "C"){
- echo '<script type="text/javascript">';
- echo 'window.location = "rechten.php"';
- echo '</script>'; 
-}
-
-
-$qry            = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
-$row            = mysql_fetch_array( $qry );
+$qry            = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
+$row            = mysqli_fetch_array( $qry );
 $prog_url       = $row['Prog_url'];
-
 
 
 // set max file size for upload (500 kb)
@@ -144,23 +150,7 @@ $max_file_size = 500000;
 	<legend style='left-padding:5pt;color:black;font-size:14px;font-family:Arial;'>CSV Bestand(en)  op het systeem</legend>
 
 
-<?php
-/// Verwerk bestand met files die niet getoond moeten worden              
-$myFile = 'nocopyimages.txt' ;    
-                                  
-$fh       = fopen($myFile, 'r');  
-$naam     = fgets($fh);                  
-$not_copy    = $naam;        
 
-while ( $naam <> ''){      
-
-$not_copy    .= $naam;
-$naam         = fgets($fh);
-} /// while
-
-fclose($fh);
-
-?>
 
 <table border =0  style='font-weight:bold;font-size:14pt;'>
 
