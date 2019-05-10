@@ -12,6 +12,12 @@
 # Feature:          None.
 # Reference: 
 
+# 10mei2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
 
 // Database gegevens. 
 //include('mysql.php');
@@ -53,4 +59,4 @@ echo "UPDATE 	toernooi_datums_cyclus SET Aantal_splrs = ".$result['Aantal']." , 
    } // end while
 } // end cyclus
 
-exit;
+//exit;
