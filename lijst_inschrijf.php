@@ -1,4 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php
+
+# lijst_inschrijf.php
+# 
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 10mei2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+?>
+
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -58,14 +73,14 @@ function CopyToClipboard()
 <?php 
 // Database gegevens. 
 
-include('mysql.php');
+include('mysqli.php');
 
 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -82,14 +97,6 @@ if (isset($_GET['toernooi'])){
 
 
 
-//// Check op rechten
-$rechten  = $result['Beheerder'];
-
-if ($rechten != "A"  and $rechten != "I"){
- echo '<script type="text/javascript">';
- echo 'window.location = "rechten.php"';
- echo '</script>'; 
-}
  
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
@@ -111,11 +118,11 @@ if (isset($toernooi)) {
 //	echo $vereniging;
 //  echo $toernooi;
 	
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -130,9 +137,9 @@ else {
 
 /// Ophalen tekst kleur
 
-$qry  = mysql_query("SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
+$qry  = mysqli_query($con,"SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
 
-$row        = mysql_fetch_array( $qry );
+$row        = mysqli_fetch_array( $qry );
 $tekstkleur = $row['Tekstkleur'];
 $koptekst   = $row['Koptekst'];
 $invulkop   = $row['Invulkop'];
@@ -140,8 +147,8 @@ $link       = $row['Link'];
 
 // Inschrijven als individu of vast team
 
-$qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
-$result     = mysql_fetch_array( $qry);
+$qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
+$result     = mysqli_fetch_array( $qry);
 $inschrijf_methode   = $result['Parameters'];
 
 if  ($inschrijf_methode == ''){
@@ -174,14 +181,14 @@ Plak daarna de gekopieerde tabel in Excel of Word.</div>
 /// Uitlezen config
 //// SQL Queries
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
-$qry1                   = mysql_query("SELECT * From vereniging where Id = ".$vereniging_id ." ")     or die(' Fout in select');  
- $result1                = mysql_fetch_array( $qry1);
+$qry1                   = mysqli_query($con,"SELECT * From vereniging where Id = ".$vereniging_id ." ")     or die(' Fout in select');  
+ $result1                = mysqli_fetch_array( $qry1);
  $sortering_korte_lijst  = $result1['Lijst_sortering'];
  
  /*
@@ -190,14 +197,14 @@ $qry1                   = mysql_query("SELECT * From vereniging where Id = ".$ve
 */ 
  
 //// SQL Queries
-$spelers      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Volgnummer,Inschrijving ".$sortering_korte_lijst."")    or die(mysql_error());  
+$spelers      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Volgnummer,Inschrijving ".$sortering_korte_lijst."")    or die(mysql_error());  
 
 $th_style   = 'border: 1px solid black;padding:3pt;background-color:white;color:black;font-size:10pt;font-family:verdana;font-weight:bold;';
 $td_style   = 'border: 1px solid black;padding:2pt;color:black;font-size:10pt;font-family:verdana';
 $td_style_w = 'border: 1px solid black;padding:2pt;background-color:white;color:black;font-size:10pt;font-family:verdana';
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'extra_vraag' ") ;  
-$result       = mysql_fetch_array( $qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'extra_vraag' ") ;  
+$result       = mysqli_fetch_array( $qry);
 
 $extra_vraag  = $result['Waarde']; 
 if ($extra_vraag != '') { 
@@ -402,54 +409,54 @@ echo "</tr>";
 
 $i=1;
 
-while($row = mysql_fetch_array( $spelers )) {
+while($row = mysqli_fetch_array( $spelers )) {
 
 $Naam1           = $row['Naam1'];
 $Vereniging1     = $row['Vereniging1'];
 $Licentie1       = $row['Licentie1'];
 
-$sql_l           = mysql_query("SELECT * from speler_licenties where Licentie  = '".$Licentie1."'  ")     ;  
-$result          = mysql_fetch_array( $sql_l);
+$sql_l           = mysqli_query($con,"SELECT * from speler_licenties where Licentie  = '".$Licentie1."'  ")     ;  
+$result          = mysqli_fetch_array( $sql_l);
 $Soort1          = $result['Soort'];
 
 $Naam2           = $row['Naam2'];
 $Vereniging2     = $row['Vereniging2'];
 $Licentie2       = $row['Licentie2'];
 
-$sql_l               = mysql_query("SELECT * from speler_licenties where Licentie  = '".$Licentie2."'  ")     ;  
-$result              = mysql_fetch_array( $sql_l);
+$sql_l               = mysqli_query($con,"SELECT * from speler_licenties where Licentie  = '".$Licentie2."'  ")     ;  
+$result              = mysqli_fetch_array( $sql_l);
 $Soort2              = $result['Soort'];
 
 $Naam3           = $row['Naam3'];
 $Vereniging3     = $row['Vereniging3'];
 $Licentie3       = $row['Licentie3'];
 
-$sql_l               = mysql_query("SELECT * from speler_licenties where Licentie  = '".$Licentie3."'  ")     ;  
-$result              = mysql_fetch_array( $sql_l);
+$sql_l               = mysqli_query($con,"SELECT * from speler_licenties where Licentie  = '".$Licentie3."'  ")     ;  
+$result              = mysqli_fetch_array( $sql_l);
 $Soort3              = $result['Soort'];
 
 $Naam4           = $row['Naam4'];
 $Vereniging4     = $row['Vereniging4'];
 $Licentie4       = $row['Licentie4'];
 
-$sql_l               = mysql_query("SELECT * from speler_licenties where Licentie  = '".$Licentie4."'  ")     ;  
-$result              = mysql_fetch_array( $sql_l);
+$sql_l               = mysqli_query($con,"SELECT * from speler_licenties where Licentie  = '".$Licentie4."'  ")     ;  
+$result              = mysqli_fetch_array( $sql_l);
 $Soort4              = $result['Soort'];
 
 $Naam5           = $row['Naam5'];
 $Vereniging5     = $row['Vereniging5'];
 $Licentie5       = $row['Licentie5'];
 
-$sql_l               = mysql_query("SELECT * from speler_licenties where Licentie  = '".$Licentie5."'  ")     ;  
-$result              = mysql_fetch_array( $sql_l);
+$sql_l               = mysqli_query($con,"SELECT * from speler_licenties where Licentie  = '".$Licentie5."'  ")     ;  
+$result              = mysqli_fetch_array( $sql_l);
 $Soort5              = $result['Soort'];
 
 $Naam6           = $row['Naam6'];
 $Vereniging6     = $row['Vereniging6'];
 $Licentie6       = $row['Licentie6'];
 
-$sql_l               = mysql_query("SELECT * from speler_licenties where Licentie  = '".$Licentie6."'  ")     ;  
-$result              = mysql_fetch_array( $sql_l);
+$sql_l               = mysqli_query($con,"SELECT * from speler_licenties where Licentie  = '".$Licentie6."'  ")     ;  
+$result              = mysqli_fetch_array( $sql_l);
 $Soort6              = $result['Soort'];
 
 $Telefoon        = $row['Telefoon'];
