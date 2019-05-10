@@ -1,4 +1,16 @@
 <?php
+#
+# Date              Version      Person
+# ----              -------      ------
+
+
+# 10mei2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+
 ob_start();
 function redirect($url) {
         //If headers are sent... do javascript redirect... if javascript disabled, do html redirect.
@@ -11,22 +23,22 @@ function redirect($url) {
         exit;
 }
 
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 $toernooi       = $_POST['Toernooi']; 
 $url            = $_POST['Url'];
 
-$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select config');  
+$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select config');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
 
-mysql_query("Update namen set Toernooi = '".$toernooi."' 
+mysqli_query($con,"Update namen set Toernooi = '".$toernooi."' 
                         WHERE Aangelogd = 'J'  and Vereniging_id = ".$vereniging_id."  and IP_adres = '". $_SERVER['REMOTE_ADDR']."' ");
                         
 
