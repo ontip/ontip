@@ -1,3 +1,17 @@
+<?php 
+# import_leden_csv_stap1.php
+# tbv licenties download csv bestand
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 13mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+?>
 <html
 <head>
 <title>Upload ledenlijst</title>
@@ -56,7 +70,7 @@ alert("Internet Explorer required");
 <?php
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 ob_start();
 
 
@@ -76,7 +90,7 @@ ob_start();
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -88,22 +102,8 @@ exit;
 }
 
 
-//// Check op rechten
-$rechten  = $result['Beheerder'];
-
-if ($rechten != "A"  and $rechten != "I"){
- echo '<script type="text/javascript">';
- echo 'window.location = "rechten.php"';
- echo '</script>'; 
-}
-if ($rechten != "A"  and $rechten != "C"){
- echo '<script type="text/javascript">';
- echo 'window.location = "rechten.php"';
- echo '</script>'; 
-}
-
-$qry            = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
-$row            = mysql_fetch_array( $qry );
+$qry            = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
+$row            = mysqli_fetch_array( $qry );
 $prog_url       = $row['Prog_url'];
 
 //// Change Title //////

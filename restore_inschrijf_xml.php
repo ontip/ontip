@@ -1,3 +1,17 @@
+<?php 
+# restore_inschrijf_xml.php
+# Vanuit een xml bestand de config records aanmaken
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 13mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+?>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,10 +49,10 @@ if (window.attachEvent) window.attachEvent("onload", sfFocus);
 <?php	
 	
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
-include 'mysql.php'; 
+include 'mysqli.php'; 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -63,11 +77,6 @@ exit;
 
 <?php
 
-if ($rechten != "A"  and $rechten != "C"){
- echo '<script type="text/javascript">';
- echo 'window.location = "rechten.php"';
- echo '</script>'; 
-}
 
 if (!isset($_POST['xml_file']) or !isset($_GET['xml']) or !isset($_POST['action'])    ){
 	?>
@@ -123,8 +132,8 @@ foreach ($files as $file) {
         
         if ($part[1] <> ''){
                	
-        	$qry      = mysql_query("SELECT vereniging from vereniging where Id = ".$part[1]." ")     or die(' Fout in select 1'); 
-         	$result                    = mysql_fetch_array( $qry );
+        	$qry      = mysqli_query($con,"SELECT vereniging from vereniging where Id = ".$part[1]." ")     or die(' Fout in select 1'); 
+         	$result   = mysqli_fetchh_array( $qry );
           $vereniging    = $result['vereniging'];
         	
  	   if ($part[0] =='ins'){
@@ -282,7 +291,7 @@ $inschrijf_methode    = $xml->toernooi->inschrijf_methode;
   
     	  if (strlen($sql_line[$i]) > 2 ){
     	  	echo $sql_line[$i]."<br>";
-          //////mysql_query($sql_line[$i]) or die ('Fout in insert line '.$i); 
+          //////mysqli_query($con,$sql_line[$i]) or die ('Fout in insert line '.$i); 
         }
         $i++;
         $j++;

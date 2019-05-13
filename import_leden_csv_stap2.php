@@ -7,11 +7,22 @@
 ////  kunnen worden geselecteerd uit een popup window om te worden ingevuld in het formulier.
 //// 
 ////  Dit bestand is aangemaakt door export_leden_csv_stap1.php.
-////
-////
+
+
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 13mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Database gegevens voor username en password
-include('mysql.php');
+include('mysqli.php');
 ini_set('display_errors', 0); 
 
 set_time_limit(300);//for setting 

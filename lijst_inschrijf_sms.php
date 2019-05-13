@@ -1,3 +1,18 @@
+<?php 
+# lijst_inschrijf_sms.php
+# 
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 13mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
@@ -91,7 +106,7 @@ function CopyHTMLToClipboard(element_id) {
 
 <?php 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 
@@ -103,7 +118,7 @@ setlocale(LC_ALL, 'nl_NL');
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -120,16 +135,6 @@ if (isset($_GET['toernooi'])){
 
 
 
-//// Check op rechten
-$rechten  = $result['Beheerder'];
-
-if ($rechten != "A"  and $rechten != "I"){
- echo '<script type="text/javascript">';
- echo 'window.location = "rechten.php"';
- echo '</script>'; 
-}
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Lees configuratie tabel tbv toernooi gegevens
 
@@ -141,11 +146,11 @@ if (isset($toernooi)) {
 //	echo $vereniging;
 //  echo $toernooi;
 	
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -181,8 +186,8 @@ if ($link_lijst_zichtbaar_jn == 'N' and !isset($_GET['lijst_zichtbaar']) ){
 	};
 
 
-$sql  = mysql_query("SELECT * From config where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' ")     or die(' Fout in select');  
-while($row = mysql_fetch_array( $sql )) {
+$sql  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' ")     or die(' Fout in select');  
+while($row = mysqli_fetch_array( $sql )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -190,8 +195,8 @@ while($row = mysql_fetch_array( $sql )) {
 	
 /// Ophalen tekst kleur
 
-$qry  = mysql_query("SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
-$row        = mysql_fetch_array( $qry );
+$qry  = mysqli_query($con,"SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
+$row        = mysqli_fetch_array( $qry );
 
 $tekstkleur = $row['Tekstkleur'];
 $koptekst   = $row['Koptekst'];
@@ -214,19 +219,19 @@ if (!isset($min_splrs)){
  	$min_splrs = '0';
 }
 
- $qry1                   = mysql_query("SELECT * From vereniging where Id = ".$vereniging_id ." ")     or die(' Fout in select');  
- $result1                = mysql_fetch_array( $qry1);
+ $qry1                   = mysqli_query($con,"SELECT * From vereniging where Id = ".$vereniging_id ." ")     or die(' Fout in select');  
+ $result1                = mysqli_fetch_array( $qry1);
  $sortering_korte_lijst  = $result1['Lijst_sortering'];
  
 //  alle inschrijvingen
-$spelers      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Inschrijving ".$sortering_korte_lijst. " " )    or die(mysql_error());  
+$spelers      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Inschrijving ".$sortering_korte_lijst. " " )    or die(mysql_error());  
 
 
 
  // Inschrijven als individu of vast team
 
-$qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
-$result     = mysql_fetch_array( $qry);
+$qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
+$result     = mysqli_fetch_array( $qry);
 $inschrijf_methode   = $result['Parameters'];
 
 if  ($inschrijf_methode == ''){
@@ -234,7 +239,7 @@ if  ($inschrijf_methode == ''){
 }
 
 /// Bepalen aantal spelers voor dit toernooi
-$aant_splrs_q = mysql_query("SELECT Count(*) from inschrijf WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' ")        or die(mysql_error()); 
+$aant_splrs_q = mysqli_query($con,"SELECT Count(*) from inschrijf WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' ")        or die(mysql_error()); 
 
 $th_style   = 'border: 1px solid black;padding:3pt;background-color:white;color:black;font-size:10pt;font-family:verdana;font-weight:bold;';
 $td_style   = 'border: 1px solid black;padding:2pt;color:black;font-size:10pt;font-family:verdana';
@@ -289,7 +294,7 @@ include('sms_tegoed.php');
 <?php
 //// SQL Queries
 
-$qry          = mysql_query("SELECT * From sms_confirmations  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' order by Laatst  ") ;  
+$qry          = mysqli_query($con,"SELECT * From sms_confirmations  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' order by Laatst  ") ;  
 //  Koptekst
 
 echo "<table  id='myTable1' style='border:2px solid #000000;box-shadow: 10px 10px 5px #888888;' cellpadding=0 cellspacing=0 ><tr>";
@@ -309,7 +314,7 @@ echo "</tr>";
 $i=1;
 $totaal_aantal_sms = 0;
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 
 if ($row['Lengte_bericht'] < 160){
 	$aantal_sms = 1;

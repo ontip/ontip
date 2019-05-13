@@ -1,4 +1,16 @@
-<?php
+<?php 
+# create_PDF_Ontip_voucher.php
+# Aanmaken van een PDF bestand met unieke voucher codes (vanuit bestand)
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 13mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
 ?>
 <html>
 	<Title>OnTip PDF vouchers</title>
@@ -25,7 +37,7 @@ fieldset { border: 1px solid #000000; border-radius: 5px; padding: 10px;margin:5
 <?php 
 ob_start();
 
-include('mysql.php');
+include('mysqli.php');
  
 $path = $_SERVER['DOCUMENT_ROOT'];
 $path = "../ontip/mpdf/mpdf.php";
@@ -33,8 +45,8 @@ include_once($path);
    
 ini_set('default_charset','UTF-8');
 
-$toernooi= 'erik_test_toernooi';
-$vereniging_id= 4;
+$toernooi= $_GET['toernooi'];
+
 
 ?>
 <div style='background-color:white;'>
@@ -52,8 +64,8 @@ $vereniging_id= 4;
 if (isset($toernooi)) {
 	
 	$voucherCode = []; 
-	$qry  = mysql_query("SELECT * From voucher_codes where Vereniging_id = ".$vereniging_id." and Toernooi = '".$toernooi."' ")     or die(' Fout in select 1');  
-	while($row = mysql_fetch_array( $qry )) {
+	$qry  = mysqli_query($con,"SELECT * From voucher_codes where Vereniging_id = ".$vereniging_id." and Toernooi = '".$toernooi."' ")     or die(' Fout in select 1');  
+	while($row = mysqli_fetch_array( $qry )) {
 	
 	$voucherCode[] = $row['Voucher_code'];
 }
@@ -62,19 +74,19 @@ if (isset($toernooi)) {
 //  echo $toernooi;
 
 //	echo "SELECT * From config where Vereniging_id = ".$vereniging_id." and Toernooi = '".$toernooi."' ";
-	$qry  = mysql_query("SELECT * From config where Vereniging_id = ".$vereniging_id." and Toernooi = '".$toernooi."' ")     or die(' Fout in select 1');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging_id = ".$vereniging_id." and Toernooi = '".$toernooi."' ")     or die(' Fout in select 1');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
 
 
-$qry_v           = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
-$result_v        = mysql_fetch_array( $qry_v);
+$qry_v           = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
+$result_v        = mysqli_fetch_array( $qry_v);
 $vereniging_id   = $result_v['Id'];
 $url_logo        = $result_v['Url_logo'];
 $vereniging_output_naam      = $result_v['Vereniging_output_naam']; 	  	 
@@ -134,12 +146,7 @@ for ($r=1;$r<8;$r++){
  $html .='</tr></table>';
 
 
-
-
-
-
-
-echo $html;
+//echo $html;
 
 //==============================================================
 //==============================================================
