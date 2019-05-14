@@ -19,6 +19,12 @@
 # Fix:             PHP7
 # Reference: 
 
+# 14mei2019        1.0.2         E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None.
+# Fix:              None.
+# Feature:          Verwerk aantal spelers per datum in toernooi_datums_cyclus en toon ze in overzicht
+# Reference: 
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
@@ -392,6 +398,9 @@ echo "<th style='". $th_style.";' width=30>Nr</th>";
 echo "<th style='". $th_style.";'>Naam</th>";
 echo "<th style='". $th_style.";'>Vereniging</th>";
 
+$aantal_spelers = 1;
+
+
 if ($extra_vraag != '' and $vraag_op_lijst_jn =='J'){
  echo "<th style='". $th_style.";'>".$vraag."</th>";
 }
@@ -469,22 +478,27 @@ echo "<tr>";
 echo "<th colspan = 1 style='". $th_style.";'></th>";
 echo "<th colspan = ".$colspan." style='". $th_style.";'>Speler 1</th>";
 echo "<th colspan = ".$colspan." style='". $th_style.";'>Speler 2</th>";
+$aantal_spelers = 2;
 
 if ($inschrijf_methode =='vast' and ($soort_inschrijving == 'triplet' or $soort_inschrijving == '4x4' or $soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet')){	
  echo "<th colspan = ".$colspan." style='". $th_style.";'>Speler 3</th>";
+ $aantal_spelers = 3;
 }
 
 if ($inschrijf_methode =='vast' and ( $soort_inschrijving == '4x4' or  $soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet')){	
  echo "<th colspan = ".$colspan." style='". $th_style.";'>Speler 4</th>";
+ $aantal_spelers = 4;
 }
 
 if ($inschrijf_methode =='vast' and ( $soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet')){	
  echo "<th colspan = ".$colspan." style='". $th_style.";'>Speler 5</th>";
+ $aantal_spelers = 5;
 }
 
 if ($inschrijf_methode =='vast' and $soort_inschrijving == 'sextet' ){	
  echo "<th colspan = ".$colspan." style='". $th_style.";'>Speler 6</th>";
 // echo "<th colspan = 1 style='color:white;'>.</th>";
+$aantal_spelers = 6;
 }
 
 $colspan = 1;
@@ -770,6 +784,15 @@ if ($extra_invulveld != '' and $invulveld_op_lijst_jn=='J' ){
          		    
                 if ($deelname !='' and $pos == true ){                                     
    	               echo "<td style='". $td_style_w.";text-align:center;'>X</td>";
+   	               // aantal per dag ophogen
+   	               
+   	               $var = 'aantal_'.substr($_datum,0,4).substr($_datum,5,2).substr($_datum,8,2);
+   	               if (!isset($$var)){
+   	               	$$var =1;
+   	              } else {
+  	                $$var++;
+                 }
+   	               
                  } else { 
    	               echo "<td style='". $td_style_w.";text-align:center;'>-</td>";
          		    }
@@ -791,6 +814,16 @@ if ($extra_invulveld != '' and $invulveld_op_lijst_jn=='J' ){
          		    
                 if ($deelname !='' and $pos == true ){                                     
    	               echo "<td style='". $td_style_w.";text-align:center;'>X</td>";
+   	               
+   	                 // aantal per dag ophogen
+   	               $var = 'aantal_'.substr($_datum,0,4).substr($_datum,5,2).substr($_datum,8,2);
+                 if (!isset($$var)){
+   	               	$$var =1;
+   	              } else {
+  	                $$var++;
+                 }
+   	               
+ 
                  } else { 
    	               echo "<td style='". $td_style_w.";text-align:center;'>-</td>";
          		    }
@@ -810,6 +843,58 @@ $i++;
 
 
 }; //// end while
+
+// totaal per dag
+ if ($meerdaags_toernooi_jn !='N'){
+$colspan = ($aantal_spelers*2)+2;
+echo "<tr>"; 
+echo "<td colspan = ".$colspan." style= 'color:black;font-size:9pt;text-align:left;'>Totaal";
+
+
+  if ($meerdaags_toernooi_jn =='X'){
+      $sql2      = mysqli_query($con,"SELECT * from toernooi_datums_cyclus  where  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."'   order by Datum" )     ; 
+         	
+         	while($row2 = mysqli_fetch_array( $sql2 )) { 		
+         		     $_datum   = $row2['Datum']; 
+        		    
+        		    
+        		          ///  0123456789
+        		          //   2019-05-15
+        		    
+                   $var = 'aantal_'.substr($_datum,0,4).substr($_datum,5,2).substr($_datum,8,2);
+                   if (!isset($$var)){
+                   	$$var =0;
+                  }
+  	               echo "<td style='". $td_style_w.";text-align:right;'>".$$var."</td>";
+  	               
+  	               $update = mysqli_query($con,"UPDATE toernooi_datums_cyclus set Aantal_splrs = ".$$var. " where Datum = '".$_datum."' and Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."' ");
+        		
+         		    }// while	  	
+ 	 }// end toernooi cyclus (x)
+ 
+   if ($meerdaags_toernooi_jn =='J'){
+      $sql2      = mysqli_query($con,"SELECT * from toernooi_datums_cyclus  where  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."'   order by Datum" )     ; 
+         	
+         	while($row2 = mysqli_fetch_array( $sql2 )) { 		
+         		     $_datum   = $row2['Datum']; 
+        		    
+        		    
+        		          ///  0123456789
+        		          //   2019-05-15
+        		    
+                   $var = 'aantal_'.substr($_datum,0,4).substr($_datum,5,2).substr($_datum,8,2);
+                   if (!isset($$var)){
+                   	$$var =0;
+                  }
+  	               echo "<td style='". $td_style_w.";text-align:right;'>".$$var."</td>";
+  	               
+  	               $update = mysqli_query($con,"UPDATE toernooi_datums_cyclus set Aantal_splrs = ".$$var. " where Datum = '".$_datum."' and Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."' ");
+        		
+         		    }// while	  	
+ 	 }// end toernooi cyclus (x)
+
+}// end meerdaags of cyclus
+echo "</tr>";
 echo "</table><br><br>";
 
 	echo "<div style='font-size:9pt;border:1 pt solid black;color:".$tekstkleur.";'>"; 
@@ -909,6 +994,8 @@ echo "<td style= 'color:black;font-size:9pt;text-align:right;'>";
 	 ECHO "</tr>"; 
 $i++;
 };
+
+
 
 ?>
 </table>	
