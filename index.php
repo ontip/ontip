@@ -1,4 +1,17 @@
-﻿<html>
+﻿<?php
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 17mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+?>
+?>
+<html>
 	<Title>OnTip Homepage (c) Erik Hendrikx</title>
 	<head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
