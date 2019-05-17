@@ -1,6 +1,6 @@
 <?php
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 ini_set('display_errors', 0); 
 
 set_time_limit(300);//for setting 

@@ -19,7 +19,7 @@ a {color:yellow ; font-size: 11.0pt ; font-family:Arial, Helvetica, sans-serif ;
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan half uur geleden opnieuw aanloggen
 
@@ -48,7 +48,7 @@ ob_start();
 
 $sql        = "SELECT Vereniging, Toernooi from config group by Vereniging, Toernooi order by Vereniging  ";
 //echo $sql;
-$namen      = mysql_query($sql);
+$namen      = mysqli_query($con,$sql);
 
 ?>
 
@@ -64,32 +64,32 @@ $namen      = mysql_query($sql);
 
 <?php
 	
-	while($row = mysql_fetch_array( $namen )) {
+	while($row = mysqli_fetch_array( $namen )) {
 		
 		echo " <b>".$row['Toernooi']." - ".$row['Vereniging']."</b><br> ";
 		
 		$sql1    = "SELECT DISTINCT Variabele from config where Toernooi = '".$row['Toernooi']."' and Vereniging ='".$row['Vereniging']."' order by Variabele ";
-		$result1 = mysql_query($sql1);
-    $count1  = mysql_num_rows($result1);
+		$result1 = mysqli_query($con,$sql1);
+    $count1  = mysqli_num_rows($result1);
     
     $sql2    = "SELECT * from config where Toernooi = '".$row['Toernooi']."' and Vereniging ='".$row['Vereniging']."' order by Variabele ";
-		$result2 = mysql_query($sql2);
-    $count2  = mysql_num_rows($result2);
+		$result2 = mysqli_query($con,$sql2);
+    $count2  = mysqli_num_rows($result2);
     
     $sql3    = "SELECT Id,Regel, Variabele,Max(Id) as Max from config where Variabele in (SELECT Variabele from  config where Toernooi = '".$row['Toernooi']."' and Vereniging ='".$row['Vereniging']."' 
                 GROUP BY Variabele HAVING COUNT(Vereniging) > 1) and Toernooi = '".$row['Toernooi']."' and Vereniging ='".$row['Vereniging']."' Order by Variabele ";
                 
     //echo $sql3."<br>";            
-    $result3 = mysql_query($sql3);     
-    $count3  = mysql_num_rows($result3);         
+    $result3 = mysqli_query($con,$sql3);     
+    $count3  = mysqli_num_rows($result3);         
     
        	       
     ///  Toon de duplicate variabele en verwijder alle records waarvan het Recid kleiner dan de hoogst gevonden  
-     while($row3 = mysql_fetch_array( $result3 )) {
+     while($row3 = mysqli_fetch_array( $result3 )) {
       
          If ($row3['Variabele'] != ''){
          echo "<span style='color:yellow;padding-left:10pt;'>  -> Variabele : ".$row3['Variabele']. "<br></span>";
-         mysql_query("DELETE FROM config where Variabele = '".$row3['Variabele']."' and Toernooi = '".$row['Toernooi']."' and Vereniging ='".$row['Vereniging']."' and Id < ".$row3['Max'] ."") or die(' Fout in delete');  
+         mysqli_query($con,"DELETE FROM config where Variabele = '".$row3['Variabele']."' and Toernooi = '".$row['Toernooi']."' and Vereniging ='".$row['Vereniging']."' and Id < ".$row3['Max'] ."") or die(' Fout in delete');  
           }//// end if
       }//// end while
     		

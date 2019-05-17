@@ -28,8 +28,8 @@ $logo_height = ( $logo_height / $calc) ;
  	 }
  	
  /*	/ 
-$sql         = mysql_query("SELECT Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select toernooi');  
-$result      = mysql_fetch_array( $sql );
+$sql         = mysqli_query($con,"SELECT Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select toernooi');  
+$result      = mysqli_fetch_array( $sql );
 $toernooi    = $result['Toernooi'];
 */
 
@@ -52,8 +52,8 @@ if ($toernooi == '' and isset($_GET['toernooi'])){
    		
        <?php
         if (isset($toernooi) and $toernooi !=''){
-       	$sql      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'datum' ")     or die(' Fout in select');  
-        $result   = mysql_fetch_array( $sql );
+       	$sql      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'datum' ")     or die(' Fout in select');  
+        $result   = mysqli_fetch_array( $sql );
         $datum    = $result['Waarde'];
         
          $dag   = 	substr ($datum , 8,2); 
@@ -64,16 +64,16 @@ if ($toernooi == '' and isset($_GET['toernooi'])){
          
          // Definieer variabelen en vul ze met waarde uit tabel config
         
-        $sql      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'toernooi_voluit' ")     or die(' Fout in select');  
-        $result   = mysql_fetch_array( $sql );
+        $sql      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'toernooi_voluit' ")     or die(' Fout in select');  
+        $result   = mysqli_fetch_array( $sql );
         $toernooi_voluit    = $result['Waarde'];
-        $sql      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'toernooi_zichtbaar_op_kalender_jn' ")     or die(' Fout in select');  
-        $result   = mysql_fetch_array( $sql );
+        $sql      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'toernooi_zichtbaar_op_kalender_jn' ")     or die(' Fout in select');  
+        $result   = mysqli_fetch_array( $sql );
         $toernooi_zichtbaar_op_kalender_jn   = $result['Waarde'];
                
          $variabele = 'einde_inschrijving';
-         $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
-         $result    = mysql_fetch_array( $qry1);
+         $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+         $result    = mysqli_fetch_array( $qry1);
          $einde_inschrijving =  $result['Waarde'];
          
       ?>

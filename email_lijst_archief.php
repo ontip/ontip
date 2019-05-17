@@ -52,14 +52,14 @@ function CopyToClipboard()
 <body>
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -77,8 +77,8 @@ $id       = $_POST['toernooi'];
 
 if ($id > 0) {
 // Ophalen lijst toernooien 
-$sql2     = mysql_query("select * from hulp_toernooi where Id = ".$id." ") or die(' Fout in select 1');
-$result   = mysql_fetch_array( $sql2 );
+$sql2     = mysqli_query($con,"select * from hulp_toernooi where Id = ".$id." ") or die(' Fout in select 1');
+$result   = mysqli_fetch_array( $sql2 );
 $toernooi = $result['Toernooi'];	
 $datum    = $result['Datum'];	
 echo $id."<br>";
@@ -86,14 +86,14 @@ echo $toernooi."<br>";
 }
 else { 
 
-mysql_query("Delete from hulp_toernooi  ") ;  
+mysqli_query($con,"Delete from hulp_toernooi  ") ;  
 
-$insert = mysql_query("INSERT INTO hulp_toernooi
+$insert = mysqli_query($con,"INSERT INTO hulp_toernooi
 (`Toernooi`, `Vereniging`, `Datum`) 
  select  Toernooi, Vereniging, Datum from stats_email where Vereniging = '".$vereniging."' group by Vereniging, Toernooi, Datum ");
 
 // Ophalen lijst toernooien 
-$sql1 =  mysql_query("select * from hulp_toernooi   group by Datum order by Datum") or die(' Fout in select 1');
+$sql1 =  mysqli_query($con,"select * from hulp_toernooi   group by Datum order by Datum") or die(' Fout in select 1');
 
 
 }
@@ -123,7 +123,7 @@ if ($toernooi != ''){
 
 // Uitvoeren queries
 
-$qry       = mysql_query($sql)     or die(' Fout in select sql');  
+$qry       = mysqli_query($con,$sql)     or die(' Fout in select sql');  
 
 
 ?>
@@ -166,7 +166,7 @@ $qry       = mysql_query($sql)     or die(' Fout in select sql');
   	   <option value='Alle toernooien' >Alle toernooien</option>
     <?php }
     
- while($row = mysql_fetch_array( $sql1 )) {
+ while($row = mysqli_fetch_array( $sql1 )) {
  	    
 	      echo "<OPTION  value=".$row['Id']."><keuze>";
     	  echo $row['Toernooi']." - ".$row['Datum'];
@@ -197,13 +197,13 @@ Alle email adressen worden geselecteerd. Druk op CTRL+C en plak daarna de gekopi
 <div id="myTable1" style="border: red solid 1px;padding:10pt;padding-left:20pt;width:800pt;" width=70%>  
 
 <?php
-$leden = mysql_query("SELECT distinct Email FROM stats_email WHERE Vereniging = '".$vereniging ."'  and Email <> '' ") or die(mysql_error());  
+$leden = mysqli_query($con,"SELECT distinct Email FROM stats_email WHERE Vereniging = '".$vereniging ."'  and Email <> '' ") or die(mysql_error());  
 echo "<table>";
 echo "<tr><td height='100ptx' Style='background-color:white;'>";
 $i =1;
 
 // keeps getting the next row until there are no more to get
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	// Print out the contents of each row into a table
 	echo $row['Email'];
 	// Zet er steeds een punt-komma tussen

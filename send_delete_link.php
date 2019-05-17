@@ -16,7 +16,7 @@ a    {text-decoration:none;color:blue;font-size: 9pt}
 ob_start();
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 setlocale(LC_ALL, 'nl_NL');
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
@@ -30,8 +30,8 @@ $email    = $_POST['email'];
 //echo "id : ".  $id;
 $key      = $date . $keuze;
 
-$qry              = mysql_query("SELECT * from config where Id = ".$id." ")     or die(' Fout in select'); 
-$result           = mysql_fetch_array( $qry );
+$qry              = mysqli_query($con,"SELECT * from config where Id = ".$id." ")     or die(' Fout in select'); 
+$result           = mysqli_fetch_array( $qry );
 $toernooi         = $result['Toernooi'];
 $toernooi_voluit  = $result['Waarde'];
 
@@ -39,21 +39,21 @@ $toernooi_voluit  = $result['Waarde'];
 /// Insert in config bestand met sleutel. Zonder dit record kan niet verwijderd worden
 
 $query_del = "delete from config where Vereniging = '".$vereniging."'  and Toernooi ='".$toernooi."'  and Variabele = 'delete_key' ";
-mysql_query($query_del) or die ('Fout in verwijderen delete key'); 
+mysqli_query($con,$query_del) or die ('Fout in verwijderen delete key'); 
 
 
 $query = "INSERT INTO `config` (`Id`, `Regel`, `Vereniging`, `Toernooi`,  `Variabele`, `Waarde`,`Laatst` ) 
         VALUES (0, 9999, '".$vereniging."','".$toernooi."' , 'delete_key', '".$key."', NOW())";
 
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
   
 // opvragen ivm uniek record id
 
 $sql        = "SELECT Id from config where Toernooi =  '".$toernooi."' and Variabele = 'delete_key' and Waarde =  '".$key."' ";
 //echo $sql;
 
-$result     = mysql_query($sql);
-$row        = mysql_fetch_array( $result );
+$result     = mysqli_query($con,$sql);
+$row        = mysqli_fetch_array( $result );
 $id         = $row['Id'];  
 
 //  mail versturen
@@ -63,12 +63,12 @@ $subject   .= $toernooi;
 
 
 /// Ophalen mail tracer
-$qry  = mysql_query("SELECT * From mail_trace where Vereniging = '".$vereniging."' ");  
-$count=mysql_num_rows($qry);
+$qry  = mysqli_query($con,"SELECT * From mail_trace where Vereniging = '".$vereniging."' ");  
+$count=mysqli_num_rows($qry);
 $trace = 'N';
 
 if ($count > 0) {
-	$row          = mysql_fetch_array( $qry );
+	$row          = mysqli_fetch_array( $qry );
   $trace        = $row['Trace'];
   $email_tracer = $row['Email'];
 }
@@ -77,20 +77,20 @@ if ($count > 0) {
 /*
 $email = '';
 
-$sql      = mysql_query("SELECT Email FROM namen WHERE  IP_adres = '".$_SERVER['REMOTE_ADDR']."' and  Vereniging = '".$vereniging."' and Aangelogd ='J'  ") or die(' Fout in select email');  
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT Email FROM namen WHERE  IP_adres = '".$_SERVER['REMOTE_ADDR']."' and  Vereniging = '".$vereniging."' and Aangelogd ='J'  ") or die(' Fout in select email');  
+$result   = mysqli_fetch_array( $sql );
 $email     = $result['Email'];
 */
 $to         = $email;
 
-$qry      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'datum'")     or die(' Fout in select');  
-$result   = mysql_fetch_array( $qry );
+$qry      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'datum'")     or die(' Fout in select');  
+$result   = mysqli_fetch_array( $qry );
 $datum    = $result['Waarde'];
 
 // uit vereniging tabel	
     
-$qry_v           = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
-$result_v        = mysql_fetch_array( $qry_v);
+$qry_v           = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
+$result_v        = mysqli_fetch_array( $qry_v);
 $vereniging_id   = $result_v['Id'];
 $url_logo        = $result_v['Url_logo']; 
 

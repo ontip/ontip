@@ -92,7 +92,7 @@ function CopyHTMLToClipboard(element_id) {
 
 <?php
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 
@@ -103,7 +103,7 @@ setlocale(LC_ALL, 'nl_NL');
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -141,8 +141,8 @@ $td_style_w = 'border: 1px solid black;padding:2pt;background-color:white;color:
 //// Lees configuratie tabel tbv toernooi gegevens
 
 
-$sql  = mysql_query("SELECT * From config where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' ")     or die(' Fout in select');  
-while($row = mysql_fetch_array( $sql )) {
+$sql  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' ")     or die(' Fout in select');  
+while($row = mysqli_fetch_array( $sql )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -176,8 +176,8 @@ error_reporting(E_ALL);
 <?php
 //// SQL Queries
 
-$qry          = mysql_query("SELECT * From sms_confirmations  where Vereniging = '".$vereniging ."' and Toernooi = '' order by Laatst  ") ;  
-$result       = mysql_fetch_array( $qry);
+$qry          = mysqli_query($con,"SELECT * From sms_confirmations  where Vereniging = '".$vereniging ."' and Toernooi = '' order by Laatst  ") ;  
+$result       = mysqli_fetch_array( $qry);
 
 //  Koptekst
 
@@ -194,7 +194,7 @@ echo "</tr>";
 
 $i=1;
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 
 		echo "<tr>";
     echo "<td style='". $td_style_w.";' >". $i  . " </td>" ;

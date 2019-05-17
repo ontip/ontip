@@ -20,7 +20,7 @@ td   {color:black;font-size:9pt;font-family: sans-serif;background-color:white;b
  
 <?php 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 include('versleutel.php'); 
 ob_start();
 /* Set locale to Dutch */
@@ -71,11 +71,11 @@ $totaal =0;
 	
 	
 	<?php
-	 	$sql        = mysql_query("SELECT * FROM namen   Order by Vereniging ");
+	 	$sql        = mysqli_query($con,"SELECT * FROM namen   Order by Vereniging ");
 	
 
 $i=1;
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
  ?>
  <?php
  $wachtwoord = $row['Wachtwoord'];

@@ -17,15 +17,15 @@ a    {text-decoration:none;color:blue;font-size: 9pt;}
 
 <?php
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
 
 
 //Check op aanwezige berichten voor de vereniging of allen
 $today      = date("Y") ."-".  date("m") . "-".  date("d");
-$msg_qry    = mysql_query("SELECT * from messages where (Vereniging = '".$vereniging."' or Vereniging = '*ALL*')  and Begin_datum <= '".$today."' and Eind_datum > '".$today."'  order by Laatst desc")           or die(' Fout in select msg');  
-$msg_count  = mysql_num_rows($msg_qry);
+$msg_qry    = mysqli_query($con,"SELECT * from messages where (Vereniging = '".$vereniging."' or Vereniging = '*ALL*')  and Begin_datum <= '".$today."' and Eind_datum > '".$today."'  order by Laatst desc")           or die(' Fout in select msg');  
+$msg_count  = mysqli_num_rows($msg_qry);
 
 
 ?>
@@ -56,7 +56,7 @@ $msg_count  = mysql_num_rows($msg_qry);
 			<th style='width:280pt;'>Bericht</th>
 		</tr>	
 	<?php
-	while($row = mysql_fetch_array( $msg_qry )) {
+	while($row = mysqli_fetch_array( $msg_qry )) {
    
    echo "<tr>";
    echo "<td style= 'font-size:10pt;color:black;'>".$row['Begin_datum']."</td>";

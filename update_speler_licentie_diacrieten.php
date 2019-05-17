@@ -4,13 +4,13 @@
 	</head>
 	<?php 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 
 
 setlocale(LC_ALL, 'nl_NL');
 
-$sql        = mysql_query("SELECT Licentie, Naam, Vereniging from speler_licenties where Licentie= '41418' ");
-while($row = mysql_fetch_array( $sql )) {
+$sql        = mysqli_query($con,"SELECT Licentie, Naam, Vereniging from speler_licenties where Licentie= '41418' ");
+while($row = mysqli_fetch_array( $sql )) {
 
 $licentie   =   $row['Licentie'];
 $naam       =   $row['Naam'];
@@ -34,7 +34,7 @@ $update = "update  speler_licenties set Naam       = '".htmlentities($naam,ENT_Q
                                   
 
 echo $update. "<br>";
-mysql_query($update) or die ('fout in update');; 
+mysqli_query($con,$update) or die ('fout in update');; 
 } // end if strpos
 
 }// end while record

@@ -17,8 +17,8 @@
 header("Location: ".$_SERVER['HTTP_REFERER']);
 ob_start();
 
-include 'mysql.php'; 
-mysql_query("Update namen set Laatst = now(),
+include 'mysqli.php'; 
+mysqli_query($con,"Update namen set Laatst = now(),
                               IP_adres = '' ,
                               Aangelogd = 'N'
                        WHERE IP_adres = '". $_SERVER['REMOTE_ADDR']."'   ");

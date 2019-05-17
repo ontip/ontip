@@ -33,7 +33,7 @@ td.menuoff { border-color: #FFFFFF;border-width:2px;font-size:14pt;  }
 <body>
  
 <?php
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 if(!isset($_COOKIE['aangelogd'])){ 
 echo '<script type="text/javascript">';
@@ -48,8 +48,8 @@ if (isset($_COOKIE['competitie'])){
 
 
 // ophalen competitie naam adhv doorgegeven id
-$sql        = mysql_query("SELECT * from comp_soort where Id = '".$competitie_id."'  ")     or die(' Fout in select');  
-$result     = mysql_fetch_array( $sql );
+$sql        = mysqli_query($con,"SELECT * from comp_soort where Id = '".$competitie_id."'  ")     or die(' Fout in select');  
+$result     = mysqli_fetch_array( $sql );
 $competitie_naam       = $result['Competitie'];
 $soort      = $result['Soort_competitie'];
 
@@ -57,7 +57,7 @@ $soort      = $result['Soort_competitie'];
 
 
 $sql        = "SELECT * from comp_data where Vereniging = '".$vereniging."' and Competitie = '".$competitie_naam."'  group by Speeldatum order by Speeldatum";
-$datums     = mysql_query($sql);
+$datums     = mysqli_query($con,$sql);
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 include 'kop.php'; 
@@ -83,7 +83,7 @@ include 'kop.php';
 	 	
 	     <?php
            
-	       	while($row = mysql_fetch_array( $datums )) {
+	       	while($row = mysqli_fetch_array( $datums )) {
  	         	echo "<OPTION  value=".$row['Speeldatum'].">";
     	      echo substr($row['Speeldatum'],0,10);
     	      echo "</OPTION>";	

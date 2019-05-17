@@ -74,7 +74,7 @@ function CopyToClipboard()
 <?php 
 // Database gegevens. 
 
-include('mysql.php');
+include('mysqli.php');
 setlocale(LC_ALL, 'nl_NL');
 
 
@@ -92,9 +92,9 @@ if (isset($_COOKIE['_month'])){
 setlocale(LC_ALL,'Dutch_Nederlands', ' Dutch', 'nl_NL','nl');
 
 /// over 2012
- $sql        = mysql_query("SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2012' group by Maand order by Maand");
+ $sql        = mysqli_query($con,"SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2012' group by Maand order by Maand");
 
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
       $maand                    = number_format($row['Maand']);
      
      //Let's create a new variable: $aantal_maand_xx
@@ -115,9 +115,9 @@ while($row = mysql_fetch_array( $sql )) {
 //var_dump($aantal_maand); 
 
 /// over 2012
- $sql        = mysql_query("SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2013' group by Maand order by Maand");
+ $sql        = mysqli_query($con,"SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2013' group by Maand order by Maand");
 
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
       $maand                    = number_format($row['Maand']);
      
      //Let's create a new variable: $aantal_maand_xx
@@ -142,50 +142,50 @@ ob_start();
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
 	
-	$qry     = mysql_query("SELECT Distinct Vereniging,Plaats from namen where Plaats <> '' order by Vereniging   ")     or die(' Fout in select namen');  
-	$qry1    = mysql_query("SELECT Distinct Vereniging, Toernooi From config  order by Vereniging, Toernooi ")           or die(' Fout in select');  
-  $qry2    = mysql_query("SELECT Vereniging, Toernooi, count(*) as Aantal,max(Inschrijving) as Laatst From inschrijf  group by Vereniging, Toernooi order by Laatst desc ")     or die(' Fout in select'); 
-  $qry2jk  = mysql_query("SELECT Vereniging, Toernooi, count(*) as Aantal,max(Inschrijving) as Laatst From inschrijf_jk  group by Vereniging, Toernooi order by Laatst desc ")     or die(' Fout in select 2jk'); 
-  $qry2b    = mysql_query("SELECT Vereniging, Toernooi, count(*) as Aantal,max(Inschrijving) as Laatst From inschrijf  group by Vereniging, Toernooi order by Datum asc ")     or die(' Fout in select'); 
+	$qry     = mysqli_query($con,"SELECT Distinct Vereniging,Plaats from namen where Plaats <> '' order by Vereniging   ")     or die(' Fout in select namen');  
+	$qry1    = mysqli_query($con,"SELECT Distinct Vereniging, Toernooi From config  order by Vereniging, Toernooi ")           or die(' Fout in select');  
+  $qry2    = mysqli_query($con,"SELECT Vereniging, Toernooi, count(*) as Aantal,max(Inschrijving) as Laatst From inschrijf  group by Vereniging, Toernooi order by Laatst desc ")     or die(' Fout in select'); 
+  $qry2jk  = mysqli_query($con,"SELECT Vereniging, Toernooi, count(*) as Aantal,max(Inschrijving) as Laatst From inschrijf_jk  group by Vereniging, Toernooi order by Laatst desc ")     or die(' Fout in select 2jk'); 
+  $qry2b    = mysqli_query($con,"SELECT Vereniging, Toernooi, count(*) as Aantal,max(Inschrijving) as Laatst From inschrijf  group by Vereniging, Toernooi order by Datum asc ")     or die(' Fout in select'); 
   
   
-	$qry3    = mysql_query("SELECT * FROM namen Order by Vereniging");   
-	$qry4    = mysql_query("SELECT count(*) as Aantal From inschrijf")     or die(' Fout in select'); 
-	$qry4jk  = mysql_query("SELECT count(*) as Aantal From inschrijf_jk")     or die(' Fout in select 4 jk'); 
+	$qry3    = mysqli_query($con,"SELECT * FROM namen Order by Vereniging");   
+	$qry4    = mysqli_query($con,"SELECT count(*) as Aantal From inschrijf")     or die(' Fout in select'); 
+	$qry4jk  = mysqli_query($con,"SELECT count(*) as Aantal From inschrijf_jk")     or die(' Fout in select 4 jk'); 
 		
-	$result  = mysql_fetch_array( $qry4 );
+	$result  = mysqli_fetch_array( $qry4 );
 	
 	$totaal_inschrijvingen  = $result['Aantal'];
-  $result  = mysql_fetch_array( $qry4jk );
+  $result  = mysqli_fetch_array( $qry4jk );
   $totaal_inschrijvingen  = $totaal_inschrijvingen + $result['Aantal'];
   
-  $qry5    = mysql_query("SELECT DAY(Inschrijving) as Dag, WEEKDAY(Inschrijving) as Dagnaam, count(*) as Aantal from inschrijf 
+  $qry5    = mysqli_query($con,"SELECT DAY(Inschrijving) as Dag, WEEKDAY(Inschrijving) as Dagnaam, count(*) as Aantal from inschrijf 
 	                     where Month(Inschrijving) = '".$select_month."'
 	                     and Year(Inschrijving) = '".$select_year."' group by 1 order by 1  ")     or die(' Fout in select namen');  
 	
-  $qry5_tot    = mysql_query("SELECT count(*) as Aantal from inschrijf 
+  $qry5_tot    = mysqli_query($con,"SELECT count(*) as Aantal from inschrijf 
 	                     where Month(Inschrijving) = '".$select_month."'
 	                     and Year(Inschrijving) = '".$select_year."'   ")     or die(' Fout in select namen');  
-  $result  = mysql_fetch_array( $qry5_tot );
+  $result  = mysqli_fetch_array( $qry5_tot );
   $totaal_maand  = $result['Aantal'];
   
   /// grafieken bron
   
-  $qry6  = mysql_query("SELECT distinct Vereniging, count(*) as Aantal From stats_naam group by Vereniging order by Aantal desc")            or die(' Fout in select 6'); 
-  $qry6b = mysql_query("SELECT distinct Vereniging, count(*) as Aantal From stats_naam group by Vereniging order by Aantal desc limit 10")   or die(' Fout in select 6b'); 
-  $qry6c = mysql_query("SELECT distinct Soort_toernooi, count(*) as Aantal From stats_naam group by 1 order by 2 desc")                      or die(' Fout in select 6c'); 
-  $qry6d = mysql_query("SELECT distinct Soort_Licentie, count(*) as Aantal From stats_naam group by 1 order by 2 desc")                      or die(' Fout in select 6d'); 
-  $qry6e = mysql_query("SELECT DATE_FORMAT(Datum, '%w') as Weekdag , count(*) as Aantal from stats_naam group by 1 order by 1")              or die(' Fout in select 6e'); 
-  $qry6f = mysql_query("SELECT distinct Vereniging_speler, count(*) as Aantal From stats_naam group by Vereniging_speler order by Aantal desc")            or die(' Fout in select 6f');    
-  $qry6g1 = mysql_query("SELECT DATE_FORMAT(Laatst, '%w') as Weekdag , count(*) as Aantal from stats_naam where DATE_FORMAT(Laatst,'%Y') = '2012'  group by 1 order by 1")              or die(' Fout in select 6g1'); 
-  $qry6g2 = mysql_query("SELECT DATE_FORMAT(Laatst, '%w') as Weekdag , count(*) as Aantal from stats_naam where DATE_FORMAT(Laatst,'%Y') = '2013'  group by 1 order by 1")              or die(' Fout in select 6g2'); 
-  $qry6h = mysql_query("SELECT distinct Vereniging_speler, count(*) as Aantal From stats_naam group by Vereniging_speler order by Aantal desc limit 10")   or die(' Fout in select 6h'); 
+  $qry6  = mysqli_query($con,"SELECT distinct Vereniging, count(*) as Aantal From stats_naam group by Vereniging order by Aantal desc")            or die(' Fout in select 6'); 
+  $qry6b = mysqli_query($con,"SELECT distinct Vereniging, count(*) as Aantal From stats_naam group by Vereniging order by Aantal desc limit 10")   or die(' Fout in select 6b'); 
+  $qry6c = mysqli_query($con,"SELECT distinct Soort_toernooi, count(*) as Aantal From stats_naam group by 1 order by 2 desc")                      or die(' Fout in select 6c'); 
+  $qry6d = mysqli_query($con,"SELECT distinct Soort_Licentie, count(*) as Aantal From stats_naam group by 1 order by 2 desc")                      or die(' Fout in select 6d'); 
+  $qry6e = mysqli_query($con,"SELECT DATE_FORMAT(Datum, '%w') as Weekdag , count(*) as Aantal from stats_naam group by 1 order by 1")              or die(' Fout in select 6e'); 
+  $qry6f = mysqli_query($con,"SELECT distinct Vereniging_speler, count(*) as Aantal From stats_naam group by Vereniging_speler order by Aantal desc")            or die(' Fout in select 6f');    
+  $qry6g1 = mysqli_query($con,"SELECT DATE_FORMAT(Laatst, '%w') as Weekdag , count(*) as Aantal from stats_naam where DATE_FORMAT(Laatst,'%Y') = '2012'  group by 1 order by 1")              or die(' Fout in select 6g1'); 
+  $qry6g2 = mysqli_query($con,"SELECT DATE_FORMAT(Laatst, '%w') as Weekdag , count(*) as Aantal from stats_naam where DATE_FORMAT(Laatst,'%Y') = '2013'  group by 1 order by 1")              or die(' Fout in select 6g2'); 
+  $qry6h = mysqli_query($con,"SELECT distinct Vereniging_speler, count(*) as Aantal From stats_naam group by Vereniging_speler order by Aantal desc limit 10")   or die(' Fout in select 6h'); 
 
 ////// 6b 
 
 
  $i=1;
- while($row = mysql_fetch_array( $qry6b )) {
+ while($row = mysqli_fetch_array( $qry6b )) {
  	  $vereniging = $row['Vereniging'];
  	
  	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -207,7 +207,7 @@ $vereniging        = str_replace("&#206", "Î", $vereniging);
   }
  $totaal_3d = $i;
   
- while($row = mysql_fetch_array( $qry6c )) {
+ while($row = mysqli_fetch_array( $qry6c )) {
  	  $soort_toernooi                   = $row['Soort_toernooi'];
  	   	  //echo "soort : ". $soort_toernooi. "<br>";
  	   	  $_soort_aantal[$soort_toernooi]   = $row['Aantal'];
@@ -216,7 +216,7 @@ $vereniging        = str_replace("&#206", "Î", $vereniging);
 
 ////// 6e 
 
- while($row = mysql_fetch_array( $qry6e )) {
+ while($row = mysqli_fetch_array( $qry6e )) {
  	
  	   $dagnr                        = $row['Weekdag'];	
  	   $weekdag_3d_aantal[$dagnr]    = $row['Aantal'];
@@ -232,7 +232,7 @@ for ($i=0;$i<7;$i++){
 	
 	////// 6g1  2012
 
- while($row = mysql_fetch_array( $qry6g1 )) {
+ while($row = mysqli_fetch_array( $qry6g1 )) {
  	
  	   $dagnr                             = $row['Weekdag'];	
  	   $weekdag_bar_2012_aantal[$dagnr]   = $row['Aantal'];
@@ -248,7 +248,7 @@ for ($i=0;$i<7;$i++){
 	
 	////// 6g2  2013
 
- while($row = mysql_fetch_array( $qry6g2 )) {
+ while($row = mysqli_fetch_array( $qry6g2 )) {
  	
  	   $dagnr                        = $row['Weekdag'];	
  	   $weekdag_bar_2013_aantal[$dagnr]   = $row['Aantal'];
@@ -265,7 +265,7 @@ for ($i=0;$i<7;$i++){
 ////// 6h 
 
  $i=1;
- while($row = mysql_fetch_array( $qry6h )) {
+ while($row = mysqli_fetch_array( $qry6h )) {
  	  $vereniging = $row['Vereniging_speler'];
  	
  	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -290,23 +290,23 @@ $vereniging        = str_replace("&#206", "Î", $vereniging);
 ////// 6e 
 
 	
-  $qry7  = mysql_query("SELECT count(*) as Aantal From stats_naam")     or die(' Fout in select 7'); 
-	$result  = mysql_fetch_array( $qry7 );
+  $qry7  = mysqli_query($con,"SELECT count(*) as Aantal From stats_naam")     or die(' Fout in select 7'); 
+	$result  = mysqli_fetch_array( $qry7 );
   $archief_inschrijvingen  = $result['Aantal'];
 
-	$qry8    = mysql_query("SELECT  Vereniging, count(distinct Datum) as Aantal FROM `stats_naam`   group by Vereniging order by 2 desc")     or die(' Fout in select 8'); 
+	$qry8    = mysqli_query($con,"SELECT  Vereniging, count(distinct Datum) as Aantal FROM `stats_naam`   group by Vereniging order by 2 desc")     or die(' Fout in select 8'); 
 	
-	$qry9    = mysql_query("SELECT Naam, Vereniging_speler as Vereniging, count(*) as Aantal FROM `stats_naam` group by 1 order by 3 desc,1 asc limit 10")     or die(' Fout in select 9'); 
+	$qry9    = mysqli_query($con,"SELECT Naam, Vereniging_speler as Vereniging, count(*) as Aantal FROM `stats_naam` group by 1 order by 3 desc,1 asc limit 10")     or die(' Fout in select 9'); 
 	
-	$qry10   = mysql_query("SELECT DATE_FORMAT(Laatst,'%d-%m-%Y') as Datum , count(*) as Aantal  from stats_naam group by 1 order by 2 desc limit 10")     or die(' Fout in select 10'); 
+	$qry10   = mysqli_query($con,"SELECT DATE_FORMAT(Laatst,'%d-%m-%Y') as Datum , count(*) as Aantal  from stats_naam group by 1 order by 2 desc limit 10")     or die(' Fout in select 10'); 
 	
-	$qry11   = mysql_query("SELECT Naam, Vereniging, Laatst from namen where Naam <> 'Erik' order by 3 desc limit 10")     or die(' Fout in select 11'); 
+	$qry11   = mysqli_query($con,"SELECT Naam, Vereniging, Laatst from namen where Naam <> 'Erik' order by 3 desc limit 10")     or die(' Fout in select 11'); 
 	
-	$qry12   = mysql_query("SELECT Naam, Vereniging, Aantal from namen where Naam <> 'Erik' and Aantal > 0 order by 3 desc limit 10")     or die(' Fout in select 12'); 
+	$qry12   = mysqli_query($con,"SELECT Naam, Vereniging, Aantal from namen where Naam <> 'Erik' and Aantal > 0 order by 3 desc limit 10")     or die(' Fout in select 12'); 
 	
-	$qry13   = mysql_query("Select date_format(Laatst, '%H' ) as Uur, count(*) AS Aantal from stats_naam group by 1 order by 1 ")     or die(' Fout in select 13'); 
+	$qry13   = mysqli_query($con,"Select date_format(Laatst, '%H' ) as Uur, count(*) AS Aantal from stats_naam group by 1 order by 1 ")     or die(' Fout in select 13'); 
 	 
-while($row = mysql_fetch_array( $qry13 )) {
+while($row = mysqli_fetch_array( $qry13 )) {
         $uur                    = number_format($row['Uur']);
         
         //Let's create a new variable: $aantal_uur_xx
@@ -326,9 +326,9 @@ while($row = mysql_fetch_array( $qry13 )) {
   }// end for
   
   
-  $qry14   = mysql_query("SELECT Vereniging, Toernooi, Datum, Soort_toernooi, count(*) as Aantal  FROM `stats_naam` group by 1,2 order by 5 desc limit 20")     or die(' Fout in select 14');  
-  $qry15   = mysql_query("SELECT * FROM `inschrijf` where DATE_FORMAT(Inschrijving,'%Y') = '2012'  order by Inschrijving asc limit 20")     or die(' Fout in select 15');  
-  $qry16   = mysql_query("SELECT count(*) as Aantal FROM `inschrijf` where DATE_FORMAT(Inschrijving,'%Y') = '2012'   ")     or die(' Fout in select 16');  
+  $qry14   = mysqli_query($con,"SELECT Vereniging, Toernooi, Datum, Soort_toernooi, count(*) as Aantal  FROM `stats_naam` group by 1,2 order by 5 desc limit 20")     or die(' Fout in select 14');  
+  $qry15   = mysqli_query($con,"SELECT * FROM `inschrijf` where DATE_FORMAT(Inschrijving,'%Y') = '2012'  order by Inschrijving asc limit 20")     or die(' Fout in select 15');  
+  $qry16   = mysqli_query($con,"SELECT count(*) as Aantal FROM `inschrijf` where DATE_FORMAT(Inschrijving,'%Y') = '2012'   ")     or die(' Fout in select 16');  
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Definieeer variabelen en vul ze met waarde uit tabel
 
@@ -354,8 +354,8 @@ $totaal = 0;
 	<tr>
    <td><a href="#all_inschrijf"    style='font-size:10pt;color:blue;text-decoration:none;'>Inschrijvingen [<?php echo $totaal_inschrijvingen;?>]</a></td>
    <td><a href="#stats_inschrijf"  style='font-size:10pt;color:blue;text-decoration:none;'>Archief  [<?php echo $archief_inschrijvingen;?>]</a></td>
-   <td><a href="#all_verenigingen" style='font-size:10pt;color:blue;text-decoration:none;'>Verenigingen [<?php echo mysql_num_rows($qry);?>]</a></td>
-   <td><a href="#all_toernooien"   style='font-size:10pt;color:blue;text-decoration:none;'>Toernooien [<?php echo mysql_num_rows($qry1);?>]</a></td>
+   <td><a href="#all_verenigingen" style='font-size:10pt;color:blue;text-decoration:none;'>Verenigingen [<?php echo mysqli_num_rows($qry);?>]</a></td>
+   <td><a href="#all_toernooien"   style='font-size:10pt;color:blue;text-decoration:none;'>Toernooien [<?php echo mysqli_num_rows($qry1);?>]</a></td>
    <td><a href="#best"             style='font-size:10pt;color:blue;text-decoration:none;'>Best<br>bezochte toernooien</a></td>
    <td><a href="#per_dag"          style='font-size:10pt;color:blue;text-decoration:none;'>Per dag [<?php echo $totaal_maand;?>]</a></td>
    
@@ -401,7 +401,7 @@ $totaal = 0;
 	</tr>
 <?php
 $i=1;
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
  ?>
 	 <tr>
 	 	<td style='text-align:right;'><?php echo $i;?>.</td>
@@ -409,12 +409,12 @@ while($row = mysql_fetch_array( $qry2 )) {
 	 	<td><?php echo $row['Toernooi'];?></td>
 	 	
 	 	<?php
-	 	$sql        = mysql_query("SELECT Waarde FROM config WHERE Vereniging = '".$row['Vereniging']."' and Toernooi = '".$row['Toernooi']."' and Variabele = 'datum' ");
-	  $result     = mysql_fetch_array( $sql );
+	 	$sql        = mysqli_query($con,"SELECT Waarde FROM config WHERE Vereniging = '".$row['Vereniging']."' and Toernooi = '".$row['Toernooi']."' and Variabele = 'datum' ");
+	  $result     = mysqli_fetch_array( $sql );
     $datum      = $result['Waarde'];
     
-    $sql        = mysql_query("SELECT Waarde FROM config WHERE Vereniging = '".$row['Vereniging']."' and Toernooi = '".$row['Toernooi']."' and Variabele = 'max_splrs' ");
-	  $result     = mysql_fetch_array( $sql );
+    $sql        = mysqli_query($con,"SELECT Waarde FROM config WHERE Vereniging = '".$row['Vereniging']."' and Toernooi = '".$row['Toernooi']."' and Variabele = 'max_splrs' ");
+	  $result     = mysqli_fetch_array( $sql );
     $max_splrs  = $result['Waarde'];
     //echo $max_splrs;
     
@@ -467,7 +467,7 @@ while($row = mysql_fetch_array( $qry2 )) {
 		</tr>
 <?php
 $i=1;
-while($row = mysql_fetch_array( $qry2b )) {
+while($row = mysqli_fetch_array( $qry2b )) {
  ?>
 	 <tr>
 	 	<td style='text-align:right;'><?php echo $i;?>.</td>
@@ -475,8 +475,8 @@ while($row = mysql_fetch_array( $qry2b )) {
 	 	<td><?php echo $row['Toernooi'];?></td>
 	 	
 	 	<?php
-	 	$sql                  = mysql_query("SELECT Waarde FROM config WHERE Vereniging = '".$row['Vereniging']."' and Toernooi = '".$row['Toernooi']."' and Variabele = 'soort_inschrijving' ");
-    $result               = mysql_fetch_array( $sql );
+	 	$sql                  = mysqli_query($con,"SELECT Waarde FROM config WHERE Vereniging = '".$row['Vereniging']."' and Toernooi = '".$row['Toernooi']."' and Variabele = 'soort_inschrijving' ");
+    $result               = mysqli_fetch_array( $sql );
     $soort                = $result['Waarde'];
     
     switch($soort){
@@ -487,9 +487,9 @@ while($row = mysql_fetch_array( $qry2b )) {
    <td><?php echo $soort_inschrijving;?></td>
 	 	
 	 	<?php
-	 	$sql        = mysql_query("SELECT Waarde FROM config WHERE Vereniging = '".$row['Vereniging']."' and Toernooi = '".$row['Toernooi']."' and Variabele = 'datum' ");
+	 	$sql        = mysqli_query($con,"SELECT Waarde FROM config WHERE Vereniging = '".$row['Vereniging']."' and Toernooi = '".$row['Toernooi']."' and Variabele = 'datum' ");
 	 	//
-	  $result     = mysql_fetch_array( $sql );
+	  $result     = mysqli_fetch_array( $sql );
     $datum      = $result['Waarde'];
     $dag        = 	substr ($datum , 8,2); 
     $maand      = 	substr ($datum , 5,2); 
@@ -552,7 +552,7 @@ while($row = mysql_fetch_array( $qry2b )) {
 	</tr>
 <?php
 $i=1;
-while($row = mysql_fetch_array( $qry15 )) {
+while($row = mysqli_fetch_array( $qry15 )) {
  ?>
 	 <tr>
 	 	<td style='text-align:right;'><?php echo $i;?>.</td>
@@ -560,11 +560,11 @@ while($row = mysql_fetch_array( $qry15 )) {
 	 	<td><?php echo $row['Toernooi'];?></td>
 	 	
 	 	<?php
-	 	$sql        = mysql_query("SELECT Waarde FROM config WHERE Vereniging = '".$row['Vereniging']."' and Toernooi = '".$row['Toernooi']."' and Variabele = 'datum' ");
+	 	$sql        = mysqli_query($con,"SELECT Waarde FROM config WHERE Vereniging = '".$row['Vereniging']."' and Toernooi = '".$row['Toernooi']."' and Variabele = 'datum' ");
 	 	//
 	 //	echo "SELECT Waarde FROM config WHERE Vereniging = '".$row['Vereniging']."' and Toernooi = '".$row['Toernooi']."' and Variabele = 'datum' ";
 	 	//echo $sql;
-    $result     = mysql_fetch_array( $sql );
+    $result     = mysqli_fetch_array( $sql );
     $datum      = $result['Waarde'];
     if ($datum=='') { $datum='onbekend';};
     
@@ -585,7 +585,7 @@ while($row = mysql_fetch_array( $qry15 )) {
 	$i++; 
 };
 
-$result = mysql_fetch_array( $qry16); 
+$result = mysqli_fetch_array( $qry16); 
 echo "<tr><td colspan =4 style='font-weight:bold;'> Aantal inschrijvingen voor 2012 :</td><td style='text-align:right;'> ". $result['Aantal']."</td></tr>";
 
 
@@ -627,7 +627,7 @@ echo "<tr><td colspan =4 style='font-weight:bold;'> Aantal inschrijvingen voor 2
 $i      = 1;
 $totaal = 0;
 
-while($row = mysql_fetch_array( $qry6 )) {
+while($row = mysqli_fetch_array( $qry6 )) {
  ?>
 	 <tr>
 	 	<td style='text-align:right;'><?php echo $i;?>.</td>
@@ -661,7 +661,7 @@ while($row = mysql_fetch_array( $qry6 )) {
 <?php
 $i       = 1;
 $totaal  = 0;
-while($row = mysql_fetch_array( $qry8 )) {
+while($row = mysqli_fetch_array( $qry8 )) {
  ?>
 	 <tr>
 	 	<td style='text-align:right;'><?php echo $i;?>.</td>
@@ -697,7 +697,7 @@ while($row = mysql_fetch_array( $qry8 )) {
 <?php
 $i       = 1;
 $totaal  = 0;
-while($row = mysql_fetch_array( $qry9 )) {
+while($row = mysqli_fetch_array( $qry9 )) {
  ?>
 	 <tr>
 	 	<td style='text-align:right;'><?php echo $i;?>.</td>
@@ -730,7 +730,7 @@ while($row = mysql_fetch_array( $qry9 )) {
 <?php
 $i       = 1;
 $totaal  = 0;
-while($row = mysql_fetch_array( $qry10 )) {
+while($row = mysqli_fetch_array( $qry10 )) {
  ?>
 	 <tr>
 	 	<td style='text-align:right;'><?php echo $i;?>.</td>
@@ -767,7 +767,7 @@ while($row = mysql_fetch_array( $qry10 )) {
 $i      = 1;
 $totaal = 0;
 
-while($row = mysql_fetch_array( $qry6f )) {
+while($row = mysqli_fetch_array( $qry6f )) {
  ?>
 	 <tr>
 	 	<td style='text-align:right;'><?php echo $i;?>.</td>
@@ -1438,10 +1438,10 @@ fwrite($fp, "    <row>\n");
 fwrite($fp, "      <null/>\n");
 
 /// licenties
-$qry6d = mysql_query("SELECT distinct Soort_Licentie, count(*) as Aantal From stats_naam group by 1 order by 2 desc")     or die(' Fout in select 6d'); 
+$qry6d = mysqli_query($con,"SELECT distinct Soort_Licentie, count(*) as Aantal From stats_naam group by 1 order by 2 desc")     or die(' Fout in select 6d'); 
   
  $i=1;
- while($row = mysql_fetch_array( $qry6d )) {
+ while($row = mysqli_fetch_array( $qry6d )) {
  	$soort = $row['Soort_Licentie'];
  	if ($soort == ''){
  		$soort = 'Onbekend'; 
@@ -1455,10 +1455,10 @@ $qry6d = mysql_query("SELECT distinct Soort_Licentie, count(*) as Aantal From st
 	fwrite($fp, "   <row>\n");
 	 fwrite($fp,"     <string>Licenties archief</string>\n");
 	 	
-$qry6d = mysql_query("SELECT distinct Soort_Licentie, count(*) as Aantal From stats_naam group by 1 order by 2 desc")     or die(' Fout in select 6d'); 
+$qry6d = mysqli_query($con,"SELECT distinct Soort_Licentie, count(*) as Aantal From stats_naam group by 1 order by 2 desc")     or die(' Fout in select 6d'); 
   
  $i=1;
- while($row = mysql_fetch_array( $qry6d )) {
+ while($row = mysqli_fetch_array( $qry6d )) {
  		fwrite($fp, "     <number>".$row['Aantal']."</number>\n");
 	
 }	/// end while
@@ -1562,10 +1562,10 @@ fwrite($fp, "    <row>\n");
 fwrite($fp, "      <null/>\n");
 
 /// licenties
-$qry6d = mysql_query("SELECT distinct Soort_Licentie, count(*) as Aantal From hulp_naam group by 1 order by 2 desc")     or die(' Fout in select 6d'); 
+$qry6d = mysqli_query($con,"SELECT distinct Soort_Licentie, count(*) as Aantal From hulp_naam group by 1 order by 2 desc")     or die(' Fout in select 6d'); 
   
  $i=1;
- while($row = mysql_fetch_array( $qry6d )) {
+ while($row = mysqli_fetch_array( $qry6d )) {
  	$soort = $row['Soort_Licentie'];
  	if ($soort == ''){
  		$soort = 'Onbekend'; 
@@ -1579,10 +1579,10 @@ $qry6d = mysql_query("SELECT distinct Soort_Licentie, count(*) as Aantal From hu
 	fwrite($fp, "   <row>\n");
 	 fwrite($fp,"     <string>Licenties (actieve toernooien)</string>\n");
 	 	
-$qry6d = mysql_query("SELECT distinct Soort_Licentie, count(*) as Aantal From hulp_naam group by 1 order by 2 desc")     or die(' Fout in select 6d'); 
+$qry6d = mysqli_query($con,"SELECT distinct Soort_Licentie, count(*) as Aantal From hulp_naam group by 1 order by 2 desc")     or die(' Fout in select 6d'); 
   
  $i=1;
- while($row = mysql_fetch_array( $qry6d )) {
+ while($row = mysqli_fetch_array( $qry6d )) {
  		fwrite($fp, "     <number>".$row['Aantal']."</number>\n");
 	
 }	/// end while
@@ -1929,7 +1929,7 @@ if (AC_FL_RunContent == 0 || DetectFlashVer == 0) {
 <a style='font-size:9pt;color:blue;text-decoration:none;' href="#home">Home</a>
 <!-- /////////////////////////////////////////////////  einde grafieken -------------------------------------------------->
 
-<a name='all_verenigingen'><h1>Alle verenigingen (<?php echo mysql_num_rows($qry);?>)</h1></a>
+<a name='all_verenigingen'><h1>Alle verenigingen (<?php echo mysqli_num_rows($qry);?>)</h1></a>
 
 <table id= 'MyTable1' border =1>
 	<tr>
@@ -1940,7 +1940,7 @@ if (AC_FL_RunContent == 0 || DetectFlashVer == 0) {
 	</tr>
 <?php
 $i=1;
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
  ?>
 	 <tr>
 	 	<td style='text-align:right;'><?php echo $i;?>.</td>
@@ -1960,7 +1960,7 @@ $totaal =0;
 ?>
  	
 
-<a name='all_toernooien'><h1>Alle toernooien (<?php echo mysql_num_rows($qry1);?>)</h1></a>
+<a name='all_toernooien'><h1>Alle toernooien (<?php echo mysqli_num_rows($qry1);?>)</h1></a>
 
 <table id= 'MyTable1' border =1>
 	<tr>
@@ -1974,7 +1974,7 @@ $totaal =0;
 	</tr>
 <?php
 $i=1;
-while($row = mysql_fetch_array( $qry1 )) {
+while($row = mysqli_fetch_array( $qry1 )) {
  ?>
 	 <tr>
 	 	<td style='text-align:right;'><?php echo $i;?>.</td>
@@ -1987,11 +1987,11 @@ while($row = mysql_fetch_array( $qry1 )) {
 
 	$toernooi   = $row['Toernooi'];
 	$vereniging = $row['Vereniging'];
-	$sql  = mysql_query("SELECT * From config where Vereniging = '".$row['Vereniging'] ."' and Toernooi = '".$toernooi."' order by Waarde")     or die(' Fout in select');  
+	$sql  = mysqli_query($con,"SELECT * From config where Vereniging = '".$row['Vereniging'] ."' and Toernooi = '".$toernooi."' order by Waarde")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -2021,7 +2021,7 @@ while($row = mysql_fetch_array( $sql )) {
 
 
 <a style='font-size:9pt;color:blue;text-decoration:none;' href="#home">Home</a>
-<a name='best'><h1>Best bezochte toernooien  (20 van <?php echo mysql_num_rows($qry1);?>)</h1></a>
+<a name='best'><h1>Best bezochte toernooien  (20 van <?php echo mysqli_num_rows($qry1);?>)</h1></a>
 
 <table id= 'MyTable3' border = 1>
 	<tr>
@@ -2038,7 +2038,7 @@ while($row = mysql_fetch_array( $sql )) {
 	<?php
 
 $i=1;
-while($row = mysql_fetch_array( $qry14 )) {
+while($row = mysqli_fetch_array( $qry14 )) {
 	
 	$soort = $row['Soort_toernooi'];
 	
@@ -2078,7 +2078,7 @@ $totaal =0;
 ?>
 
 <a style='font-size:9pt;color:blue;text-decoration:none;' href="#home">Home</a>
-<!--a name='all_gebruikers'><h1>Gebruikers (<?php echo mysql_num_rows($qry3);?>)</h1></a-->
+<!--a name='all_gebruikers'><h1>Gebruikers (<?php echo mysqli_num_rows($qry3);?>)</h1></a-->
 
 
 <table width=85% border=0>
@@ -2101,7 +2101,7 @@ $totaal =0;
 <?php
 $i       = 1;
 $totaal  = 0;
-while($row = mysql_fetch_array( $qry11 )) {
+while($row = mysqli_fetch_array( $qry11 )) {
  ?>
 	 <tr>
 	 	<td style='text-align:right;'><?php echo $i;?>.</td>
@@ -2133,7 +2133,7 @@ while($row = mysql_fetch_array( $qry11 )) {
 <?php
 $i       = 1;
 $totaal  = 0;
-while($row = mysql_fetch_array( $qry12 )) {
+while($row = mysqli_fetch_array( $qry12 )) {
  ?>
 	 <tr>
 	 	<td style='text-align:right;'><?php echo $i;?>.</td>
@@ -2170,7 +2170,7 @@ while($row = mysql_fetch_array( $qry12 )) {
 <?php
 $i      = 1;
 $totaal = 0;
-while($row = mysql_fetch_array( $qry5 )) {
+while($row = mysqli_fetch_array( $qry5 )) {
  ?>
 	 <tr>
 	 	 	<td style= 'text-align:left;' ><?php 

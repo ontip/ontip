@@ -11,9 +11,9 @@ $domein  = "@".$email[1];
 
 // Kontroleer op volledige naam
 
-$sql      = mysql_query("SELECT * FROM mail_block  WHERE  Mail_adres_fragment  ='".$email_fragment."'  ") or die(' Fout in select');  
-$result   = mysql_fetch_array( $sql );
-$count    = mysql_num_rows($sql);
+$sql      = mysqli_query($con,"SELECT * FROM mail_block  WHERE  Mail_adres_fragment  ='".$email_fragment."'  ") or die(' Fout in select');  
+$result   = mysqli_fetch_array( $sql );
+$count    = mysqli_num_rows($sql);
 
 if ($count == 1){    //// precies 1 terug
 	return $result['Block_reden'];
@@ -22,9 +22,9 @@ if ($count == 1){    //// precies 1 terug
 
 // Kontroleer op domein
 
-$sql      = mysql_query("SELECT * FROM mail_block  WHERE  Mail_adres_fragment  ='".$domein."'  ") or die(' Fout in select');  
-$result   = mysql_fetch_array( $sql );
-$count    = mysql_num_rows($sql);
+$sql      = mysqli_query($con,"SELECT * FROM mail_block  WHERE  Mail_adres_fragment  ='".$domein."'  ") or die(' Fout in select');  
+$result   = mysqli_fetch_array( $sql );
+$count    = mysqli_num_rows($sql);
 
 if ($count == 1){   
 	return $result['Block_reden'];
@@ -36,9 +36,9 @@ $land       = $domein_ext[1];
 
 // Kontroleer op land
 
-$sql      = mysql_query("SELECT * FROM mail_block  WHERE  Mail_adres_fragment  ='".$land."'  ") or die(' Fout in select');  
-$result   = mysql_fetch_array( $sql );
-$count    = mysql_num_rows($sql);
+$sql      = mysqli_query($con,"SELECT * FROM mail_block  WHERE  Mail_adres_fragment  ='".$land."'  ") or die(' Fout in select');  
+$result   = mysqli_fetch_array( $sql );
+$count    = mysqli_num_rows($sql);
 
 if ($count == 1){    //// precies 1 terug
 	return $result['Block_reden'];

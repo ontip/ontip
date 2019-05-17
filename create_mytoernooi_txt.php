@@ -9,12 +9,12 @@
 
 <?php
 
-include('mysql.php');
+include('mysqli.php');
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -44,9 +44,9 @@ $fp = fopen($txt_file, "a");
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Lees configuratie tabel tbv toernooi gegevens  (soort inschrijving e.d)
 if (isset($toernooi)) {
-	$qry  = mysql_query("SELECT * From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' order by Variabele")     or die(' Fout in select config');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' order by Variabele")     or die(' Fout in select config');  
 	$j=0;
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	 $param = $var.$spaties;

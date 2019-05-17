@@ -26,7 +26,7 @@ header("Content-type: application/octet-stream");
 header("Content-Disposition: attachment; filename=\"licensies_vereniging.csv\"");
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 
@@ -34,7 +34,7 @@ include('page_stats.php');
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -54,7 +54,7 @@ if ($rechten != "A"  and $rechten != "C"){
 
 //// Via vereniging_nr uit namen linken met speler_licenties
 
-$qry  = mysql_query("SELECT * From speler_licenties where Vereniging_nr = '".$vereniging_nr ."' order by Naam asc ")     or die(' Fout in select');  
+$qry  = mysqli_query($con,"SELECT * From speler_licenties where Vereniging_nr = '".$vereniging_nr ."' order by Naam asc ")     or die(' Fout in select');  
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 include('conv_diakrieten.php');
@@ -72,7 +72,7 @@ echo "Telefoon;";
 echo "\r\n"; 
 
 // detail regels
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 echo  $i  . ";";
    echo  $row['Licentie']. ";";

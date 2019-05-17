@@ -1,7 +1,7 @@
 <?php
 
-$qry             = mysql_query("SELECT * from vereniging where Vereniging = '".$vereniging."' ")           or die(' Fout in select 1');  
-$result          = mysql_fetch_array( $qry);
+$qry             = mysqli_query($con,"SELECT * from vereniging where Vereniging = '".$vereniging."' ")           or die(' Fout in select 1');  
+$result          = mysqli_fetch_array( $qry);
 $ideal_testmode  = $result['IDEAL_Test_Mode'];
 
 // 22 dec 2016

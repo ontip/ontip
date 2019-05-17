@@ -83,8 +83,8 @@ $naam          = $result['Toernooi'];
 $vereniging_id = $result['Vereniging_id'];
 
 
-// Mysql_num_row is counting table row
-$count=mysql_num_rows($sql);
+// mysqli_num_row is counting table row
+$count=mysqli_num_rows($sql);
 // If result matched $myusername and $mypassword, table row must be 1 row
 
 if ($count == 1){

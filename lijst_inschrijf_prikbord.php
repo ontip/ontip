@@ -52,7 +52,7 @@ function CopyToClipboard()
 
 <?php 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 
 ob_start();
 /* Set locale to Dutch */
@@ -60,9 +60,9 @@ setlocale(LC_ALL, 'nl_NL');
 
 /// Ophalen tekst kleur
 
-$qry  = mysql_query("SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
+$qry  = mysqli_query($con,"SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
 
-$row        = mysql_fetch_array( $qry );
+$row        = mysqli_fetch_array( $qry );
 $tekstkleur = $row['Tekstkleur'];
 $koptekst   = $row['Koptekst'];
 $invulkop   = $row['Invulkop'];
@@ -91,11 +91,11 @@ if (isset($toernooi)) {
 //	echo $vereniging;
 //  echo $toernooi;
 	
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -117,7 +117,7 @@ else {
 	};
 
 
-$aant_splrs_q = mysql_query("SELECT Count(*) from inschrijf WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' ")        or die(mysql_error()); 
+$aant_splrs_q = mysqli_query($con,"SELECT Count(*) from inschrijf WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' ")        or die(mysql_error()); 
 /// Bepalen aantal spelers voor dit toernooi
 $aant_splrs =  mysql_result($aant_splrs_q ,0); 
 
@@ -151,7 +151,7 @@ echo strftime("%A %e %B %Y", mktime(0, 0, 0, $maand , $dag, $jaar) ) ;
 echo "</h3></td></tr></table>";
 
 //// SQL Queries
-$spelers      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Inschrijving" )    or die(mysql_error());  
+$spelers      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Inschrijving" )    or die(mysql_error());  
 
 // Tabel met inschrijvingen (niet alle kolommen ivp privacy)
 //  Koptekst
@@ -269,7 +269,7 @@ echo "</tr>";
 
 $i=1;
 
-while($row = mysql_fetch_array( $spelers )) {
+while($row = mysqli_fetch_array( $spelers )) {
 
 
 if ($soort_inschrijving =='single'){

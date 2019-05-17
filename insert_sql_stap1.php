@@ -19,7 +19,7 @@ a {color:yellow ; font-size: 11.0pt ; font-family:Arial, Helvetica, sans-serif ;
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan half uur geleden opnieuw aanloggen
 
@@ -51,7 +51,7 @@ ob_start();
 
 $sql        = "SELECT Id ,Vereniging  from config group by Vereniging order by Vereniging  ";
 //echo $sql;
-$namen      = mysql_query($sql);
+$namen      = mysqli_query($con,$sql);
 
 ?>
 
@@ -83,7 +83,7 @@ $namen      = mysql_query($sql);
 
 	
 	<?php
-		while($row = mysql_fetch_array( $namen )) {
+		while($row = mysqli_fetch_array( $namen )) {
 		
 		echo "<tr><td></td><td STYLE ='background-color:#990000;color:white;font-size:9pt;'><input type ='checkbox'  name ='destination[]' value ='".$row['Id']."'>".$row['Vereniging']."</td></tr>";
 		

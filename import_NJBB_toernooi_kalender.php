@@ -27,7 +27,7 @@ td {color:blue;font-size: 9pt;background-color:white;}
 ////  Datum;Naam toernooi;Vereniging;Lokatie/adres;Plaats;Tel locatie;Tel_Inschrijving;Inschr. tot;Lic/cat;Soort;Min;Max;Systeem;Kosten;Prijzen;Aanv;Email;URL
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Database gegevens voor username en password
-include('mysql.php');
+include('mysqli.php');
 ini_set('display_errors', 0); 
 
 set_time_limit(300);//for setting 
@@ -90,16 +90,16 @@ if (!$upload) {
 ftp_close($conn_id);	
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
 	// Inschrijven als individu of vast team
 
-$qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
-$result     = mysql_fetch_array( $qry);
+$qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
+$result     = mysqli_fetch_array( $qry);
 $inschrijf_methode   = $result['Parameters'];
 
 if  ($inschrijf_methode == ''){

@@ -7,10 +7,10 @@ header("Content-Disposition: attachment; filename=\"ideal_transacties_".$toernoo
 
 <?php 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Lees ideal transacties
-$sql     = mysql_query("SELECT * from ideal_transacties Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Laatst" )    or die('Fout in select1');  
+$sql     = mysqli_query($con,"SELECT * from ideal_transacties Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Laatst" )    or die('Fout in select1');  
 //echo "SELECT * from ideal_transacties Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Laatst<br>";
 
 // kop 
@@ -36,10 +36,10 @@ echo "\r\n";
 // detail regels
 
 $i=1;
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
 	
-	 $qry_inschrijving     = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and  Id = ".$row['Inschrijf_id']." " ) or  die ('Fout in select2')   ;
- 	 $result               = mysql_fetch_array( $qry_inschrijving );
+	 $qry_inschrijving     = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and  Id = ".$row['Inschrijf_id']." " ) or  die ('Fout in select2')   ;
+ 	 $result               = mysqli_fetch_array( $qry_inschrijving );
 
 
 echo $i.";";

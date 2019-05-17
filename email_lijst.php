@@ -57,7 +57,7 @@ function CopyToClipboard()
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 
 if(isset($_COOKIE['toernooi'])){ 
@@ -100,14 +100,14 @@ Plak daarna de gekopieerde tekst in Outlook.</i><br></center></font>
 <div id="myTable1" style="border: red solid 1px;padding:10pt;">  
 
 <?php
-$leden = mysql_query("SELECT distinct Email FROM namen WHERE EMAIL <> '' ") or die(mysql_error());  
+$leden = mysqli_query($con,"SELECT distinct Email FROM namen WHERE EMAIL <> '' ") or die(mysql_error());  
 echo "<table>";
 echo "<tr><td height='100ptx' Style='background-color:white;'>";
 $i =1;
 
 
 // keeps getting the next row until there are no more to get
-while($row = mysql_fetch_array( $leden )) {
+while($row = mysqli_fetch_array( $leden )) {
 	// Print out the contents of each row into a table
 	echo $row['Email'];
 	// Zet er steeds een punt-komma tussen

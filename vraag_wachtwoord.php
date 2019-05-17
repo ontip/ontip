@@ -15,11 +15,11 @@ a    {text-decoration:none;color:blue;}
 <?php
 /// Zet vreemde tekens om in codering 
 
-include 'mysql.php'; 
+include 'mysqli.php'; 
 //include 'convert_text_string.php'; 
 $ip        = $_SERVER['REMOTE_ADDR'];
-$sql      = mysql_query("SELECT Naam,Beheerder , Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT Naam,Beheerder , Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
+$result   = mysqli_fetch_array( $sql );
 $naam     = $result['Naam'];
 
 

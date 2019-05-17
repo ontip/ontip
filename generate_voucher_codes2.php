@@ -28,16 +28,16 @@ switch ($ext) {
 } 
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 setlocale(LC_ALL, 'nl_NL');
 
 
 
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select mysql');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select mysql');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -45,8 +45,8 @@ while($row = mysql_fetch_array( $qry )) {
 
 // uit vereniging tabel	
 
-$qry_v           = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
-$result_v        = mysql_fetch_array( $qry_v);
+$qry_v           = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
+$result_v        = mysqli_fetch_array( $qry_v);
 $vereniging_id   = $result_v['Id'];
 $url_logo        = $result_v['Url_logo'];
 $vereniging_output_naam      = $result_v['Vereniging_output_naam']; 	  	 
@@ -102,7 +102,7 @@ exit;
   unlink($xlsx_file);
   
 
-mysql_query("DELETE FROM `voucher_codes` where Toernooi ='".$toernooi."' and Vereniging_id = ".$vereniging_id." and Datum = '".$datum."'");
+mysqli_query($con,"DELETE FROM `voucher_codes` where Toernooi ='".$toernooi."' and Vereniging_id = ".$vereniging_id." and Datum = '".$datum."'");
 
 // aanmaak xlsx
 /** Error reporting */
@@ -176,7 +176,7 @@ for ($p = 0; $p < $length ; $p++) {
  $sqlcmd = "INSERT INTO `voucher_codes` (`Id`, `Vereniging_id`, `Vereniging`, `Toernooi`, `Datum`, `Voucher_code`, `Laatst`) 
         VALUES (0, ".$vereniging_id.", '".$vereniging."', '".$toernooi."', '".$datum."', '".$code."', now() );"; 
 
- mysql_query($sqlcmd) or die ('fout in insert'); 
+ mysqli_query($con,$sqlcmd) or die ('fout in insert'); 
  
  }// end i
 

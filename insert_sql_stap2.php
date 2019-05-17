@@ -26,7 +26,7 @@ a {color:yellow ; font-size: 11.0pt ; font-family:Arial, Helvetica, sans-serif ;
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 //// Formulier tbv import of de namen of een filenaam tbv de import
 
@@ -59,8 +59,8 @@ $sqlcmd = '';
 foreach ($destination as $destination_item)
 {
 	
-$sql        = mysql_query("SELECT Vereniging from config where Id ='".$destination_item."' ")     or die(' Fout in select');  
-$result     = mysql_fetch_array( $sql );
+$sql        = mysqli_query($con,"SELECT Vereniging from config where Id ='".$destination_item."' ")     or die(' Fout in select');  
+$result     = mysqli_fetch_array( $sql );
 $vereniging = $result['Vereniging'];
 
 echo "<br><div style='border: 1pt solid red;width:400pt;color:yellow;padding:5pt;'>"; 
@@ -68,16 +68,16 @@ echo "destination  : ". $vereniging.  "<br>";
 
 $sql        = "SELECT  distinct Toernooi, Vereniging  from config  where Vereniging = (Select Vereniging from config where Id ='".$destination_item."'   )";
 //echo $sql;
-$namen      = mysql_query($sql);
+$namen      = mysqli_query($con,$sql);
 
-while($row = mysql_fetch_array( $namen )) {
+while($row = mysqli_fetch_array( $namen )) {
 
 $sqlcmd  =  "INSERT into config (Id, Regel, Vereniging,Toernooi,Variabele, Waarde) 
               VALUES(0,".$regelnr.",'".htmlspecialchars_decode($row['Vereniging'],ENT_NOQUOTES)."','".$row['Toernooi']."','".$variabele."','".$waarde."');"; 
 //echo $sqlcmd."<br>";
 echo "INSERT Variable '".$variabele."' with value '".$waarde."' into toernooi '".$row['Toernooi']."'<br>" ;
  
-mysql_query($sqlcmd) or die ('fout in insert'); 
+mysqli_query($con,$sqlcmd) or die ('fout in insert'); 
 }// end while toernooi namen	
 
 echo  "</div>";

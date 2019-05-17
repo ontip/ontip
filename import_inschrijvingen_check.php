@@ -46,8 +46,8 @@ echo "<td>".$vereniging6. "</td>";
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$naam1."' and Vereniging_speler = '".$vereniging1."' " ;
 //echo $sql;
 
-$result= mysql_query($sql);
-$count=mysql_num_rows($result);
+$result= mysqli_query($con,$sql);
+$count=mysqli_num_rows($result);
 
 if($count > 0){
   $message .= "* Er is al een inschrijving ingevuld voor ".$naam1." van ".$vereniging1."<br>";
@@ -56,8 +56,8 @@ if($count > 0){
 
 if ($naam2 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$naam2."' and Vereniging_speler = '".$vereniging2."' " ;
-$result= mysql_query($sql);
-$count=mysql_num_rows($result);
+$result= mysqli_query($con,$sql);
+$count=mysqli_num_rows($result);
 
    if($count > 0){
      $message .= "* Er is al een inschrijving ingevuld voor ".$naam2. " van ".$vereniging2."<br>";
@@ -67,8 +67,8 @@ $count=mysql_num_rows($result);
 	
 if ($naam3 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$naam3."' and Vereniging_speler = '".$vereniging3."' " ;
-$result= mysql_query($sql);
-$count=mysql_num_rows($result);
+$result= mysqli_query($con,$sql);
+$count=mysqli_num_rows($result);
 
    if($count > 0){
      $message .= "* Er is al een inschrijving ingevuld voor ".$naam3." van ".$vereniging3. "<br>";
@@ -78,8 +78,8 @@ $count=mysql_num_rows($result);
 
 if ($naam4 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$naam4."' and Vereniging_speler = '".$vereniging4."'" ;
-$result= mysql_query($sql);
-$count=mysql_num_rows($result);
+$result= mysqli_query($con,$sql);
+$count=mysqli_num_rows($result);
 
   if($count > 0){
     $message .= "* Er is al een inschrijving ingevuld voor ".$naam4. " van ".$vereniging4."<br>";
@@ -89,8 +89,8 @@ $count=mysql_num_rows($result);
 
 if ($naam5 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$naam5."' and Vereniging_speler = '".$vereniging5."'" ;
-$result= mysql_query($sql);
-$count=mysql_num_rows($result);
+$result= mysqli_query($con,$sql);
+$count=mysqli_num_rows($result);
 
    if($count > 0){
      $message .= "* Er is al een inschrijving ingevuld voor ".$naam5. " van ".$vereniging5."<br>";
@@ -100,8 +100,8 @@ $count=mysql_num_rows($result);
 
 if ($naam6 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$naam6."' and Vereniging_speler = '".$vereniging6."' " ;
-$result= mysql_query($sql);
-$count=mysql_num_rows($result);
+$result= mysqli_query($con,$sql);
+$count=mysqli_num_rows($result);
 
    if($count > 0){
      $message .= "* Er is al een inschrijving ingevuld voor ".$naam6. " van ".$vereniging6."<br>";

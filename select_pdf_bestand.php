@@ -44,7 +44,7 @@ a:hover {color:red;}
 <!-----///////----   file browser  ----------------------------------------------////----->
 
 <?php
-include('mysql.php');	
+include('mysqli.php');	
 
 		$dir            = '../ontip/pdf/nieuwsbrieven';
 // Maak een gesorteerde lijst op naam

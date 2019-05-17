@@ -10,12 +10,12 @@ $vereniging_id       = $_GET['id'];
 $filename = $datum." ". $toernooi." deelnemers.txt";
 
 
-include('mysql.php');
+include('mysqli.php');
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -36,15 +36,15 @@ if ($rechten != "A"  and $rechten != "C"){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Lees configuratie tabel tbv toernooi gegevens  (soort inschrijving e.d)
 if (isset($toernooi)) {
-	$qry  = mysql_query("SELECT * From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' ")     or die(' Fout in select config');  
-while($row = mysql_fetch_array( $qry )) {
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' ")     or die(' Fout in select config');  
+while($row = mysqli_fetch_array( $qry )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
 
 // 12 apr 2016  Melee inschrijving aanpassing
-$qry  = mysql_query("SELECT Parameters From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving' ")     or die(' Fout in select config');  
-$row = mysql_fetch_array( $qry) ;
+$qry  = mysqli_query($con,"SELECT Parameters From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving' ")     or die(' Fout in select config');  
+$row = mysqli_fetch_array( $qry) ;
 $inschrijf_methode = $row['Parameters'];
 }
 
@@ -102,7 +102,7 @@ $spaties = '                                                                    
 
 // uitvullen van var lengte velden
 
-$spelers      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Inschrijving desc" )    or die('Fout in select');  
+$spelers      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Inschrijving desc" )    or die('Fout in select');  
 
 $i                 = 1;
 $team              = 0;
@@ -111,7 +111,7 @@ $team              = 0;
 
 //echo "\r\n";
 
-while($row = mysql_fetch_array( $spelers )) {
+while($row = mysqli_fetch_array( $spelers )) {
 	
 $team++;
 

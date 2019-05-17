@@ -1,11 +1,11 @@
 <?php
-include('mysql.php');
+include('mysqli.php');
 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -62,8 +62,8 @@ if ($error == 0){
 
 // uit vereniging tabel	
     
-$qry_v           = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
-$result_v        = mysql_fetch_array( $qry_v);
+$qry_v           = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
+$result_v        = mysqli_fetch_array( $qry_v);
 $verzendadres_sms       = $result_v['Verzendadres_SMS'];
    
 

@@ -15,7 +15,7 @@ ob_start();
 
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 include 'versleutel.php'; 
 
 $naam           = $_POST['naam'];
@@ -69,15 +69,15 @@ if ($error == 1){
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //// ophalen gegevens vereniging
-$qry1            = mysql_query("SELECT * From vereniging where Vereniging_nr = '".$vereniging_nr ."' ")     or die(' Fout in select 1');  
-$result1         = mysql_fetch_array( $qry1 );
+$qry1            = mysqli_query($con,"SELECT * From vereniging where Vereniging_nr = '".$vereniging_nr ."' ")     or die(' Fout in select 1');  
+$result1         = mysqli_fetch_array( $qry1 );
 $email_noreply   = $result1['Email_noreply'];
 
 $ip        = $_SERVER['REMOTE_ADDR'];
-$sql       = mysql_query("SELECT * FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
-$result    = mysql_fetch_array( $sql );
+$sql       = mysqli_query($con,"SELECT * FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
+$result    = mysqli_fetch_array( $sql );
 $naam      = $result['Naam'];
-$count     = mysql_num_rows($sql);
+$count     = mysqli_num_rows($sql);
 $password  = versleutel($result['Wachtwoord']);
 $beheerder = $result['Naam'];
 $email     = $result['Email'];

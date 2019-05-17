@@ -35,7 +35,7 @@ if (window.attachEvent) window.attachEvent("onload", sfFocus);
 <body>
  
 <?php
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 	$toernooi = $_GET['Toernooi'];
 	
@@ -45,7 +45,7 @@ include 'mysql.php';
 if (isset($toernooi)) {
 	
 
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Regel < 9000 and Regel > 0 order by Regel")     or die(' Fout in select');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Regel < 9000 and Regel > 0 order by Regel")     or die(' Fout in select');  
  }
 else {
 		echo " Geen toernooi bekend :";
@@ -58,9 +58,9 @@ else {
 
 // hulp tabel toernooi schonen
 
-mysql_query("Delete from toernooi   ") ;  
+mysqli_query($con,"Delete from toernooi   ") ;  
 $query = "INSERT INTO toernooi (Vereniging, Toernooi) select Distinct Vereniging, Toernooi from config where Vereniging = '".$vereniging ."'";
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 ?>
 <div style='background-color:white;'>

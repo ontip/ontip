@@ -3,7 +3,7 @@ ob_start();
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 // Vereniging niet als POST waarde ivm diakrieten
 $variabele  = $_POST['Variabele'];
@@ -16,13 +16,13 @@ $query = "UPDATE config set Waarde ='".$waarde."', Parameters = '#r' where Veren
  
 //echo $query;
                         
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
 
 }
 
 if ($bron =='gallery' and $waarde == 'leeg'){
 $query = "UPDATE config set Waarde ='' , Parameters = '#r' where Vereniging = '".$vereniging."' and Toernooi ='".$toernooi."' and Variabele = '".$variabele."' ";
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
 
 
 

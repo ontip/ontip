@@ -15,7 +15,17 @@
     Via een selectie wordt de bank van de gebruiker geselecteerd.    
     
   18 apr 2018  aanpassing return url naar ideal_betaling_gedaan.php
-           
+ 
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 17mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference:  
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
                                                                          */
@@ -113,13 +123,13 @@ if ($error == 1){
  
 setlocale(LC_ALL, 'nl_NL');
 
-require_once "mysql.php";
+require_once "mysqli.php";
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
 
 //// ophalen gegevens vereniging
-$qry1          = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select1');  
-$result1       = mysql_fetch_array( $qry1 );
+$qry1          = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select1');  
+$result1       = mysqli_fetch_array( $qry1 );
 $prog_url      = $result1['Prog_url'];
 $partner_id    = $result1['Ideal_partner_id']; // Uw mollie partner ID
 $profile_key   = '5832B57A';
@@ -132,9 +142,9 @@ if ($partner_id =='') {
 }
 
 $var     = "ideal_betaling_jn"; 
-$qry     = mysql_query("SELECT * from config where  Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele = '".$var."'  ")           or die(' Fout in select 1');  
-$result  = mysql_fetch_array( $qry);
-$count   = mysql_num_rows($qry);
+$qry     = mysqli_query($con,"SELECT * from config where  Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele = '".$var."'  ")           or die(' Fout in select 1');  
+$result  = mysqli_fetch_array( $qry);
+$count   = mysqli_num_rows($qry);
 
 if ($count < 1){
 	echo "Parameter fout: Opgegeven toernooi niet bekend.<br>";
@@ -152,9 +162,9 @@ if ($result['Waarde'] != 'J') {
 
 // Ophalen overige toernooi gegevens
 $var              = 'toernooi_voluit';
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -189,8 +199,8 @@ include ('versleutel_kenmerk.php');
 // inschrijving ophalen
 // Kenmerk is het resultaat van de versleuteling (versleutel_kenmerk.php) van min.sec.dag.uur (veld inschrijving).
 
-$qry3               = mysql_query("SELECT * From inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Id = '".$id."' ")     or die(' Fout in select3');  
-$result3            = mysql_fetch_array( $qry3 );
+$qry3               = mysqli_query($con,"SELECT * From inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Id = '".$id."' ")     or die(' Fout in select3');  
+$result3            = mysqli_fetch_array( $qry3 );
 $date               = $result3['Inschrijving'];
 $naam1              = $result3['Naam1'];
 $email              = $result3['Email'];
@@ -222,8 +232,8 @@ $kenmerk  = substr($encrypt,0,4).".".substr($encrypt,4,4);
 $ideal_kenmerk = 'ONTIP kenmerk:'.$kenmerk;
 
 $var              = 'kosten_team';
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = '".$var."' ")     or die(' Fout in select2');  
-$result2          = mysql_fetch_array( $qry2 );
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = '".$var."' ")     or die(' Fout in select2');  
+$result2          = mysqli_fetch_array( $qry2 );
 $kosten_team      = trim($result2['Waarde']);
 $parameter        = explode('#', $result2['Parameters']);
  
@@ -337,7 +347,7 @@ if (isset($_POST['bank_id']) and !empty($_POST['bank_id']) and !empty($_POST['em
 		                          'PREPARED', 
 		                         '".$test_mode."', 
 		 		                        now() );";
-		mysql_query($querie) or die ('Fout in insert PREPARED status');
+		mysqli_query($con,$querie) or die ('Fout in insert PREPARED status');
 		
 		?>
 	<script type="text/javascript">

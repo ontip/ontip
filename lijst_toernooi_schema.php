@@ -103,7 +103,7 @@ function CopyToClipboard()
 ob_start();
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 
@@ -149,7 +149,7 @@ if ($vrijloting == 'J'){
 /// Maak gebruik van tabel toernooi_schema
 
 // schonen tabel
-mysql_query("Delete from toernooi_schema where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."'    ") ;  
+mysqli_query($con,"Delete from toernooi_schema where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."'    ") ;  
 
 
 if (isset($toernooi)) {
@@ -157,19 +157,19 @@ if (isset($toernooi)) {
 //	echo $vereniging;
 //  echo $toernooi;
 	
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Regel < 9000 order by Regel")     or die(' Fout in select config');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Regel < 9000 order by Regel")     or die(' Fout in select config');  
  }
 else {
 		echo " Geen toernooi bekend :";
 	};
 
 /// Ophalen spelers
-$namen       = mysql_query("SELECT * from inschrijf where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."'  order by Inschrijving")     or die(' Fout in select inschrijf');  
+$namen       = mysqli_query($con,"SELECT * from inschrijf where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."'  order by Inschrijving")     or die(' Fout in select inschrijf');  
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -177,8 +177,8 @@ while($row = mysql_fetch_array( $qry2 )) {
 
 /// Ophalen tekst kleur
 
-$sql        = mysql_query("SELECT Tekstkleur,Link From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select kleur');  
-$result     = mysql_fetch_array( $sql );
+$sql        = mysqli_query($con,"SELECT Tekstkleur,Link From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select kleur');  
+$result     = mysqli_fetch_array( $sql );
 $tekstkleur = $result['Tekstkleur'];
 $link       = $result['Link'];
 
@@ -408,7 +408,7 @@ if ($vrijloting == 'J' and $j == $aant_splrs) {
 
 if ($invul_namen =='J'){
 	
-$row = mysql_fetch_array( $namen );
+$row = mysqli_fetch_array( $namen );
 
 $namen_lijst[$j]      = $row['Naam1'];
 $vereniging_lijst[$j] = $row['Vereniging1'];
@@ -567,13 +567,13 @@ $tegenstander_naam1  = $namen_lijst[$y] ;
                          VALUES (0,'".$toernooi."', '".$vereniging ."' ,".$ronde.", ".$j.",'".$_team."', '".$team_naam1."', '".$team_vereniging1."', '".$tegenstander."','".$tegenstander_naam1."',".$_baan."   )";
   // echo $query;
                         
- mysql_query($query) or die (mysql_error()); 
+ mysqli_query($con,$query) or die (mysql_error()); 
  $query = "INSERT INTO toernooi_schema(Id, Toernooi, Vereniging,Ronde, Wedstrijd,Team, Team_naam1, Tegenstander,Tegenstander_naam1, Baan)
                          VALUES (0,'".$toernooi."', '".$vereniging ."' ,".$ronde.", ".$j.",'".$tegenstander."','".$tegenstander_naam1."' ,'".$_team."', '".$team_naam1."' ,".$_baan."   )";
  
  //echo $query;
                         
-mysql_query($query) or die (mysql_error());  
+mysqli_query($con,$query) or die (mysql_error());  
 
  }/// end for rondes
 echo "</tr>";

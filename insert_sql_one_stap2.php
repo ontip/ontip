@@ -26,7 +26,7 @@ a {color:yellow ; font-size: 11.0pt ; font-family:Arial, Helvetica, sans-serif ;
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 //// Formulier tbv import of de namen of een filenaam tbv de import
 
@@ -59,8 +59,8 @@ $sqlcmd = '';
 foreach ($destination as $destination_item)
 {
 	
-$sql        = mysql_query("SELECT Vereniging,Toernooi from config where Id ='".$destination_item."' order by Vereniging, Toernooi ")     or die(' Fout in select');  
-$result     = mysql_fetch_array( $sql );
+$sql        = mysqli_query($con,"SELECT Vereniging,Toernooi from config where Id ='".$destination_item."' order by Vereniging, Toernooi ")     or die(' Fout in select');  
+$result     = mysqli_fetch_array( $sql );
 $toernooi   = $result['Toernooi'];
 $vereniging = $result['Vereniging'];
 
@@ -72,7 +72,7 @@ echo "destination  : ".$vereniging ."-" . $toernooi.  "<br>";
 echo  $sqlcmd."<br>";
 echo "INSERT Variable '".$variabele."' with value '".$waarde."' into toernooi '".$toernooi."'<br>" ;
  
-//mysql_query($sqlcmd) or die ('fout in insert'); 
+//mysqli_query($con,$sqlcmd) or die ('fout in insert'); 
 
 echo  "</div>";
 }// end for each toernooi namen	

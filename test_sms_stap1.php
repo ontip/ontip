@@ -13,12 +13,12 @@ a    {text-decoration:none;color:blue;}
 <body>
  
 <?php
-include 'mysql.php'; 
+include 'mysqli.php'; 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -51,8 +51,8 @@ exit;
 
 
 <?php
-$qry    = mysql_query("SELECT * from vereniging where Vereniging = '".$vereniging."' ")           or die(' Fout in select 1');  
-$result  = mysql_fetch_array( $qry);
+$qry    = mysqli_query($con,"SELECT * from vereniging where Vereniging = '".$vereniging."' ")           or die(' Fout in select 1');  
+$result  = mysqli_fetch_array( $qry);
 $url_website    = $result['Url_website'];
 $verzendadres_sms       = $row['Verzendadres_SMS'];
 ?>

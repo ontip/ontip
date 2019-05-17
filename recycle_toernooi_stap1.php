@@ -135,7 +135,7 @@ function changeNaam() {
 <body>
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 setlocale(LC_ALL, 'nl_NL');
@@ -144,7 +144,7 @@ setlocale(LC_ALL, 'nl_NL');
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -164,7 +164,7 @@ if ($rechten != "A"  and $rechten != "C"){
 
 // maak hulptabel leeg
 
-mysql_query("Delete from hulp_toernooi where Vereniging = '".$vereniging."'  ") or die('Fout in schonen tabel');   
+mysqli_query($con,"Delete from hulp_toernooi where Vereniging = '".$vereniging."'  ") or die('Fout in schonen tabel');   
 
 // Vul hulptabel 
 $today      = date("Y") ."-".  date("m") . "-".  date("d");
@@ -174,13 +174,13 @@ $query1 = "insert into hulp_toernooi (Toernooi, Vereniging, Datum)
 $query = "insert into hulp_toernooi (Toernooi, Vereniging, Datum) 
 ( select Toernooi, Vereniging, Waarde from config     where Vereniging = '".$vereniging."' and Variabele ='datum'   group by Vereniging, Toernooi,Waarde   )" ;
 
-mysql_query($query) or die ('Fout in vullen hulp_toernooi'); 
+mysqli_query($con,$query) or die ('Fout in vullen hulp_toernooi'); 
 
 $sql        = "SELECT Distinct config.Id,config.Toernooi,config.Waarde, hulp_toernooi.Datum from config,hulp_toernooi where hulp_config.Vereniging = '".$vereniging."'
               and config.Variabele ='toernooi_voluit' and hulp_toernooi.Toernooi = config.Toernooi  order by hulp_toernooi.Datum  ";
 // echo $sql;
 $sql        = "SELECT * from hulp_toernooi where Vereniging = '".$vereniging."'                 order by hulp_toernooi.Datum  ";
-$namen      = mysql_query($sql);
+$namen      = mysqli_query($con,$sql);
 ?>
 
 <DIV onclick='event.cancelBubble = true;' class=popup id='help'>Uitleg QRC code<br>
@@ -244,7 +244,7 @@ echo "<option value='' selected>Maak een selectie....</option>";
 
 $i=0;
 
- while($row = mysql_fetch_array( $namen )) {
+ while($row = mysqli_fetch_array( $namen )) {
  	$var = substr($row['Datum'],0,10);
 	echo "<OPTION  value=".$row['Toernooi']."><keuze>";
     	  echo $var . " - ". $row['Toernooi'];

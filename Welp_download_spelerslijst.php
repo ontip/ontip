@@ -37,11 +37,11 @@ echo 'window.location = "aanlog.php?key=WS&toernooi='.$toernooi.'"';
 echo '</script>';
 }
 
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 //// Check op rechten
-$sql      = mysql_query("SELECT Beheerder FROM namen WHERE Vereniging_id = ".$vereniging_id." and Naam='".$_COOKIE['user']."' ") or die(' Fout in select');  
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT Beheerder FROM namen WHERE Vereniging_id = ".$vereniging_id." and Naam='".$_COOKIE['user']."' ") or die(' Fout in select');  
+$result   = mysqli_fetch_array( $sql );
 $rechten  = $result['Beheerder'];
 
 if ($rechten != "A"  and $rechten != "C"){

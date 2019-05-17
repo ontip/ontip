@@ -19,18 +19,18 @@ a    {color:red ; font-size: 8.0pt ; font-family:Arial, Helvetica, sans-serif ;t
 <?php 
 ob_start();
 
-include('mysql.php');
+include('mysqli.php');
 ini_set('default_charset','UTF-8');
 
 //// SQL Queries
-$qry      = mysql_query("SELECT * from namen  group by Vereniging  order by Vereniging " )    or die(mysql_error());  
+$qry      = mysqli_query($con,"SELECT * from namen  group by Vereniging  order by Vereniging " )    or die(mysql_error());  
 
 /// Detail regels per vereniging
 
 $i=1;                        // intieer teller 
 $k=0;
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 
   echo "<h1>".$row['Vereniging']."</h1>";
 

@@ -19,13 +19,13 @@ a:visited {color: green;font-size:12pt;text-decoration:none;}
 </head>
 
 <?php
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -50,17 +50,17 @@ if ($rechten != "A"  and $rechten != "C"){
 
 // Ophalen toernooi gegevens
 $var              = 'toernooi_voluit';
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
 	
 // uit vereniging tabel	
 	
-$qry          = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
-$row          = mysql_fetch_array( $qry );
+$qry          = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
+$row          = mysqli_fetch_array( $qry );
 $url_logo     = $row['Url_logo'];
 $url_website  = $row['Url_website'];
 $vereniging_output_naam = $row['Vereniging_output_naam'];

@@ -11,7 +11,7 @@
 
 <?php 
 // Database gegevens. 
-include('mysql.php');	
+include('mysqli.php');	
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
 
@@ -30,7 +30,7 @@ error_reporting(E_ALL);
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -52,11 +52,11 @@ if (isset($_GET['toernooi'])){
 } // end get_html_translation_table(HTML_ENTITIES, ENT_NOQUOTES)
 // Querie
 
-$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($result = mysql_fetch_array( $qry )) {
+while($result = mysqli_fetch_array( $qry )) {
 	
 	 $var = $result['Variabele'];
 	 $$var = $result['Waarde'];
@@ -68,8 +68,8 @@ $dag   = substr($datum,8,2);
 
 
 // met parameters
-$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and variabele = 'meld_tijd' ")     or die(' Fout in select');  
-$row  = mysql_fetch_array( $qry);
+$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and variabele = 'meld_tijd' ")     or die(' Fout in select');  
+$row  = mysqli_fetch_array( $qry);
 $meld_tijd  = $row['Waarde'];
 $parameter = explode('#', $row['Parameters']);
 $suffix    = $parameter[1];
@@ -80,8 +80,8 @@ switch ($suffix){
 }
 	
 $variabele = 'kosten_team';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $row       = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $row       = mysqli_fetch_array( $qry1);
  $parameter  = explode('#', $row['Parameters']);
  
  $euro_ind        = $parameter[1];
@@ -100,8 +100,8 @@ else {
 	  $kosten_team  = $row['Waarde']    ;
 }
 
-$qry2      = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select ver');  
- $row2       = mysql_fetch_array( $qry2);
+$qry2      = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select ver');  
+ $row2       = mysqli_fetch_array( $qry2);
  $contact_persoon   = $row2['Naam_contactpersoon'];
  $plaats            = $row2['Plaats'];
  $_vereniging_nr   = $row2['Vereniging_nr'];

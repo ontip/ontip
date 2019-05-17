@@ -20,7 +20,7 @@
 # Reference: 
 
 // Database gegevens. 
-//include('mysql.php');
+//include('mysqli.php');
 
 /*
 $toernooi      = 'Bon_Soir_mes_amis_cyclus';

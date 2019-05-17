@@ -22,7 +22,7 @@ a {color:blue ; font-size: 11.0pt ; font-family:Arial, Helvetica, sans-serif ;te
 ob_start();
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 
 ?>
 <body>
@@ -33,8 +33,8 @@ include('mysql.php');
 
 if (isset ($_POST['sel_vereniging']) and $_POST['sel_vereniging'] != ''){
 	$vereniging_nr  = $_POST['sel_vereniging'];
-  $qry_n          = mysql_query("SELECT  * from namen  where Vereniging_nr = '".$vereniging_nr."' ") ;  
-  $row            = mysql_fetch_array( $qry_n); 
+  $qry_n          = mysqli_query($con,"SELECT  * from namen  where Vereniging_nr = '".$vereniging_nr."' ") ;  
+  $row            = mysqli_fetch_array( $qry_n); 
 	$verenigng      = $row['Vereniging'];
 	$prog_url       = $row['Prog_url'];
 	
@@ -59,7 +59,7 @@ if (isset ($_POST['delete_namen'])  and $_POST['delete_namen'] == 'Ja' and !isse
 	
 echo "delete started "; 	
 $delete = "DELETE FROM namen where Vereniging_nr = '".$vereniging_nr."' ";
-///mysql_query($delete) or die ('fout in delete namen');
+///mysqli_query($con,$delete) or die ('fout in delete namen');
 } 
 
 $insert = "insert into vereniging (Id, Vereniging,Vereniging_nr, Plaats,  Prog_url, Laatst, Aantal) VALUES (
@@ -75,7 +75,7 @@ $insert = "insert into vereniging (Id, Vereniging,Vereniging_nr, Plaats,  Prog_u
                                         0) ";
 //echo $insert. "<br>";
                                        
-mysql_query($insert) or die ('fout in insert namen 1'); 
+mysqli_query($con,$insert) or die ('fout in insert namen 1'); 
 
 
 
@@ -97,7 +97,7 @@ $insert = "insert into namen (Id, Naam, Vereniging,Vereniging_nr, Plaats, Email,
                                         0) ";
 //echo $insert. "<br>";
                                        
-mysql_query($insert) or die ('fout in insert namen 1'); 
+mysqli_query($con,$insert) or die ('fout in insert namen 1'); 
 
 $insert = "insert into namen (Id, Naam, Vereniging,Vereniging_nr,Plaats, Email, Wachtwoord,Beheerder, Prog_url,Laatst, Aantal) VALUES (
                                         0,'Erik',  
@@ -110,7 +110,7 @@ $insert = "insert into namen (Id, Naam, Vereniging,Vereniging_nr,Plaats, Email, 
                                         '".$prog_url."',
                                         NOW(),
                                         0) ";
-mysql_query($insert) or die ('fout in insert namen 2');
+mysqli_query($con,$insert) or die ('fout in insert namen 2');
 //echo $insert. "<br>";
 echo "Namen beheerders toegevoegd aan namen tabel. <br>";
 
@@ -162,7 +162,7 @@ fclose($fh);
                              
  //  echo $update."<br>";
    
-mysql_query($update) or die ('fout in update');
+mysqli_query($con,$update) or die ('fout in update');
  
 } 
   

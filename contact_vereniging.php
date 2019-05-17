@@ -66,7 +66,7 @@ $vereniging_id =$_GET['id'];
 // uit vereniging tabel	
 	
 $qry          = mysqli_query($con,"SELECT * From vereniging where Id  = ".$vereniging_id ."   ")     or die(' Fout in select');  
-$row          = mysql_fetch_array( $qry );
+$row          = mysqli_fetch_array( $qry );
 $url_logo     = $row['Url_logo'];
 $url_website  = $row['Url_website'];
 $naam_contactpersoon  = $row['Naam_contactpersoon'];

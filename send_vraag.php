@@ -49,15 +49,15 @@ if ($error == 1){
  /// alle controles goed 
 if ($error == 0){
 	ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 
 
 // Als mail versturen
 $Klant_PC     = $_SERVER['REMOTE_ADDR'];
 
-$qry          = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
-$row          = mysql_fetch_array( $qry );
+$qry          = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
+$row          = mysqli_fetch_array( $qry );
 
 
 $van     = 'info@ontip.nl';

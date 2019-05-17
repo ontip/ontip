@@ -51,7 +51,7 @@ if (window.attachEvent) window.attachEvent("onload", sfFocus);
 <?php 
 
 //// Database gegevens. 
-include ('mysql.php');
+include ('mysqli.php');
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
 $toernooi      = $_POST['toernooi'];
@@ -67,11 +67,11 @@ if (isset($toernooi)) {
 //	echo $vereniging;
 //  echo $toernooi;
 	
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -167,8 +167,8 @@ foreach ($bevestigen as $bevestig_id)
 {
 	
 	
-	$qry      = mysql_query("SELECT * from inschrijf where Id= '".$bevestig_id."' " )    or die('Fout in select inschrijf');  
-  $row      = mysql_fetch_array( $qry);
+	$qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$bevestig_id."' " )    or die('Fout in select inschrijf');  
+  $row      = mysqli_fetch_array( $qry);
 
 
 echo "<td style='". $td_style.";'>".$i."</td>";

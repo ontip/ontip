@@ -14,14 +14,14 @@
 	</head>
 	<?php 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 include('versleutel_licentie.php'); 
 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -106,14 +106,14 @@ if ($vereniging_nr == '09060')
 // Als er nog geen conversie is geweest, dan uitvoeren
 
 $delete = "delete from speler_licenties where Licentie = '".$lic_klare_waarde."' ";
-mysql_query($delete) or die ('fout in delete');  
+mysqli_query($con,$delete) or die ('fout in delete');  
 $insert = "insert into speler_licenties (Licentie, Naam, Vereniging,Vereniging_nr,Soort, Laatst) VALUES (
                                         '".$lic_klare_waarde."', 
                                         '".htmlentities($naam,ENT_QUOTES, 'UTF-8')."',
                                         '".htmlentities($vereniging,ENT_QUOTES, 'UTF-8') ."',
                                         '".$vereniging_nr."','".$soort."',
                                         NOW())";
-mysql_query($insert) or die ('fout in insert speler licenties');; 
+mysqli_query($con,$insert) or die ('fout in insert speler licenties');; 
 //echo $insert."<br>";
 
 
@@ -125,13 +125,13 @@ fclose($fh);
 // Omzetten bekende verenigingen
 
 $update   = "UPDATE speler_licenties set Vereniging = 'PV Le Chateau'           where Vereniging_nr = '05020'";
-mysql_query($update) or die ('fout in update');
+mysqli_query($con,$update) or die ('fout in update');
 
 $update  = "UPDATE speler_licenties set Vereniging = 'Jeu de Boules Coevorden'  where Vereniging_nr = '02257'";
-mysql_query($update) or die ('fout in update');
+mysqli_query($con,$update) or die ('fout in update');
 
 $update  = "UPDATE speler_licenties set Vereniging = 'Jeu de Boules vereniging O.S.B'  where Vereniging_nr = '09094'";
-mysql_query($update) or die ('fout in update');
+mysqli_query($con,$update) or die ('fout in update');
 
 
 $date = date('Y-m-d:H:i:s');

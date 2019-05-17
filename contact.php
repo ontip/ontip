@@ -45,7 +45,7 @@ function make_blank_opmerkingen()
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
 
@@ -53,8 +53,8 @@ $ip_adres = $_SERVER['REMOTE_ADDR'];
 
 // haal geselecteerd toernooi op (bij select_toernooi wordt deze opgeslagen in de namen tabel
 
-$sql         = mysql_query("SELECT * FROM namen WHERE  IP_adres = '".$ip_adres."' and  Vereniging = '".$vereniging."' and Aangelogd ='J'  ") or die(' Fout in select aantal');  
-$result      = mysql_fetch_array( $sql );
+$sql         = mysqli_query($con,"SELECT * FROM namen WHERE  IP_adres = '".$ip_adres."' and  Vereniging = '".$vereniging."' and Aangelogd ='J'  ") or die(' Fout in select aantal');  
+$result      = mysqli_fetch_array( $sql );
 $toernooi    = $result['Toernooi'];
 $naam        = $result['Naam'];
 $email                = $row['Email']; 
@@ -67,14 +67,14 @@ if ($email    =='[versleuteld]'){
 
 // uit config tabel	
 
-$sql         = mysql_query("SELECT Waarde as toernooi_voluit from config WHERE  Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele ='toernooi_voluit'   ") or die(' Fout in select aantal');  
-$result      = mysql_fetch_array( $sql );
+$sql         = mysqli_query($con,"SELECT Waarde as toernooi_voluit from config WHERE  Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele ='toernooi_voluit'   ") or die(' Fout in select aantal');  
+$result      = mysqli_fetch_array( $sql );
 $toernooi_voluit   = $result['toernooi_voluit'];
 
 // uit vereniging tabel	
 	
-$qry          = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
-$row          = mysql_fetch_array( $qry );
+$qry          = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
+$row          = mysqli_fetch_array( $qry );
 $url_logo     = $row['Url_logo'];
 $url_website  = $row['Url_website'];
 $vereniging_output_naam = $row['Vereniging_output_naam'];

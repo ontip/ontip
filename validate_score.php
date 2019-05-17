@@ -86,7 +86,7 @@ function validate_uitslag ( item )
 	
 <?php 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
 ?>	
@@ -132,9 +132,9 @@ if ($item =='Toernooi'){
 <input type="hidden" name="Toernooi" />
 
 <?php
-$qry  = mysql_query("SELECT  distinct Toernooi From config  where Vereniging = '".$vereniging."' ")     or die(' Fout in select');  
+$qry  = mysqli_query($con,"SELECT  distinct Toernooi From config  where Vereniging = '".$vereniging."' ")     or die(' Fout in select');  
 
-while($row = mysql_fetch_array( $qry )) { 
+while($row = mysqli_fetch_array( $qry )) { 
 $toernooi= $row['Toernooi'];
 
 ?>

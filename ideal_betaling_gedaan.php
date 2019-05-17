@@ -1,3 +1,17 @@
+<?php 
+# ideal_betaling_gedaan.php
+# 
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 17mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+?>
 <html>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<Title>OnTip IDEAL betaling (c) Erik Hendrikx</title>
@@ -16,7 +30,7 @@ a  {text-decoration:none;color:blue;}
 
 </head>
 <?php
-include ('mysql.php');
+include ('mysqli.php');
 include ('versleutel_kenmerk.php');
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 setlocale(LC_ALL, 'nl_NL');
@@ -33,8 +47,8 @@ if (isset($_GET['kenmerk'])) {
     de status van de betaling uit de database gehaald worden en de klant de relevante informatie tonen.
   */
 
-    $qry  = mysql_query("SELECT * From ideal_transacties where Kenmerk = '".$_GET['kenmerk']."'  " )  or die('Fout in ideal select');  	
-    $row  = mysql_fetch_array( $qry );
+    $qry  = mysqli_query($con,"SELECT * From ideal_transacties where Kenmerk = '".$_GET['kenmerk']."'  " )  or die('Fout in ideal select');  	
+    $row  = mysqli_fetch_array( $qry );
 
   /*
      Status             Omschrijving 
@@ -63,9 +77,6 @@ $Email           = versleutel_string($Email_encrypt);
 }
 
 
-
-
-
 $Status              = $row['Status'];      
 $Laatst              = $row['Laatst'];     
 $kenmerk_clear_tekst  = $row['Kenmerk'];   
@@ -78,8 +89,8 @@ $var                 = "ideal_betaling_jn";
 
 //echo "SELECT * from config where  Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele = '".$var."'  <br>";
 
-$qry                 = mysql_query("SELECT * from config where  Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele = '".$var."'  ")           or die(' Fout in select 1');  
-$result              = mysql_fetch_array( $qry);
+$qry                 = mysqli_query($con,"SELECT * from config where  Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele = '".$var."'  ")           or die(' Fout in select 1');  
+$result              = mysqli_fetch_array( $qry);
 
 if ($result['Waarde'] != 'J') {
 	echo "Via IDEAL betalen is niet mogelijk voor dit toernooi.<br>";
@@ -90,16 +101,16 @@ $test_mode            = $parameter[1];
 $ideal_opslag_kosten = $parameter[2];
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row2 = mysql_fetch_array( $qry2 )) {
+while($row2 = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row2['Variabele'];
 	 $$var = $row2['Waarde'];
 	}
 
 //// ophalen gegevens vereniging
-$qry1          = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select vereniging'); 
-$result1       = mysql_fetch_array( $qry1 );
+$qry1          = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select vereniging'); 
+$result1       = mysqli_fetch_array( $qry1 );
 $partner_id    = $result1['Ideal_partner_id']; // Uw mollie partner ID
 $url_website   = $result1['Url_website'];
 $url_logo      = $result1['Url_logo']; 
@@ -113,8 +124,8 @@ $decrypt  = versleutel_kenmerk($_kenmerk,'', 20);
 // twist eerste en tweede helft
 $kenmerk = substr($decrypt,4,4).substr($decrypt,0,4);
 
-$qry_inschrijving      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$row['Toernooi']."' and Kenmerk = '".$kenmerk_clear_tekst."'  " ) or die ('Fout in select inschrijf')   ;
-$result_i              = mysql_fetch_array( $qry_inschrijving  );
+$qry_inschrijving      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$row['Toernooi']."' and Kenmerk = '".$kenmerk_clear_tekst."'  " ) or die ('Fout in select inschrijf')   ;
+$result_i              = mysqli_fetch_array( $qry_inschrijving  );
 
 if  ($Status =='PAID') {
 $update1         = "UPDATE inschrijf           SET Status        = 'ID1'  , Betaal_datum       = '".$now."'         WHERE Id = ".$result_i['Id']."; ";
@@ -133,8 +144,8 @@ $update1               = "UPDATE inschrijf           SET Status           = 'ID2
 $update2               = "UPDATE ideal_transacties   SET Inschrijf_id     = ".$result_i['Id']." , Inschrijving = '".$result_i['Inschrijving']."'     WHERE Transaction_id = '".$_GET['transaction_id']."'; ";
 }	
 
-mysql_query($update1) or die ('Fout in update status Inschrijf: '.$update1.' :'. $kenmerk_clear_tekst); 
-mysql_query($update2) or die ('Fout in update ideal_transcties: '.$update2); 
+mysqli_query($con,$update1) or die ('Fout in update status Inschrijf: '.$update1.' :'. $kenmerk_clear_tekst); 
+mysqli_query($con,$update2) or die ('Fout in update ideal_transcties: '.$update2); 
 
 
 if  ($Status == 'PAID') {

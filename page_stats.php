@@ -2,7 +2,7 @@
 //$pageName = basename($_SERVER['SCRIPT_NAME']);
 //$pageName = $_COOKIE['page'];
 //echo $pageName;
-///include ('mysql.php');
+///include ('mysqli.php');
 /// Haal browser en OS van de PC op
 $_browser     = 'onbekend';
 $_os_platform = 'onbekend';
@@ -17,7 +17,7 @@ $query    = "INSERT INTO page_stats (Id, Vereniging, Vereniging_id,Page, Aantal,
 if (isset($con)){
 mysqli_query($con,$query);  
 } else {
-	mysql_query($query);  
+	mysqli_query($con,$query);  
 	
 }
 //

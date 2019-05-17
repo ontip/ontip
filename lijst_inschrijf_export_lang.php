@@ -5,13 +5,13 @@ header("Content-Disposition: attachment; filename=\"inschr_uitgebreid_".$toernoo
 ?>
 <?php 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Lees configuratie tabel tbv toernooi gegevens  (soort inschrijving e.d)
 
 if (isset($toernooi)) {
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
-while($row = mysql_fetch_array( $qry )) {
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+while($row = mysqli_fetch_array( $qry )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -20,7 +20,7 @@ else {
 		echo " Geen toernooi bekend :";
 };
 //// SQL Queries
-$spelers      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Volgnummer,Inschrijving" )    or die(mysql_error());  
+$spelers      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Volgnummer,Inschrijving" )    or die(mysql_error());  
 echo "Inschrijvingen ". $toernooi_voluit . "\r\n"; 
 
 /// Kop teksten
@@ -82,7 +82,7 @@ echo "\r\n";
 
 $i=1;
 
-while($row = mysql_fetch_array( $spelers )) {
+while($row = mysqli_fetch_array( $spelers )) {
 
 echo  $i  . ";";
 echo  $row['Naam1']. ";";

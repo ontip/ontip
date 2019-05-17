@@ -51,7 +51,7 @@ $inschrijving  = $date;
 // 2011-12-21 13:46:35
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 include ('versleutel_kenmerk.php'); 
 $url_hostName = $_SERVER['HTTP_HOST'];
 
@@ -73,9 +73,9 @@ $kenmerk  = substr($encrypt,0,4).".".substr($encrypt,4,4);
 
 /// Ophalen tekst kleur
 
-$qry  = mysql_query("SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
+$qry  = mysqli_query($con,"SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
 
-$row        = mysql_fetch_array( $qry );
+$row        = mysqli_fetch_array( $qry );
 $tekstkleur = $row['Tekstkleur'];
 $koptekst   = $row['Koptekst'];
 $invulkop   = $row['Invulkop'];
@@ -108,8 +108,8 @@ if (!isset($sms_bevestigen_zichtbaar_jn)) {
 
 // Haal sms parameters op ook ivm bevestigen laatste inschrijvingen + mail tracer
 
-   $qry        = mysql_query("SELECT * From vereniging  where Vereniging = '".$vereniging ."'  ") ;  
-   $result     = mysql_fetch_array( $qry);
+   $qry        = mysqli_query($con,"SELECT * From vereniging  where Vereniging = '".$vereniging ."'  ") ;  
+   $result     = mysqli_fetch_array( $qry);
    $sms_max    = $result['Max_aantal_sms'];
    $verzendadres_sms = $result['Verzendadres_SMS'];
    $trace          = $result['Mail_trace'];
@@ -140,15 +140,15 @@ if ($sms_bevestigen_zichtbaar_jn == 'J')  {
 	
 // lees vereniging output naam
 	
-$qry        = mysql_query("SELECT * From vereniging  where Vereniging = '".$vereniging ."'   ") ;  
-$result     = mysql_fetch_array( $qry);
+$qry        = mysqli_query($con,"SELECT * From vereniging  where Vereniging = '".$vereniging ."'   ") ;  
+$result     = mysqli_fetch_array( $qry);
 $vereniging_output_naam   = $result['Vereniging_output_naam'];
 
 
 // Inschrijven als individu of vast team 
 
-$qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
-$result     = mysql_fetch_array( $qry);
+$qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
+$result     = mysqli_fetch_array( $qry);
 $inschrijf_methode   = $result['Parameters'];
 
 if  ($inschrijf_methode == ''){
@@ -157,10 +157,10 @@ if  ($inschrijf_methode == ''){
 
 // Minimum aantal spelers
 
-$qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'min_splrs'  ") ; 
-$count      = mysql_num_rows($qry);
+$qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'min_splrs'  ") ; 
+$count      = mysqli_num_rows($qry);
 if ($count > 0) {
- $result     = mysql_fetch_array( $qry);
+ $result     = mysqli_fetch_array( $qry);
  $min_splrs  = $result['Waarde'];
 }
 else {
@@ -169,10 +169,10 @@ else {
 
 // $uitgestelde_bevestiging_vanaf
 
-$qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'uitgestelde_bevestiging_vanaf'  ") ; 
-$count      = mysql_num_rows($qry);
+$qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'uitgestelde_bevestiging_vanaf'  ") ; 
+$count      = mysqli_num_rows($qry);
 if ($count > 0) {
- $result     = mysql_fetch_array( $qry);
+ $result     = mysqli_fetch_array( $qry);
  $uitgestelde_bevestiging_vanaf  = $result['Waarde'];
 }
 else {
@@ -183,16 +183,16 @@ else {
 
  if(isset($extra_invulveld)){
    $variabele = 'extra_invulveld';
-   $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select extra invul');  
-   $result    = mysql_fetch_array( $qry1); 	
+   $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select extra invul');  
+   $result    = mysqli_fetch_array( $qry1); 	
 
    $invulveld    = $result['Waarde']; 
    $verplicht_jn = $result['Parameters'];
 }
 
   $variabele = 'bestemd_voor';
-   $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select extra invul');  
-   $result    = mysql_fetch_array( $qry1); 	
+   $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select extra invul');  
+   $result    = mysqli_fetch_array( $qry1); 	
    $wel_niet  = $result['Parameters'];
    $naam_vereniging = $result['Waarde'];
    
@@ -546,13 +546,13 @@ $Naam6 = str_replace(' De ',' de ', $Naam6);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Indien gekoppeld toernooi  (uitgezet 24 sep)
 
-//$sql_t               = mysql_query("SELECT Waarde from config where Variabele ='gekoppeld_toernooi' and Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."'  ")     ;  
-//$result              = mysql_fetch_array( $sql_t);
+//$sql_t               = mysqli_query($con,"SELECT Waarde from config where Variabele ='gekoppeld_toernooi' and Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."'  ")     ;  
+//$result              = mysqli_fetch_array( $sql_t);
 //$koppel_toernooi_id  = $result['Waarde'];
 
 // if ($koppel_toernooi_id  != '0') {
-//	$sql_i               = mysql_query("SELECT Vereniging, Toernooi from config where Id= '".$koppel_toernooi_id."' ")     ;  
-//  $result              = mysql_fetch_array( $sql_i);
+//	$sql_i               = mysqli_query($con,"SELECT Vereniging, Toernooi from config where Id= '".$koppel_toernooi_id."' ")     ;  
+//  $result              = mysqli_fetch_array( $sql_i);
 //  $_toernooi            = $result['Toernooi'];
 //  $_vereniging          = $result['Vereniging'];
 // }
@@ -563,8 +563,8 @@ $Naam6 = str_replace(' De ',' de ', $Naam6);
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$Naam1."' and Vereniging_speler = '".$Vereniging1."' " ;
 //echo $sql;
 
-$result= mysql_query($sql);
-$count=mysql_num_rows($result);
+$result= mysqli_query($con,$sql);
+$count=mysqli_num_rows($result);
 
 if($count > 0){
  $message .= "* Er is al een inschrijving ingevuld voor ".$Naam1." van ".$Vereniging1."<br>";
@@ -573,8 +573,8 @@ if($count > 0){
 
 if ($Naam2 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$Naam2."' and Vereniging_speler = '".$Vereniging2."' " ;
-$result= mysql_query($sql);
-$count=mysql_num_rows($result);
+$result= mysqli_query($con,$sql);
+$count=mysqli_num_rows($result);
 
 if($count > 0){
   $message .= "* Er is al een inschrijving ingevuld voor ".$Naam2. " van ".$Vereniging2."<br>";
@@ -584,8 +584,8 @@ if($count > 0){
 	
 if ($Naam3 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$Naam3."' and Vereniging_speler = '".$Vereniging3."' " ;
-$result= mysql_query($sql);
-$count=mysql_num_rows($result);
+$result= mysqli_query($con,$sql);
+$count=mysqli_num_rows($result);
 
 if($count > 0){
   $message .= "* Er is al een inschrijving ingevuld voor ".$Naam3." van ".$Vereniging3. "<br>";
@@ -595,8 +595,8 @@ if($count > 0){
 
 if ($Naam4 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$Naam4."' and Vereniging_speler = '".$Vereniging4."'" ;
-$result= mysql_query($sql);
-$count=mysql_num_rows($result);
+$result= mysqli_query($con,$sql);
+$count=mysqli_num_rows($result);
 
 if($count > 0){
   $message .= "* Er is al een inschrijving ingevuld voor ".$Naam4. " van ".$Vereniging4."<br>";
@@ -606,8 +606,8 @@ if($count > 0){
 
 if ($Naam5 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$Naam5."' and Vereniging_speler = '".$Vereniging5."'" ;
-$result= mysql_query($sql);
-$count=mysql_num_rows($result);
+$result= mysqli_query($con,$sql);
+$count=mysqli_num_rows($result);
 
 if($count > 0){
   $message .= "* Er is al een inschrijving ingevuld voor ".$Naam5. " van ".$Vereniging5."<br>";
@@ -617,8 +617,8 @@ if($count > 0){
 
 if ($Naam6 <> '') {
 $sql   = "SELECT * FROM hulp_naam WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and Naam='".$Naam6."' and Vereniging_speler = '".$Vereniging6."' " ;
-$result= mysql_query($sql);
-$count=mysql_num_rows($result);
+$result= mysqli_query($con,$sql);
+$count=mysqli_num_rows($result);
 
 if($count > 0){
   $message .= "* Er is al een inschrijving ingevuld voor ".$Naam6. " van ".$Vereniging6."<br>";
@@ -719,8 +719,8 @@ $Vereniging6        = str_replace("'",  "&#39", $Vereniging6);
  
 // uit vereniging tabel	
     
-$qry_v           = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
-$result_v        = mysql_fetch_array( $qry_v);
+$qry_v           = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
+$result_v        = mysqli_fetch_array( $qry_v);
 $vereniging_id   = $result_v['Id'];
 $url_logo        = $result_v['Url_logo']; 
 
@@ -735,8 +735,8 @@ if ($Email  == '' ){
 
 // Volgnummer = aantal +1
 
-$qry_i           = mysql_query("SELECT count(*) as Aantal From inschrijf where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging ."'  ") ;  
-$result_i        = mysql_fetch_array( $qry_i);
+$qry_i           = mysqli_query($con,"SELECT count(*) as Aantal From inschrijf where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging ."'  ") ;  
+$result_i        = mysqli_fetch_array( $qry_i);
 $aantal          = $result_i['Aantal'];
 $volg_nummer     = $aantal+1;
 
@@ -761,7 +761,7 @@ $query = "INSERT INTO inschrijf(Id, Volgnummer, Toernooi, Vereniging,Vereniging_
                          '".$Telefoon."'  ,'".$Email."'       , '".$Bankrekening."',
                          '".$Opmerkingen."','".$Extra_compl."', '".$Extra_invulveld_antwoord."','".$status."','".$date."','".$kenmerk."'  )";
  //echo $query;
- mysql_query($query) or die (mysql_error()); 
+ mysqli_query($con,$query) or die (mysql_error()); 
  
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -784,7 +784,7 @@ include ('get_browser_OS.php');
 $insert  = "insert into hulp_naam (Id,Toernooi, Vereniging, Datum, Soort_toernooi,Naam , Soort_licentie, Vereniging_speler,Browser, OS_platform,Laatst) 
             VALUES (0,'".$toernooi."', '".$vereniging ."' , '".$datum."',".$soort." ,'".$Naam1."','".$Soort_licentie1 ."','".$Vereniging1."','".$_browser."','".$_os_platform."',NOW() )";
 //echo $insert;
-mysql_query($insert) ; 
+mysqli_query($con,$insert) ; 
 
 /// Oude waarden bewaren voor mail. Reset browser en OS van de PC . 1x melden is genoeg
 $save_browser      = $_browser;
@@ -796,32 +796,32 @@ $_os_platform = '';
 if ($Naam2 <> ''){
 	  $insert = "insert into hulp_naam (Id,Toernooi, Vereniging, Datum, Soort_toernooi,Naam , Soort_licentie, Vereniging_speler,Browser, OS_platform, Laatst) 
 	         VALUES (0,'".$toernooi."', '".$vereniging ."' , '".$datum."',".$soort." ,'".$Naam2."','".$Soort_licentie2 ."','".$Vereniging2."','".$_browser."','".$_os_platform."',NOW() )";
-	  mysql_query($insert);  
+	  mysqli_query($con,$insert);  
 	 }
 if ($Naam3 <> ''){
 	  $insert = "insert into hulp_naam (Id,Toernooi, Vereniging, Datum, Soort_toernooi,Naam , Soort_licentie, Vereniging_speler,Browser, OS_platform, Laatst) 
 	  VALUES (0,'".$toernooi."', '".$vereniging ."' , '".$datum."',".$soort." ,'".$Naam3."','".$Soort_licentie3 ."','".$Vereniging3."','".$_browser."','".$_os_platform."',NOW() )";
-	  mysql_query($insert) ; 
+	  mysqli_query($con,$insert) ; 
 	  }
 if ($Naam4 <> ''){
 	  $insert = "insert into hulp_naam (Id,Toernooi, Vereniging, Datum, Soort_toernooi, Naam , Soort_licentie,Vereniging_speler, Laatst)
 	   VALUES (0,'".$toernooi."', '".$vereniging ."' , '".$datum."',".$soort." ,'".$Naam4."','".$Soort_licentie4 ."','".$Vereniging4."' ,'".$_browser."','".$_os_platform."',NOW())";
-	  mysql_query($insert) ; 
+	  mysqli_query($con,$insert) ; 
 	  }
 if ($Naam5 <> ''){
 	  $insert = "insert into hulp_naam (Id,Toernooi, Vereniging, Datum, Soort_toernooi,Naam , Soort_licentie, Vereniging_speler,Browser, OS_platform, Laatst) 
 	  VALUES (0,'".$toernooi."', '".$vereniging ."' , '".$datum."',".$soort." ,'".$Naam5."','".$Soort_licentie5 ."','".$Vereniging5."' '".$_browser."','".$_os_platform."',NOW())";
-	  mysql_query($insert) ; 
+	  mysqli_query($con,$insert) ; 
 	 }
 if ($Naam6 <> ''){
 	  $insert = "insert into hulp_naam (Id,Toernooi, Vereniging, Datum, Soort_toernooi,Naam , Soort_licentie, Vereniging_speler,Browser, OS_platform, Laatst) 
 	  VALUES (0,'".$toernooi."', '".$vereniging ."' , '".$datum."',".$soort." ,'".$Naam6."','".$Soort_licentie6 ."','".$Vereniging6."' '".$_browser."','".$_os_platform."',NOW())";
-	  mysql_query($insert) ; 
+	  mysqli_query($con,$insert) ; 
 	 }
 
 // aantal tellen
-$qry   = mysql_query("SELECT count(*) as Aantal from inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ") or die(mysql_error());  
-$row   = mysql_fetch_array( $qry );
+$qry   = mysqli_query($con,"SELECT count(*) as Aantal from inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ") or die(mysql_error());  
+$row   = mysqli_fetch_array( $qry );
 $aant_splrs = $row['Aantal'];
 
 
@@ -853,7 +853,7 @@ if ($aant_splrs  > $max_splrs){
                      Vereniging   = '".$vereniging."' and
                      Inschrijving = '".$date."'  ";
     //echo $query."<br>";                 
-    mysql_query($query) or die ('Fout in update inschrijf : set Status = RE0'); 
+    mysqli_query($con,$query) or die ('Fout in update inschrijf : set Status = RE0'); 
 }
 
 if ($status  == 'IN1') {                    // geen email bekend
@@ -863,7 +863,7 @@ if ($status  == 'IN1') {                    // geen email bekend
                      Vereniging   = '".$vereniging."' and
                      Inschrijving = '".$date."'  ";
     //echo $query."<br>";                 
-    mysql_query($query) or die ('Fout in update inschrijf : set Status = RE1'); 
+    mysqli_query($con,$query) or die ('Fout in update inschrijf : set Status = RE1'); 
 }
 
 if ($sms_confirmation  == 'J'  ) {
@@ -873,7 +873,7 @@ if ($sms_confirmation  == 'J'  ) {
                      Vereniging   = '".$vereniging."' and
                      Inschrijving = '".$date."'  ";
     //echo $query."<br>";                 
-    mysql_query($query) or die ('Fout in update inschrijf : set Status = RE4'); 
+    mysqli_query($con,$query) or die ('Fout in update inschrijf : set Status = RE4'); 
 }
 
 
@@ -912,7 +912,7 @@ if ($uitgestelde_bevestiging_jn == 'J'  and  $bankrekening_invullen_jn == 'N' an
                where Toernooi     = '".$toernooi."' and
                      Vereniging   = '".$vereniging."' and
                      Inschrijving = '".$date."'  ";
-  mysql_query($query) or die ('Fout in update inschrijf : set Status  = BE8' ); 
+  mysqli_query($con,$query) or die ('Fout in update inschrijf : set Status  = BE8' ); 
 }
 
 if ($uitgestelde_bevestiging_jn == 'J'  and  $bankrekening_invullen_jn == 'N' and  $status == 'IN1'   ) {
@@ -921,7 +921,7 @@ if ($uitgestelde_bevestiging_jn == 'J'  and  $bankrekening_invullen_jn == 'N' an
                where Toernooi     = '".$toernooi."' and
                      Vereniging   = '".$vereniging."' and
                      Inschrijving = '".$date."'  ";
-  mysql_query($query) or die ('Fout in update inschrijf : set Status  = BE9' ); 
+  mysqli_query($con,$query) or die ('Fout in update inschrijf : set Status  = BE9' ); 
 }
 
 if ($uitgestelde_bevestiging_jn == 'J'  and  $bankrekening_invullen_jn == 'J' and $status  == 'IN0'   ) {
@@ -930,7 +930,7 @@ if ($uitgestelde_bevestiging_jn == 'J'  and  $bankrekening_invullen_jn == 'J' an
                where Toernooi     = '".$toernooi."' and
                      Vereniging   = '".$vereniging."' and
                      Inschrijving = '".$date."'  ";
-  mysql_query($query) or die ('Fout in update inschrijf : set Status  = BE0' ); 
+  mysqli_query($con,$query) or die ('Fout in update inschrijf : set Status  = BE0' ); 
 }
 
 if ($uitgestelde_bevestiging_jn == 'J'  and  $bankrekening_invullen_jn == 'J' and $status  == 'IN1'   ) {
@@ -939,7 +939,7 @@ if ($uitgestelde_bevestiging_jn == 'J'  and  $bankrekening_invullen_jn == 'J' an
                where Toernooi     = '".$toernooi."' and
                      Vereniging   = '".$vereniging."' and
                      Inschrijving = '".$date."'  ";
-  mysql_query($query) or die ('Fout in update inschrijf : set Status  = BE1' ); 
+  mysqli_query($con,$query) or die ('Fout in update inschrijf : set Status  = BE1' ); 
 }
 
 if ($sms_confirmation  == 'J' and $uitgestelde_bevestiging_jn == 'J' and ($status  == 'IN0'  or $status  == 'IN1')  ) {
@@ -948,7 +948,7 @@ if ($sms_confirmation  == 'J' and $uitgestelde_bevestiging_jn == 'J' and ($statu
                where Toernooi     = '".$toernooi."' and
                      Vereniging   = '".$vereniging."' and
                      Inschrijving = '".$date."'  ";
-  mysql_query($query) or die ('Fout in update inschrijf : set Status  = BED' ); 
+  mysqli_query($con,$query) or die ('Fout in update inschrijf : set Status  = BED' ); 
 }
 
 if ($sms_confirmation  == 'J' and $uitgestelde_bevestiging_jn == 'N'  and ($status  == 'IN0'  or $status  == 'IN1') ) {
@@ -957,7 +957,7 @@ if ($sms_confirmation  == 'J' and $uitgestelde_bevestiging_jn == 'N'  and ($stat
                where Toernooi     = '".$toernooi."' and
                      Vereniging   = '".$vereniging."' and
                      Inschrijving = '".$date."'  ";
-  mysql_query($query) or die ('Fout in update inschrijf : set Status  = IN2' ); 
+  mysqli_query($con,$query) or die ('Fout in update inschrijf : set Status  = IN2' ); 
 }
 
 // Verdere afhandeling van bevestigingen en betaling via beheer bevestigingen
@@ -1256,8 +1256,8 @@ $to       = $Email;
 
 if ($ideal_betaling_jn == 'J'){	
 	// inschrijving ophalen
-$qry3               = mysql_query("SELECT * From inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Inschrijving = '".$inschrijving."' ")     or die(' Fout in select3');  
-$result3            = mysql_fetch_array( $qry3 );
+$qry3               = mysqli_query($con,"SELECT * From inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Inschrijving = '".$inschrijving."' ")     or die(' Fout in select3');  
+$result3            = mysqli_fetch_array( $qry3 );
 $id                 = $result3['Id'];
 
 $bericht .= "<br><br><div ><a style='font-family:verdana;font-size:9pt;text-align:left;color:red;'  href='".$url_hostName."/".substr($prog_url,3)."betaal_inschrijving.php?toernooi=". $toernooi."&kenmerk=".$kenmerk."'>Nog niet betaald ? Klik dan op deze link</a><img src = 'http://www.ontip.nl/ontip/images/ideal.bmp' width='40'></div><br><br>".  "\r\n";
@@ -1287,16 +1287,16 @@ if (isset($adres) and $adres !='') {
 $bericht .= "<br><table  Style='font-family:verdana;font-size:9pt;border-collapse: collapse;background-color:white;border-color:darkgrey;'>"   . "\r\n";
 
 $variabele = 'meld_tijd';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $parameter = explode('#', $result['Parameters']);
  $suffix    = $parameter[1];
  $meld_tijd = $result['Waarde'];
 
 $variabele = 'aanvang_tijd';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $aanvang_tijd   = $result['Waarde'];
  
@@ -1393,7 +1393,7 @@ if ($Email != $email_organisatie and $sms_confirmation  == 'J'){
                VALUES (0,'".$toernooi."', '".$vereniging ."'   , ".$vereniging_id.", '".$datum."','".$verzendadres_sms."' ,
                          '".$Naam1."'   ,  '".$Vereniging1."'  , '".$Telefoon."', '".$kenmerk."',".$sms_bericht_lengte."  , NOW()   )";
  //echo $query;
- mysql_query($query) or die (mysql_error()); 
+ mysqli_query($con,$query) or die (mysql_error()); 
  }       // email organisatie 
    
  } // end sms naar inschrijver  
@@ -1405,16 +1405,16 @@ if ($verzendadres_sms !='') {
 
    // check op al verstuurde sms berichten
     
-    $qry  = mysql_query("SELECT count(*) as Aantal From sms_confirmations where Vereniging  = '".$vereniging."'   ")     or die(' Fout in select');  
-    $row  = mysql_fetch_array( $qry );
+    $qry  = mysqli_query($con,"SELECT count(*) as Aantal From sms_confirmations where Vereniging  = '".$vereniging."'   ")     or die(' Fout in select');  
+    $row  = mysqli_fetch_array( $qry );
     $sms_aantal  = $row['Aantal'];
 
 
 if (isset($sms_laatste_inschrijvingen) and $sms_laatste_inschrijvingen < ($aant_splrs--) and $sms_laatste_inschrijvingen > 0  and   $sms_aantal < $sms_max  ) {
 	
 	$variabele = 'sms_laatste_inschrijvingen';
-  $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
-  $result1   = mysql_fetch_array( $qry1);
+  $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+  $result1   = mysqli_fetch_array( $qry1);
   $Telefoon  = $result1['Parameters'];
   
   $to       = $Telefoon."@sms.messagebird.com";
@@ -1449,7 +1449,7 @@ if (isset($sms_laatste_inschrijvingen) and $sms_laatste_inschrijvingen < ($aant_
                          '".$Naam1."'   ,  '".$Vereniging1."'  , '".$Telefoon."', '".$kenmerk."',".$sms_bericht_lengte."  , NOW()   )";                        
                          
  //echo $query;
- mysql_query($query) or die (mysql_error()); 
+ mysqli_query($con,$query) or die (mysql_error()); 
  
  
 } // end sms bevestigen

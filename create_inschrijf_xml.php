@@ -14,7 +14,7 @@
 
 
 // Database gegevens. 
-//include('mysql.php');	
+//include('mysqli.php');	
 //$pageName = basename($_SERVER['SCRIPT_NAME']);
 //include('page_stats.php');
 

@@ -4,7 +4,7 @@ $Dir     = $_POST['Imagedir'];
 //echo "Aantal : " . $Aantal;
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 for ($i==1;$i<= $Aantal;$i++){
 		
 		   $file        = $_POST['pdf-'.$i];     

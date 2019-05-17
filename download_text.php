@@ -1,7 +1,7 @@
 <?php
 
 // Database gegevens voor username en password
-include('mysql.php');
+include('mysqli.php');
 
 
 $ftp_server       = 'ftp.ontip.nl';

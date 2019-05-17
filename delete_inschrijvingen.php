@@ -330,7 +330,7 @@ if 	($email_notificaties_jn =='J'   and $notificaties !='' ){
 	echo "<br>Aantal reserves    : ".$aantal_reserves;
 	
 $qry                = mysqli_query($con,"SELECT * from inschrijf where Toernooi = '".$toernooi."' and Vereniging_id = ".$vereniging_id."  ")    or die(' Fout in select inschrijf count' ); 
-$aantal_deelnemers  = mysql_num_rows($qry);
+$aantal_deelnemers  = mysqli_num_rows($qry);
 
 	echo "<br>Aantal deelnemers    : ".$aantal_deelnemers;
 	

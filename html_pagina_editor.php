@@ -17,7 +17,7 @@ a {color:blue ; font-size: 11.0pt ; font-family:Arial, Helvetica, sans-serif ;te
  
 <?php
 /// load ftp connectie parameters
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan half uur geleden opnieuw aanloggen
 /*

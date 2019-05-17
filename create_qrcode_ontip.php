@@ -13,7 +13,7 @@ a    {text-decoration:none;color:blue;font-size: 8pt;}
 
 <?php
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
 

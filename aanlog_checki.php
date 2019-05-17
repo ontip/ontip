@@ -1,5 +1,5 @@
 <?php
-//include('mysql.php');
+//include('mysqli.php');
 $ip        = $_SERVER['REMOTE_ADDR'];
 $count     = 0;
 $laatst    = '';

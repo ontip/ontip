@@ -19,7 +19,7 @@ a    {text-decoration:none;color:blue;}
 <?php
 /// Zet vreemde tekens om in codering 
 
-include 'mysql.php'; 
+include 'mysqli.php'; 
 //include 'convert_text_string.php'; 
 
 ?>

@@ -32,13 +32,13 @@ var requiredRevision = 45;
 ob_start();
 /* Set locale to Dutch */
 
-include('mysql.php');
+include('mysqli.php');
 setlocale(LC_ALL,'Dutch_Nederlands', ' Dutch', 'nl_NL','nl');
 
 /// over 2012
- $sql        = mysql_query("SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2012' group by Maand order by Maand");
+ $sql        = mysqli_query($con,"SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2012' group by Maand order by Maand");
 
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
       $maand                    = number_format($row['Maand']);
      
      //Let's create a new variable: $aantal_maand_xx
@@ -57,9 +57,9 @@ while($row = mysql_fetch_array( $sql )) {
   }// end for 
   
 /// over 2013
- $sql        = mysql_query("SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2013' group by Maand order by Maand");
+ $sql        = mysqli_query($con,"SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2013' group by Maand order by Maand");
 
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
       $maand                    = number_format($row['Maand']);
      
      //Let's create a new variable: $aantal_maand_xx
@@ -78,9 +78,9 @@ while($row = mysql_fetch_array( $sql )) {
   }// end for 
 
 /// over 2014
- $sql        = mysql_query("SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2014' group by Maand order by Maand");
+ $sql        = mysqli_query($con,"SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2014' group by Maand order by Maand");
 
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
       $maand                    = number_format($row['Maand']);
      
      //Let's create a new variable: $aantal_maand_xx
@@ -99,9 +99,9 @@ while($row = mysql_fetch_array( $sql )) {
   }// end for 
 
 /// over 2015
- $sql        = mysql_query("SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2015' group by Maand order by Maand");
+ $sql        = mysqli_query($con,"SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2015' group by Maand order by Maand");
 
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
       $maand                    = number_format($row['Maand']);
      
      //Let's create a new variable: $aantal_maand_xx
@@ -120,9 +120,9 @@ while($row = mysql_fetch_array( $sql )) {
   }// end for 
 
 /// over 2016
- $sql        = mysql_query("SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2016' group by Maand order by Maand");
+ $sql        = mysqli_query($con,"SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2016' group by Maand order by Maand");
 
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
       $maand                    = number_format($row['Maand']);
      
      //Let's create a new variable: $aantal_maand_xx
@@ -141,9 +141,9 @@ while($row = mysql_fetch_array( $sql )) {
   }// end for 
 
 /// over 2017
- $sql        = mysql_query("SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2017' group by Maand order by Maand");
+ $sql        = mysqli_query($con,"SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  where DATE_FORMAT(Laatst, '%Y') = '2017' group by Maand order by Maand");
 
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
       $maand                    = number_format($row['Maand']);
      
      //Let's create a new variable: $aantal_maand_xx

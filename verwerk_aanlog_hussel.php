@@ -1,6 +1,6 @@
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 include 'versleutel.php'; 
 
 function redirect($url) {
@@ -110,8 +110,8 @@ if ($error == 0){
 /// roep versleutel routine aan
 $encrypt = versleutel($wachtwoord);
 
-$sql      = mysql_query("SELECT count(*) as Aantal FROM namen WHERE  Naam='".$naam."' and Wachtwoord='".$encrypt."' and Vereniging_id = ".$vereniging_id."  ") or die(' Fout in select');  
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT count(*) as Aantal FROM namen WHERE  Naam='".$naam."' and Wachtwoord='".$encrypt."' and Vereniging_id = ".$vereniging_id."  ") or die(' Fout in select');  
+$result   = mysqli_fetch_array( $sql );
 $count    = $result['Aantal'];
 
 echo "count :". $count;
@@ -149,13 +149,13 @@ if ($count == 1){
 	
 	// andere users resetten
 
-mysql_query("Update namen set Laatst = now(),
+mysqli_query($con,"Update namen set Laatst = now(),
                               IP_adres = '',
                               Aangelogd = 'N' where 
                               IP_adres = '". $_SERVER['REMOTE_ADDR']."' 
                               and Vereniging= '".$vereniging."'  ");
 
-mysql_query("Update namen set Laatst = now(),
+mysqli_query($con,"Update namen set Laatst = now(),
                               Aangelogd = 'J',
                               IP_adres = '". $_SERVER['REMOTE_ADDR']."' 
                         WHERE Naam='".$naam."' and Vereniging = '".$vereniging."'  ");

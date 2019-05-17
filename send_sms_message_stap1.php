@@ -75,7 +75,7 @@ function Teller() {
 <?php 
 // Database gegevens. 
 
-include('mysql.php');
+include('mysqli.php');
 
 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan half uur geleden opnieuw aanloggen
@@ -94,7 +94,7 @@ else {
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
 if ($aangelogd !='J'){
@@ -130,8 +130,8 @@ if (!isset($sms_bevestigen_zichtbaar_jn)){
 
 // Haal sms parameters op ook ivm bevestigen laatste inschrijvingen
 
-   $qry        = mysql_query("SELECT * From vereniging  where Vereniging = '".$vereniging ."'  ") ;  
-   $result     = mysql_fetch_array( $qry);
+   $qry        = mysqli_query($con,"SELECT * From vereniging  where Vereniging = '".$vereniging ."'  ") ;  
+   $result     = mysqli_fetch_array( $qry);
    $sms_max    = $result['Max_aantal_sms'];
    $verzendadres_sms = $result['Verzendadres_SMS'];
 
@@ -151,11 +151,11 @@ if (isset($toernooi)) {
 //	echo $vereniging;
 //  echo $toernooi;
 	
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -170,8 +170,8 @@ else {
 
 // uit vereniging tabel	
 	
-$qry          = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
-$row          = mysql_fetch_array( $qry );
+$qry          = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
+$row          = mysqli_fetch_array( $qry );
 $url_logo     = $row['Url_logo'];
 $url_website  = $row['Url_website'];
 $vereniging_output_naam = $row['Vereniging_output_naam'];
@@ -185,7 +185,7 @@ if ($vereniging_output_naam !=''){
 
 
 //// SQL Queries
-$spelers      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and (Status in ( 'BED','BEE','BEF' 'IM2', 'RE4', 'RE5', 'IN1', 'IN0') or Telefoon <> '')   order by Inschrijving ")    or die(mysql_error());  
+$spelers      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' and (Status in ( 'BED','BEE','BEF' 'IM2', 'RE4', 'RE5', 'IN1', 'IN0') or Telefoon <> '')   order by Inschrijving ")    or die(mysql_error());  
 
 $th_style   = 'border: 1px solid black;padding:3pt;background-color:white;color:black;font-size:10pt;font-family:verdana;font-weight:bold;';
 $td_style   = 'border: 1px solid black;padding:2pt;color:black;font-size:10pt;font-family:verdana;font-weight:normal;';
@@ -251,7 +251,7 @@ $td_style_w = 'border: 1px solid black;padding:2pt;background-color:white;color:
 <?php
 ob_start();
 
-$count=mysql_num_rows($spelers);
+$count=mysqli_num_rows($spelers);
 if ($count < 1) { 
 	echo "Geen inschrijvingen gevonden die via SMS bevestigd zijn.";
 }
@@ -284,7 +284,7 @@ echo "</tr>";
 
 $i=1;
 
-while($row = mysql_fetch_array( $spelers )) {
+while($row = mysqli_fetch_array( $spelers )) {
 
 echo "<td style='". $td_style.";'>".$i."</td>";
 

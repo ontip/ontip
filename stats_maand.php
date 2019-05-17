@@ -57,7 +57,7 @@ function CopyToClipboard()
 // Database gegevens. 
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
-include('mysql.php');
+include('mysqli.php');
 
 
 if (isset($_COOKIE['_month'])){
@@ -75,7 +75,7 @@ if (isset($_COOKIE['_month'])){
 //	                     and Year(Inschrijving) = '".$select_year."' group by 1 order by 1  ";
 	 
 		
-	$qry   = mysql_query("SELECT DAY(Inschrijving) as Dag, WEEKDAY(Inschrijving) as Dagnaam, count(*) as Aantal from inschrijf where Month(Inschrijving) = '".$select_month."'
+	$qry   = mysqli_query($con,"SELECT DAY(Inschrijving) as Dag, WEEKDAY(Inschrijving) as Dagnaam, count(*) as Aantal from inschrijf where Month(Inschrijving) = '".$select_month."'
 	                     and Year(Inschrijving) = '".$select_year."' group by 1 order by 1  ")     or die(' Fout in select namen');  
 	 
 	 
@@ -144,7 +144,7 @@ $totaal =0;
 	</tr>
 <?php
 $i=1;
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
  ?>
 	 <tr>
 	 	 	<td style= 'text-align:left;' ><?php 

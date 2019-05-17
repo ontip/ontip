@@ -31,7 +31,7 @@ var requiredRevision = 45;
 ob_start();
 /* Set locale to Dutch */
 
-include('mysql.php');
+include('mysqli.php');
 setlocale(LC_ALL,'Dutch_Nederlands', ' Dutch', 'nl_NL','nl');
 
 $yearmonth = $_GET['yearmonth'];
@@ -40,7 +40,7 @@ $page      = $_GET['page'];
 $start_date = date('Y-m-d', strtotime('-30 days'));
 //echo $start_date;
 
-// $sql        = mysql_query("SELECT DATE_FORMAT(Laatst,'%Y-%m-%d') as Dag, count(*) as Aantal  FROM `page_stats` where Page ='".$page."' and DATE_FORMAT(Laatst,'%Y-%m-%d') > '".$start_date."' group by 1 order by 1");
+// $sql        = mysqli_query($con,"SELECT DATE_FORMAT(Laatst,'%Y-%m-%d') as Dag, count(*) as Aantal  FROM `page_stats` where Page ='".$page."' and DATE_FORMAT(Laatst,'%Y-%m-%d') > '".$start_date."' group by 1 order by 1");
 
 
 // Er wordt een XML file gevuld waarin de data wordt opgenomen
@@ -76,10 +76,10 @@ $select_year = date('Y');
 
 // Eerst de dagen verwerken
 
-$sql        = mysql_query("SELECT DATE_FORMAT(Laatst,'%d-%b') as Dag, count(*) as Aantal  FROM `page_stats` where Page ='".$page."' and DATE_FORMAT(Laatst,'%Y-%m-%d') > '".$start_date."' group by 1 order by Laatst");
+$sql        = mysqli_query($con,"SELECT DATE_FORMAT(Laatst,'%d-%b') as Dag, count(*) as Aantal  FROM `page_stats` where Page ='".$page."' and DATE_FORMAT(Laatst,'%Y-%m-%d') > '".$start_date."' group by 1 order by Laatst");
 
 
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
 
     fwrite($fp, "         <string>");	
 		// Print out the contents of each row into a table
@@ -93,9 +93,9 @@ fwrite($fp, "      </row>\n");
 fwrite($fp, "      <row>\n");
 fwrite($fp, "        <string>Vanaf ".$start_date."</string>\n");
 
-$sql        = mysql_query("SELECT DATE_FORMAT(Laatst,'%Y-%m-%d') as Dag, count(*) as Aantal  FROM `page_stats` where Page ='".$page."' and DATE_FORMAT(Laatst,'%Y-%m-%d') > '".$start_date."' group by 1 order by Laatst");
+$sql        = mysqli_query($con,"SELECT DATE_FORMAT(Laatst,'%Y-%m-%d') as Dag, count(*) as Aantal  FROM `page_stats` where Page ='".$page."' and DATE_FORMAT(Laatst,'%Y-%m-%d') > '".$start_date."' group by 1 order by Laatst");
  
-while($row = mysql_fetch_array( $sql )) {     
+while($row = mysqli_fetch_array( $sql )) {     
 fwrite($fp, "        <number>");
 fwrite($fp, $row['Aantal']);                
 fwrite($fp, "</number>\n");

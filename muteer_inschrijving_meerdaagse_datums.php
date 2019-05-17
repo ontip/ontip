@@ -24,7 +24,7 @@ $meerdaags_toernooi_jn  = $_POST['meerdaags_toernooi_jn '];
 $url             = 'beheer_inschrijving_meerdaagse_datums.php?id='.$id;
 
 
-include('mysql.php');
+include('mysqli.php');
 $datums =';';
 
 for($i=1;$i<101;$i++){
@@ -39,7 +39,7 @@ for($i=1;$i<101;$i++){
 }// end for
 
 
-mysql_query("Update inschrijf set Meerdaags_datums = '".$datums. "'   where Id = ".$id." ") or die('Fout in update:'.$datums);
+mysqli_query($con,"Update inschrijf set Meerdaags_datums = '".$datums. "'   where Id = ".$id." ") or die('Fout in update:'.$datums);
 redirect($url);	
 	
 

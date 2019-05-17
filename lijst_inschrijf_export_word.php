@@ -9,12 +9,12 @@ header("Expires: 0");
 
 <?php 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Lees configuratie tabel tbv toernooi gegevens  (soort inschrijving e.d)
 if (isset($toernooi)) {
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
-while($row = mysql_fetch_array( $qry )) {
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+while($row = mysqli_fetch_array( $qry )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -28,16 +28,16 @@ echo "\fs28"."Inschrijvingen ". $toernooi_voluit . "\rn";
 
 
 
-$aant_splrs_q = mysql_query("SELECT Count(*) from inschrijf WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' ")        or die(mysql_error()); 
+$aant_splrs_q = mysqli_query($con,"SELECT Count(*) from inschrijf WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' ")        or die(mysql_error()); 
 /// Bepalen aantal spelers voor dit toernooi
 $aant_splrs =  mysql_result($aant_splrs_q ,0); 
 //// SQL Queries
-$spelers      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Inschrijving" )    or die(mysql_error());  
+$spelers      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Inschrijving" )    or die(mysql_error());  
 
 
 $i=1;
 
-while($row = mysql_fetch_array( $spelers )) {
+while($row = mysqli_fetch_array( $spelers )) {
 
 if ($soort_inschrijving =='single' or $inschrijf_methode =='single' ){
 	echo  $i  . ";";

@@ -28,7 +28,7 @@ margin: -6px 6px 6px -6px; /* Offset the image by certain pixels to reveal the s
 <?php
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 setlocale(LC_ALL, 'nl_NL');
 
 ob_start();
@@ -57,7 +57,7 @@ ob_start();
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -101,8 +101,8 @@ if ($rechten != "A"  and $rechten != "C"){
 
 $i=1;
 
-$sql  = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging."' ")     or die(' Fout in select');  
-while($row = mysql_fetch_array( $sql )) {
+$sql  = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging."' ")     or die(' Fout in select');  
+while($row = mysqli_fetch_array( $sql )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -135,13 +135,13 @@ if ($handle = @opendir($dir))
          $file1     = explode(".",$file);
          $toernooi  = $file1[0];
                   
-         $sql    = mysql_query("SELECT * From config where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele = 'toernooi_voluit' ")     or die(' Fout in select');  
-         $count  =  mysql_num_rows($sql);
+         $sql    = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele = 'toernooi_voluit' ")     or die(' Fout in select');  
+         $count  =  mysqli_num_rows($sql);
          if($count == 1){
-             $result            = mysql_fetch_array( $sql );
+             $result            = mysqli_fetch_array( $sql );
              $toernooi_voluit   = $result['Waarde'];
-             $sql    = mysql_query("SELECT * From config where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele = 'datum' ")     or die(' Fout in select');  
-             $result = mysql_fetch_array( $sql );
+             $sql    = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele = 'datum' ")     or die(' Fout in select');  
+             $result = mysqli_fetch_array( $sql );
              $datum  = $result['Waarde'];
              $dag    = substr ($datum , 8,2); 
              $maand  = substr ($datum , 5,2); 

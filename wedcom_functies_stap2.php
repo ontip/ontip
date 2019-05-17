@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 
 //echo "vereniging :". $vereniging . "<br>";
@@ -29,22 +29,22 @@ $einde_datumtijd   = $_POST['eind_datum_jaar']."-".sprintf("%02d",$_POST['eind_d
 
 $query = "UPDATE config SET Waarde  = '".$begin_datum."' ,  Laatst     = NOW()    WHERE  Vereniging = '".$vereniging."'  and    Toernooi   = '".$toernooi."'   and Variabele = 'begin_inschrijving' "; 
 //echo $query;
-mysql_query($query) or die ('Fout in update 1'); 
+mysqli_query($con,$query) or die ('Fout in update 1'); 
 
 $query = "UPDATE config SET Waarde  = '".$einde_datumtijd."' ,  Laatst     = NOW()    WHERE  Vereniging = '".$vereniging."'  and    Toernooi   = '".$toernooi."'   and Variabele = 'einde_inschrijving' "; 
 //echo $query;
-mysql_query($query) or die ('Fout in update 2'); 
+mysqli_query($con,$query) or die ('Fout in update 2'); 
 
 
 
 
 $query = "UPDATE config SET Waarde  = '".$aantal_reserves  ."' ,  Laatst     = NOW()     WHERE  Vereniging = '".$vereniging."'  and    Toernooi   = '".$toernooi."'   and Variabele = 'aantal_reserves' "; 
-mysql_query($query) or die ('Fout in update 3'); 
+mysqli_query($con,$query) or die ('Fout in update 3'); 
 
 $query = "UPDATE config SET Waarde  = '".$max_splrs."'         ,  Laatst     = NOW()     WHERE  Vereniging = '".$vereniging."'  and    Toernooi   = '".$toernooi."'   and Variabele = 'max_splrs' "; 
-mysql_query($query) or die ('Fout in update 4'); 
+mysqli_query($con,$query) or die ('Fout in update 4'); 
 
 $query = "UPDATE config SET Waarde  = '".$min_splrs."'         ,  Laatst     = NOW()     WHERE  Vereniging = '".$vereniging."'  and    Toernooi   = '".$toernooi."'   and Variabele = 'min_splrs' "; 
-mysql_query($query) or die ('Fout in update 5'); 
+mysqli_query($con,$query) or die ('Fout in update 5'); 
 
 ?> 

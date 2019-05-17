@@ -4,7 +4,7 @@
 	</head>
 <body>
 <?php
-include('mysql.php');
+include('mysqli.php');
 include ('versleutel_kenmerk.php'); 
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
@@ -75,9 +75,9 @@ $toernooi = $_POST['toernooi'];
 $replace  = "toernooi=".$toernooi."";
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -87,8 +87,8 @@ while($row = mysql_fetch_array( $qry2 )) {
    
 for ($k=0;(!empty($mailid[$k]));$k++){
 
-	$qry              = mysql_query("SELECT * from inschrijf where Id= '".$mailid[$k]."' " )    or die(mysql_error());  
-  $row              = mysql_fetch_array( $qry);
+	$qry              = mysqli_query($con,"SELECT * from inschrijf where Id= '".$mailid[$k]."' " )    or die(mysql_error());  
+  $row              = mysqli_fetch_array( $qry);
   $Email            = $row['Email'];
   $Email_encrypt    = $row['Email_encrypt'];
 
@@ -118,8 +118,8 @@ for ($k=0;(!empty($mailid[$k]));$k++){
 
    // uit vereniging tabel	
        
-$qry_v           = mysql_query("SELECT * From vereniging where Vereniging = '".$row['Vereniging']."'  ") ;  
-$result_v        = mysql_fetch_array( $qry_v);
+$qry_v           = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$row['Vereniging']."'  ") ;  
+$result_v        = mysqli_fetch_array( $qry_v);
 $vereniging_id   = $result_v['Id'];
 $url_logo        = $result_v['Url_logo']; 
 $trace           = $result_v['Mail_trace'];
@@ -251,7 +251,7 @@ if ($reservering =='J') {
                      Vereniging   = '".$vereniging."' and
                      Inschrijving = '".$date."'  ";
  
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
 }
 
 /// opmaak Licentie en vereniging
@@ -383,8 +383,8 @@ $bericht .= $Opmerkingen . "\r\n";
 }
 if ($ideal_betaling_jn == 'J'){	
 	// inschrijving ophalen
-$qry3               = mysql_query("SELECT * From inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Inschrijving = '".$inschrijving."' ")     or die(' Fout in select3');  
-$result3            = mysql_fetch_array( $qry3 );
+$qry3               = mysqli_query($con,"SELECT * From inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Inschrijving = '".$inschrijving."' ")     or die(' Fout in select3');  
+$result3            = mysqli_fetch_array( $qry3 );
 $id                 = $result3['Id'];
 
 $bericht .= "<br><br><div ><a style='font-family:verdana;font-size:9pt;text-align:left;color:red;'  href='".$url_hostName."/".substr($prog_url,3)."betaal_inschrijving.php?toernooi=". $toernooi."&kenmerk=".$kenmerk."'>Nog niet betaald ? Klik dan op deze link</a><img src = 'http://www.ontip.nl/ontip/images/ideal.bmp' width='40'></div><br><br>".  "\r\n";

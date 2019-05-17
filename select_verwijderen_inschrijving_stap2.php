@@ -20,12 +20,12 @@ a {color:blue ; font-size: 11.0pt ; font-family:Arial, Helvetica, sans-serif ;te
 ob_start();
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 
 /// Ophalen tekst kleur
 
-$sql        = mysql_query("SELECT Tekstkleur,Link From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
-$result     = mysql_fetch_array( $sql );
+$sql        = mysqli_query($con,"SELECT Tekstkleur,Link From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
+$result     = mysqli_fetch_array( $sql );
 $tekstkleur = $result['Tekstkleur'];
 $link       = $result['Link'];
 
@@ -40,7 +40,7 @@ if (isset($toernooi)) {
 	
 
 	
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Regel < 9000 and Regel > 0 order by Regel")     or die(' Fout in select');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Regel < 9000 and Regel > 0 order by Regel")     or die(' Fout in select');  
  }
 else {
 		echo " Geen toernooi bekend :";
@@ -64,13 +64,13 @@ date('Y-m-d:H:i:s');
 $inschrijving = $jaar."-".$maand."-".$dag." ".$uur.":".$minuut.":".$sec;
 
 $sql     = "SELECT * from inschrijf where Toernooi = '".$toernooi."' and Inschrijving = '".$inschrijving."' and Naam1 = '".$naam."'  ";
-$result  = mysql_query($sql);
+$result  = mysqli_query($con,$sql);
 
 
  // Inschrijven als individu of vast team
 
-$qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
-$result     = mysql_fetch_array( $qry);
+$qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
+$result     = mysqli_fetch_array( $qry);
 $inschrijf_methode   = $result['Parameters'];
 
 
@@ -93,15 +93,15 @@ $inschrijf_methode   = $result['Parameters'];
 <center>
 	<?php
 
-// Mysql_num_row is counting table row
-$count=mysql_num_rows($result);
+// mysqli_num_row is counting table row
+$count=mysqli_num_rows($result);
 
 
 if ($count == 0){
 	echo "Niet gevonden !";
 }
 else {
-$row       = mysql_fetch_array( $result );
+$row       = mysqli_fetch_array( $result );
 //echo $toernooi;
 
 //echo "xxxxxxxxxxxxxx". $soort_inschrijving;

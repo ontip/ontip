@@ -19,7 +19,7 @@ a    {color:red ; font-size: 8.0pt ; font-family:Arial, Helvetica, sans-serif ;t
 <?php
 ob_start();
 
-include('mysql.php');
+include('mysqli.php');
 ini_set('default_charset','UTF-8');
                             
                              
@@ -45,9 +45,9 @@ function file_count($dir) {
 
 if ($id=='all'){ 
 //// SQL Queries
-$qry      = mysql_query("SELECT * from vereniging order by Id" )    or die(mysql_error());  
+$qry      = mysqli_query($con,"SELECT * from vereniging order by Id" )    or die(mysql_error());  
 } else  {	
-$qry      = mysql_query("SELECT * from vereniging where Id = ".$id."  " )    or die(mysql_error());  
+$qry      = mysqli_query($con,"SELECT * from vereniging where Id = ".$id."  " )    or die(mysql_error());  
 }
  
    echo "<h1>File browser </h1>";
@@ -62,7 +62,7 @@ $qry      = mysql_query("SELECT * from vereniging where Id = ".$id."  " )    or 
 
   /// prog url
   $i=1;
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	
 	$prog_url       = $row['Prog_url'];

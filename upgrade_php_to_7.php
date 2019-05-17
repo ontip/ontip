@@ -44,8 +44,8 @@ if ($error == 1){
 /// replace
 
 
-$homepage = str_replace('mysql.php','mysqli.php', $homepage);
-$homepage = str_replace('aanlog_check.php','aanlog_checki.php', $homepage);
+$homepage = str_replace('mysqli.php','mysqli.php', $homepage);
+$homepage = str_replace('aanlog_checki.php','aanlog_checki.php', $homepage);
 $homepage = str_replace('mysql_','mysqli_', $homepage);
 $homepage = str_replace('mysqli_query(','mysqli_query($con,', $homepage);
 

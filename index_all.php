@@ -21,7 +21,7 @@ a {color:blue ; font-size: 10.0pt ; font-family:Arial, Helvetica, sans-serif ;te
 <?php 
 ob_start();
 
-include('mysql.php');
+include('mysqli.php');
 ini_set('default_charset','UTF-8');
 ?>
 <div style='background-color:white;'>
@@ -100,7 +100,7 @@ ini_set('default_charset','UTF-8');
 <?php
 
 //// SQL Queries
-$qry      = mysql_query("SELECT * from vereniging  group by Vereniging order by Vereniging " )    or die(mysql_error());  
+$qry      = mysqli_query($con,"SELECT * from vereniging  group by Vereniging order by Vereniging " )    or die(mysql_error());  
 
 
 /// Detail regels
@@ -109,7 +109,7 @@ $i=1;                        // intieer teller
 $k=0;
 echo "<table width = 100%><tr>";
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 
 
 ?>

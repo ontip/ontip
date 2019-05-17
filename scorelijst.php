@@ -56,7 +56,7 @@ function img_aanzetten(i){
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 ini_set('default_charset','UTF-8');
 setlocale(LC_ALL, 'nl_NL');
 $datum = $_GET['datum'];
@@ -77,7 +77,7 @@ echo "</h1>";
 echo "</div>";
 
 // Sorteer eerst op winst en dan op saldo
-$score     = mysql_query("SELECT * From hussel_score WHERE Datum = '".$datum."'
+$score     = mysqli_query($con,"SELECT * From hussel_score WHERE Datum = '".$datum."'
                             ORDER BY Winst DESC , Saldo DESC" )       or die(mysql_error());  
 ?>
 <table class='noprint'>
@@ -107,7 +107,7 @@ $i = 1;
 
 
 // keeps getting the next row until there are no more to get
-while($row = mysql_fetch_array( $score )) {
+while($row = mysqli_fetch_array( $score )) {
 	// Print out the contents of each row into a table
 	echo "<tr><td>$i</td><td>"; 
 	echo $row['Naam'];

@@ -4,10 +4,10 @@ $updown   = $_GET['updown'];
 $toernooi = $_GET['toernooi'];
 header("Location: beheer_config_1.php?toernooi=".$toernooi."");
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 
-$qry      = mysql_query("SELECT Regel From config where Id = ".$id ." ")     or die(' Fout in select');  
-$row      = mysql_fetch_array( $qry );
+$qry      = mysqli_query($con,"SELECT Regel From config where Id = ".$id ." ")     or die(' Fout in select');  
+$row      = mysqli_fetch_array( $qry );
 $regel    = $row['Regel'];
 
 //echo $regel;
@@ -26,6 +26,6 @@ if ($regel > 99) { $regel  = 99;}
 $query="UPDATE config     SET Regel = ".$regel."                where Id = ".$id ." "; 
 //echo $query;
                
-mysql_query($query) or die ('Fout in update'); 
+mysqli_query($con,$query) or die ('Fout in update'); 
   
 ?>  

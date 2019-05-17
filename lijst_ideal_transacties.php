@@ -1,7 +1,16 @@
 <?php
 /*  Programma       : Prepare_ideal_betaling.php
     Auteur          : Erik Hendrik okt 2013
-    
+ # Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 17mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference:    
                                                                                    */
 ?>
 <html>
@@ -22,7 +31,7 @@ a    {text-decoration:none;color:blue;}
 
 <?php 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 include ('versleutel_kenmerk.php'); 
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
@@ -41,7 +50,7 @@ if (!isset($toernooi)) {
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -66,9 +75,9 @@ if ($rechten != "A"  and $rechten != "I"){
 }
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -99,7 +108,7 @@ while($row = mysql_fetch_array( $qry2 )) {
 
 <?php 
 //echo "SELECT * from ideal_transacties Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Laatst<br>"; 
- $sql     = mysql_query("SELECT * from ideal_transacties Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Laatst" )    or die('Fout in select1');  
+ $sql     = mysqli_query($con,"SELECT * from ideal_transacties Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Laatst" )    or die('Fout in select1');  
 /// Koptekst
 ?>
 <table  id='myTable1' border =1 cellpadding=0 cellspacing=0 >
@@ -121,10 +130,10 @@ while($row = mysql_fetch_array( $qry2 )) {
 	
 <?php
 $i=1;
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
 
-  	 $qry_inschrijving     = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and  Id = ".$row['Inschrijf_id']." " ) or  die ('Fout in select2')   ;
-  	 $result               = mysql_fetch_array( $qry_inschrijving );
+  	 $qry_inschrijving     = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and  Id = ".$row['Inschrijf_id']." " ) or  die ('Fout in select2')   ;
+  	 $result               = mysqli_fetch_array( $qry_inschrijving );
 	   $bank_rekening        = $result['Bank_rekening'];
 
 ?>

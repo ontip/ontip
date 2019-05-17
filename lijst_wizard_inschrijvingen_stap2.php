@@ -54,7 +54,7 @@ function CopyToClipboard()
 <?php 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
 /* Set locale to Dutch */
@@ -85,11 +85,11 @@ if (isset($_POST['toernooi'])) {
 $toernooi = $_POST['toernooi'];
 }
 
-$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -255,9 +255,9 @@ $cols = substr($cols,0,-1);// remove last char
 
 /// Ophalen tekst kleur
 
-$qry  = mysql_query("SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
+$qry  = mysqli_query($con,"SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
 
-$row        = mysql_fetch_array( $qry );
+$row        = mysqli_fetch_array( $qry );
 $tekstkleur = $row['Tekstkleur'];
 $koptekst   = $row['Koptekst'];
 $invulkop   = $row['Invulkop'];
@@ -423,10 +423,10 @@ echo "</table><br>";
 <?php
 
 //// SQL Queries
-$inschrijvingen      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Inschrijving" )    or die(mysql_error());  
+$inschrijvingen      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Inschrijving" )    or die(mysql_error());  
 
 $i=1;
-while($row = mysql_fetch_array( $inschrijvingen )) {
+while($row = mysqli_fetch_array( $inschrijvingen )) {
 ?>
 <tr>
 	

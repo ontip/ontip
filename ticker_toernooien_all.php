@@ -41,7 +41,7 @@ var textlink=new Array()
 var texttarget=new Array()
 
 <?php
-include 'mysql.php'; 
+include 'mysqli.php'; 
 $today      = date("Y-m-d");
 //$today = '2013-11-11';
 
@@ -51,25 +51,25 @@ textlink[0]=""
 texttarget[0]="_blank"
 <?php
 
-$qry  = mysql_query("SELECT distinct Vereniging,Toernooi,Waarde From config where  Variabele= 'datum'  
+$qry  = mysqli_query($con,"SELECT distinct Vereniging,Toernooi,Waarde From config where  Variabele= 'datum'  
      and Vereniging ='".$vereniging."' and Waarde >= '".$today."' order by Waarde limit ".$limit." ")     or die(' Fout in select ');  
 
 
 
 $i=1;
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 
   $toernooi   = $row['Toernooi'];
 	$vereniging = $row['Vereniging'];
   $datum      = $row['Waarde'];
-  $qry1       = mysql_query("SELECT * From config where  Variabele= 'toernooi_voluit'  and Vereniging = '".$vereniging."' 
+  $qry1       = mysqli_query($con,"SELECT * From config where  Variabele= 'toernooi_voluit'  and Vereniging = '".$vereniging."' 
                              and Toernooi = '".$toernooi."'      ")     or die(' Fout in select ');  
-  $row1       = mysql_fetch_array( $qry1);
+  $row1       = mysqli_fetch_array( $qry1);
   $toernooi_voluit    = $row1['Waarde'];
   
-  $sql2      = mysql_query("SELECT Prog_url From namen where Vereniging = '".$row['Vereniging'] ."' and Naam = 'Erik'")     or die(' Fout in select');  
-  $result    = mysql_fetch_array( $sql2 );
+  $sql2      = mysqli_query($con,"SELECT Prog_url From namen where Vereniging = '".$row['Vereniging'] ."' and Naam = 'Erik'")     or die(' Fout in select');  
+  $result    = mysqli_fetch_array( $sql2 );
   $prog_url  = $result['Prog_url'];
  ?>
 

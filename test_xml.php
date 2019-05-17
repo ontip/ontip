@@ -35,10 +35,10 @@ if (window.attachEvent) window.attachEvent("onload", sfFocus);
 <?php	
 	
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
-include 'mysql.php'; 
+include 'mysqli.php'; 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -121,8 +121,8 @@ foreach ($files as $file) {
         	$part = explode('_', $file);
         	//echo $part[1];
                	
-        	$qry      = mysql_query("SELECT Vereniging from vereniging where Id = ".$part[1]." ")     or die(' Fout in select 7'); 
-         	$result                    = mysql_fetch_array( $qry );
+        	$qry      = mysqli_query($con,"SELECT Vereniging from vereniging where Id = ".$part[1]." ")     or die(' Fout in select 7'); 
+         	$result                    = mysqli_fetch_array( $qry );
           $vereniging    = $result['Vereniging'];
         	
  	
@@ -453,7 +453,7 @@ $sql_line      = explode("@#@#", $sql_update);   /// opsplitsen in aparte regels
   
     	  if (strlen($sql_line[$i]) > 2 ){
     	  	echo $i.".  ".$sql_line[$i].". Len : ".strlen($sql_line[$i])."<br>";
-          mysql_query($sql_line[$i]) or die ('Fout in update line '.$i); 
+          mysqli_query($con,$sql_line[$i]) or die ('Fout in update line '.$i); 
         }
         $i++;
   } // while
@@ -466,7 +466,7 @@ $sql_line      = explode("@#@#", $sql_insert);   /// opsplitsen in aparte regels
   
     	  if (strlen($sql_line[$i]) > 2 ){
     	  	echo $i.".  ".$sql_line[$i].". Len : ".strlen($sql_line[$i])."<br>";
-          mysql_query($sql_line[$i]) or die ('Fout in insert line '.$i); 
+          mysqli_query($con,$sql_line[$i]) or die ('Fout in insert line '.$i); 
         }
         $i++;
   } // while
@@ -493,7 +493,7 @@ $sql_line      = explode("@#@#", $sql_update);   /// opsplitsen in aparte regels
   
     	  if (strlen($sql_line[$i]) > 2 ){
     	  	echo $i.".  ".$sql_line[$i].". Len : ".strlen($sql_line[$i])."<br>";
-          mysql_query($sql_line[$i]) or die ('Fout in update line '.$i); 
+          mysqli_query($con,$sql_line[$i]) or die ('Fout in update line '.$i); 
         }
         $i++;
   } // while
@@ -506,7 +506,7 @@ $sql_line      = explode("@#@#", $sql_insert);   /// opsplitsen in aparte regels
   
     	  if (strlen($sql_line[$i]) > 2 ){
     	  	echo $i.".  ".$sql_line[$i].". Len : ".strlen($sql_line[$i])."<br>";
-          mysql_query($sql_line[$i]) or die ('Fout in insert line '.$i); 
+          mysqli_query($con,$sql_line[$i]) or die ('Fout in insert line '.$i); 
         }
         $i++;
   } // while

@@ -36,7 +36,7 @@ setlocale(LC_ALL, 'nl_NL');
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	

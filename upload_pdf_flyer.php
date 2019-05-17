@@ -59,7 +59,7 @@ alert("Internet Explorer required");
 <?php
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 ob_start();
 ?>
 
@@ -72,7 +72,7 @@ ob_start();
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -91,8 +91,8 @@ if ($rechten != "A"  and $rechten != "C"){
  echo '</script>'; 
 }
 
-$qry            = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
-$row            = mysql_fetch_array( $qry );
+$qry            = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
+$row            = mysqli_fetch_array( $qry );
 $prog_url       = $row['Prog_url'];
 
 $toernooi = $_GET['toernooi'];

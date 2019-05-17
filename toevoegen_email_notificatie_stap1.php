@@ -70,7 +70,7 @@ that.style.backgroundColor = bgcolor;
 <?php 
 ob_start();
 
-include('mysql.php');
+include('mysqli.php');
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
 ini_set('display_errors', 'On');
@@ -89,11 +89,11 @@ $string = '';
 //// SQL Queries
 if (isset($toernooi)) {
 	
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -109,8 +109,8 @@ $maand = 	substr ($datum , 5,2);
 $jaar  = 	substr ($datum , 0,4); 
 
 // Ophalen  gegevens
-$qry3             = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select3');  
-$row3             = mysql_fetch_array( $qry3 );
+$qry3             = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select3');  
+$row3             = mysqli_fetch_array( $qry3 );
 $verzendadres_sms   = $row3['Verzendadres_SMS'];
 $trace             = $row3['Mail_trace'];
 $url_logo          = $row3['Url_logo']; 

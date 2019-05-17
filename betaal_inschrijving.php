@@ -45,7 +45,7 @@ function make_blank_opmerkingen()
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 include ('versleutel_kenmerk.php'); 
 $ip_adres = $_SERVER['REMOTE_ADDR'];
 $toernooi = $_GET['toernooi'];
@@ -53,13 +53,13 @@ $toernooi = $_GET['toernooi'];
 
 // uit config tabel	
 
-$sql         = mysql_query("SELECT Waarde as toernooi_voluit from config WHERE  Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele ='toernooi_voluit'   ") or die(' Fout in select aantal');  
-$result      = mysql_fetch_array( $sql );
+$sql         = mysqli_query($con,"SELECT Waarde as toernooi_voluit from config WHERE  Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele ='toernooi_voluit'   ") or die(' Fout in select aantal');  
+$result      = mysqli_fetch_array( $sql );
 $toernooi_voluit   = $result['toernooi_voluit'];
 
 $var                 = "ideal_betaling_jn"; 
-$qry                 = mysql_query("SELECT * from config where  Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele = '".$var."'  ")           or die(' Fout in select 1');  
-$result              = mysql_fetch_array( $qry);
+$qry                 = mysqli_query($con,"SELECT * from config where  Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele = '".$var."'  ")           or die(' Fout in select 1');  
+$result              = mysqli_fetch_array( $qry);
 
 if ($result['Waarde'] != 'J') {
 	echo "Via IDEAL betalen is niet mogelijk voor dit toernooi.<br>";
@@ -70,8 +70,8 @@ $testmode            = $parameter[1];
 $ideal_opslag_kosten = $parameter[2];
 
 $var              = 'kosten_team';
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = '".$var."' ")     or die(' Fout in select2');  
-$result2          = mysql_fetch_array( $qry2 );
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = '".$var."' ")     or die(' Fout in select2');  
+$result2          = mysqli_fetch_array( $qry2 );
 $kosten_team      = trim($result2['Waarde']);
 $parameter        = explode('#', $result2['Parameters']);
  
@@ -111,8 +111,8 @@ $totale_kosten = ($totale_kosten+$ideal_opslag_kosten)/100;
 
 // uit vereniging tabel	
 	
-$qry          = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
-$row          = mysql_fetch_array( $qry );
+$qry          = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
+$row          = mysqli_fetch_array( $qry );
 $url_logo     = $row['Url_logo'];
 $url_website  = $row['Url_website'];
 $vereniging_output_naam = $row['Vereniging_output_naam'];
@@ -134,16 +134,16 @@ $kenmerk  = $_POST['Kenmerk'];
 
 //echo "SELECT * from inschrijf Where Toernooi = '".$toernooi."' and DATE_FORMAT(Inschrijving, '%d%H%i%s') = '".$kenmerk."' <br> " ;
 
-$qry_inschrijving      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Kenmerk = '".$kenmerk."'  " )    ;
-$result_i              = mysql_fetch_array( $qry_inschrijving  );
+$qry_inschrijving      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Kenmerk = '".$kenmerk."'  " )    ;
+$result_i              = mysqli_fetch_array( $qry_inschrijving  );
 $speler1               = $result_i['Naam1'];
 $id                    = $result_i['Id'];
 
 // Ophalen toernooi gegevens
 $var              = 'toernooi_voluit';
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}

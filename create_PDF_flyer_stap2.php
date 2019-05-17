@@ -33,8 +33,8 @@ setlocale(LC_ALL, 'nl_NL');
 
 $toernooi           = $_POST['toernooi'];
 
-$sql  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' ")     or die(' Fout in select');  
-while($row = mysqli_fetchh_array( $sql )) {
+$sql  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' ")     or die(' Fout in select1');  
+while($row = mysqli_fetch_array( $sql )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -45,11 +45,11 @@ $maand = 	substr ($datum , 5,2);
 $jaar  = 	substr ($datum , 0,4);
 $datum_toernooi = $jaar.$maand.$dag;
 
- 
+
 // uit vereniging tabel	
 	
-$sql2      = mysqli_query($con,"SELECT *  From vereniging where Vereniging = '".$vereniging."' ")     or die(' Fout in select');  
-  $result    = mysqli_fetchh_array( $sql2 );
+$sql2      = mysqli_query($con,"SELECT *  From vereniging where Id = ".$vereniging_id." ")     or die(' Fout in select id');  
+  $result    = mysqli_fetch_array( $sql2 );
   $prog_url  = $result['Prog_url'];
   $logo_url  = $result['Url_logo'];
   $plaats    = $result['Plaats'];
@@ -100,7 +100,7 @@ $tijd  =    substr ($datum , 11,5);
 // indicatie voor meld_tijd
 
 $qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'meld_tijd' ") ;  
-$result       = mysqli_fetchh_array( $qry);
+$result       = mysqli_fetch_array( $qry);
 $parameter    = explode('#', $result['Parameters']);
 
 $prefix    = $parameter[1];
@@ -122,8 +122,8 @@ switch($soort_inschrijving){
   }
 
 $variabele = 'kosten_team';
- $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysqli_fetchh_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select kosten');  
+ $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
  $parameter  = explode('#', $result['Parameters']);
  
@@ -215,7 +215,6 @@ $param_string = str_replace ('#', '**', $param_string);
 if ($opmerkingen == 'Typ hier evt opmerkingen.'){
 	  $opmerkingen = '';
 }
-	
 
 ?>
 <body>
@@ -289,16 +288,13 @@ $html .='
 	 <br>' ;
 }
 
+
+ 
+ 
 $html .='
 <table width=95%>';
 
 
-/*
-$html .='
-<tr>
-<td style= "font-size:11pt;font-family:Verdana;color:'.$tekstkleur.';">Inschrijven vanaf </td>
-<td style= "font-size:11pt;font-family:Verdana;color:'.$tekstkleur.';">'.strftime("%e %B %Y", mktime(0, 0, 0, $maand1 , $dag1, $jaar1) ).'</td></tr>';
-*/
 
 
 $html .='

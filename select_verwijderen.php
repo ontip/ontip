@@ -15,7 +15,7 @@ a    {text-decoration:none;color:blue;}
 <body>
  
 <?php
-include 'mysql.php'; 
+include 'mysqli.php'; 
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
 
@@ -23,7 +23,7 @@ include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -50,8 +50,8 @@ $email = '';
 
 // kontroleer of op deze PC iemand is aangelogd
 
-$sql      = mysql_query("SELECT Naam, Email FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select ip check');  
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT Naam, Email FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select ip check');  
+$result   = mysqli_fetch_array( $sql );
 $email     = $result['Email'];
 
 if ($email =='[versleuteld]'){
@@ -100,21 +100,21 @@ $email = $email_organisatie;
 // gebruik maken van hulp tabel omdat de naam van het toernooi niet goed overkomt (in het geval van meerdere woorden)
 // maak hulptabel leeg
 
-mysql_query("Delete from hulp_toernooi where Vereniging = '".$vereniging."'  ") or die('Fout in schonen tabel');   
+mysqli_query($con,"Delete from hulp_toernooi where Vereniging = '".$vereniging."'  ") or die('Fout in schonen tabel');   
 
 // Vul hulptabel 
 $today      = date("Y") ."-".  date("m") . "-".  date("d");
 
 $query = "insert into hulp_toernooi (Toernooi, Vereniging, Datum) 
 ( select Distinct Toernooi, Vereniging, Waarde from config     where Vereniging = '".$vereniging."' and Variabele ='datum' order by Waarde  )" ;
-mysql_query($query) or die ('Fout in vullen hulp_toernooi'); 
+mysqli_query($con,$query) or die ('Fout in vullen hulp_toernooi'); 
 
 // Verwijderen van een toernooi mag alleen als een toernooi gespeeld is of het aantal inschrijvingen = 0
 // 
 
 $query = "delete from hulp_toernooi where Vereniging = '".$vereniging."'  and Datum > '".$today."'  and
   (select count(*) from inschrijf where inschrijf.Vereniging = '".$vereniging."'  and hulp_toernooi.Toernooi = inschrijf.Toernooi) > 0";
-mysql_query($query) or die ('Fout in schonen deel hulp_toernooi'); 
+mysqli_query($con,$query) or die ('Fout in schonen deel hulp_toernooi'); 
 
 // selecteer wat over is
 
@@ -124,11 +124,11 @@ $sql        = "SELECT Distinct config.Id,config.Toernooi,config.Waarde, hulp_toe
                  and hulp_toernooi.Toernooi   = config.Toernooi 
                  and hulp_toernooi.Vereniging = config.Vereniging order by hulp_toernooi.Datum  ";
 //echo $sql;
-$namen      = mysql_query($sql);
+$namen      = mysqli_query($con,$sql);
 
 echo "<option value='' selected>Selecteer uit de lijst...</option>"; 
 
- while($row = mysql_fetch_array( $namen )) {
+ while($row = mysqli_fetch_array( $namen )) {
  	$var = substr($row['Datum'],0,10);
 	echo "<OPTION  value=".$row['Id']."><keuze>";
     	  echo $var . " - ". $row['Toernooi'];

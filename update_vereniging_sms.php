@@ -5,7 +5,7 @@ ob_start();
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 $error =  0;
 $count = 0;
 
@@ -15,8 +15,8 @@ $_timestamp = str_replace('+',' ', $timestamp);
 // 012345678901234567890
 // yyyy-mm-dd hh:mm:ss
 //echo "SELECT * From config where Regel = 9997 and Variabele ='sms_activation_key' and Laatst = '".$_timestamp ."'   <br>";
-$qry                    = mysql_query("SELECT * From config where Regel = 9997 and Variabele ='sms_activation_key' and Laatst = '".$_timestamp ."'   ")     or die('SMS activation key niet gevonden.');  
-$count                  = mysql_num_rows($qry);
+$qry                    = mysqli_query($con,"SELECT * From config where Regel = 9997 and Variabele ='sms_activation_key' and Laatst = '".$_timestamp ."'   ")     or die('SMS activation key niet gevonden.');  
+$count                  = mysqli_num_rows($qry);
 
 if($count == 0){
 		$error =  1;
@@ -24,7 +24,7 @@ if($count == 0){
 	echo "Timestamp :". $_timestamp. "<br>";
 }
 else { 
-$row                    = mysql_fetch_array( $qry );
+$row                    = mysqli_fetch_array( $qry );
 $aantal_sms             = $row['Waarde'];
 $Naam                   = $row['Toernooi'];
 $_Parameters            = $row['Parameters'];
@@ -43,8 +43,8 @@ echo "Id:". $vereniging_id. "<br>";
 
 
 if ($error == 0){ 
-$qry2                   = mysql_query("SELECT * from vereniging where Id =".$vereniging_id." " )    or die('SMS aanvraag is al geactiveerd.');  
-$row2                   = mysql_fetch_array( $qry2 );
+$qry2                   = mysqli_query($con,"SELECT * from vereniging where Id =".$vereniging_id." " )    or die('SMS aanvraag is al geactiveerd.');  
+$row2                   = mysqli_fetch_array( $qry2 );
 $to                     = $row2['Email'];
 $verzendadres_sms       = "OnTipSMS_".$vereniging_id."@ontip.nl";
 $_vereniging            = $row2['Vereniging_output_naam'];
@@ -66,7 +66,7 @@ else {
 //echo $verzendadres_sms    ;
 
 /// verwijder config record
-//$qry                    = mysql_query("DELETE  From config where Regel = 9997 and Variabele = 'sms_activation_key' and Laatst = '".$timestamp ."'   ")     or die(' Fout in DELETE sms_activation_key');  
+//$qry                    = mysqli_query($con,"DELETE  From config where Regel = 9997 and Variabele = 'sms_activation_key' and Laatst = '".$timestamp ."'   ")     or die(' Fout in DELETE sms_activation_key');  
 
 if ($error ==0 ){
 
@@ -76,7 +76,7 @@ $query="UPDATE vereniging  SET Verzendadres_SMS = '".$verzendadres_sms. "' ,
                where Id   = ".$vereniging_id."" ; 
                     
 //echo $query."<br>";                 
- mysql_query($query) or die ('Fout in update vereniging'); 
+ mysqli_query($con,$query) or die ('Fout in update vereniging'); 
 }// end errr
 
 
@@ -88,7 +88,7 @@ $query="INSERT INTO ontip_financieel   ( Vereniging, Vereniging_id, Vereniging_I
                               
                     
 //echo $query."<br>";                 
- mysql_query($query) or die ('Fout in insert OnTip financieel'); 
+ mysqli_query($con,$query) or die ('Fout in insert OnTip financieel'); 
 }// end errr
 
 if ($error ==0 ){
@@ -177,7 +177,7 @@ $datum    = date('Y-m-d');
                          '".$Naam."'    , '".$kenmerk."', NOW()   )";     
 
  //echo $query;
- mysql_query($query) or die ('Fout in insert sms_confirmations'); 
+ mysqli_query($con,$query) or die ('Fout in insert sms_confirmations'); 
       
 } // end telefoon ==''
 

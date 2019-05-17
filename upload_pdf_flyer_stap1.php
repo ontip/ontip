@@ -43,7 +43,7 @@ alert("Internet Explorer required");
 <?php
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 ob_start();
 
 if (isset($_GET['toernooi'])){
@@ -53,9 +53,9 @@ if (isset($_GET['toernooi'])){
 
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -85,7 +85,7 @@ $datum_toernooi = $jaar.$maand.$dag;
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -101,8 +101,8 @@ if ($rechten != "A"  and $rechten != "C"){
  echo '</script>'; 
 }
 
-$qry            = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
-$row            = mysql_fetch_array( $qry );
+$qry            = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
+$row            = mysqli_fetch_array( $qry );
 $prog_url       = $row['Prog_url'];
 
 $toernooi = $_GET['toernooi'];

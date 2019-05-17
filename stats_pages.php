@@ -20,10 +20,10 @@ td   {color:black;font-size:9pt;font-family: sans-serif;background-color:white;b
 ob_start();
 /* Set locale to Dutch */
 
-include('mysql.php');
+include('mysqli.php');
 setlocale(LC_ALL, 'nl_NL');
 
-$sql_aant_per_os_platform  = mysql_query("SELECT Vereniging,Page,  count(*) as Aantal  FROM `page_stats`  group by 1,2 order by 1,2 ")     or die(' Fout in select');  
+$sql_aant_per_os_platform  = mysqli_query($con,"SELECT Vereniging,Page,  count(*) as Aantal  FROM `page_stats`  group by 1,2 order by 1,2 ")     or die(' Fout in select');  
  
  
  ?>
@@ -43,7 +43,7 @@ $sql_aant_per_os_platform  = mysql_query("SELECT Vereniging,Page,  count(*) as A
 <?php
 $i      = 1;
 $totaal = 0;
-while($row = mysql_fetch_array( $sql_aant_per_browser    )) {
+while($row = mysqli_fetch_array( $sql_aant_per_browser    )) {
  ?>
 	 <tr>
 	 	 	<td style= 'text-align:left;' ><?php 	 	 		echo $row['Browser'];?></td>
@@ -68,7 +68,7 @@ while($row = mysql_fetch_array( $sql_aant_per_browser    )) {
 <?php
 $i      = 1;
 $totaal = 0;
-while($row = mysql_fetch_array( $sql_aant_per_os_platform   )) {
+while($row = mysqli_fetch_array( $sql_aant_per_os_platform   )) {
  ?>
 	 <tr>
 	 	 	<td style= 'text-align:left;' ><?php 	 	 		echo $row['OS_platform'];?></td>

@@ -39,14 +39,14 @@ $query     =  "DELETE from hulp_select_speler
                where Toernooi     = '".$toernooi."' and
                      Vereniging   = '".$vereniging."' and
                      IP_adres     = '".$ip_adres."'  ";
-mysql_query($query); 
+mysqli_query($con,$query); 
 
 /// Ophalen namen adhv licentie
 
 if ($Licentie1 != ''){
 
-$qry   = mysql_query("SELECT * From speler_licenties where Licentie = '".$Licentie1."' ");  
-$row   = mysql_fetch_array( $qry );
+$qry   = mysqli_query($con,"SELECT * From speler_licenties where Licentie = '".$Licentie1."' ");  
+$row   = mysqli_fetch_array( $qry );
 
 $licentie = $row['Licentie']; 
 $naam     = $row['Naam'];
@@ -56,13 +56,13 @@ $vereniging_speler  = $row['Vereniging'];
  	/// Insert in hulp tabel 
 $insert  = "insert into hulp_select_speler (Id,Toernooi, Vereniging, Speler_nr, Naam , Vereniging_speler, Licentie, Email, IP_adres, Laatst) 
             VALUES (0,'".$toernooi."', '".$vereniging ."' ,1, '".$naam."','".$vereniging_speler ."','".$licentie ."','".$email."','".$ip_adres."', now() )";
-mysql_query($insert) ; 
+mysqli_query($con,$insert) ; 
 }
 
 if ($Licentie2 != ''){
 
-$qry   = mysql_query("SELECT * From speler_licenties where Licentie = '".$Licentie2."' ");  
-$row   = mysql_fetch_array( $qry );
+$qry   = mysqli_query($con,"SELECT * From speler_licenties where Licentie = '".$Licentie2."' ");  
+$row   = mysqli_fetch_array( $qry );
 
 $licentie = $row['Licentie']; 
 $naam     = $row['Naam'];
@@ -72,13 +72,13 @@ $vereniging_speler  = $row['Vereniging'];
  	/// Insert in hulp tabel 
 $insert  = "insert into hulp_select_speler (Id,Toernooi, Vereniging, Speler_nr, Naam , Vereniging_speler, Licentie, Email, IP_adres, Laatst) 
             VALUES (0,'".$toernooi."', '".$vereniging ."' ,2, '".$naam."','".$vereniging_speler ."','".$licentie ."','".$email."','".$ip_adres."', now() )";
-mysql_query($insert) ; 
+mysqli_query($con,$insert) ; 
 }
 
 if ($Licentie3 != ''){
 
-$qry   = mysql_query("SELECT * From speler_licenties where Licentie = '".$Licentie3."' ");  
-$row   = mysql_fetch_array( $qry );
+$qry   = mysqli_query($con,"SELECT * From speler_licenties where Licentie = '".$Licentie3."' ");  
+$row   = mysqli_fetch_array( $qry );
 
 $licentie = $row['Licentie']; 
 $naam     = $row['Naam'];
@@ -88,13 +88,13 @@ $vereniging_speler  = $row['Vereniging'];
  	/// Insert in hulp tabel 
 $insert  = "insert into hulp_select_speler (Id,Toernooi, Vereniging, Speler_nr, Naam , Vereniging_speler, Licentie, Email, IP_adres, Laatst) 
             VALUES (0,'".$toernooi."', '".$vereniging ."' ,3, '".$naam."','".$vereniging_speler ."','".$licentie ."','".$email."','".$ip_adres."', now() )";
-mysql_query($insert) ; 
+mysqli_query($con,$insert) ; 
 }
 
 if ($Licentie4 != ''){
 
-$qry   = mysql_query("SELECT * From speler_licenties where Licentie = '".$Licentie4."'");  
-$row   = mysql_fetch_array( $qry );
+$qry   = mysqli_query($con,"SELECT * From speler_licenties where Licentie = '".$Licentie4."'");  
+$row   = mysqli_fetch_array( $qry );
 
 $licentie = $row['Licentie']; 
 $naam     = $row['Naam'];
@@ -104,12 +104,12 @@ $vereniging_speler  = $row['Vereniging'];
  	/// Insert in hulp tabel 
 $insert  = "insert into hulp_select_speler (Id,Toernooi, Vereniging, Speler_nr, Naam , Vereniging_speler, Licentie, Email, IP_adres, Laatst) 
             VALUES (0,'".$toernooi."', '".$vereniging ."' ,4, '".$naam."','".$vereniging_speler ."','".$licentie ."','".$email."','".$ip_adres."', now() )";
-mysql_query($insert) ; 
+mysqli_query($con,$insert) ; 
 }
 if ($Licentie5 != ''){
 
-$qry   = mysql_query("SELECT * From speler_licenties where Licentie = '".$Licentie5."'");  
-$row   = mysql_fetch_array( $qry );
+$qry   = mysqli_query($con,"SELECT * From speler_licenties where Licentie = '".$Licentie5."'");  
+$row   = mysqli_fetch_array( $qry );
 
 $licentie = $row['Licentie']; 
 $naam     = $row['Naam'];
@@ -119,13 +119,13 @@ $vereniging_speler  = $row['Vereniging'];
  	/// Insert in hulp tabel 
 $insert  = "insert into hulp_select_speler (Id,Toernooi, Vereniging, Speler_nr, Naam , Vereniging_speler, Licentie, Email, IP_adres, Laatst) 
             VALUES (0,'".$toernooi."', '".$vereniging ."' ,5, '".$naam."','".$vereniging_speler ."','".$licentie ."','".$email."','".$ip_adres."', now() )";
-mysql_query($insert) ; 
+mysqli_query($con,$insert) ; 
 }
 
 if ($Licentie6 != ''){
 
-$qry   = mysql_query("SELECT * From speler_licenties where Licentie = '".$Licentie6."'");  
-$row   = mysql_fetch_array( $qry );
+$qry   = mysqli_query($con,"SELECT * From speler_licenties where Licentie = '".$Licentie6."'");  
+$row   = mysqli_fetch_array( $qry );
 
 $licentie = $row['Licentie']; 
 $naam     = $row['Naam'];
@@ -136,7 +136,7 @@ $vereniging_speler  = $row['Vereniging'];
  	/// Insert in hulp tabel 
 $insert  = "insert into hulp_select_speler (Id,Toernooi, Vereniging, Speler_nr, Naam , Vereniging_speler, Licentie, Email, IP_adres, Laatst) 
             VALUES (0,'".$toernooi."', '".$vereniging ."' ,6, '".$naam."','".$vereniging_speler ."','".$licentie ."','".$email."','".$ip_adres."', now() )";
-mysql_query($insert) ; 
+mysqli_query($con,$insert) ; 
 }
 
 ob_end_flush();

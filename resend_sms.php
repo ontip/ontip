@@ -1,5 +1,5 @@
 <?php
-include('mysql.php');
+include('mysqli.php');
 include ('versleutel_kenmerk.php'); 
 
 $pageName = basename($_SERVER['SCRIPT_NAME']);
@@ -60,8 +60,8 @@ if ($error == 0){
 
 // uit vereniging tabel	
     
-$qry_v             = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
-$result_v          = mysql_fetch_array( $qry_v);
+$qry_v             = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
+$result_v          = mysqli_fetch_array( $qry_v);
 $vereniging_id     = $result_v['Id'];
 $url_logo          = $result_v['Url_logo']; 
 $trace             = $result_v['Mail_trace'];
@@ -77,9 +77,9 @@ $toernooi = $_POST['toernooi'];
 $replace  = "toernooi=".$toernooi."";
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -88,8 +88,8 @@ while($row = mysql_fetch_array( $qry2 )) {
    
 for ($k=0;(!empty($smsid[$k]));$k++){
 
-	$qry      = mysql_query("SELECT * from inschrijf where Id= '".$smsid[$k]."' " )    or die('Fout in select Id');  
-  $row      = mysql_fetch_array( $qry);
+	$qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$smsid[$k]."' " )    or die('Fout in select Id');  
+  $row      = mysqli_fetch_array( $qry);
 
   $Telefoon     = $row['Telefoon'];
   $Laatst       = $row['Inschrijving'];
@@ -158,7 +158,7 @@ $sms_bericht .= "Hierbij bevestigen we uw inschrijving voor het ". $toernooi_vol
                VALUES (0,'".$toernooi."', '".$vereniging ."'   , ".$vereniging_id.", '".$datum."','".$verzendadres_sms."' ,
                          '".$Naam1."'   ,  '".$Vereniging1."'  , '".$Telefoon."', '".$kenmerk."',".$sms_bericht_lengte."  , NOW()   )";
 //echo $query;
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
 
 
 

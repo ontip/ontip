@@ -1,6 +1,6 @@
 <? 
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 // formulier POST variabelen ophalen en kontroleren
 
@@ -44,8 +44,8 @@ if ($extra_kosten == '' and $introductie == ''){
 	$error = 1;
 }
 
-$qry                    = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
-$row                    = mysql_fetch_array( $qry );
+$qry                    = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
+$row                    = mysqli_fetch_array( $qry );
 $verzendadres_sms       = $row['Verzendadres_SMS'];
 $vereniging_id          = $row['Id'];
 
@@ -253,7 +253,7 @@ if ($sms_bevestiging != '' and $Telefoon !='' ){
 $query = "INSERT INTO `config` (`Id`, `Regel`, `Vereniging`,`Vereniging_id`, `Toernooi`,  `Variabele`, `Waarde`,`Parameters`,`Laatst` ) 
         VALUES (0, 9997, '".$vereniging."',".$vereniging_id.",'".$Naam."' , 'sms_activation_key', '".$Aantal_sms."', '".$parameters."', '".$timestamp."') ";
 
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
 
 $prog_url = 'Http://www.ontip.nl/ontip/';
 

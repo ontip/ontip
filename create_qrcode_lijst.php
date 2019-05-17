@@ -19,7 +19,7 @@ a    {text-decoration:none;color:blue;font-size: 8pt;}
 <?php
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
 
@@ -35,11 +35,11 @@ $toernooi= $_GET['toernooi'];
 
 // Querie
 
-$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -52,8 +52,8 @@ $jaar  = substr($datum,0,4);
 $maand = substr($datum,5,2);
 $dag   = substr($datum,8,2);
 
-$qry  = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     or die(' Fout in select');  
-$row = mysql_fetch_array( $qry );
+$qry  = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     or die(' Fout in select');  
+$row = mysqli_fetch_array( $qry );
 $url_redirect = $row['Url_redirect'];
 
 

@@ -24,7 +24,7 @@ ini_set('display_errors', 'On');
 error_reporting(E_ALL);
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 
 $aant_splrs        = $_POST['Aantal'];
 $aant_rondes       = $_POST['Rondes'];
@@ -61,9 +61,9 @@ if (isset($toernooi)) {
 //  echo $toernooi;
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-   while($row = mysql_fetch_array( $qry2 )) {
+   while($row = mysqli_fetch_array( $qry2 )) {
 	       $var  = $row['Variabele'];
 	       $$var = $row['Waarde'];
 	     } // end while
@@ -122,7 +122,7 @@ echo "</tr></table>";
  
 if ($invul_namen =='J'){
 	/// Ophalen spelers uit toernooi_schema
-  $namen       = mysql_query("SELECT * from toernooi_schema where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."'  order by Wedstrijd, Ronde")     or die(' Fout in select inschrijf');  
+  $namen       = mysqli_query($con,"SELECT * from toernooi_schema where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."'  order by Wedstrijd, Ronde")     or die(' Fout in select inschrijf');  
 }
 
 $html='';
@@ -163,7 +163,7 @@ $html .= "<table border=0 width=100% >
 $html .="<br><table border=0 width=100%>";
 
 if ($invul_namen =='J'){
-  $row = mysql_fetch_array( $namen );
+  $row = mysqli_fetch_array( $namen );
 
 $html .= "<tr><td Style='font-family:cursive;font-size:11pt;'>Naam captain     : </td><td>".$row['Team_naam1']."</td></tr>";
 $html .= "<tr><td Style='font-family:cursive;font-size:11pt;'>Vereniging       : </td><td>".$row['Team_vereniging1']."</td></tr>";
@@ -194,8 +194,8 @@ $html .= "<th width=100 style='border: 1px solid black; border-collapse: separat
 
   for ($k=1;$k <= $aant_rondes;$k++){
    	 	 	
- $qry  = mysql_query("SELECT Tegenstander,Baan From toernooi_schema where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Ronde = ".$k."  and Team =  '" .$_team."' order by Team,Ronde" );  
- $row  = mysql_fetch_array( $qry );
+ $qry  = mysqli_query($con,"SELECT Tegenstander,Baan From toernooi_schema where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Ronde = ".$k."  and Team =  '" .$_team."' order by Team,Ronde" );  
+ $row  = mysqli_fetch_array( $qry );
  
 	
 $html .= "<tr>

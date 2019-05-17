@@ -10,9 +10,9 @@ require_once dirname(__FILE__) . '../../ontip/Classes/PHPExcel.php';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -26,8 +26,8 @@ switch($soort_inschrijving){
  	   case 'sextet'  : $soort = 6; break;
  	  }// end switch
 
-$qry        = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
-$result     = mysql_fetch_array( $qry);
+$qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
+$result     = mysqli_fetch_array( $qry);
 $inschrijf_methode   = $result['Parameters'];
 
 if  ($inschrijf_methode == ''){
@@ -145,44 +145,44 @@ $message ='';
                                   '".$naam6."'     ,'".$licentie6."'   , '".$vereniging6."' , 
                                   '".$email."'     ,'".$telefoon."'    , '".$status."'      , now()  )";
      // echo $query;
-        mysql_query($query) or die ('Fout in insert inschrijving ');       	
+        mysqli_query($con,$query) or die ('Fout in insert inschrijving ');       	
        	
             // voor het voorkomen van dubbele inschrijvingen
           
           $insert  = "insert into hulp_naam (Id,Toernooi, Vereniging, Datum, Soort_toernooi,Naam , Vereniging_speler,Laatst) 
                       VALUES (0,'".$toernooi."', '".$vereniging ."' , '".$datum."',".$soort." ,'".$naam1."','".$vereniging1."',NOW() )";
     //      echo $insert;
-        mysql_query($insert) ; 
+        mysqli_query($con,$insert) ; 
           
           if ($naam2 !=''){
           $insert  = "insert into hulp_naam (Id,Toernooi, Vereniging, Datum, Soort_toernooi,Naam , Vereniging_speler,Laatst) 
                       VALUES (0,'".$toernooi."', '".$vereniging ."' , '".$datum."',".$soort." ,'".$naam2."','".$vereniging2."',NOW() )";
     //      echo $insert;
-        mysql_query($insert) ; 
+        mysqli_query($con,$insert) ; 
           }
           
           if ($naam3 !=''){
           $insert  = "insert into hulp_naam (Id,Toernooi, Vereniging, Datum, Soort_toernooi,Naam , Vereniging_speler,Laatst) 
                       VALUES (0,'".$toernooi."', '".$vereniging ."' , '".$datum."',".$soort." ,'".$naam3."','".$vereniging3."',NOW() )";
-          mysql_query($insert) ; 
+          mysqli_query($con,$insert) ; 
           }
           
           if ($naam4 !=''){
           $insert  = "insert into hulp_naam (Id,Toernooi, Vereniging, Datum, Soort_toernooi,Naam , Vereniging_speler,Laatst) 
                       VALUES (0,'".$toernooi."', '".$vereniging ."' , '".$datum."',".$soort." ,'".$naam4."','".$vereniging4."',NOW() )";
-          mysql_query($insert) ; 
+          mysqli_query($con,$insert) ; 
           }
           
           if ($naam5 !=''){
           $insert  = "insert into hulp_naam (Id,Toernooi, Vereniging, Datum, Soort_toernooi,Naam , Vereniging_speler,Laatst) 
                       VALUES (0,'".$toernooi."', '".$vereniging ."' , '".$datum."',".$soort." ,'".$naam5."','".$vereniging5."',NOW() )";
-          mysql_query($insert) ; 
+          mysqli_query($con,$insert) ; 
           }
           
           if ($naam6 !=''){
           $insert  = "insert into hulp_naam (Id,Toernooi, Vereniging, Datum, Soort_toernooi,Naam , Vereniging_speler,Laatst) 
                       VALUES (0,'".$toernooi."', '".$vereniging ."' , '".$datum."',".$soort." ,'".$naam6."','".$vereniging6."',NOW() )";
-          mysql_query($insert) ; 
+          mysqli_query($con,$insert) ; 
           }    
      } 	
    else {

@@ -23,11 +23,11 @@ $delete          = $_POST['Delete'];
 $url             = 'beheer_cyclus_datums.php?toernooi='.$toernooi;
 
 
-include('mysql.php');
+include('mysqli.php');
 
 $error = 0;
-$sql      = mysql_query("SELECT * from toernooi_datums_cyclus  where  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."'  order by Datum" )     ; 
-$count    = mysql_num_rows($sql);
+$sql      = mysqli_query($con,"SELECT * from toernooi_datums_cyclus  where  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."'  order by Datum" )     ; 
+$count    = mysqli_num_rows($sql);
 
 
 if ($_POST['datum_new'] != '' and $count > 20 and $delete  =='' ){
@@ -63,9 +63,9 @@ if (strlen($datum) != 10){
 
 if ($error == 0){
 	
-$sql      = mysql_query("SELECT * from toernooi_datums_cyclus  where  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."'  order by Datum" )     ; 
+$sql      = mysqli_query($con,"SELECT * from toernooi_datums_cyclus  where  Vereniging_id = ". $vereniging_id." and Toernooi ='".$toernooi."'  order by Datum" )     ; 
 	
-	while($row = mysql_fetch_array( $sql )) { 		
+	while($row = mysqli_fetch_array( $sql )) { 		
 			  $datum     = $_POST['datum_'.$row['Id']];
 		    $locatie   = $_POST['locatie_'.$row['Id']];
 //// 2017-01-10
@@ -83,7 +83,7 @@ if ($datum !='' and strlen($datum) != 10){
 else {
 
 
-   mysql_query("Update  toernooi_datums_cyclus  set Datum = '".$datum. "', Locatie = '".$locatie."', Laatst = now()   where Id = ".$row['Id']." ") ;
+   mysqli_query($con,"Update  toernooi_datums_cyclus  set Datum = '".$datum. "', Locatie = '".$locatie."', Laatst = now()   where Id = ".$row['Id']." ") ;
 }  
 
 }
@@ -91,7 +91,7 @@ else {
 if (isset ($_POST['datum_new'])   and $_POST['datum_new'] !='' and $_POST['datum_new'] !='jjjj-mm-dd'  ){
                    
                    
- mysql_query('insert into toernooi_datums_cyclus (Id, Vereniging_id, Vereniging, Toernooi,Datum, Laatst) 
+ mysqli_query($con,'insert into toernooi_datums_cyclus (Id, Vereniging_id, Vereniging, Toernooi,Datum, Laatst) 
                    values (0, '.$vereniging_id.',"'.$vereniging_naam.'","'.$toernooi.'","'.$_POST['datum_new'].'", now() )') ;
 
 }
@@ -101,7 +101,7 @@ if ($delete !='')  {
    {
 	
 //	     echo "DELETE from npc_vereniging_teams  where Id =  ".$deleteid." <br>";
-		mysql_query("DELETE from toernooi_datums_cyclus  where Id =  ".$deleteid." ");
+		mysqli_query($con,"DELETE from toernooi_datums_cyclus  where Id =  ".$deleteid." ");
 	
 		   
    }// end foreach

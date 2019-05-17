@@ -43,7 +43,7 @@ function CopyToClipboard()
 <body>
  
 <?php
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 //// Omrekenen datum
 /* Set locale to Dutch */
@@ -64,8 +64,8 @@ if (isset($_COOKIE['competitie'])){
 }
  
 // ophalen competitie naam adhv doorgegeven id
-$sql        = mysql_query("SELECT * from comp_soort where Id = '".$competitie_id."'  ")     or die(' Fout in select soort');  
-$result     = mysql_fetch_array( $sql );
+$sql        = mysqli_query($con,"SELECT * from comp_soort where Id = '".$competitie_id."'  ")     or die(' Fout in select soort');  
+$result     = mysqli_fetch_array( $sql );
 $competitie_naam       = $result['Competitie'];
 $soort      = $result['Soort_competitie'];
 
@@ -96,9 +96,9 @@ $dag   = substr($speeldatum,8,2);
 <?php
 // ophalen rondes van die dag. nu alleen tbv koptekst
 	 	  $sql1        = "SELECT * from comp_data where Vereniging = '".$vereniging."' and Competitie = '".$competitie_naam."' and Speeldatum = '".$speeldatum."' order by Speelronde";
-	 	  $datums      = mysql_query($sql1);  	 
+	 	  $datums      = mysqli_query($con,$sql1);  	 
 
-     while($row1 = mysql_fetch_array( $datums )) { 
+     while($row1 = mysqli_fetch_array( $datums )) { 
         
         echo "<th colspan = 3  style='font-size:14pt;border-right: solid 2px blue;background-color:green;color:white;'><center>Ronde ".$row1['Speelronde']."</center></th>";
         
@@ -110,9 +110,9 @@ $dag   = substr($speeldatum,8,2);
       
       // ophalen rondes van die dag. nu alleen tbv koptekst2
 	 	  $sql1        = "SELECT * from comp_data where Vereniging = '".$vereniging."' and Competitie = '".$competitie_naam."' and Speeldatum = '".$speeldatum."' ";
-	 	  $datums      = mysql_query($sql1);  	 
+	 	  $datums      = mysqli_query($con,$sql1);  	 
 
-     while($row1 = mysql_fetch_array( $datums )) { 
+     while($row1 = mysqli_fetch_array( $datums )) { 
         
         echo "<th>Voor</th><th>Tegen</th><th style='border-right: solid 2px blue;padding-right:2pt;'>Tegen<br>stander</th>";
       } // end while 
@@ -123,19 +123,19 @@ $dag   = substr($speeldatum,8,2);
 			<?php
 			/// detailregels
 			$sql        = "SELECT Distinct Team from comp_spelers where Vereniging = '".$vereniging."' and Competitie = '".$competitie_naam."' order by Team";
-      $teams      = mysql_query($sql);  	 	   	 
+      $teams      = mysqli_query($con,$sql);  	 	   	 
   	 	  
-  	 	  while($row = mysql_fetch_array( $teams )) {  	 
+  	 	  while($row = mysqli_fetch_array( $teams )) {  	 
   	 	 // echo $row['Team'];
   	 	   
   	 	  // samenstellen teams 	 	  
   	 	  $sql2        = "SELECT * from comp_spelers where Vereniging = '".$vereniging."' and Competitie = '".$competitie_naam."' and Team = '".$row['Team']."' ";
-  	 	  $spelers     = mysql_query($sql2);  	 
+  	 	  $spelers     = mysqli_query($con,$sql2);  	 
   	
   	 	  $i           = $row['Team'];
   	 	  $team_namen     = '';
   	 	  
-  	 	  while($row2 = mysql_fetch_array( $spelers )) {  	 
+  	 	  while($row2 = mysqli_fetch_array( $spelers )) {  	 
   	 	  
   	 	  	$team_namen .= $row2['Naam']. " - ";
   	 	   }
@@ -149,17 +149,17 @@ $dag   = substr($speeldatum,8,2);
 
 /////////////////////////// ophalen rondes van die dag. nu tbv detailregels
 	 	  $sql1        = "SELECT * from comp_data where Vereniging = '".$vereniging."' and Competitie = '".$competitie_naam."' and Speeldatum = '".$speeldatum."'  order by Speelronde";
-	 	  $datums      = mysql_query($sql1);  	 
+	 	  $datums      = mysqli_query($con,$sql1);  	 
 
-     while($row1 = mysql_fetch_array( $datums )) { 
+     while($row1 = mysqli_fetch_array( $datums )) { 
 
         $speelronde  = $row1['Speelronde'];
   	 	   
   	 	  	 	  
   	 	  // ophalen tegenstander uit comp_spel_schema
   	 	  $sql4        = "SELECT Tegenstander from comp_spel_schema where Competitie = '".$competitie_naam."' and Speelronde = ".$speelronde." and Team = '".$row['Team']."' ";    
-        $out         = mysql_query($sql4);  	 
-        $result      = mysql_fetch_array( $out );
+        $out         = mysqli_query($con,$sql4);  	 
+        $result      = mysqli_fetch_array( $out );
         $tegenstander = $result['Tegenstander'];
   	 	   
   	 	   if ($tegenstander == 'BAR' or $tegenstander == '') {

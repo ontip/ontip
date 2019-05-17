@@ -1,6 +1,6 @@
 <?php
 
-include('mysql.php');
+include('mysqli.php');
 // naar csv folder omdat xlsx nog niet bestaat bij meeste verenigingen
 $paths            = "/public_html/".substr($prog_url,3, strlen($prog_url))."csv/";
 

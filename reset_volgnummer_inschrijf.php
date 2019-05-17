@@ -6,11 +6,11 @@ ob_start();
 $toernooi = $_GET['toernooi'];
 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -24,9 +24,9 @@ exit;
 $i=1;
 
 //// SQL Queries
-$qry      = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Volgnummer,Inschrijving " )    or die('Fout in select');  
+$qry      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Volgnummer,Inschrijving " )    or die('Fout in select');  
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 
 
 $id = $row['Id'];
@@ -36,7 +36,7 @@ $query="UPDATE inschrijf
             WHERE  Id           = ".$id."  ";
 
 //echo $i.".    ". $query."<br>";
- mysql_query($query) or die ('Fout in update inschrijving'); 
+ mysqli_query($con,$query) or die ('Fout in update inschrijving'); 
  $i++;
  
 }; // end for i update   

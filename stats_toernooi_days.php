@@ -68,7 +68,7 @@ function CopyToClipboard()
 <?php 
 // Database gegevens. 
 
-include('mysql.php');
+include('mysqli.php');
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
 setlocale(LC_ALL,'Dutch_Nederlands', ' Dutch', 'nl_NL','nl');
@@ -77,8 +77,8 @@ setlocale(LC_ALL,'Dutch_Nederlands', ' Dutch', 'nl_NL','nl');
 //$vereniging = $_GET['Vereniging'];
 $toernooi = $_GET['toernooi'];
 
-$qry1    = mysql_query("SELECT date_format(Inschrijving, '%Y-%m-%d')   as Datum1,date_format(Inschrijving, '%d-%b')   as Datum2, count(*) as Aantal from `inschrijf` WHERE Toernooi ='".$toernooi."' group by Datum1 order by Datum1")           or die(' Fout in select 1');  
-$qry2    = mysql_query("SELECT date_format(Inschrijving, '%Y-%m-%d') as Datum1, count(*) as Aantal from `inschrijf` WHERE Toernooi ='".$toernooi."' group by Datum1 order by Datum1")           or die(' Fout in select 1');  
+$qry1    = mysqli_query($con,"SELECT date_format(Inschrijving, '%Y-%m-%d')   as Datum1,date_format(Inschrijving, '%d-%b')   as Datum2, count(*) as Aantal from `inschrijf` WHERE Toernooi ='".$toernooi."' group by Datum1 order by Datum1")           or die(' Fout in select 1');  
+$qry2    = mysqli_query($con,"SELECT date_format(Inschrijving, '%Y-%m-%d') as Datum1, count(*) as Aantal from `inschrijf` WHERE Toernooi ='".$toernooi."' group by Datum1 order by Datum1")           or die(' Fout in select 1');  
 
 //// Change Title //////
 ?>
@@ -107,7 +107,7 @@ fwrite($fp, "         <null/>\n");
 
 //========== Schrijf de X-as van de grafiek (dagen)
 
-while($row = mysql_fetch_array( $qry1 )  ) {
+while($row = mysqli_fetch_array( $qry1 )  ) {
 
     fwrite($fp, "  <string>");	
 		// Print out the contents of each row into a table
@@ -119,7 +119,7 @@ fwrite($fp, "      </row>\n");
 fwrite($fp, "      <row>\n");
 fwrite($fp, "        <string>Aantal per dag</string>\n");
 
-while($row = mysql_fetch_array( $qry2   )) {
+while($row = mysqli_fetch_array( $qry2   )) {
 
     fwrite($fp, "  <number>");	
 		// Print out the contents of each row into a table

@@ -101,13 +101,13 @@ $variabele = 'sms_bevestigen_zichtbaar_jn';
 
 $variabele = 'toernooi_voluit';
  $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select 3');  
- $result    = mysql_fetch_array( $qry1);
+ $result    = mysqli_fetch_array( $qry1);
  $toernooi_voluit     = $result['Waarde'];
 
 
 // Ophalen sms gegevens en mail tracer
 $qry3             = mysqli_query($con,"SELECT *  From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select3');  
-$row3             = mysql_fetch_array( $qry3 );
+$row3             = mysqli_fetch_array( $qry3 );
 $verzendadres_sms   = $row3['Verzendadres_SMS'];
 $trace              = $row3['Mail_trace'];
    
@@ -130,7 +130,7 @@ $bevestig_ms   = substr($reply,-1);          // Laatste karakter : M = mail  S =
 	// ophalen gegevens uit inschrijf voor doorgeven waarden aan send_inschrijf 
 
 $qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$id."' " )    or die('Fout in select');  
-$row      = mysql_fetch_array( $qry);
+$row      = mysqli_fetch_array( $qry);
 
 $Naam1        = $row['Naam1'];
 $Email        = $row['Email'];

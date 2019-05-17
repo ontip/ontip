@@ -20,11 +20,11 @@ td   {color:black;font-size:9pt;font-family: sans-serif;background-color:white;b
 ob_start();
 /* Set locale to Dutch */
 
-include('mysql.php');
+include('mysqli.php');
 setlocale(LC_ALL, 'nl_NL');
 
-$sql_aant_per_browser      = mysql_query("SELECT Browser,      count(*) as Aantal  FROM `hulp_naam`  where Browser <> ''      group by 1 order by 2 desc")     or die(' Fout in select 17');  
-$sql_aant_per_os_platform  = mysql_query("SELECT OS_platform,  count(*) as Aantal  FROM `hulp_naam`  where OS_platform <> ''  group by 1 order by 2 desc")     or die(' Fout in select 17');  
+$sql_aant_per_browser      = mysqli_query($con,"SELECT Browser,      count(*) as Aantal  FROM `hulp_naam`  where Browser <> ''      group by 1 order by 2 desc")     or die(' Fout in select 17');  
+$sql_aant_per_os_platform  = mysqli_query($con,"SELECT OS_platform,  count(*) as Aantal  FROM `hulp_naam`  where OS_platform <> ''  group by 1 order by 2 desc")     or die(' Fout in select 17');  
  
  
  ?>
@@ -44,7 +44,7 @@ $sql_aant_per_os_platform  = mysql_query("SELECT OS_platform,  count(*) as Aanta
 <?php
 $i      = 1;
 $totaal = 0;
-while($row = mysql_fetch_array( $sql_aant_per_browser    )) {
+while($row = mysqli_fetch_array( $sql_aant_per_browser    )) {
  ?>
 	 <tr>
 	 	 	<td style= 'text-align:left;' ><?php 	 	 		echo $row['Browser'];?></td>
@@ -69,7 +69,7 @@ while($row = mysql_fetch_array( $sql_aant_per_browser    )) {
 <?php
 $i      = 1;
 $totaal = 0;
-while($row = mysql_fetch_array( $sql_aant_per_os_platform   )) {
+while($row = mysqli_fetch_array( $sql_aant_per_os_platform   )) {
  ?>
 	 <tr>
 	 	 	<td style= 'text-align:left;' ><?php 	 	 		echo $row['OS_platform'];?></td>

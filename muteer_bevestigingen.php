@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 include ('versleutel_kenmerk.php'); 
 
 // Controles
@@ -70,9 +70,9 @@ $Reserveren  = $_POST['Reserveren'];
 $toernooi    = $_POST['toernooi'];
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -82,8 +82,8 @@ $maand = 	substr ($datum , 5,2);
 $jaar  = 	substr ($datum , 0,4);     
 
 // Ophalen sms gegevens en mail tracer
-$qry3             = mysql_query("SELECT *  From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select3');  
-$row3             = mysql_fetch_array( $qry3 );
+$qry3             = mysqli_query($con,"SELECT *  From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select3');  
+$row3             = mysqli_fetch_array( $qry3 );
 $verzendadres_sms   = $row3['Verzendadres_SMS'];
 $trace              = $row3['Mail_trace'];
 $url_logo           = $row3['Url_logo']; 
@@ -110,29 +110,29 @@ if ($Resetten !=''){
 foreach ($Resetten as $resetid)
 {
 
-$qry      = mysql_query("SELECT * from inschrijf where Id= '".$resetid."' " )    or die('Fout in select resetid');  
-$row      = mysql_fetch_array( $qry);
+$qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$resetid."' " )    or die('Fout in select resetid');  
+$row      = mysqli_fetch_array( $qry);
 
 $query="UPDATE inschrijf 
                SET Betaal_datum = '0000-00-00 00:00:00',
                    Bevestiging_verzonden = '0000-00-00 00:00:00',
                    Status = 'BE0'
             WHERE  Id           = '".$resetid."' and Email <> ''  ";
-  mysql_query($query) or die ('error in update BE0 (reset) '); 
+  mysqli_query($con,$query) or die ('error in update BE0 (reset) '); 
   
 $query="UPDATE inschrijf 
                SET Betaal_datum = '0000-00-00 00:00:00',
                    Bevestiging_verzonden = '0000-00-00 00:00:00',
                    Status = 'BE1'
             WHERE  Id           = '".$resetid."' and Email = ''  ";
-  mysql_query($query) or die ('error in update BE1 (reset) '); 
+  mysqli_query($con,$query) or die ('error in update BE1 (reset) '); 
 }
 
 foreach ($Reserveren as $reserveid)
 {
 
-$qry      = mysql_query("SELECT * from inschrijf where Id= '".$reserveid."' " )    or die('Fout in select reserveid');  
-$row      = mysql_fetch_array( $qry);
+$qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$reserveid."' " )    or die('Fout in select reserveid');  
+$row      = mysqli_fetch_array( $qry);
 
 $id            = substr($bevestigid,0,-3);      /// -RX  
 $reply         = substr($bevestigid,-2); 
@@ -142,13 +142,13 @@ $query="UPDATE inschrijf
                SET Betaal_datum = '0000-00-00 00:00:00',
                     Status = 'RE0'
             WHERE  Id           = '".$reserveid."' and Email <> ''  ";
-  mysql_query($query) or die ('error in update BE0 (reset) '); 
+  mysqli_query($con,$query) or die ('error in update BE0 (reset) '); 
   
 $query="UPDATE inschrijf 
                SET Betaal_datum = '0000-00-00 00:00:00',
                    Status = 'RE1'
             WHERE  Id           = '".$reserveid."' and Email = ''  ";
-  mysql_query($query) or die ('error in update BE1 (reset) '); 
+  mysqli_query($con,$query) or die ('error in update BE1 (reset) '); 
   
   
   // send mail
@@ -231,8 +231,8 @@ foreach ($Betaald as $_betaalid)
 $betaalid        = substr($_betaalid,0,-2);
 $betaald_jn      = substr($_betaalid,-1);         // Laatste karakter : J = bevestigen  N = Annuleren
 
-$qry      = mysql_query("SELECT * from inschrijf where Id= '".$_betaalid."' " )    or die('Fout in select betaalid');  
-$row      = mysql_fetch_array( $qry);
+$qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$_betaalid."' " )    or die('Fout in select betaalid');  
+$row      = mysqli_fetch_array( $qry);
 
 $Naam1        = $row['Naam1'];
 $status       = $row['Status'];
@@ -311,7 +311,7 @@ $query="UPDATE inschrijf
                SET Betaal_datum = NOW() ,
                    Status = 'BE2'
             WHERE  Id           = '".$betaalid."'  ";
-  mysql_query($query) or die ('error in update BE0'); 
+  mysqli_query($con,$query) or die ('error in update BE0'); 
  }
 
 if ($betaald_jn == 'J'  and $status == 'BE1'){                     //// betaald . geen email bekend
@@ -319,7 +319,7 @@ $query="UPDATE inschrijf
                SET Betaal_datum = NOW() ,
                    Status = 'BE3'
             WHERE  Id           = '".$betaalid."'  ";
-mysql_query($query) or die ('error in update BE1-J'); 
+mysqli_query($con,$query) or die ('error in update BE1-J'); 
  }
  
 if ($betaald_jn == 'J' and $status == 'BEC'){                      //// betaald en bevestigd
@@ -327,7 +327,7 @@ $query="UPDATE inschrijf
               SET Betaal_datum = NOW() ,
                   Status  = 'BE4' 
             WHERE  Id           = '".$betaalid."'  ";
-mysql_query($query) or die ('error in update BE1-N'); 
+mysqli_query($con,$query) or die ('error in update BE1-N'); 
 }
 
  
@@ -339,7 +339,7 @@ if ($betaald_jn == 'N' and $status == 'BE0'){                      //// afwijzin
  $query="UPDATE inschrijf 
                Set  Status  = 'BE6' 
             WHERE  Id           = '".$betaalid."'  ";
-      mysql_query($query) or die ('error in update BE8-N'); 
+      mysqli_query($con,$query) or die ('error in update BE8-N'); 
 }
 
 
@@ -348,14 +348,14 @@ if ($betaald_jn == 'N' and $status == 'BE1'){                      //// afwijzin
 $query="UPDATE inschrijf 
                Set  Status  = 'BE7' 
             WHERE  Id           = '".$betaalid."'  ";
-      mysql_query($query) or die ('error in update BE1-N'); 
+      mysqli_query($con,$query) or die ('error in update BE1-N'); 
 }
 
 if ($betaald_jn == 'N' and $status == 'BE1'){                      //// afwijzing zonder betaling, niet email bekend
 $query="UPDATE inschrijf 
               Set    Status  = 'BE7' 
             WHERE  Id           = '".$betaalid."'  ";
-mysql_query($query) or die ('error in update BE1-N'); 
+mysqli_query($con,$query) or die ('error in update BE1-N'); 
 }
 */
 
@@ -378,8 +378,8 @@ $bevestig_ms   = substr($reply,-1);          // Laatste karakter : M = mail  S =
 
 // ophalen gegevens uit inschrijf voor verzenden mail 
 
-$qry      = mysql_query("SELECT * from inschrijf where Id= '".$id."' " )    or die('Fout in select bevestig id');  
-$row      = mysql_fetch_array( $qry);
+$qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$id."' " )    or die('Fout in select bevestig id');  
+$row      = mysqli_fetch_array( $qry);
 
 $Naam1        = $row['Naam1'];
 $Email        = $row['Email'];
@@ -634,7 +634,7 @@ if ($sms_bevestigen_zichtbaar_jn == 'J' and $sms_tegoed > 1){
                VALUES (0,'".$toernooi."', '".$vereniging ."'  , ".$vereniging_id.", '".$datum."','".$verzendadres_sms."' ,
                          '".$Naam1."'   ,  '".$Vereniging1."'   ,'".$Telefoon."', '".$kenmerk."',".$sms_bericht_lengte."  , NOW()   )";                        
  //echo $query;
- mysql_query($query) or die (mysql_error()); 
+ mysqli_query($con,$query) or die (mysql_error()); 
 }       
        
 } // end sms
@@ -644,8 +644,8 @@ if ($sms_bevestigen_zichtbaar_jn == 'J' and $sms_tegoed > 1){
 /// bevestig_jn = laatste karakter bevestig-id  : J = bevestigen  N = Annuleren  A = Activeren (na delete verzoek)
 
 
-$qry      = mysql_query("SELECT * from inschrijf where Id= '".$id."' " )    or die('Fout in select 2');  
-$row      = mysql_fetch_array( $qry);
+$qry      = mysqli_query($con,"SELECT * from inschrijf where Id= '".$id."' " )    or die('Fout in select 2');  
+$row      = mysqli_fetch_array( $qry);
 $status   = $row['Status'];
 
 /*
@@ -661,7 +661,7 @@ if ($bevestig_jn == 'J' and  ($status == 'BE0' or $status == 'BE1'  or $status =
                SET  Bevestiging_verzonden = NOW(),
                 Status  = 'BEC' 
             WHERE  Id           = '".$id."'  ";
-          mysql_query($query) or die (mysql_error()); 
+          mysqli_query($con,$query) or die (mysql_error()); 
   }
 
 if ($bevestig_jn == 'N' and  ($status == 'BE0' or $status == 'BE1') and $Email != '' ){	                               //// annulering  zonder betaling, (BE0 - BE1) 
@@ -671,7 +671,7 @@ if ($bevestig_jn == 'N' and  ($status == 'BE0' or $status == 'BE1') and $Email !
             WHERE  Id           = '".$id."'  ";
             
            echo $query;
-          mysql_query($query) or die (mysql_error()); 
+          mysqli_query($con,$query) or die (mysql_error()); 
   }
 
 if ($bevestig_jn == 'N' and  ($status == 'BE0' or $status == 'BE1' or $status == 'ID0') and $Email == '' ){	                               //// annulering zonder betaling, (BE0 - BE1  - ID0) Geen mail bekend
@@ -679,7 +679,7 @@ if ($bevestig_jn == 'N' and  ($status == 'BE0' or $status == 'BE1' or $status ==
                SET  Bevestiging_verzonden = NOW(),
                 Status  = 'BE7' 
             WHERE  Id           = '".$id."'  ";
-          mysql_query($query) or die (mysql_error()); 
+          mysqli_query($con,$query) or die (mysql_error()); 
   }
 
 
@@ -688,7 +688,7 @@ if ($bevestig_jn == 'N' and  ($status == 'BE0' or $status == 'BE1' or $status ==
                SET  Bevestiging_verzonden = NOW(),
                 Status  = 'BE4' 
             WHERE  Id           = '".$id."'  ";
-          mysql_query($query) or die (mysql_error()); 
+          mysqli_query($con,$query) or die (mysql_error()); 
   }
 
   if ($bevestig_jn == 'N' and $status == 'BE5' and $Email != '' ){               ///// afwijzing   (BE5 - BE6)
@@ -696,7 +696,7 @@ if ($bevestig_jn == 'N' and  ($status == 'BE0' or $status == 'BE1' or $status ==
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'BE6' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
   }
   
   if ($bevestig_jn == 'N' and $status == 'ID0' and $Email != '' ){               ///// afwijzing   (ID0 - BE6)
@@ -704,7 +704,7 @@ if ($bevestig_jn == 'N' and  ($status == 'BE0' or $status == 'BE1' or $status ==
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'BE6' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
   }
   
   if ($bevestig_jn == 'N' and $status == 'BE5' and $Email == '' ){                ///// afwijzing (BE5 - BE7)
@@ -712,7 +712,7 @@ if ($bevestig_jn == 'N' and  ($status == 'BE0' or $status == 'BE1' or $status ==
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'BE7' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
   }
  
   
@@ -721,7 +721,7 @@ if ($bevestig_jn == 'N' and  ($status == 'BE0' or $status == 'BE1' or $status ==
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'BEA' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
   }
   
  if ($bevestig_jn == 'J' and $status == 'BE9'){                                    ///// bevestiging (betaling nvt)  (BE9 - BEB)
@@ -729,7 +729,7 @@ if ($bevestig_jn == 'N' and  ($status == 'BE0' or $status == 'BE1' or $status ==
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'BEB' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
   }
  
  if ($bevestig_jn == 'N' and $status == 'BE8'){                                    ///// afwijzing (betaling nvt)   (BE8 - BE6)
@@ -737,7 +737,7 @@ if ($bevestig_jn == 'N' and  ($status == 'BE0' or $status == 'BE1' or $status ==
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'BE6'
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
   }
   
  if ($bevestig_jn == 'N' and $status == 'BE9'){                                    ///// afwijzing (betaling nvt)  (BE9 - BE7)
@@ -745,7 +745,7 @@ if ($bevestig_jn == 'N' and  ($status == 'BE0' or $status == 'BE1' or $status ==
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'BE7' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
   } 
 
 if ($bevestig_jn == 'A' and $status == 'DE0' ){                                                             ///// intrekken afwijzing . Email bekend
@@ -753,7 +753,7 @@ if ($bevestig_jn == 'A' and $status == 'DE0' ){                                 
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'IN0' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
 }
 
 
@@ -761,7 +761,7 @@ if ($bevestig_jn == 'A' and $status == 'DE1'){                                  
 $query="UPDATE inschrijf 
                SET Status  = 'IN1' 
             WHERE  Id           = '".$id."'  ";
-        mysql_query($query) or die (mysql_error()); 
+        mysqli_query($con,$query) or die (mysql_error()); 
 }
 
 if ($betaald_jn == 'A' and $status == 'DE0' and $uitgestelde_bevestiging_jn == 'J'){                      ///// intrekken afwijzing . Email bekend
@@ -769,7 +769,7 @@ $query="UPDATE inschrijf
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'BE0' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
 }
 
 
@@ -777,7 +777,7 @@ if ($betaald_jn == 'A' and $status == 'DE1' and $uitgestelde_bevestiging_jn == '
       $query="UPDATE inschrijf 
                SET Status  = 'BE1' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
 }
 
 // sms bevestiging
@@ -787,7 +787,7 @@ if ($bevestig_jn == 'J' and $status == 'BED' ){                                 
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'BEE' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
   }
   
   
@@ -796,7 +796,7 @@ if ($bevestig_jn == 'J' and $status == 'BED' ){                                 
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'BEF' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
   }
   
 // import  bevestiging
@@ -806,7 +806,7 @@ if ($bevestig_jn == 'J' and $status == 'BED' ){                                 
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'IM1' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
   }
   
   if ($bevestig_jn == 'N' and $status == 'IM0' and ($bevestigd_ms = 'S' or $bevestigd_ms = 'A')){                                   ///// bevestiging (betaling nvt)  (IM0 - IM2)
@@ -814,7 +814,7 @@ if ($bevestig_jn == 'J' and $status == 'BED' ){                                 
                SET Bevestiging_verzonden = NOW(),
                    Status  = 'IM2' 
             WHERE  Id           = '".$id."'  ";
-      mysql_query($query) or die (mysql_error()); 
+      mysqli_query($con,$query) or die (mysql_error()); 
   }
  
   

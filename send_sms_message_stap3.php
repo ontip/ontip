@@ -1,7 +1,7 @@
 <?php 
 
 //// Database gegevens. 
-include ('mysql.php');
+include ('mysqli.php');
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
 
@@ -65,11 +65,11 @@ $replace       = "toernooi=".$toernooi."";
 if (isset($toernooi)) {
 	
 
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -89,8 +89,8 @@ $dag   = substr($datum,8,2);
 include ('sms_tegoed.php');
 
 // Ophalen sms gegevens
-$qry3             = mysql_query("SELECT Verzendadres_SMS From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select3');  
-$row3             = mysql_fetch_array( $qry3 );
+$qry3             = mysqli_query($con,"SELECT Verzendadres_SMS From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select3');  
+$row3             = mysqli_fetch_array( $qry3 );
 $verzendadres_sms   = $row3['Verzendadres_SMS']; 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,8 +104,8 @@ for ($k=0;(!empty($sms_id[$k]));$k++){
 	
 	$bevestig_id =  $sms_id[$k];
 	
-	$qry             = mysql_query("SELECT * from inschrijf where Id= '".$bevestig_id."' " )    or die('Fout in select inschrijf');  
-  $row             = mysql_fetch_array( $qry);
+	$qry             = mysqli_query($con,"SELECT * from inschrijf where Id= '".$bevestig_id."' " )    or die('Fout in select inschrijf');  
+  $row             = mysqli_fetch_array( $qry);
   
   $tel_nummer      = $row['Telefoon'];
   $telnr_encrypt   = $row['Telefoon_encrypt'];
@@ -163,7 +163,7 @@ $sms_bericht_lengte = strlen($sms_bericht);
                VALUES (0,'".$toernooi."', '".$vereniging ."'   , ".$vereniging_id.", '".$datum."','".$verzendadres_sms ."' ,
                          '".$Naam1."'   ,  '".$Vereniging1."'  , '".$tel_nummer."', '".$reden."'  ,".$sms_bericht_lengte."  , NOW()   )";       
  //echo $query;
- mysql_query($query) or die (mysql_error()); 
+ mysqli_query($con,$query) or die (mysql_error()); 
 } // endif email_orgaNISATIE
 
 

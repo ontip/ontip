@@ -1,14 +1,14 @@
 <?php
 require_once "ideal_payment.php"; 
-include ('mysql.php');
+include ('mysqli.php');
 
 if (isset($_GET['transaction_id'])) 
 {  
 	echo "Transaction Id ". $_GET['transaction_id']. "<br>";
 	
 	//// ophalen gegevens vereniging
- $qry1          = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select1');  
- $result1       = mysql_fetch_array( $qry1 );
+ $qry1          = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select1');  
+ $result1       = mysqli_fetch_array( $qry1 );
  $partner_id    = $result1['Ideal_partner_id']; // Uw mollie partner ID
 
 	
@@ -65,7 +65,7 @@ $querie = "UPDATE ideal_transacties SET Status      = '".$sStatus."',
                                    Laatst = NOW()
                              WHERE Transaction_id = '".$_GET['transaction_id']."' ";
                             
-	mysql_query($querie) or die ('Fout in update PAID status'); 
+	mysqli_query($con,$querie) or die ('Fout in update PAID status'); 
 
 	} else {
 		echo "Geen Paid status gevonden <br>";

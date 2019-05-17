@@ -1,5 +1,15 @@
 <?php 
 //header("Location: ".$_SERVER['HTTP_REFERER']);
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 17mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
 
 ob_start();
 ini_set('display_errors', 'OFF');
@@ -7,7 +17,7 @@ error_reporting(E_ALL);
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 
 // Controles
@@ -69,7 +79,7 @@ foreach ($Bevestigen as $bevestigid)
 {
 
 //echo "DELETE FROM ideal_transacties where Toernooi = '".$toernooi."' and  Id= ".$bevestigid."<br> ";
-$qry      = mysql_query("DELETE FROM ideal_transacties where Toernooi = '".$toernooi."' and Id= ".$bevestigid." " )    or die('Fout in select bevestig id');  
+$qry      = mysqli_query($con,"DELETE FROM ideal_transacties where Toernooi = '".$toernooi."' and Id= ".$bevestigid." " )    or die('Fout in select bevestig id');  
 
   
 }/// end for each bevestigen of annuleren

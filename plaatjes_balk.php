@@ -8,8 +8,8 @@
 
 if ($aangelogd == 'J'){
 	$ip_adres = $_SERVER['REMOTE_ADDR'];
-	    $sql      = mysql_query("SELECT Beheerder,Naam FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select');  
-	    $result   = mysql_fetch_array( $sql );
+	    $sql      = mysqli_query($con,"SELECT Beheerder,Naam FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select');  
+	    $result   = mysqli_fetch_array( $sql );
       $rechten  = $result['Beheerder'];         	
                 
 		            switch ($rechten) {

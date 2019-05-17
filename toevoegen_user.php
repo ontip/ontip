@@ -15,7 +15,7 @@ a {color:yellow ; font-size: 11.0pt ; font-family:Arial, Helvetica, sans-serif ;
 <body>
  
 <?php
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 //echo  "vereniging : ". $vereniging;
 

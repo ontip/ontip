@@ -15,7 +15,7 @@ ini_set('display_errors', 'On');
 error_reporting(E_ALL);
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 
 
 $aant_splrs        = $_POST['Aantal'];
@@ -42,16 +42,16 @@ if (isset($toernooi)) {
 //	echo $vereniging;
 //  echo $toernooi;
 	
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Regel < 9000 order by Regel")     or die(' Fout in select config');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Regel < 9000 order by Regel")     or die(' Fout in select config');  
  }
 else {
 		echo " Geen toernooi bekend :";
 	};
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -97,7 +97,7 @@ echo "</tr></table><br>
  
 if ($invul_namen =='J'){
 	/// Ophalen spelers uit toernooi_schema
-  $namen       = mysql_query("SELECT * from toernooi_schema where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."'  order by Wedstrijd, Ronde")     or die(' Fout in select inschrijf');  
+  $namen       = mysqli_query($con,"SELECT * from toernooi_schema where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."'  order by Wedstrijd, Ronde")     or die(' Fout in select inschrijf');  
 }
 
 
@@ -136,8 +136,8 @@ if ($letter_nummer == 'Nummers'){
 	<table border = 0 >
 		
 <?php  if ($invul_namen =='J'){		
-//	 $namen       = mysql_query("SELECT * from toernooi_schema where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."'  and order by Wedstrijd, Ronde")     or die(' Fout in select inschrijf');  
-  $row = mysql_fetch_array( $namen );
+//	 $namen       = mysqli_query($con,"SELECT * from toernooi_schema where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."'  and order by Wedstrijd, Ronde")     or die(' Fout in select inschrijf');  
+  $row = mysqli_fetch_array( $namen );
 ?>
 
 	<tr><td Style='font-family:cursive;font-size:11pt;'>Naam captain     : </td><td><?php echo $row['Team_naam1'];?></td></tr>
@@ -176,8 +176,8 @@ if ($letter_nummer == 'Nummers'){
    	
  	 	
  //echo "SELECT Tegenstander From toernooi_schema where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Ronde = ".$k."  and Team =  '" .$_team."' order by Team,Ronde" ;
- $qry  = mysql_query("SELECT Tegenstander,Baan From toernooi_schema where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Ronde = ".$k."  and Team =  '" .$_team."' order by Team,Ronde" );  
- $row  = mysql_fetch_array( $qry );
+ $qry  = mysqli_query($con,"SELECT Tegenstander,Baan From toernooi_schema where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Ronde = ".$k."  and Team =  '" .$_team."' order by Team,Ronde" );  
+ $row  = mysqli_fetch_array( $qry );
  
 	?>
 	<tr>

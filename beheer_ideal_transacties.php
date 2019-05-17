@@ -2,7 +2,16 @@
 /*  Programma       : Prepare_ideal_betaling.php
     Auteur          : Erik Hendrik okt 2013
     
-                                                                                   */
+ # Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 17mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference:                                                                                   */
 ?>
 <html>
 	<Title>OnTip IDEAL betaling (c) Erik Hendrikx</title>
@@ -29,7 +38,7 @@ a    {text-decoration:none;color:blue;}
 
 <?php 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 include ('versleutel_kenmerk.php'); 
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
@@ -48,7 +57,7 @@ if (!isset($toernooi)) {
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -63,19 +72,11 @@ if (isset($_GET['toernooi'])){
 	$toernooi = $_GET['toernooi'];
 }
 
-//// Check op rechten
-$rechten  = $result['Beheerder'];
-
-if ($rechten != "A"  and $rechten != "I"){
- echo '<script type="text/javascript">';
- echo 'window.location = "rechten.php"';
- echo '</script>'; 
-}
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
@@ -111,7 +112,7 @@ while($row = mysql_fetch_array( $qry2 )) {
 <span style='color:black;font-size:9pt;font-family:arial;'>Zet een vinkje in de kolom met de "x" erboven, vul de Anti Spam code in en druk op Bevestigen om de geselecteerde transacties te verwijderen uit het systeem.</span><br><br>
 <?php 
 //echo "SELECT * from ideal_transacties Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Laatst<br>"; 
- $sql     = mysql_query("SELECT * from ideal_transacties Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Laatst" )    or die('Fout in select1');  
+ $sql     = mysqli_query($con,"SELECT * from ideal_transacties Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Laatst" )    or die('Fout in select1');  
 /// Koptekst
 ?>
 
@@ -135,10 +136,10 @@ while($row = mysql_fetch_array( $qry2 )) {
 	
 <?php
 $i=1;
-while($row = mysql_fetch_array( $sql )) {
+while($row = mysqli_fetch_array( $sql )) {
 
-  	 $qry_inschrijving     = mysql_query("SELECT * from inschrijf Where Toernooi = '".$toernooi."' and  Id = ".$row['Inschrijf_id']." " ) or  die ('Fout in select2')   ;
-  	 $result               = mysql_fetch_array( $qry_inschrijving );
+  	 $qry_inschrijving     = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and  Id = ".$row['Inschrijf_id']." " ) or  die ('Fout in select2')   ;
+  	 $result               = mysqli_fetch_array( $qry_inschrijving );
 	 
 
 ?>

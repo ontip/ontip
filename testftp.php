@@ -2,7 +2,7 @@
 $source_file = 'somefile.txt';
 $destination_file = 'readme.txt';
 
-include('mysql.php');
+include('mysqli.php');
 
 
 $ftp_server    = 'ftp.boulamis.nl';

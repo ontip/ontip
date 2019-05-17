@@ -5,7 +5,7 @@ ini_set('display_errors', 'On');
 error_reporting(E_ALL);
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 setlocale(LC_ALL, 'nl_NL');
 
@@ -37,8 +37,8 @@ if ($vereniging_speler == '') {
 
   $email_encrypt = versleutel_string('@##'.$email);
   
-   $sql              = mysql_query("SELECT * From email_notificaties where Toernooi = '".$toernooi."' and Email_encrypt = '".$email_encrypt."'   ")     or die(' Fout in select notificaties');  
-   $result           = mysql_fetch_array( $sql );
+   $sql              = mysqli_query($con,"SELECT * From email_notificaties where Toernooi = '".$toernooi."' and Email_encrypt = '".$email_encrypt."'   ")     or die(' Fout in select notificaties');  
+   $result           = mysqli_fetch_array( $sql );
 
 
  if ($email_encrypt  == $result['Email_encrypt']){ 
@@ -79,18 +79,18 @@ if($error ==0){
 $email_encrypt = versleutel_string('@##'.$email);
 
   
-$qry  = mysql_query("SELECT * From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+$qry  = mysqli_query($con,"SELECT * From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
 
-$qry_v           = mysql_query("SELECT * From vereniging where Id = ".$vereniging_id ."  ") ;  
-$result_v        = mysql_fetch_array( $qry_v);
+$qry_v           = mysqli_query($con,"SELECT * From vereniging where Id = ".$vereniging_id ."  ") ;  
+$result_v        = mysqli_fetch_array( $qry_v);
 $vereniging_id   = $result_v['Id'];
 $url_logo        = $result_v['Url_logo']; 
 
@@ -115,7 +115,7 @@ $query = "INSERT INTO `email_notificaties` (`Id`, `Toernooi`, `Vereniging_id`, `
            VALUES  (0, '".$toernooi."', ".$vereniging_id.", '".$vereniging."', '".$datum."', '".$naam."', '".$licentie."', '[versleuteld]', '".$email_encrypt."', '".$kenmerk."', 'N', '', now()  )";
 
  
-mysql_query($query) or die ('Fout in insert trigger tabel');           
+mysqli_query($con,$query) or die ('Fout in insert trigger tabel');           
 
 $from = $subdomein."@ontip.nl";	
 

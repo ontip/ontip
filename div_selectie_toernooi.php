@@ -37,7 +37,7 @@
   <?php
       echo "<OPTION style= 'color:blue;font-weight:bold;' value='".$toernooi."' > ".substr($datum,0,10)." > ".$toernooi_voluit. " (".$toernooi.") </option>";           
       
-        while($row = mysql_fetch_array( $toernooien )) {
+        while($row = mysqli_fetch_array( $toernooien )) {
   	           $var = substr($row['Datum'],0,10);
  	           
  	           if ($today > $var){

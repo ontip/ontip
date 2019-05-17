@@ -36,7 +36,7 @@ function timedRefresh(timeoutPeriod) {
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -65,13 +65,13 @@ echo '</script>';
 }
 
 //echo "xxxxxxxxxxxxxxxxxxxxxxxxxxxx". $vereniging_id;
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 //echo "SELECT Beheerder FROM namen WHERE Vereniging_id = ".$vereniging_id." and Naam='".$_COOKIE['user']."' ";
 
 //// Check op rechten
-$sql      = mysql_query("SELECT Beheerder FROM namen WHERE Vereniging_id = ".$vereniging_id." and Naam='".$_COOKIE['user']."' ") or die(' Fout in select');  
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT Beheerder FROM namen WHERE Vereniging_id = ".$vereniging_id." and Naam='".$_COOKIE['user']."' ") or die(' Fout in select');  
+$result   = mysqli_fetch_array( $sql );
 $rechten  = $result['Beheerder'];
 
 if ($rechten != "A"  and $rechten != "C"){

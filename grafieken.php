@@ -56,12 +56,12 @@ var requiredRevision = 45;
 
 // Standard inclusions   
    
-include ('conf/mysql.php');
+include ('conf/mysqli.php');
 
 /////////////////////////////////////////////////////   aantal per boule /////////////////////////////////////////////////
 // Select
 
-$qry = mysql_query("SELECT distinct(Boule)as Naam, count(*) FROM bestelling_boules 
+$qry = mysqli_query($con,"SELECT distinct(Boule)as Naam, count(*) FROM bestelling_boules 
          where Bestelling_afgerond = 'Ja'  group by 1 order by 2 DESC" )  or die(mysql_error());  
  
 
@@ -96,7 +96,7 @@ fwrite($fp, "         <null/>\n");
 
 // Eerst de namen van de boules verwerken
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	// Print out the contents of each row into a table
 	
 	fwrite($fp, "         <string>");
@@ -110,9 +110,9 @@ fwrite($fp, "        <string>Aantal verkocht per boule</string>\n");
 
 // Querie herhalen voor de aantallen boules
 
-$qry = mysql_query("SELECT distinct(Boule)as Naam, count(*) as Aantal FROM bestelling_boules 
+$qry = mysqli_query($con,"SELECT distinct(Boule)as Naam, count(*) as Aantal FROM bestelling_boules 
    where Bestelling_afgerond = 'Ja' group by 1 order by 2 DESC" )  or die(mysql_error());  
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	
 //========== Schrijf de X-as van de grafiek
@@ -140,7 +140,7 @@ fclose($fp);
 /////////////////////////////////////////////////////   aantal per acces /////////////////////////////////////////////////
 // Select
 
-$qry = mysql_query("SELECT distinct(Artikel) as Naam, sum(bestel_aantal) FROM bestelling_accessoires
+$qry = mysqli_query($con,"SELECT distinct(Artikel) as Naam, sum(bestel_aantal) FROM bestelling_accessoires
   where Bestelling_afgerond = 'Ja'  group by 1 order by 2 DESC" )  or die(mysql_error());  
  
 
@@ -175,7 +175,7 @@ fwrite($fp, "         <null/>\n");
 
 // Eerst de namen van de boules verwerken
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	// Print out the contents of each row into a table
 	
 	fwrite($fp, "         <string>");
@@ -189,9 +189,9 @@ fwrite($fp, "        <string>Aantal verkocht per accessoire</string>\n");
 
 // Querie herhalen voor de aantallen boules
 
-$qry = mysql_query("SELECT distinct(Artikel)as Naam, sum(bestel_aantal) as Aantal FROM bestelling_accessoires 
+$qry = mysqli_query($con,"SELECT distinct(Artikel)as Naam, sum(bestel_aantal) as Aantal FROM bestelling_accessoires 
   where Bestelling_afgerond = 'Ja' group by 1 order by 2 DESC" )  or die(mysql_error());  
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	
 //========== Schrijf de X-as van de grafiek
@@ -219,7 +219,7 @@ fclose($fp);
 
 // Select
 
-$qry = mysql_query("SELECT distinct(Month(Datum))as Maand, count(*) FROM bestelling_boules 
+$qry = mysqli_query($con,"SELECT distinct(Month(Datum))as Maand, count(*) FROM bestelling_boules 
   where Bestelling_afgerond = 'Ja' group by 1 order by 1" )  or die(mysql_error());  
 
 // Er wordt een XML file gevuld waarin de data wordt opgenomen
@@ -253,7 +253,7 @@ fwrite($fp, "         <null/>\n");
 
 // Eerst de namen van de maanden verwerken
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	// Print out the contents of each row into a table
 	
 	fwrite($fp, "         <string>");
@@ -305,9 +305,9 @@ fwrite($fp, "        <string>Aantal boules verkocht per maand</string>\n");
 
 // Querie herhalen voor de aantallen
 
-$qry = mysql_query("SELECT distinct(Month(Datum))as Maand, count(*) as Aantal FROM bestelling_boules
+$qry = mysqli_query($con,"SELECT distinct(Month(Datum))as Maand, count(*) as Aantal FROM bestelling_boules
   where Bestelling_afgerond = 'Ja'  group by 1 order by 1" )  or die(mysql_error());  
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	
 //========== Schrijf de X-as van de grafiek
@@ -335,7 +335,7 @@ fclose($fp);
 
 // Select
 
-$qry = mysql_query("SELECT distinct(Month(Datum))as Maand, sum(bestel_aantal) FROM bestelling_accessoires
+$qry = mysqli_query($con,"SELECT distinct(Month(Datum))as Maand, sum(bestel_aantal) FROM bestelling_accessoires
    where Bestelling_afgerond = 'Ja' group by 1 order by 1" )  or die(mysql_error());  
 
 // Er wordt een XML file gevuld waarin de data wordt opgenomen
@@ -369,7 +369,7 @@ fwrite($fp, "         <null/>\n");
 
 // Eerst de namen van de maanden verwerken
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	// Print out the contents of each row into a table
 	
 	fwrite($fp, "         <string>");
@@ -421,9 +421,9 @@ fwrite($fp, "        <string>Aantal accessoires verkocht per maand</string>\n");
 
 // Querie herhalen voor de aantallen
 
-$qry = mysql_query("SELECT distinct(Month(Datum))as Maand, sum(bestel_aantal) as Aantal FROM bestelling_accessoires
+$qry = mysqli_query($con,"SELECT distinct(Month(Datum))as Maand, sum(bestel_aantal) as Aantal FROM bestelling_accessoires
    where Bestelling_afgerond = 'Ja'  group by 1 order by 1" )  or die(mysql_error());  
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	
 //========== Schrijf de X-as van de grafiek
@@ -452,7 +452,7 @@ fclose($fp);
 
 // Select
 
-$qry = mysql_query("SELECT distinct(Month(Datum))as Maand, sum(Prijs) FROM bestelling_boules
+$qry = mysqli_query($con,"SELECT distinct(Month(Datum))as Maand, sum(Prijs) FROM bestelling_boules
    where Bestelling_afgerond = 'Ja'  group by 1 order by 1" )  or die(mysql_error());  
 
 // Er wordt een XML file gevuld waarin de data wordt opgenomen
@@ -486,7 +486,7 @@ fwrite($fp, "         <null/>\n");
 
 // Eerst de namen van de maanden verwerken
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	// Print out the contents of each row into a table
 	
 	fwrite($fp, "         <string>");
@@ -538,9 +538,9 @@ fwrite($fp, "        <string>Boule omzet per maand</string>\n");
 
 // Querie herhalen voor de aantallen
 
-$qry = mysql_query("SELECT distinct(Month(Datum))as Maand, sum(Prijs) as Omzet FROM bestelling_boules 
+$qry = mysqli_query($con,"SELECT distinct(Month(Datum))as Maand, sum(Prijs) as Omzet FROM bestelling_boules 
    where Bestelling_afgerond = 'Ja' group by 1 order by 1" )  or die(mysql_error());  
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	
 //========== Schrijf de X-as van de grafiek
@@ -568,7 +568,7 @@ fclose($fp);
 
 // Select
 
-$qry = mysql_query("SELECT distinct(Month(Datum))as Maand, sum(Bestel_prijs) FROM bestelling_accessoires 
+$qry = mysqli_query($con,"SELECT distinct(Month(Datum))as Maand, sum(Bestel_prijs) FROM bestelling_accessoires 
 where Bestelling_afgerond = 'Ja' group by 1 order by 1" )  or die(mysql_error());  
 
 // Er wordt een XML file gevuld waarin de data wordt opgenomen
@@ -602,7 +602,7 @@ fwrite($fp, "         <null/>\n");
 
 // Eerst de namen van de maanden verwerken
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	// Print out the contents of each row into a table
 	
 	fwrite($fp, "         <string>");
@@ -654,9 +654,9 @@ fwrite($fp, "        <string>Accessoires omzet per maand</string>\n");
 
 // Querie herhalen voor de aantallen
 
-$qry = mysql_query("SELECT distinct(Month(Datum))as Maand, sum(Bestel_prijs) as Omzet FROM bestelling_accessoires 
+$qry = mysqli_query($con,"SELECT distinct(Month(Datum))as Maand, sum(Bestel_prijs) as Omzet FROM bestelling_accessoires 
    where Bestelling_afgerond = 'Ja' group by 1 order by 1" )  or die(mysql_error());  
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	
 //========== Schrijf de X-as van de grafiek

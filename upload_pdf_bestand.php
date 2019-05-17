@@ -6,12 +6,12 @@
 ////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Database gegevens voor username en password
-include('mysql.php');
+include('mysqli.php');
 ini_set('display_errors', 0); 
 
 set_time_limit(300);//for setting 
-$qry            = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
-$row            = mysql_fetch_array( $qry );
+$qry            = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
+$row            = mysqli_fetch_array( $qry );
 $prog_url       = $row['Prog_url'];
 $paths          = $prog_url."csv/";
 

@@ -17,7 +17,7 @@ ob_start();
 
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 include 'versleutel.php'; 
 
 $naam           = $_POST['naam'];
@@ -25,13 +25,13 @@ $vereniging     = $_POST['vereniging'];
 $vereniging_nr  = $_POST['vereniging_nr'];
 
 //// ophalen gegevens vereniging
-$qry1            = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select 1');  
-$result1         = mysql_fetch_array( $qry1 );
+$qry1            = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select 1');  
+$result1         = mysqli_fetch_array( $qry1 );
 $email_noreply   = $result1['Email_noreply'];
 
 
-$qry        = mysql_query("SELECT * from namen where Naam = '".$naam."' and Vereniging = '".$vereniging."' and Vereniging_nr = '".$vereniging_nr."' ") or die('Fout in select 2');
-$count      = mysql_num_rows($qry);
+$qry        = mysqli_query($con,"SELECT * from namen where Naam = '".$naam."' and Vereniging = '".$vereniging."' and Vereniging_nr = '".$vereniging_nr."' ") or die('Fout in select 2');
+$count      = mysqli_num_rows($qry);
 
 echo "<div style=' color:red;'>";
 if ($count == 0 ){
@@ -39,7 +39,7 @@ if ($count == 0 ){
 }
 echo "</div>";
 
-$row        = mysql_fetch_array( $qry );
+$row        = mysqli_fetch_array( $qry );
 $password   = versleutel($row['Wachtwoord']);
 $beheerder  = $row['Naam'];
 $email      = $row['Email'];

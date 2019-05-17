@@ -42,12 +42,12 @@ if (window.attachEvent) window.attachEvent("onload", sfFocus);
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -65,9 +65,9 @@ if ($rechten != "A"  and $rechten != "W"){
  echo '</script>'; 
 }
 
-$sql      = mysql_query("SELECT * from config WHERE Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' 
+$sql      = mysqli_query($con,"SELECT * from config WHERE Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' 
             and Variabele = 'toernooi_voluit' ") or die(' Fout in select');  
-$result   = mysql_fetch_array( $sql );
+$result   = mysqli_fetch_array( $sql );
 
 $toernooi_voluit   = $result['Waarde'];
 
@@ -108,11 +108,11 @@ $toernooi_voluit   = $result['Waarde'];
 /// Queries
 
 
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -124,30 +124,30 @@ while($row = mysql_fetch_array( $qry )) {
 
 
 /*
-$sql1      = mysql_query("SELECT * from config WHERE Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' 
+$sql1      = mysqli_query($con,"SELECT * from config WHERE Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' 
             and Variabele = 'begin_inschrijving' ") or die(' Fout in select');  
-$result1  = mysql_fetch_array( $sql1 );
+$result1  = mysqli_fetch_array( $sql1 );
 $id1       = $result1['Id'];
 $regel1    = $result1['Regel'];
 $begin_inschrijving   = $result1['Waarde'];
 
-$sql2      = mysql_query("SELECT * from config WHERE Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' 
+$sql2      = mysqli_query($con,"SELECT * from config WHERE Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' 
             and Variabele = 'einde_inschrijving' ") or die(' Fout in select');  
-$result2   = mysql_fetch_array( $sql2 );
+$result2   = mysqli_fetch_array( $sql2 );
 $id2       = $result2['Id'];
 $regel2    = $result2['Regel'];
 $einde_inschrijving   = $result2['Waarde'];
 
-$sql3      = mysql_query("SELECT * from config WHERE Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' 
+$sql3      = mysqli_query($con,"SELECT * from config WHERE Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' 
             and Variabele = 'max_splrs' ") or die(' Fout in select');  
-$result3   = mysql_fetch_array( $sql3 );
+$result3   = mysqli_fetch_array( $sql3 );
 $id3       = $result3['Id'];
 $regel3    = $result3['Regel'];
 $max_splrs  = $result3['Waarde'];
 
-$sql4      = mysql_query("SELECT * from config WHERE Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' 
+$sql4      = mysqli_query($con,"SELECT * from config WHERE Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' 
             and Variabele = 'aantal_reserves' ") or die(' Fout in select');  
-$result4   = mysql_fetch_array( $sql4 );
+$result4   = mysqli_fetch_array( $sql4 );
 $id4       = $result4['Id'];
 $regel4    = $result4['Regel'];
 $aantal_reserves  = $result4['Waarde'];

@@ -52,7 +52,7 @@ function CopyToClipboard()
 <body>
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
 
@@ -71,7 +71,7 @@ else {
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -91,17 +91,17 @@ if ($rechten != "A"  and $rechten != "C"){
 
 
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
 
 // uit vereniging tabel	
 	
-$qry          = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
-$row          = mysql_fetch_array( $qry );
+$qry          = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
+$row          = mysqli_fetch_array( $qry );
 $url_logo     = $row['Url_logo'];
 $url_website  = $row['Url_website'];
 $vereniging_output_naam = $row['Vereniging_output_naam'];
@@ -136,13 +136,13 @@ Alle email adressen worden geselecteerd. Druk op CTRL+C en plak daarna de gekopi
 
 <?php
 
-$inschrijf = mysql_query("SELECT * FROM inschrijf WHERE Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Email <> '' ") or die(mysql_error());  
+$inschrijf = mysqli_query($con,"SELECT * FROM inschrijf WHERE Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Email <> '' ") or die(mysql_error());  
 echo "<table>";
 echo "<tr><td height='100ptx' Style='background-color:white;'>";
 $i =1;
 
 // keeps getting the next row until there are no more to get
-while($row = mysql_fetch_array( $inschrijf )) {
+while($row = mysqli_fetch_array( $inschrijf )) {
 	// Print out the contents of each row into a table
 	
 	if ($row['Email'] =='[versleuteld]'){ 

@@ -29,7 +29,7 @@ $$var = trim(substr($line,$pos+2,80));
 $line = fgets($fh);
 } /// while
 
-//include('http://www.boulamis.nl/'.$vereniging_url.'/mysql.php');
+//include('http://www.boulamis.nl/'.$vereniging_url.'/mysqli.php');
 
 $hostname = "localhost"; 
 $username = "boulamis"; 
@@ -59,17 +59,17 @@ showerror();
 
 /// Schoon hulp tabel
 
-mysql_query("Delete from hulp_toernooi where Vereniging = '".$vereniging."'  ") ;  
+mysqli_query($con,"Delete from hulp_toernooi where Vereniging = '".$vereniging."'  ") ;  
 
 // Insert alle toernooien voor deze vereniging
 
-$insert = mysql_query("INSERT INTO hulp_toernooi
+$insert = mysqli_query($con,"INSERT INTO hulp_toernooi
 (`Toernooi`, `Vereniging`, `Datum`) 
  select distinct Toernooi, Vereniging, Waarde from config where Vereniging = '".$vereniging."' and Variabele = 'Datum' and   Waarde >= '".$today."' ");
  
 // Update soort Toernooi
  
-$update = mysql_query("UPDATE hulp_toernooi as t
+$update = mysqli_query($con,"UPDATE hulp_toernooi as t
  join config as c
   on t.Toernooi          = c.Toernooi and
      t.Vereniging        = c.Vereniging 
@@ -80,7 +80,7 @@ $update = mysql_query("UPDATE hulp_toernooi as t
 
 // Update Inschrijving_open
  
-$update = mysql_query("UPDATE hulp_toernooi as t
+$update = mysqli_query($con,"UPDATE hulp_toernooi as t
  join config as c
   on t.Toernooi          = c.Toernooi and
      t.Vereniging        = c.Vereniging 
@@ -90,31 +90,31 @@ $update = mysql_query("UPDATE hulp_toernooi as t
   and c.Waarde > '".$today."'  ");
 
 
-mysql_query("Delete from hulp_toernooi where Toernooi like '%test%' and Vereniging = '".$vereniging ."'  ") ;  
+mysqli_query($con,"Delete from hulp_toernooi where Toernooi like '%test%' and Vereniging = '".$vereniging ."'  ") ;  
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Toon alle toernooien
 
-$qry          = mysql_query("SELECT distinct Vereniging,Toernooi, Datum From hulp_toernooi where Vereniging = '".$vereniging ."'  order by Datum ")     or die(' Fout in select 2');  
+$qry          = mysqli_query($con,"SELECT distinct Vereniging,Toernooi, Datum From hulp_toernooi where Vereniging = '".$vereniging ."'  order by Datum ")     or die(' Fout in select 2');  
 
 // Start json  let op gebruik quotes
     echo '[  '; 
 
 $switch = 0;
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Lees configuratie tabel tbv toernooi gegevens
 
 	$toernooi   = $row['Toernooi'];
 	$vereniging = $row['Vereniging'];
-	$sql  = mysql_query("SELECT * From config where Vereniging = '".$row['Vereniging'] ."' and Toernooi = '".$row['Toernooi'] ."' ")     or die(' Fout in select');  
+	$sql  = mysqli_query($con,"SELECT * From config where Vereniging = '".$row['Vereniging'] ."' and Toernooi = '".$row['Toernooi'] ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
  
 
-while($row1= mysql_fetch_array( $sql )) {
+while($row1= mysqli_fetch_array( $sql )) {
 	
 	 $var  = $row1['Variabele'];
 	 $$var = $row1['Waarde'];
@@ -139,8 +139,8 @@ $dag1   = 	substr ($begin_inschrijving , 8,2);
 $maand1 = 	substr ($begin_inschrijving , 5,2); 
 $jaar1  = 	substr ($begin_inschrijving , 0,4); 
 
-$qry_ins    = mysql_query("SELECT count(*) as Aantal From inschrijf where Vereniging = '".$row['Vereniging'] ."' and Toernooi = '".$row['Toernooi'] ."' ")     or die(' Fout in select inschrijf');  
-$result    = mysql_fetch_array( $qry_ins);
+$qry_ins    = mysqli_query($con,"SELECT count(*) as Aantal From inschrijf where Vereniging = '".$row['Vereniging'] ."' and Toernooi = '".$row['Toernooi'] ."' ")     or die(' Fout in select inschrijf');  
+$result    = mysqli_fetch_array( $qry_ins);
 $aantal    = $result['Aantal'];	
 
 

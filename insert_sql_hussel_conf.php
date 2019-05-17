@@ -16,13 +16,13 @@ a {color:yellow ; font-size: 11.0pt ; font-family:Arial, Helvetica, sans-serif ;
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -55,13 +55,13 @@ if (isset($_POST['vereniging'])){
 	
 if ($vereniging_id !=''){ 
 	
-$sql        = mysql_query("SELECT Vereniging from vereniging where Id = ".$vereniging_id."   ")     or die(' Fout in select 1');  
-$result     = mysql_fetch_array( $sql );
+$sql        = mysqli_query($con,"SELECT Vereniging from vereniging where Id = ".$vereniging_id."   ")     or die(' Fout in select 1');  
+$result     = mysqli_fetch_array( $sql );
 $vereniging = $result['Vereniging'];
 
 
-$qry      = mysql_query("SELECT * from hussel_config where Vereniging_id =  ".$vereniging_id." and  Variabele = 'aantal_rondes'  " )    or die(' Fout in select 2');
-$result     = mysql_fetch_array( $qry );
+$qry      = mysqli_query($con,"SELECT * from hussel_config where Vereniging_id =  ".$vereniging_id." and  Variabele = 'aantal_rondes'  " )    or die(' Fout in select 2');
+$result     = mysqli_fetch_array( $qry );
 $variabele = $result['Waarde'];
 
 
@@ -76,7 +76,7 @@ $variabele = $result['Waarde'];
                                       ('".$vereniging."', ".$vereniging_id." , 'baan_schemas', 'Off', '0'),
                                       ('".$vereniging."', ".$vereniging_id." , 'verwijderen_spelers', 'On', ''   ) <br>";               
          */                    
-             $sql        = mysql_query("INSERT INTO `hussel_config` ( `Vereniging`, `Vereniging_id`, `Variabele`, `Waarde`, `Parameters`) VALUES
+             $sql        = mysqli_query($con,"INSERT INTO `hussel_config` ( `Vereniging`, `Vereniging_id`, `Variabele`, `Waarde`, `Parameters`) VALUES
                                       ('".$vereniging."', ".$vereniging_id." , 'controle_13', 'Off', ''),
                                       ('".$vereniging."', ".$vereniging_id." , 'aantal_rondes', '3', ''),
                                       ('".$vereniging."', ".$vereniging_id." , 'datum_lock', 'Off', '6'),
@@ -87,8 +87,8 @@ $variabele = $result['Waarde'];
                                                       
           
           //  Check
-          $qry2      = mysql_query("SELECT * from hussel_config where Vereniging_id =  ".$vereniging_id." and  Variabele = 'aantal_rondes'  " )    or die(' Fout in select 3');
-          $result2   = mysql_fetch_array( $qry2);
+          $qry2      = mysqli_query($con,"SELECT * from hussel_config where Vereniging_id =  ".$vereniging_id." and  Variabele = 'aantal_rondes'  " )    or die(' Fout in select 3');
+          $result2   = mysqli_fetch_array( $qry2);
           
            ?>
         	        	<div>Vereniging <?php echo $result2['Vereniging'];  ?> toegevoegd aan OnTip Hussel configuratie. </div>
@@ -124,9 +124,9 @@ else {
 
 <?php
 	$i=1;
-	$qry      = mysql_query("SELECT * from vereniging order by Id " )    or die(mysql_error());  
+	$qry      = mysqli_query($con,"SELECT * from vereniging order by Id " )    or die(mysql_error());  
 	
-	while($row = mysql_fetch_array( $qry )) {?>
+	while($row = mysqli_fetch_array( $qry )) {?>
 	<tr>
    	<td><?php echo $i;?></td>	
    	<td><input type='radio' name='vereniging' value= '<?php echo $row['Id']; ?>'></td>

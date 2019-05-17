@@ -64,7 +64,7 @@ if (substr($_POST['url_website'],0,4)  != 'http' ){
 if ($error == 0 ){
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 
 $update = "UPDATE vereniging  SET Url_website         = '".$_POST['url_website']."' ,
                                   Url_logo            = '".$_POST['url_logo']."' ,
@@ -79,7 +79,7 @@ $update = "UPDATE vereniging  SET Url_website         = '".$_POST['url_website']
                             where Vereniging_nr       = '".trim($_POST['vereniging_nr'])."' ;";
                      	
 //echo $update."<br>";
-mysql_query($update) or die ('fout in update');
+mysqli_query($con,$update) or die ('fout in update');
 } 
 else { 
 

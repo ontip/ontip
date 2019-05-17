@@ -29,15 +29,15 @@ document.getElementById("textArea").style.backgroundColor = "lightblue";
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 if(isset($_COOKIE['toernooi'])){ 
   	
 $toernooi = $_GET['toernooi'];   
 }
 
 /// Ophalen aantal spelers
-$sql        = mysql_query("SELECT count(*) as Aantal from inschrijf where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."'  ")     or die(' Fout in select');  
-$result     = mysql_fetch_array( $sql );
+$sql        = mysqli_query($con,"SELECT count(*) as Aantal from inschrijf where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."'  ")     or die(' Fout in select');  
+$result     = mysqli_fetch_array( $sql );
 $aantal     = $result['Aantal'];
 ?>
 <div style='background-color:white;'>
@@ -60,16 +60,16 @@ if (isset ($_GET['toernooi'])){
 $toernooi = $_GET['toernooi'];
 	
 // Ophalen toernooi gegevens
-$qry1             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select1');  
+$qry1             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select1');  
 
-while($row = mysql_fetch_array( $qry1 )) {
+while($row = mysqli_fetch_array( $qry1 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
 	
 	
-$qry2    = mysql_query("SELECT count(*) as Aantal from inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
-$row     = mysql_fetch_array( $qry2 );
+$qry2    = mysqli_query($con,"SELECT count(*) as Aantal from inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$row     = mysqli_fetch_array( $qry2 );
 $aantal  = $row['Aantal'];
 }
 else {

@@ -70,7 +70,7 @@ function validate() {
 
 <?php
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 
@@ -78,7 +78,7 @@ include('page_stats.php');
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -90,8 +90,8 @@ exit;
 }
 
 //// Check op rechten
-$sql      = mysql_query("SELECT Beheerder,Naam FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select');  
-$result   = mysql_fetch_array( $sql );
+$sql      = mysqli_query($con,"SELECT Beheerder,Naam FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select');  
+$result   = mysqli_fetch_array( $sql );
 $rechten  = $result['Beheerder'];
 
 if ($rechten != "A"  and $rechten != "C"){
@@ -102,8 +102,8 @@ if ($rechten != "A"  and $rechten != "C"){
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // uit vereniging tabel	
 	
-$qry                    = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
-$row                    = mysql_fetch_array( $qry );
+$qry                    = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
+$row                    = mysqli_fetch_array( $qry );
 $url_logo               = $row['Url_logo'];
 $url_website            = $row['Url_website'];
 $vereniging_output_naam = $row['Vereniging_output_naam'];

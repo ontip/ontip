@@ -1,7 +1,7 @@
 <?php
 // ophalen competitie naam adhv doorgegeven id
-$sql        = mysql_query("SELECT * from comp_soort where Id = '".$competitie_id."'  ")     or die(' Fout in select');  
-$result     = mysql_fetch_array( $sql );
+$sql        = mysqli_query($con,"SELECT * from comp_soort where Id = '".$competitie_id."'  ")     or die(' Fout in select');  
+$result     = mysqli_fetch_array( $sql );
 $competitie = $result['Competitie'];
 $soort      = $result['Soort_competitie'];
 ?>

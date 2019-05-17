@@ -22,11 +22,11 @@ var requiredRevision = 45;
 
 // Standard inclusions   
 
-include ('mysql.php');
+include ('mysqli.php');
 
 setlocale(LC_ALL,'Dutch_Nederlands', ' Dutch', 'nl_NL','nl');
 
- $sql        = mysql_query("SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  group by 2 order by 2");
+ $sql        = mysqli_query($con,"SELECT count(*) as Aantal, DATE_FORMAT(Laatst,'%m') as Maand  from stats_naam  group by 2 order by 2");
      
 $aantal  = array();
 
@@ -42,7 +42,7 @@ for ($month=1;$month<13;$month++){
     //      echo $einde_maand ."<br>";
           
      
-      $result             = mysql_fetch_array( $sql );
+      $result             = mysqli_fetch_array( $sql );
       $aantal[$month]     = $result['Aantal'];
      
              

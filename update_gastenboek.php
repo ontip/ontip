@@ -1,7 +1,7 @@
 <?php 
 ob_start();
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 
 if (isset($_POST['Check'])){
  $delete    = $_POST['Check'];
@@ -21,8 +21,8 @@ else {
 
 $al_geplaatst = array();
 
-$sql  = mysql_query("SELECT * From gastenboek  where Geplaatst = 'J'   ")     or die(' Fout in select gastenboek');  	
-while($row = mysql_fetch_array( $sql )) {
+$sql  = mysqli_query($con,"SELECT * From gastenboek  where Geplaatst = 'J'   ")     or die(' Fout in select gastenboek');  	
+while($row = mysqli_fetch_array( $sql )) {
   $al_geplaatst[] = $row['Id'];
 };
    
@@ -59,7 +59,7 @@ mysql_query ($sql) or die ('Fout in update');
 if ($delete !=''  )  {
   foreach ($delete as $deleteid)
    {
-      mysql_query("DELETE from  gastenboek where Id = ".$deleteid." ");   
+      mysqli_query($con,"DELETE from  gastenboek where Id = ".$deleteid." ");   
    } // end for each
 
 } // end if delete
@@ -67,13 +67,13 @@ if ($delete !=''  )  {
 if ($geplaatst !=''  )  {
   foreach ($geplaatst as $geplaatstid)
    {
-      mysql_query("UPDATE  gastenboek set Geplaatst = 'J ' where Id = ".$geplaatstid." ");   
+      mysqli_query($con,"UPDATE  gastenboek set Geplaatst = 'J ' where Id = ".$geplaatstid." ");   
       
       
       /// activeren melden naar aanbieder
       
-      $sql  = mysql_query("SELECT * From gastenboek  where Id = ".$geplaatstid." ")     or die(' Fout in select gastenboek');  	
-      $row  = mysql_fetch_array( $sql );
+      $sql  = mysqli_query($con,"SELECT * From gastenboek  where Id = ".$geplaatstid." ")     or die(' Fout in select gastenboek');  	
+      $row  = mysqli_fetch_array( $sql );
       $email = $row['Email'];
       
       if (in_array($geplaatstid, $al_geplaatst))  {

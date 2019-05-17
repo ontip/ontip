@@ -19,12 +19,12 @@ a    {color:red ; font-size: 8.0pt ; font-family:Arial, Helvetica, sans-serif ;t
 <?php 
 ob_start();
 
-include('mysql.php');
+include('mysqli.php');
 ini_set('default_charset','UTF-8');
 $id= $_GET['id'];
 
 //// SQL Queries
-$qry      = mysql_query("SELECT Vereniging, Url_redirect from vereniging where Id = ".$id."  " )    or die(mysql_error());  
+$qry      = mysqli_query($con,"SELECT Vereniging, Url_redirect from vereniging where Id = ".$id."  " )    or die(mysql_error());  
 
 if ($id !=''){
 
@@ -33,7 +33,7 @@ if ($id !=''){
 $i=1;                        // intieer teller 
 $k=0;
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 
   echo "<h1>".$row['Vereniging']."</h1>";
   

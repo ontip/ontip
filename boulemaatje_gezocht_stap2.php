@@ -92,7 +92,7 @@ if ($error == 1){
 <?php
  } // error = 1
 
-include 'mysql.php';
+include 'mysqli.php';
 
 
  /// alle controles goed 
@@ -132,7 +132,7 @@ $query ="INSERT INTO boule_maatje(Id,
 //uitvoeren van de query : 
 
 //echo $query;
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
 
 /// Mail versturen
 if ($Soort_aanvraag == 'B'){ 

@@ -3,7 +3,7 @@ ob_start();
 
 //// Database gegevens. 
 
-include ('mysql.php');
+include ('mysqli.php');
 
 // formulier POST variabelen ophalen en kontroleren
 
@@ -95,26 +95,26 @@ $eind_datum  = $eind_datum_jaar."-". sprintf("%02d",$eind_datum_maand)."-". spri
 
 $query = "UPDATE config set Waarde ='".$_toernooi."'  where Vereniging = '".$vereniging."' and Toernooi ='".$bron."' and Variabele = 'toernooi_voluit' ";
 //echo $query;
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
 
 // datum
 
 $query = "UPDATE config set Waarde ='".$datum."'  where Vereniging = '".$vereniging."' and Toernooi ='".$bron."' and Variabele = 'datum' ";
 //echo $query;
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
 
 // begin_inschrijving
 
 $query = "UPDATE config set Waarde ='".$begin_datum."'  where Vereniging = '".$vereniging."' and Toernooi ='".$bron."' and Variabele = 'begin_inschrijving' ";
 //echo $query;
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
 
 
 // einde_inschrijving
 
 $query = "UPDATE config set Waarde ='".$eind_datum."'  where Vereniging = '".$vereniging."' and Toernooi ='".$bron."' and Variabele = 'einde_inschrijving' ";
 //echo $query;
-mysql_query($query) or die (mysql_error()); 
+mysqli_query($con,$query) or die (mysql_error()); 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // Aanmaak QRC image voor inschrijf formulier 

@@ -58,8 +58,8 @@ fclose($fh);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Ophalen vereniging_nr e.d  uit vereniging
 
-$qry            = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
-$row            = mysql_fetch_array( $qry );
+$qry            = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     ;
+$row            = mysqli_fetch_array( $qry );
 $vereniging_nr  = $row['Vereniging_nr'];
 //$prog_url       = $row['Prog_url'];
 $grootte_logo   = $row['Grootte_logo'];
@@ -74,11 +74,11 @@ if (isset($toernooi)) {
 //	echo $vereniging;
 //  echo $toernooi;
 	
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var = $row['Variabele'];
 	 $$var = $row['Waarde'];

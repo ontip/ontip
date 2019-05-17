@@ -85,7 +85,7 @@ that.style.backgroundColor = bgcolor;
 <?php 
 ob_start();
 
-include('mysql.php');
+include('mysqli.php');
 ?>
 <body bgcolor=white>
 <?php
@@ -105,11 +105,11 @@ if ($toernooi ==''){
 //// SQL Queries
 if (isset($toernooi)) {
 	
-	$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
 
-while($row = mysql_fetch_array( $qry )) {
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -133,15 +133,15 @@ switch($soort_inschrijving){
   
 /// Ophalen tekst kleur
 
-$qry        = mysql_query("SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
-$row        = mysql_fetch_array( $qry );
+$qry        = mysqli_query($con,"SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
+$row        = mysqli_fetch_array( $qry );
 $tekstkleur = $row['Tekstkleur'];
 $koptekst   = $row['Koptekst'];
 $link       = $row['Link'];
 
 
  
-$qry_sel      = mysql_query("SELECT * from boule_maatje Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Naam " )    or die(mysql_error());  
+$qry_sel      = mysqli_query($con,"SELECT * from boule_maatje Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Naam " )    or die(mysql_error());  
 
 
 /* Set locale to Dutch */
@@ -308,7 +308,7 @@ $jaar  = 	substr ($datum , 0,4);
 
 $i=1;                        // intieer teller 
 
-while($row = mysql_fetch_array( $qry_sel )) {
+while($row = mysqli_fetch_array( $qry_sel )) {
 
 switch($row['Status'] ){
     case 'B' :   $status = 'Op zoek naar boulemaatje';     break;

@@ -86,7 +86,7 @@ function CopyHTMLToClipboard(element_id) {
 
 <?php 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 
@@ -98,7 +98,7 @@ setlocale(LC_ALL, 'nl_NL');
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -162,7 +162,7 @@ echo "</tr>";
 
 //// SQL Queries
 
-$qry1          = mysql_query("SELECT Vereniging From sms_confirmations  group by Verzender order by  Verzender  ") ;  
+$qry1          = mysqli_query($con,"SELECT Vereniging From sms_confirmations  group by Verzender order by  Verzender  ") ;  
 	/// Detail regels
 
 $i=1;
@@ -170,12 +170,12 @@ $totaal_aantal_sms = 0;
 $totaal_tegoed_sms = 0;
 
 
-while($row1 = mysql_fetch_array( $qry1 )) {
+while($row1 = mysqli_fetch_array( $qry1 )) {
 	
 	$vereniging        = $row1['Vereniging'];
 	
-	$qry2                       = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select 2');  
-  $result2                    = mysql_fetch_array( $qry2);
+	$qry2                       = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."' ")     or die(' Fout in select 2');  
+  $result2                    = mysqli_fetch_array( $qry2);
 	$max_aantal_sms             = $result2['Max_aantal_sms'];
 	$datumtijd_sms_saldo_update = $result2['Datumtijd_sms_saldo_update'];
 	$verzendadres_sms           = $result2['Verzendadres_SMS'];

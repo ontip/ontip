@@ -28,7 +28,7 @@ a    {text-decoration:none;color:blue;font-size: 8pt}
 ob_start();
 
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 include ('versleutel_kenmerk.php'); 
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
@@ -41,13 +41,13 @@ $toernooi  = $_GET['toernooi'];
 $kenmerk   = $_GET['kenmerk'];
 
 
-$qry           = mysql_query("SELECT * from inschrijf where Toernooi = '".$toernooi."' and Kenmerk  ='".$kenmerk."'")     or die(' Fout in select record met kenmerk' ); 
-$result        = mysql_fetch_array( $qry );
+$qry           = mysqli_query($con,"SELECT * from inschrijf where Toernooi = '".$toernooi."' and Kenmerk  ='".$kenmerk."'")     or die(' Fout in select record met kenmerk' ); 
+$result        = mysqli_fetch_array( $qry );
 $id            = $result['Id'];
 $email_sender  = $result['Email'];
 $Email_encrypt = $result['Email_encrypt'];
 $_status       = $result['Status'];
-$count         = mysql_num_rows($qry);
+$count         = mysqli_num_rows($qry);
 
 if ($count == 0){
  
@@ -75,15 +75,15 @@ echo "<FORM action='https://www.ontip.nl/".substr($prog_url,3)."delete_one_insch
 
 <?php
 // Ophalen toernooi gegevens
-$qry2             = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
-while($row = mysql_fetch_array( $qry2 )) {
+while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
 	
-$qry_v           = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
-$result_v        = mysql_fetch_array( $qry_v);
+$qry_v           = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
+$result_v        = mysqli_fetch_array( $qry_v);
 $vereniging_id   = $result_v['Id'];
 $url_logo        = $result_v['Url_logo']; 
 	

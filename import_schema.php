@@ -1,5 +1,5 @@
 <?php
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 // indien aangeroepen door step 3 dan is cookie gezet
 if (isset($_COOKIE['competitie'])){
@@ -8,11 +8,11 @@ if (isset($_COOKIE['competitie'])){
 
 
 // ophalen competitie naam adhv doorgegeven id
-$sql        = mysql_query("SELECT * from comp_soort where Id = '".$competitie_id."'  ")     or die(' Fout in select');  
-$result     = mysql_fetch_array( $sql );
+$sql        = mysqli_query($con,"SELECT * from comp_soort where Id = '".$competitie_id."'  ")     or die(' Fout in select');  
+$result     = mysqli_fetch_array( $sql );
 $competitie_naam       = $result['Competitie'];
 
- mysql_query("DELETE FROM comp_spel_schema where Vereniging = '".$vereniging."' and Competitie = '".$competitie_naam."' ");
+ mysqli_query($con,"DELETE FROM comp_spel_schema where Vereniging = '".$vereniging."' and Competitie = '".$competitie_naam."' ");
            
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Lees bestand met schema
@@ -41,7 +41,7 @@ while ($tegenstander[$i] <> ''){
 $sql4  = "INSERT into comp_spel_schema (Id,Vereniging,Competitie,Speelronde,Team,Tegenstander)
            VALUES (0,'".$vereniging."','".$competitie_naam."',".$i.",'".$team."','".$tegenstander[$i]."' )";
            echo $sql4;
-        mysql_query($sql4) or die ('Fout in insert');         
+        mysqli_query($con,$sql4) or die ('Fout in insert');         
 
 $i++;
 } /// while
