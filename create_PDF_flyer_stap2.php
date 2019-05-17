@@ -1,4 +1,16 @@
 <?php
+# create_PDF_Flyer_stap2.php
+# 
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 17mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
 ?>
 <html>
 <head>
@@ -15,14 +27,14 @@ a    {text-decoration:none;color:blue;font-size: 9pt;}
 
 <?php
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 ini_set('default_charset','UTF-8');
 setlocale(LC_ALL, 'nl_NL');
 
 $toernooi           = $_POST['toernooi'];
 
-$sql  = mysql_query("SELECT * From config where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' ")     or die(' Fout in select');  
-while($row = mysql_fetch_array( $sql )) {
+$sql  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' ")     or die(' Fout in select');  
+while($row = mysqli_fetchh_array( $sql )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -36,8 +48,8 @@ $datum_toernooi = $jaar.$maand.$dag;
  
 // uit vereniging tabel	
 	
-$sql2      = mysql_query("SELECT *  From vereniging where Vereniging = '".$vereniging."' ")     or die(' Fout in select');  
-  $result    = mysql_fetch_array( $sql2 );
+$sql2      = mysqli_query($con,"SELECT *  From vereniging where Vereniging = '".$vereniging."' ")     or die(' Fout in select');  
+  $result    = mysqli_fetchh_array( $sql2 );
   $prog_url  = $result['Prog_url'];
   $logo_url  = $result['Url_logo'];
   $plaats    = $result['Plaats'];
@@ -87,8 +99,8 @@ $tijd  =    substr ($datum , 11,5);
 
 // indicatie voor meld_tijd
 
-$qry          = mysql_query("SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'meld_tijd' ") ;  
-$result       = mysql_fetch_array( $qry);
+$qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'meld_tijd' ") ;  
+$result       = mysqli_fetchh_array( $qry);
 $parameter    = explode('#', $result['Parameters']);
 
 $prefix    = $parameter[1];
@@ -110,8 +122,8 @@ switch($soort_inschrijving){
   }
 
 $variabele = 'kosten_team';
- $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysql_fetch_array( $qry1);
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetchh_array( $qry1);
  $id        = $result['Id'];
  $parameter  = explode('#', $result['Parameters']);
  

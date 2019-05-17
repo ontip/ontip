@@ -1,3 +1,17 @@
+<?php 
+# create_PDF_Flyer_stap1.php
+# 
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 17mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+?>
 <html>
 <head>
 <title>Aanmaak PDF Flyer</title>
@@ -139,7 +153,7 @@ function clearFieldFirstTime(element) {
 <body >
 <?php
 // Database gegevens. 
-include('mysql.php');
+include('mysqli.php');
 ini_set('default_charset','UTF-8');
 setlocale(LC_ALL, 'nl_NL');
 
@@ -147,7 +161,7 @@ setlocale(LC_ALL, 'nl_NL');
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -163,8 +177,8 @@ if (isset($_GET['toernooi'])){
 }
 
 
-$sql  = mysql_query("SELECT * From config where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' ")     or die(' Fout in select');  
-while($row = mysql_fetch_array( $sql )) {
+$sql  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' ")     or die(' Fout in select');  
+while($row = mysqli_fetch_array( $sql )) {
 	
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -182,14 +196,14 @@ switch($soort_inschrijving){
     case 'sextet' :   $soort = 'sextetten';  break;
   }
 
-$sql2      = mysql_query("SELECT *  From vereniging where Vereniging = '".$vereniging."' ")     or die(' Fout in select');  
-$result    = mysql_fetch_array( $sql2 );
+$sql2      = mysqli_query($con,"SELECT *  From vereniging where Vereniging = '".$vereniging."' ")     or die(' Fout in select');  
+$result    = mysqli_fetch_array( $sql2 );
  // $prog_url  = $result['Prog_url'];
   
 /// Ophalen tekst kleur
 
-$qry  = mysql_query("SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
-$row        = mysql_fetch_array( $qry );
+$qry  = mysqli_query($con,"SELECT * From kleuren where Kleurcode = '".$achtergrond_kleur."' ")     or die(' Fout in select');  
+$row        = mysqli_fetch_array( $qry );
 $tekstkleur = $row['Tekstkleur'];
 $koptekst   = $row['Koptekst'];
 $invulkop   = $row['Invulkop'];
@@ -202,8 +216,8 @@ if ($tekstkleur =='') {
 
 // uit vereniging tabel	
 	
-$qry          = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
-$row          = mysql_fetch_array( $qry );
+$qry          = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
+$row          = mysqli_fetch_array( $qry );
 $url_logo     = $row['Url_logo'];
 $url_website  = $row['Url_website'];
 $vereniging_output_naam = $row['Vereniging_output_naam'];
@@ -214,9 +228,9 @@ if ($vereniging_output_naam !=''){
     $_vereniging = $row['Vereniging'];
 }
 
-$qry_kl1  = mysql_query("SELECT * From kleuren order by Kleurcode")     or die(' Fout in select');  
-$qry_kl2  = mysql_query("SELECT * From kleuren order by Kleurcode")     or die(' Fout in select');  
-$qry_kl3  = mysql_query("SELECT * From kleuren order by Kleurcode")     or die(' Fout in select');  
+$qry_kl1  = mysqli_query($con,"SELECT * From kleuren order by Kleurcode")     or die(' Fout in select');  
+$qry_kl2  = mysqli_query($con,"SELECT * From kleuren order by Kleurcode")     or die(' Fout in select');  
+$qry_kl3  = mysqli_query($con,"SELECT * From kleuren order by Kleurcode")     or die(' Fout in select');  
 
 /// Verwerk bestand met files die niet getoond moeten worden              
 $myFile = 'nocopyimages.txt' ;    
@@ -365,7 +379,7 @@ echo "<h2 style='color:blue;font-family:verdana;font-size:24;'>Aanmaak PDF flyer
   	  <option style='color:#000000;background:white'                            value='white' >Wit</option>
   	  <option style='color:#FFFFFF;background:black'                            value='black' >Zwart</option>
  <?php   
-      while($row = mysql_fetch_array( $qry_kl1 )) {
+      while($row = mysqli_fetch_array( $qry_kl1 )) {
  	    
 	      echo "<OPTION style='color:#FFFFFF;background:".$row['Kleurcode'].";'  value='".strtoupper($row['Kleurcode'])."'><keuze>".strtoupper($row['Kleurcode'])."";
 	      
@@ -399,7 +413,7 @@ echo "<h2 style='color:blue;font-family:verdana;font-size:24;'>Aanmaak PDF flyer
   	  <option style='color:black;background:#FFFFFF;'         value='black' >Zwart</option>
   	  
    <?php   
-      while($row = mysql_fetch_array( $qry_kl2 )) {
+      while($row = mysqli_fetch_array( $qry_kl2 )) {
  	    
 	      echo "<OPTION style='color:".$row['Kleurcode'].";background:#FFFFFF;'  value='".strtoupper($row['Kleurcode'])."'><keuze>".strtoupper($row['Kleurcode'])."";
 	      
@@ -432,7 +446,7 @@ echo "<h2 style='color:blue;font-family:verdana;font-size:24;'>Aanmaak PDF flyer
   	  <option style='color:black;background:#FFFFFF;'         value='black' >Zwart</option>
    	  
    <?php   
-      while($row = mysql_fetch_array( $qry_kl3 )) {
+      while($row = mysqli_fetch_array( $qry_kl3 )) {
  	    
 	      echo "<OPTION style='color:".$row['Kleurcode'].";background:#FFFFFF;'  value='".strtoupper($row['Kleurcode'])."'><keuze>".strtoupper($row['Kleurcode'])."";
 	      

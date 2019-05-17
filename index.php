@@ -194,7 +194,7 @@ function blink() {
 </head>
 
 <?php
-include 'mysql.php'; 
+include 'mysqli.php'; 
 ?>
  <base href="<?php echo $url_base; ?>"  target='_top'>
 
@@ -221,7 +221,7 @@ $today      = date("Y") ."-".  date("m") . "-".  date("d");
 
 $aangelogd = 'N';
 
-include('aanlog_check.php');	
+include('aanlog_checki.php');	
 
 if ($aangelogd !='J'){
 ?>	
@@ -234,7 +234,7 @@ exit;
 
 // maak hulptabel leeg
 
-mysql_query("Delete from hulp_toernooi where Vereniging_id = '".$vereniging_id."'  ") or die('Fout in schonen tabel');   
+mysqli_query($con,"Delete from hulp_toernooi where Vereniging_id = '".$vereniging_id."'  ") or die('Fout in schonen tabel');   
 
 // Vul hulptabel 
 
@@ -242,9 +242,9 @@ $query = "insert into hulp_toernooi (Toernooi, Vereniging, Vereniging_id, Datum)
 ( select Toernooi,Vereniging, Vereniging_id, Waarde from config     where Vereniging_id = '".$vereniging_id."' and Variabele ='datum' group by Vereniging, Vereniging_id, Toernooi,Waarde   )" ;
 
 
-mysql_query($query) or die ('Fout in vullen hulp_toernooi'); 
+mysqli_query($con,$query) or die ('Fout in vullen hulp_toernooi'); 
 
-$update = mysql_query("UPDATE hulp_toernooi as h
+$update = mysqli_query($con,"UPDATE hulp_toernooi as h
  join config as c
   on c.Vereniging_id        = h.Vereniging_id 
   set h.Toernooi_voluit    = c.Waarde 
@@ -252,7 +252,7 @@ $update = mysql_query("UPDATE hulp_toernooi as h
    and c.Variabele        ='toernooi_voluit' 
    and c.Vereniging_id    = '".$vereniging_id."'  ");
   
-$toernooien = mysql_query("SELECT h.Toernooi,  Waarde , Datum from config as c
+$toernooien = mysqli_query($con,"SELECT h.Toernooi,  Waarde , Datum from config as c
  join hulp_toernooi as h
   on c.Vereniging_id        = h.Vereniging_id and
      c.Toernooi          = h.Toernooi 
@@ -260,25 +260,25 @@ $toernooien = mysql_query("SELECT h.Toernooi,  Waarde , Datum from config as c
      and c.Vereniging_id    = '".$vereniging_id."' order by Datum ");
  
  
-$aantal_toernooien = mysql_num_rows($toernooien);
+$aantal_toernooien = mysqli_num_rows($toernooien);
   
-//$qry                    = mysql_query("SELECT * from hulp_toernooi where Vereniging = '".$vereniging."' and Datum >= '".$today."'   order by Datum ")           or die(' Fout in select eerstv');  
-$qry                    = mysql_query("SELECT * from hulp_toernooi where Vereniging = '".$vereniging."'  order by Datum ")           or die(' Fout in select eerstv');  
+//$qry                    = mysqli_query($con,"SELECT * from hulp_toernooi where Vereniging = '".$vereniging."' and Datum >= '".$today."'   order by Datum ")           or die(' Fout in select eerstv');  
+$qry                    = mysqli_query($con,"SELECT * from hulp_toernooi where Vereniging = '".$vereniging."'  order by Datum ")           or die(' Fout in select eerstv');  
 
-$result                 = mysql_fetch_array( $qry );
+$result                 = mysqli_fetch_array( $qry );
 $toernooi               = $result['Toernooi'];
-$aantal_toernooien      = mysql_num_rows($qry);
+$aantal_toernooien      = mysqli_num_rows($qry);
 
 
 // Indien geen toernooi in de toekomst gevonden of maar 1 toernooi laadt dan de laatste
 
 if ($aantal_toernooien < 2 ) {
-    $qry      = mysql_query("SELECT * from hulp_toernooi where Vereniging = '".$vereniging."'  order by Datum desc limit 1")           or die(' Fout in select toernooi 1');  
-    $row      = mysql_fetch_array( $qry );
+    $qry      = mysqli_query($con,"SELECT * from hulp_toernooi where Vereniging = '".$vereniging."'  order by Datum desc limit 1")           or die(' Fout in select toernooi 1');  
+    $row      = mysqli_fetch_array( $qry );
     $var      = substr($row['Datum'],0,10);
     $toernooi = $row['Toernooi'];   	 
   
-     mysql_query("Update namen set Toernooi = '".$toernooi."' 
+     mysqli_query($con,"Update namen set Toernooi = '".$toernooi."' 
                         WHERE Aangelogd = 'J'  and Vereniging_id = ".$vereniging_id."  and IP_adres = '". $_SERVER['REMOTE_ADDR']."' ");
  
   
@@ -293,21 +293,21 @@ if ($aantal_toernooien < 2 ) {
 
 // haal geselecteerd toernooi op (bij select_toernooi wordt deze opgeslagen in de namen tabel
 
-$sql         = mysql_query("SELECT Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
-$result      = mysql_fetch_array( $sql );
+$sql         = mysqli_query($con,"SELECT Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
+$result      = mysqli_fetch_array( $sql );
 $toernooi    = $result['Toernooi'];
 
 //  Check op nog aanwezige al gespeelde toernooi inschrijvingen
 
-$sql     = mysql_query("SELECT count(*) as Aantal FROM inschrijf WHERE Vereniging = '".$vereniging."' and Datum < '".$today."'" );
-$result  = mysql_fetch_array( $sql );
+$sql     = mysqli_query($con,"SELECT count(*) as Aantal FROM inschrijf WHERE Vereniging = '".$vereniging."' and Datum < '".$today."'" );
+$result  = mysqli_fetch_array( $sql );
 $count_oud_toernooi    = $result['Aantal'];
 
 // ophalen url website
 
 $url_redirect   = '';
-$qry    = mysql_query("SELECT * from vereniging where Vereniging = '".$vereniging."' ")           or die(' Fout in select 1');  
-$result  = mysql_fetch_array( $qry);
+$qry    = mysqli_query($con,"SELECT * from vereniging where Vereniging = '".$vereniging."' ")           or die(' Fout in select 1');  
+$result  = mysqli_fetch_array( $qry);
 $url_website       = $result['Url_website'];
 $verzendadres_sms  = $row['Verzendadres_SMS'];
 $vereniging_id     = $result['Id'];
@@ -317,26 +317,26 @@ $bond              = $result['Bond'];
 $indexpagina_achtergrond_kleur  = $result['Indexpagina_achtergrond_kleur']; 
 
 
-$qry    = mysql_query("SELECT * from namen where Vereniging = '".$vereniging."' and Naam ='Erik'")           or die(' Fout in select 1');  
-$result  = mysql_fetch_array( $qry);
+$qry    = mysqli_query($con,"SELECT * from namen where Vereniging = '".$vereniging."' and Naam ='Erik'")           or die(' Fout in select 1');  
+$result  = mysqli_fetch_array( $qry);
 $id     = $result['Id'];
 
 //Check op aanwezige berichten voor de vereniging of allen
-$msg_qry    = mysql_query("SELECT * from messages where (Vereniging = '".$vereniging."' or Vereniging = '*ALL*')  and Begin_datum <= '".$today."' and Eind_datum > '".$today."'  order by Laatst desc")           or die(' Fout in select msg');  
-$msg_count  = mysql_num_rows($msg_qry);
+$msg_qry    = mysqli_query($con,"SELECT * from messages where (Vereniging = '".$vereniging."' or Vereniging = '*ALL*')  and Begin_datum <= '".$today."' and Eind_datum > '".$today."'  order by Laatst desc")           or die(' Fout in select msg');  
+$msg_count  = mysqli_num_rows($msg_qry);
 
 // statistieken
 
-$qry1    = mysql_query("SELECT count(*) as Aantal From hulp_naam where DATE_FORMAT(Datum,'%Y-%m-%d') >  '".$today."' ")     or die(' Fout in select stats' ); 
-$result  = mysql_fetch_array( $qry1 );
+$qry1    = mysqli_query($con,"SELECT count(*) as Aantal From hulp_naam where DATE_FORMAT(Datum,'%Y-%m-%d') >  '".$today."' ")     or die(' Fout in select stats' ); 
+$result  = mysqli_fetch_array( $qry1 );
 $totaal_inschrijvingen  = $result['Aantal'];
 
 
-$qry2    = mysql_query("SELECT count(*) as Aantal From stats_naam")         or die(' Fout in select 7'); 
-$result  = mysql_fetch_array( $qry2);
+$qry2    = mysqli_query($con,"SELECT count(*) as Aantal From stats_naam")         or die(' Fout in select 7'); 
+$result  = mysqli_fetch_array( $qry2);
 $archief_inschrijvingen  = $result['Aantal'];
 
-$qry3    = mysql_query("SELECT * FROM `inschrijf`  order by Inschrijving desc limit 8")  or die(' Fout in select inschrijf_stats'); 
+$qry3    = mysqli_query($con,"SELECT * FROM `inschrijf`  order by Inschrijving desc limit 8")  or die(' Fout in select inschrijf_stats'); 
 
 $_totaal_inschrijvingen = '';
 $len1   = strlen($totaal_inschrijvingen);
@@ -367,23 +367,23 @@ for ($k=0;$k < $len2;$k++){
 // check of er records zijn voor boulemaatje
 
 if(isset($toernooi) and $toernooi !=''){ 
-   $qry4    = mysql_query("SELECT count(*) as Aantal From boule_maatje  where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' ")         or die(' Fout in select 7'); 
-   $result  = mysql_fetch_array( $qry4);
+   $qry4    = mysqli_query($con,"SELECT count(*) as Aantal From boule_maatje  where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' ")         or die(' Fout in select 7'); 
+   $result  = mysqli_fetch_array( $qry4);
    $aantal_boulemaatje = $result['Aantal'];
 }
 
 // check of er ideal transacties zijn voor dit toernooi
 
 if(isset($toernooi) and $toernooi !=''){ 
-   $qry5    = mysql_query("SELECT count(*) as Aantal From ideal_transacties where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' ")         or die(' Fout in select 8'); 
-   $result  = mysql_fetch_array( $qry5);
+   $qry5    = mysqli_query($con,"SELECT count(*) as Aantal From ideal_transacties where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' ")         or die(' Fout in select 8'); 
+   $result  = mysqli_fetch_array( $qry5);
    $aantal_ideal_transacties  = $result['Aantal'];
 }
 
 // Definieer variabelen en vul ze met waarde uit tabel config
 
-$qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
-while($row = mysql_fetch_array( $qry )) {
+$qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+while($row = mysqli_fetch_array( $qry )) {
 	
 	 $var = $row['Variabele'];
 	 $$var = $row['Waarde'];
@@ -391,8 +391,8 @@ while($row = mysql_fetch_array( $qry )) {
 		
 // uit vereniging tabel	
 	
-$qry                    = mysql_query("SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
-$row                    = mysql_fetch_array( $qry );
+$qry                    = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
+$row                    = mysqli_fetch_array( $qry );
 $url_logo               = $row['Url_logo'];
 $url_website            = $row['Url_website'];
 $vereniging_output_naam = $row['Vereniging_output_naam'];
@@ -436,8 +436,8 @@ if ($onderhoud_ontip =='J'){ ?>
 
 if ($aangelogd == 'J'){
 	$ip_adres = $_SERVER['REMOTE_ADDR'];
-	    $sql      = mysql_query("SELECT * FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select');  
-	    $result   = mysql_fetch_array( $sql );
+	    $sql      = mysqli_query($con,"SELECT * FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select');  
+	    $result   = mysqli_fetch_array( $sql );
       $rechten  = $result['Beheerder'];         	
       $laatste_wijziging_wachtwoord     = $result['Laatste_wijziging_wachtwoord'];
       
@@ -647,8 +647,8 @@ $logo_height = ( $logo_height / $calc) ;
          
          $now       = date ('Y-m-d H:i');
          $variabele = 'einde_inschrijving';
-         $qry1      = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
-         $result    = mysql_fetch_array( $qry1);
+         $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+         $result    = mysqli_fetch_array( $qry1);
          $einde_inschrijving =  $result['Waarde'];
          
       ?>
@@ -971,7 +971,7 @@ window.onload=do_onload
   <?php
       echo "<OPTION style= 'color:blue;font-weight:bold;' value='".$toernooi."' > ".substr($datum,0,10)." > ".$toernooi_voluit. " (".$toernooi.") </option>";           
       
-        while($row = mysql_fetch_array( $toernooien )) {
+        while($row = mysqli_fetch_array( $toernooien )) {
   	           $var = substr($row['Datum'],0,10);
  	           
  	           if ($today > $var){
@@ -1788,10 +1788,10 @@ window.onload=do_onload
        		</tr>	
 		   
 		     <?php
-		     while($row = mysql_fetch_array( $qry3 )) {
+		     while($row = mysqli_fetch_array( $qry3 )) {
 		     	
-		    	$qry_i  = mysql_query("SELECT Waarde From config where Vereniging = '".$row['Vereniging']."' and Toernooi = '".$row['Toernooi']."' and Variabele = 'toernooi_voluit' ")  ;
-		    	$row_i  = mysql_fetch_array( $qry_i );
+		    	$qry_i  = mysqli_query($con,"SELECT Waarde From config where Vereniging = '".$row['Vereniging']."' and Toernooi = '".$row['Toernooi']."' and Variabele = 'toernooi_voluit' ")  ;
+		    	$row_i  = mysqli_fetch_array( $qry_i );
 		     	$toernooi_voluit  = $row_i['Waarde'];
 		     		     	
 		      ?> 
@@ -1806,7 +1806,7 @@ window.onload=do_onload
 		     
 		     <?php
 		     
-		     $qry_i  = mysql_query("SELECT DATE_FORMAT(Inschrijving, '%Y-%m-%d') as Datum ,count(*) as Aantal FROM `inschrijf`   group by 1 order by 1 DEsc limit 7");
+		     $qry_i  = mysqli_query($con,"SELECT DATE_FORMAT(Inschrijving, '%Y-%m-%d') as Datum ,count(*) as Aantal FROM `inschrijf`   group by 1 order by 1 DEsc limit 7");
 		     ?>
 		    <br> 
 		   <H3>Aantal inschrijvingen laatste 7 dagen binnen OnTip (alle toernooien) </H3>
@@ -1818,7 +1818,7 @@ window.onload=do_onload
        		</tr>	
        		
        		<?php
-		   while($row = mysql_fetch_array( $qry_i )) {
+		   while($row = mysqli_fetch_array( $qry_i )) {
  	     ?>
 		     <tr>
 		     	<td style='color:black;font-size:8pt;padding:2pt;'><?php echo $row['Datum'];?> </th>
@@ -1868,8 +1868,8 @@ window.onload=do_onload
    
   <?php
   //Check op aanwezige berichten voor de vereniging of allen
-$msg_qry    = mysql_query("SELECT * from messages where (Vereniging = '".$vereniging."' or Vereniging = '*ALL*')  and Begin_datum <= '".$today."' and Eind_datum > '".$today."'  order by Laatst desc")           or die(' Fout in select msg');  
-$msg_count  = mysql_num_rows($msg_qry);
+$msg_qry    = mysqli_query($con,"SELECT * from messages where (Vereniging = '".$vereniging."' or Vereniging = '*ALL*')  and Begin_datum <= '".$today."' and Eind_datum > '".$today."'  order by Laatst desc")           or die(' Fout in select msg');  
+$msg_count  = mysqli_num_rows($msg_qry);
   
   ?>
   <table border =0 width=95%><tr>
@@ -1888,7 +1888,7 @@ $msg_count  = mysql_num_rows($msg_qry);
 			<th style='width:280pt;'>Bericht</th>
 		</tr>	
 	<?php
-	while($row = mysql_fetch_array( $msg_qry )) {
+	while($row = mysqli_fetch_array( $msg_qry )) {
    
    echo "<tr>";
    echo "<td style= 'font-size:10pt;color:black;'>".$row['Begin_datum']."</td>";
@@ -1933,8 +1933,8 @@ $msg_count  = mysql_num_rows($msg_qry);
      }
      // Definieer variabelen en vul ze met waarde uit tabel config
 
-       $qry  = mysql_query("SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
-        while($row = mysql_fetch_array( $qry )) {
+       $qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+        while($row = mysqli_fetch_array( $qry )) {
 	
     	 $var = $row['Variabele'];
 	     $$var = $row['Waarde'];

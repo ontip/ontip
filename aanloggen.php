@@ -49,7 +49,7 @@ if (window.attachEvent) window.attachEvent("onload", sfFocus);
 <br>
 <form method = 'post' action='verwerk_aanlog.php' target="_top">
 <?php
-include('mysql.php');	
+include('mysqli.php');	
 /* Set locale to Dutch */
 setlocale(LC_ALL, 'nl_NL');
 
@@ -66,8 +66,8 @@ if ($return_page ==''){
 }
 
 
-$qry    = mysql_query("SELECT * from vereniging where Id = ".$vereniging_id." ")           or die(' Fout in select 1');  
-$result  = mysql_fetch_array( $qry);
+$qry    = mysqli_query($con,"SELECT * from vereniging where Id = ".$vereniging_id." ")           or die(' Fout in select 1');  
+$result  = mysqli_fetch_array( $qry);
 $vereniging_id            = $result['Id'];
 $url_redirect             = $result['Url_redirect'];
 $prog_url                 = $result['Prog_url'];
