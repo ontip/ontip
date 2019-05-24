@@ -1,3 +1,17 @@
+<?php 
+# voorspelling_kwalificatie.php
+# Scherm om de voorspelling voor een kwalificatie in te voeren
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 24mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Verkleinen input veld voor bestandsnaam
+# Reference: 
+?>
 <html
 <head>
 <title>Upload inschrijvingen</title>
@@ -167,7 +181,7 @@ $max_file_size = 500000;
 <table width=95% border = 0 >
 	<tr>
 <td width=55%  style='text-align:left;color:blue;font-size:10pt;font-family:arial;'><img src='../ontip/images/icon_excel.jpg' border = 0 width =22  >Selecteer een Excel bestand met inschrijvingen voor importeren :  </td>
-<td style='text-align:center;vertical-align:text-top;'><input style='text-align:left;vertical-align:text-top;background-color:lightblue; '  name="userfile" type="file" size="180">
+<td style='text-align:center;vertical-align:text-top;'><input style='text-align:left;vertical-align:text-top;background-color:lightblue; '  name="userfile" type="file" size="50">
 	<input type="submit" name="submit" value="Upload bestand" />
 	
 	</td>
