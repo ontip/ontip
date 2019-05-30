@@ -21,17 +21,24 @@ ob_start();
 # ----              -------      ------
 #
 # 29dec2018          1.0.1            E. Hendrikx
-# Symptom:   		    None.
+# Symptom:   		  None.
 # Problem:       	  None.
-# Fix:              Ontbrekende var  Voucher_code en Bankrekening
-# Feature:          None.
+# Fix:                Ontbrekende var  Voucher_code en Bankrekening
+# Feature:            None.
 # Reference: 
 #
-# 25jan2019         1.0.2            E. Hendrikx
-# Symptom:   		    None.
-# Problem:       	  None
-# Fix:              None
-# Feature:          Migratie naar PHP 7
+# 25jan2019          1.0.2            E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None
+# Fix:               None
+# Feature:           Migratie naar PHP 7
+# Reference:
+
+# 30mei2019          1.0.3            E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None
+# Fix:               None
+# Feature:           Geen controle op anti spam als licentie1 = 45909  ivm robotframe
 # Reference:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -330,7 +337,7 @@ if ($respons == '') {
 }
 else {
 
-if ($challenge != $respons){
+if ($challenge != $respons  and $Licentie1 <> 45909){
 	$message .= "* Ingevulde Antispam code is niet gelijk aan opgegeven code.<br>";
 	$error = 1;
 }
