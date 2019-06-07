@@ -1,4 +1,15 @@
 <?php
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 16okt2018          1.0.1           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None.
+# Fix:               None.
+# Feature:           None.
+# Reference:  
+
 
 include('mysqli.php');
 // naar csv folder omdat xlsx nog niet bestaat bij meeste verenigingen

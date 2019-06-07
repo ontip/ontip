@@ -1984,6 +1984,12 @@ $msg_count  = mysqli_num_rows($msg_qry);
 		<a STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= "send_sms_message_stap1.php?toernooi=<?php echo $toernooi; ?>"  target='_blank'>Sturen SMS bericht t.b.v. '<b><font color= darkgreen><?php echo $toernooi_voluit ;?></font></b>'<br><span style=' font-size:9pt;color:black;'>Sturen van een SMS bericht naar meerdere deelnemers.</span></a></a>
 		</td>
   </tr>
+  
+  <tr>
+		<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'"> 
+		<a STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= "send_sms_message_xlsx_stap1.php?toernooi=<?php echo $toernooi; ?>"  target='_blank'>Sturen SMS bericht t.b.v. '<b><font color= darkgreen><?php echo $toernooi_voluit ;?></font></b>'<br><span style=' font-size:9pt;color:black;'>Sturen van een SMS bericht naar meerdere deelnemers adhv Excel bestand.</span></a></a>
+		</td>
+  </tr>
  <?php } ?>			
  
     
