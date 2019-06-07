@@ -1,4 +1,17 @@
 <?php
+
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 7jun2019          1.0.1           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None
+# Fix:               None
+# Feature:           PHP7
+# Reference: 
+
+
 header("Content-type: text/csv");
 header("Content-Disposition: attachment; filename=\"".$datum." ".$toernooi." deelnemers.txt\"");
 header("Pragma: no-cache");

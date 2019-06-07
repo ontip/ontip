@@ -1567,7 +1567,7 @@ window.onload=do_onload
 	<?php }  ?> 	
 			 <tr>
 			<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'">
-				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= 'PTB_export_inschrijf_csv.php?toernooi=<?php echo $toernooi;?>'>Aanmaak deelnemers bestand  '<b><font color= darkgreen><?php echo $toernooi_voluit ;?></font></b>' voor Werkman PT Toernooi beheer <img src='../ontip/images/logo_ptb.png' border = 0 width =22  ><br><span style=' font-size:9pt;color:black;'>Het aangemaakte bestand kan worden ingelezen in Petanque Toernooi beheer.</span></a>
+				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= 'PTB_download.php?toernooi=<?php echo $toernooi;?>'>Aanmaak deelnemers bestand  '<b><font color= darkgreen><?php echo $toernooi_voluit ;?></font></b>' voor Werkman PT Toernooi beheer <img src='../ontip/images/logo_ptb.png' border = 0 width =22  ><br><span style=' font-size:9pt;color:black;'>Het aangemaakte bestand kan worden ingelezen in Petanque Toernooi beheer.</span></a>
 		 </td></tr>
 		  <tr>
 			<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'">
