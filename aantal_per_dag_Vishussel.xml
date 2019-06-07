@@ -1,0 +1,34 @@
+<chart>
+<axis_category size='7' color='FF0000'  orientation ='diagonal_down' />
+<chart_rect width='290' height='80'  x ='40' y='40'  />
+<legend layout='hide' />
+
+   <chart_data>
+      <row>
+         <null/>
+  <string>11-Jun</string>
+  <string>14-Jun</string>
+  <string>15-Jun</string>
+  <string>16-Jun</string>
+  <string>17-Jun</string>
+  <string>18-Jun</string>
+  <string>21-Jun</string>
+      </row>
+      <row>
+        <string>Aantal per dag</string>
+  <number>10</number>
+  <number>58</number>
+  <number>18</number>
+  <number>17</number>
+  <number>24</number>
+  <number>1</number>
+  <number>1</number>
+      </row>
+  </chart_data>
+	<draw>
+   <text x='30' v_align='top' y='10'  color ='FF4400' size= '12'>Inschrijvingen per dag Vishussel</text>
+	</draw>
+<chart_type>
+<string>line</string>
+</chart_type>
+</chart>
