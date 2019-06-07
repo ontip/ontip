@@ -9,6 +9,14 @@
 # Fix:              None
 # Feature:          Migratie PHP 5.6 naar PHP 7
 # Reference: 
+
+# 7jun2019         -            E. Hendrikx 
+# Symptom:   		None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Wijzigen link tbv PTB export
+#                   Toegevoegd link voor SMS berichten versturen vanuit Excel bestand
+# Reference: 
 ?>
 ?>
 <html>
