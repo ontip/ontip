@@ -108,7 +108,7 @@ include ('sms_tegoed.php');
 $qry3             = mysqli_query($con,"SELECT Verzendadres_SMS From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select3');  
 $row3             = mysqli_fetch_array( $qry3 );
 $verzendadres_sms   = $row3['Verzendadres_SMS']; 
-echo $verzendadres_sms;
+//echo $verzendadres_sms;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////// Indien Vinkje in bevestigen  dan zenden sms

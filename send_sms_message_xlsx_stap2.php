@@ -251,8 +251,8 @@ $max_lines = 150;
   $j=1;
 
 /// Detail regels uit Excel
-	// vanaf regel 2. 
- for ($i=2;$i < $max_lines;$i++){
+	// vanaf regel 3. 
+ for ($i=3;$i < $max_lines;$i++){
 
   	
        	$volgnr      = $objPHPExcel->setActiveSheetIndex(0)->getCell('A'.$i)->getCalculatedValue();

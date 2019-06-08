@@ -211,10 +211,13 @@ if ($vereniging_output_naam !=''){
 ?>
 
 <blockquote>
-	Met behulp van dit programma kan je een SMS bericht versturen naar de spelers voor het toernooi. De namen en telefoon nummers zijn opgenomen in een Exel bestand. Dit bestand bevat 4 kolommen.1 Volgnummer, 2. Naam, 3.Vereniging, 4. Telnummer.<br>
-	<b>Denk eraan dat je voldoende SMS berichten over hebt in je OnTip SMS bundel</b>. Een standaard SMS bericht telt maximaal 160 tekens. Stuur je langere berichten dan worden hier extra berichten voor afgerekend.  In onderstaande tabel kan je aangeven wie een SMS dient te ontvangen door in de tweede kolom (Sel) de bewuste inschrijving te selecteren.  <br>
-	Als je op het woord <b>'Sel'</b>  klikt bovenaan de tweede kolom, wordt alles aan - of juist uitgezet.Doe dit voordat je een SMS tekst invoert ! Als je een SMS tekst hebt ingevoerd, dien je op Verzenden te drukken.  In een vervolgscherm dien je dit nog een keer te bevestigen.
-
+	Met behulp van dit programma kan je een SMS bericht versturen naar de spelers voor het toernooi. De namen en telefoon nummers zijn opgenomen in een Exel bestand, die je via de onderstaande link kan aanmaken.<br>
+	Na aanmaak van het bestand kan je deze eventueel nog corrigeren of aanvullen. Dit bestand bevat 4 kolommen.1 Volgnummer, 2. Naam, 3.Vereniging, 4. Telefoon nummer.<br>
+	Selekteer het bestand en voer een SMS tekst in. Hierna dien je op Verzenden te drukken.  In een vervolgscherm kan je nog een selectie uitvoeren of wie wel of geen SMS bericht krijgt.
+	<b>Denk eraan dat je voldoende SMS berichten over hebt in je OnTip SMS bundel</b>.
+<br><br>
+ <a href = 'export_inschrijf_xlsx_SMS.php?toernooi=<?php echo $toernooi;?> ' target = '_blank'>Aanmaak Excel bestand vanuit inschrijvingen</a>
+ <br>
 <FORM action="send_sms_message_xlsx_stap2.php" method="post" name= "myForm" enctype="multipart/form-data">
 
 <input type="hidden" name="server" value="ftp.ontip.nl">
