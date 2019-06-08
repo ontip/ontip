@@ -202,11 +202,11 @@ if ($vereniging_output_naam !=''){
  if ($sms_bevestigen_zichtbaar_jn == 'J'){
       // Check sms_tegoed    
       include('sms_tegoed.php');
-      echo "<blockquote><table style='border-collapse: collapse;border : 2pt solid green;box-shadow: 5px 5px 2px #888888;' >
+      echo "<table><tr><td><blockquote><table style='border-collapse: collapse;border : 2pt solid green;box-shadow: 5px 5px 2px #888888;' >
       <tr><td style='background-color: green;color:white;font-size:6pt;padding:8pt;text-align:center;'>SMS tegoed<br> in OnTip bundel</td>
       <td style='background-color: white;color:black;font-size:11pt;width:25pt;text-align:center;padding:4pt;font-weight:bold;'> ".$sms_tegoed."</td></tr>
       <tr><td style='text-align:center;font-size:9pt;color:red;border-top: 1pt solid green;' colspan =2><a style='font-size:9pt;color:red;' href='aanvraag_sms.php'  >Aanvullen SMS bundel</a></td></tr>     
-      </table></blockquote><br>";
+      </table></td><td style='vertical-align:top;'><img src='../ontip/images/icon_excel.png' width=100></td></tr></table></blockquote><br>";
   }
 ?>
 
