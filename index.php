@@ -18,7 +18,7 @@
 #                   Toegevoegd link voor SMS berichten versturen vanuit Excel bestand
 # Reference: 
 ?>
-?>
+
 <html>
 	<Title>OnTip Homepage (c) Erik Hendrikx</title>
 	<head>
