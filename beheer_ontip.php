@@ -37,11 +37,18 @@
 # Feature:          None.
 # Reference: 
 
-# 25jan2019        1.0.1            E. Hendrikx
+# 25jan2019        1.0.2            E. Hendrikx
 # Symptom:   		    None.
 # Problem:       	  None.
 # Fix:              None
 # Feature:          PHP7
+# Reference: 
+
+# 15juni2019        1.0.3            E. Hendrikx
+# Symptom:   		None.
+# Problem:       	None.
+# Fix:              None
+# Feature:          Recensie zichtbaar
 # Reference: 
 
  
@@ -732,6 +739,9 @@ $fonts      = mysqli_query($con,$sql);
  <a class=closeLink href='#' onclick='hideCurrentPopup(); return false;'><br>[Sluit deze tip]</a>
 </DIV>
 
+<DIV onclick='event.cancelBubble = true;' class=popup id='recensie'>Via deze instelling kan worden aangegeven of er recensies bekeken of ingevoerd kunnen worden via de OnTip toernooi kalender.<br>
+ <a class=closeLink href='#' onclick='hideCurrentPopup(); return false;'><br>[Sluit deze tip]</a>
+</DIV>
 
 <!----------------------  einde help teksten ------------------------------>
 
@@ -2396,6 +2406,47 @@ $variabele = 'sms_laatste_inschrijvingen';
   
 
 ?>
+<?php
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//// Invoer recensie   15 jjni 2019
+
+
+$variabele = 'recensie_mogelijk_jn';
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select recensie');  
+ $result    = mysqli_fetch_array( $qry1);
+ $id        = $result['Id'];
+ $keuze     = $result['Waarde'];
+ 
+ if ($keuze !='J'){
+	 $keuze = 'N'; 
+ }
+  	 
+  ?>
+ <tr>
+ <td class='varname'>Recensie invoer mogelijk</td><td style='text-align:center;background-color:#00288a;'>
+ <a href="non_js_help.html" style= 'font-size:7pt;color:blue;' class=popupLink onclick="return !showPopup('recensie', event)">
+     	<img src='../ontip/images/info.jpg' border = 0 width=20>
+  </a> 
+</td>
+<td class='content' colspan=  1>
+
+<?php 
+	echo "<span style='margin-right:15pt;'> Maak een keuze : ";
+  if ($keuze =='J') {
+      echo "<input type='radio' name='Waarde-".$id."' value = 'J' checked/> Ja ";
+      echo "<input type='radio' name='Waarde-".$id."' value = 'N'/> Nee";  	
+    }
+   else {
+      echo "<input type='radio' name='Waarde-".$id."' value = 'J' /> Ja ";
+      echo "<input type='radio' name='Waarde-".$id."' value = 'N' checked/> Nee.   ";  	
+ 	}
+ 	 if ($keuze =='J') { ?>
+    </span> </td><td class='content' colspan=  3>Recensie invullen mogelijk voor dit toernooi.</td>
+<?php } else { ?>
+    </span></td><td class='content' colspan=  3>Recensie invullen NIET mogelijk voor dit toernooi.</td>
+<?php } 
+?> 		
+</tr>
  <tr>
  	
  <td class='varname'>Stuur SMS voor laatste inschrijvingen</td><td style='text-align:center;background-color:#00288a;'><a href="non_js_help.html" style= 'font-size:7pt;color:blue;' class=popupLink onclick="return !showPopup('sms_laatste', event)">

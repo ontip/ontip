@@ -14,7 +14,6 @@
 # Feature:          None.
 # Reference: 
 
-#
 # 25jan2019         1.0.2            E. Hendrikx
 # Symptom:   		    None.
 # Problem:       	  None
@@ -28,6 +27,13 @@
 # Fix:              $uitgestelde_bevestiging_vanaf alleen in combinatie met uitgestelde_bevesting = N  
 # Feature:          None
 # Reference:
+
+# 15juni2019        1.0.4            E. Hendrikx
+# Symptom:   		None.
+# Problem:       	None.
+# Fix:              None
+# Feature:          Recensie zichtbaar
+# Reference: 
 
 //header("Location: ".$_SERVER['HTTP_REFERER']);
 
@@ -1357,8 +1363,8 @@ if ($count > 0){
 	 
 	if ($uitgestelde_bevestiging_vanaf > 0  ){
 		
-		$variabele = 'uitgestelde_bevestiging_jn';
-		$qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."' and Waarde ='J'")     or die(' Fout in select '.$variabele);  
+	$variabele = 'uitgestelde_bevestiging_jn';
+	$qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."' and Waarde ='J'")     or die(' Fout in select '.$variabele);  
     $count     = mysqli_num_rows($qry1);
 
      if ($count > 0 ){
@@ -1379,7 +1385,32 @@ else {
     
     
  } // end if isset	
-	 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///  $recensie_mogelijk j n (15 juni 2019) 
+
+$variabele = 'recensie_mogelijk_jn';
+$qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select '. $variabele);  
+$count     = mysqli_num_rows($qry1);
+
+if ($count > 0){
+	
+	 $result     = mysqli_fetch_array( $qry1);    
+	 $recensie_mogelijk_jn  = $result['Waarde'];
+	 $id        = $result['Id'];
+ 
+     $query       = "UPDATE config  SET Waarde  = 'N',   Laatst  = NOW()  WHERE  Id  = ".$id."  ";
+	   mysqli_query($con,$query) or die ('Fout in update recensie_mogelijk_jn');   
+ 	} 
+else {
+  $query       = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters, Laatst) 
+                        VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'recensie_mogelijk_jn','N', '',  now() ) ";
+						
+	//echo "<br>"		.$query;			
+   mysqli_query($con,$query) or die ('Fout in insert recensie_mogelijk_jn');   
+   
+ } // end if isset	
+	 	 
 	 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
