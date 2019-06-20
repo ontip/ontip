@@ -11,6 +11,13 @@
 # Fix:              None
 # Feature:          Migratie PHP 5.6 naar PHP 7
 # Reference: 
+
+# 20jun2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Status IM0 (import) verwijderd uit selectie
+# Reference: 
 ?>
 <html>
 <head>
@@ -136,7 +143,7 @@ $toernooi = $_GET['toernooi'];
 
 //// SQL Queries
 $qry      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."'
-               and Status in ('BE0','BE1','BE2','BE3','BE8','BE9','BED', 'BEG', 'IM0', 'ID0')  order by Inschrijving ASC" )    or die(mysql_error());  
+               and Status in ('BE0','BE1','BE2','BE3','BE8','BE9','BED', 'BEG', 'ID0')  order by Inschrijving ASC" )    or die(mysql_error());  
                
 // Ophalen toernooi gegevens
 $qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  

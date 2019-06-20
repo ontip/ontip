@@ -43,6 +43,7 @@ error_reporting(E_ALL);
 //// Database gegevens. 
 
 include ('mysqli.php');
+//include('action.php');
 
 $toernooi      = $_POST['toernooi'];   
 $qry           = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ") ;  
@@ -1396,18 +1397,20 @@ $count     = mysqli_num_rows($qry1);
 if ($count > 0){
 	
 	 $result     = mysqli_fetch_array( $qry1);    
-	 $recensie_mogelijk_jn  = $result['Waarde'];
-	 $id        = $result['Id'];
- 
-     $query       = "UPDATE config  SET Waarde  = 'N',   Laatst  = NOW()  WHERE  Id  = ".$id."  ";
+	 $id          = $result['Id'];
+     $recensie_mogelijk_jn        = $_POST['recensie_mogelijk_jn'];
+	 
+     $query       = "UPDATE config  SET Waarde  = '".$recensie_mogelijk_jn."',   Laatst  = NOW()  WHERE  Id  = ".$id."  ";
+	 
+	// echo "<br>  rec"		.$query;	
 	   mysqli_query($con,$query) or die ('Fout in update recensie_mogelijk_jn');   
  	} 
 else {
-  $query       = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters, Laatst) 
+  $query        = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters, Laatst) 
                         VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'recensie_mogelijk_jn','N', '',  now() ) ";
 						
 	//echo "<br>"		.$query;			
-   mysqli_query($con,$query) or die ('Fout in insert recensie_mogelijk_jn');   
+  mysqli_query($con,$query) or die ('Fout in insert recensie_mogelijk_jn');   
    
  } // end if isset	
 	 	 

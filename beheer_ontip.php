@@ -2410,7 +2410,6 @@ $variabele = 'sms_laatste_inschrijvingen';
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Invoer recensie   15 jjni 2019
 
-
 $variabele = 'recensie_mogelijk_jn';
  $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select recensie');  
  $result    = mysqli_fetch_array( $qry1);
@@ -2433,12 +2432,12 @@ $variabele = 'recensie_mogelijk_jn';
 <?php 
 	echo "<span style='margin-right:15pt;'> Maak een keuze : ";
   if ($keuze =='J') {
-      echo "<input type='radio' name='Waarde-".$id."' value = 'J' checked/> Ja ";
-      echo "<input type='radio' name='Waarde-".$id."' value = 'N'/> Nee";  	
+      echo "<input type='radio' name='recensie_mogelijk_jn' value = 'J' checked/> Ja ";
+      echo "<input type='radio' name='recensie_mogelijk_jn' value = 'N'/> Nee";  	
     }
    else {
-      echo "<input type='radio' name='Waarde-".$id."' value = 'J' /> Ja ";
-      echo "<input type='radio' name='Waarde-".$id."' value = 'N' checked/> Nee.   ";  	
+      echo "<input type='radio' name='recensie_mogelijk_jn' value = 'J' /> Ja ";
+      echo "<input type='radio' name='recensie_mogelijk_jn' value = 'N' checked/> Nee.   ";  	
  	}
  	 if ($keuze =='J') { ?>
     </span> </td><td class='content' colspan=  3>Recensie invullen mogelijk voor dit toernooi.</td>
