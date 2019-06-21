@@ -136,6 +136,8 @@ if ($soort_inschrijving == 'kwintet' or $soort_inschrijving =='sextet'){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////// Mail versturen
 
+$toernooi    = $_POST['toernooi'];
+
 setlocale(LC_ALL, 'nl_NL');
 
 $from          = substr($prog_url,3,-1)."@ontip.nl";	
@@ -247,8 +249,9 @@ if 	($email_notificaties_jn =='J'){
 	echo "<br>Max aantal spelers : ".$max_splrs;
 	echo "<br>Aantal reserves    : ".$aantal_reserves;
 	
-$qry                = mysqli_query($con,"SELECT * from inschrijf where Toernooi = '".$toernooi."' and Vereniging_id = ".$vereniging_id."  ")    or die(' Fout in select inschrijf count' ); 
-$aantal_deelnemers  = mysqli_num_rows($qry);
+$qry                = mysqli_query($con,"SELECT count(*) as Aantal from inschrijf where Toernooi = '".$toernooi."' and Vereniging_id = ".$vereniging_id."  ")    or die(' Fout in select inschrijf count' ); 
+$result             = mysqli_fetch_array( $qry );
+$aantal_deelnemers  = $result['Aantal'];
 
 	echo "<br>Aantal deelnemers    : ".$aantal_deelnemers;
 	
