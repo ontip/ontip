@@ -81,10 +81,11 @@ error_reporting(E_ALL);
 <?php
 
 
-
-
 $toernooi = $_GET['toernooi'];
 $string = '';
+if (isset($_GET['smal'])){
+$smal = $_GET['smal'];
+}
 
 //// SQL Queries
 if (isset($toernooi)) {
@@ -117,17 +118,21 @@ $url_logo          = $row3['Url_logo'];
 $grootte_logo   = $row['Grootte_logo'];
 ?>
 
-
 <body bgcolor="<?php echo($achtergrond_kleur); ?>" text="<?php echo($tekstkleur); ?>" link="<?php echo($link); ?>" alink="<?php echo($link); ?>" vlink="<?php echo($link); ?>">
 
-<table >
+
+<?php
+if (!isset($smal)){?>
+
+<!--table >
 <tr><td style='background-color:white;' rowspan=2 width='280'><img src = '<?php echo $url_logo;?>' width='<?php echo $grootte_logo;?>'></td>
 <td STYLE ='font-size: 36pt; background-color:white;color:green ;'>Toernooi inschrijving <?php echo $vereniging; ?></TD></tr>
 <td STYLE ='font-size: 32pt; background-color:white;color:blue ;'> <?php echo $toernooi_voluit; ?></TD>
 </tr>
 </TABLE>
 </div>
-<hr color='red'/>
+<hr color='red'/-->
+<?php } ?>
 <br>
 <blockquote>
 <div style='color:black;font-size:10pt;font-family:verdana;'>Zoals je gemerkt hebt is het toernooi momenteel volgeboekt. Wil je toch graag deelnemen aan dit toernooi,dan kan je je aanmelden voor een email notificatie.

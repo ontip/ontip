@@ -176,7 +176,7 @@ if ($Email != $email_organisatie){
 }// end error
 ?>
 <script language="javascript">
-		window.location.replace('toevoegen_email_notificaties_stap3.php?toernooi=<?php echo $toernooi; ?>');
+		window.location.replace('toevoegen_email_notificatie_stap3.php?toernooi=<?php echo $toernooi; ?>');
 </script>
 
 ?>
