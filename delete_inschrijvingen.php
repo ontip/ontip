@@ -20,6 +20,13 @@
 # Feature:           None.
 # Reference: 
 
+# 5mei2019            1.0.3           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 Geen email notificatie verzonden als gevolg van ontbreken toernooi naam
+# Fix:               PHP7.
+# Feature:           None.
+# Reference: 
+
 
 ?><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
 	<head>
@@ -37,6 +44,8 @@ $challenge  =  $_POST['challenge'];
 $respons    =  $_POST['respons'];
 $notificaties   =  $_POST['notificaties'];
 
+
+echo "Toernooi :".$toernooi;
 // Controles
 $error   = 0;
 $message = '';
@@ -155,9 +164,6 @@ if (!isset($email_notificaties_jn)){
 } 
    
  
-
-
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //  mail versturen
 
@@ -180,6 +186,7 @@ if ($email == ''){
 $to         = $email_organisatie;
 }
 
+$toernooi = $_POST['toernooi'];
 
 /// tbv migratie
 $url_hostName = $_SERVER['HTTP_HOST'];
@@ -326,13 +333,16 @@ mail($to, $subject, $bericht, $headers);
 
 if 	($email_notificaties_jn =='J'   and $notificaties !='' ){
 
-	echo "<br>Max aantal spelers : ".$max_splrs;
-	echo "<br>Aantal reserves    : ".$aantal_reserves;
+//	echo "<br>Max aantal spelers : ".$max_splrs;
+//	echo "<br>Aantal reserves    : ".$aantal_reserves;
 	
-$qry                = mysqli_query($con,"SELECT * from inschrijf where Toernooi = '".$toernooi."' and Vereniging_id = ".$vereniging_id."  ")    or die(' Fout in select inschrijf count' ); 
-$aantal_deelnemers  = mysqli_num_rows($qry);
+	//echo "SELECT count(*) as Aantal from inschrijf where Toernooi = '".$toernooi."' and Vereniging_id = ".$vereniging_id;
+	
+$qry                = mysqli_query($con,"SELECT count(*) as Aantal from inschrijf where Toernooi = '".$toernooi."' and Vereniging_id = ".$vereniging_id."  ")    or die(' Fout in select inschrijf count' ); 
+$result             = mysqli_fetch_array( $qry );
+$aantal_deelnemers  = $result['Aantal'];
 
-	echo "<br>Aantal deelnemers    : ".$aantal_deelnemers;
+//	echo "<br>Aantal deelnemers    : ".$aantal_deelnemers;
 	
 /// als aantal deelnemers < max spelers en reserves = 0 	
 if ($aantal_deelnemers < $max_splrs  and $aantal_reserves  == 0){
@@ -391,16 +401,17 @@ if ($aantal_deelnemers < $max_splrs  and $aantal_reserves  == 0){
     $bericht .= "</table>"   . "\r\n";
     $bericht .= "<br><br><span style='font-family:verdana;font-size:10pt;color:black;font-weight:bold;'>Klik op onderstaande link om u in te schrijven.</span>".   "\r\n";
     
-    $bericht .= "<br><div style= 'font-family:verdana;font-size:10pt;color:red;'><a href='https://www.ontip.nl/".substr($prog_url,3)."Inschrijf_form.php?toernooi=".$toernooi."&email_notificatie=".$kenmerk."'>Klik op deze link</a></div>" . "\r\n";
+    $bericht .= "<br><div style= 'font-family:verdana;font-size:10pt;color:red;'><a href='https://www.ontip.nl/".substr($prog_url,3)."Inschrijfform.php?toernooi=".$toernooi."&email_notificatie=".$kenmerk."'>Klik op deze link</a></div>" . "\r\n";
     
     $bericht .= "<br><div style= 'font-family:verdana;font-size:8.5pt;color:black;padding-top:20pt;'><hr/><img src = 'https://www.ontip.nl/ontip/images/OnTip_banner_klein.jpg' width='40'> Deze automatische mail is aangemaakt vanuit OnTIP. (c) Erik Hendrikx 2011-".date('Y')."</div>" . "\r\n";
     
+//echo $bericht;
 
   ///  alleen mail versturen als mail adres niet gelijk is aan organisatie om te mail verkeer te beperken
-    if ($email != $email_organisatie){
+  
       	$_subject = "=?utf-8?b?".base64_encode($subject)."?=";
         mail($email, $_subject, $bericht, $headers,"-finfo@ontip.nl");
-     }
+ 
 
 }// end while
 
