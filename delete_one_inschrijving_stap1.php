@@ -9,6 +9,20 @@
 /////  Dit is gedaan om te voorkomen dat een verwijdering wordt geinitieerd terwijl de gebruiker dit per ongeluk startte.
 /////  Daarna wordt de inschrijving direct verwijderd.
 /////  Als laatste stuurt dit programma een mail naar de organisatie een bevestiging van het verwijderen.De vezender is in principe de Email van de inschrijver.
+
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+
+# 5mei2019           1.0.1           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None
+# Fix:               PHP7.
+# Feature:           None.
+# Reference: 
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
 <html>

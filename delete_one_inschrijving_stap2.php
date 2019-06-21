@@ -10,6 +10,19 @@ ob_start();
 /////  De oorspronkele inschrijver krijgt een bevestiging van de verwijdering.
 // 26 aug 2018  EHE
 //  Email notificaties
+
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+
+# 5mei2019            1.0.3           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 Geen email notificatie verzonden als gevolg van ontbreken toernooi naam
+# Fix:               PHP7.
+# Feature:           None.
+# Reference: 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Database gegevens. 
