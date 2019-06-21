@@ -16,14 +16,14 @@
 
 # 25jan2019         1.0.2            E. Hendrikx
 # Symptom:   		    None.
-# Problem:       	  None
+# Problem:       	None
 # Fix:              None
 # Feature:          Migratie naar PHP 7
 # Reference:
 
-# 3mei2019         1.0.3            E. Hendrikx
-# Symptom:   		    None.
-# Problem:       	  Bij voorlopige bevesting = J en $uitgestelde_bevestiging_vanaf boven 0, dan staat er twee keer de melding dat het een voorlopige bevestiging is
+# 3mei2019          1.0.3            E. Hendrikx
+# Symptom:   		None.
+# Problem:       	Bij voorlopige bevesting = J en $uitgestelde_bevestiging_vanaf boven 0, dan staat er twee keer de melding dat het een voorlopige bevestiging is
 # Fix:              $uitgestelde_bevestiging_vanaf alleen in combinatie met uitgestelde_bevesting = N  
 # Feature:          None
 # Reference:
@@ -34,6 +34,14 @@
 # Fix:              None
 # Feature:          Recensie zichtbaar
 # Reference: 
+
+# 21juni2019        1.0.5            E. Hendrikx
+# Symptom:   		None.
+# Problem:       	None.
+# Fix:              None
+# Feature:          Bij aanzetten email notificaties wordt aantal reserves op 0 gezet
+# Reference: 
+
 
 //header("Location: ".$_SERVER['HTTP_REFERER']);
 
@@ -1334,10 +1342,19 @@ $variabele = 'email_notificaties_jn';
  $id        = $result['Id'];
  
 if ($count == 1)  {  
-	  $keuze       = $_POST['email_notificaties_jn'];
+	$keuze       = $_POST['email_notificaties_jn'];
     $query       = "UPDATE config  SET Waarde  = '".$keuze."',   Laatst  = NOW()  WHERE  Id  = ".$id."  ";
-//    echo $query. "<br>";
-    mysqli_query($con,$query) or die ('Fout in update email_notificatie_jn');   
+ //    echo $query. "<br>";
+    mysqli_query($con,$query) or die ('Fout in update  email_notificatie_jn'); 	
+		
+	if ($keuze == 'J')  {  
+	$query       = "UPDATE config  SET Waarde  = '0',   Laatst  = NOW()  
+	                   WHERE  Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'aantal_reserves'";
+
+         //    echo $query. "<br>";
+        mysqli_query($con,$query) or die ('Fout in update aantal reserves ivm email_notificatie_jn'); 
+     	}
+	
   } else { 
     $query       = "INSERT INTO  config (Id,  Vereniging, Vereniging_id,Toernooi, Variabele , Waarde, Parameters, Laatst) 
                         VALUES (0, '".$vereniging."', ".$vereniging_id.",'".$toernooi."', 'email_notificaties_jn','N', '',  now() ) ";

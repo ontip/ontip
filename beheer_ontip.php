@@ -51,6 +51,13 @@
 # Feature:          Recensie zichtbaar
 # Reference: 
 
+# 21juni2019        1.0.3            E. Hendrikx
+# Symptom:   		None.
+# Problem:       	None.
+# Fix:              None
+# Feature:          Aanpassing info tekst email notificatie
+# Reference: 
+
  
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 ?>
@@ -735,7 +742,8 @@ $fonts      = mysqli_query($con,$sql);
  <a class=closeLink href='#' onclick='hideCurrentPopup(); return false;'><br>[Sluit deze tip]</a>
 </DIV>
 
-<DIV onclick='event.cancelBubble = true;' class=popup id='email_notificaties'>Via deze instelling kan worden aangegeven of notificaties worden verzonden naar deelnemers die zich hiervoor hebben opgegeven als er weer plekken zijn vrijgekomen nadat het toernooi in eerste instantie vol was.<br>
+<DIV onclick='event.cancelBubble = true;' class=popup id='email_notificaties'>Via deze instelling kan worden aangegeven of notificaties worden verzonden naar deelnemers die zich hiervoor hebben opgegeven als er weer plekken zijn vrijgekomen nadat het toernooi in 
+eerste instantie vol was.<br>Voorwaarde is wel dat het aantal reserves gelijk moet zijn aan 0. Aanzetten van de notificatie zet deze waarde automatisch op 0.<br>
  <a class=closeLink href='#' onclick='hideCurrentPopup(); return false;'><br>[Sluit deze tip]</a>
 </DIV>
 
