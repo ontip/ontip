@@ -12,6 +12,13 @@
 # Feature:          Migratie PHP 5.6 naar PHP 7
 # Reference: 
 
+# 21juni2019          -            E. Hendrikx 
+# Symptom:   		 None.
+# Problem:     	     None
+# Fix:               None
+# Feature:           Huidige datum in kop naar kolom G
+# Reference
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
 <html>
@@ -90,7 +97,9 @@ $result     = mysqli_fetch_array( $qry);
 $inschrijf_methode   = $result['Parameters'];
 
 $timest    = date('Y-m-d h:i:s');
-$xlsx_file ="csv/inschr_naam_ver_".$toernooi.".xlsx";
+$xlsx_file ="csv/inschr_naam_ver_".$toernooi."_".$timest.".xlsx";
+
+
 ?>
 <blockquote>
 <h3 style='padding:10pt;font-size:20pt;color:green;'>Aanmaak excel export voor "<?php echo $toernooi_voluit;?>"</h3>
@@ -98,7 +107,7 @@ $xlsx_file ="csv/inschr_naam_ver_".$toernooi.".xlsx";
 <?php
 
 // verwijder bestand indien aanwezig
-unlink($xlsx_file);
+//unlink($xlsx_file);
 
  // aanmaak xlsx
   error_reporting(E_ALL);
@@ -129,8 +138,8 @@ unlink($xlsx_file);
   $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A1', 'Inschrijvingen naam en vereniging')
             ->setCellValue('D1', $toernooi_voluit)
-            ->setCellValue('F1', $vereniging);
- //           ->setCellValue('G1', $timest);
+            ->setCellValue('F1', $vereniging)
+            ->setCellValue('G1', $timest);
 
 // center header line2
 	  $style = array(
@@ -316,11 +325,14 @@ unlink($xlsx_file);
        )) ;
    $objPHPExcel->getActiveSheet()->getStyle('A1:A1')->applyFromArray($style);       
   
+  // header  (secties L en R) met toernooi en vereniging
+   $objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddHeader('&L '.$toernooi.'&C '.$datum. '  &R '.$vereniging);
+ 
   // footer  (secties L en R) met Pagina nr en tot paginas
   $objPHPExcel->getActiveSheet()->getHeaderFooter()->setDifferentOddEven(false);
   $objPHPExcel->getActiveSheet()->getHeaderFooter()->setOddFooter('&L Aanmaak:'.$timest.'&C &F &R Pag. &P / &N');
-  
-  // set print Layout
+ 
+   // set print Layout
   // Set Orientation, size and scaling
   $objPHPExcel->setActiveSheetIndex(0);
   $objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
