@@ -127,6 +127,7 @@ $email_return  = $email_organisatie;
 
 $headers .= 'From: OnTip '. $subdomein. ' <'.$from.'>' . "\r\n" .	 
        'Cc: '. $email_cc . "\r\n" .
+	   'BCC: '. $email_organisatie . "\r\n" .
        'Return-Path: '. $email_return  . "\r\n" . 
        'Reply-To: '. $email_organisatie . "\r\n" .
        'X-Mailer: PHP/' . phpversion();
