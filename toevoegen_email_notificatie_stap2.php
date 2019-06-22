@@ -1,4 +1,15 @@
 <?php
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 22jun2019          1.0.1           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None.
+# Fix:               None.
+# Feature:           Email organisatie als BCC .
+# Reference: 
+
 ob_start();
 
 ini_set('display_errors', 'On');
