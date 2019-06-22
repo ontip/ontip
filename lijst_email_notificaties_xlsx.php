@@ -56,22 +56,13 @@ else {
 <table >
 <tr><td style='background-color:white;' rowspan=2 width='280'><img src = '../ontip/images/ontip_logo.png' width='280'></td>
 <td STYLE ='font-size: 36pt; background-color:white;color:green ;'>Email notificaties</TD></tr>
-<td STYLE ='font-size: 32pt; background-color:white;color:green ;'><?php echo $toernooi_voluit;?></TD></tr>
+<td STYLE ='font-size: 32pt; background-color:white;color:blue ;'><?php echo $toernooi_voluit;?></TD></tr>
 </tr>
 </TABLE>
 </div>
 <hr color='red'/>
 
 <span style='text-align:right;'><a href='index.php'>Terug naar Hoofdmenu</a></span><br>
-
-<blockquote>
-<h3 style='padding:10pt;font-size:20pt;color:green;'>Aanmaak excel bestand</h3>
-<br>
-Er wordt een Excel bestand aangemaakt met daarin de aangemelde email notificaties binnen OnTip.<br>
-Hiervoor kan een deelnemer zich aanmelden als de functie is aangezet voor een toernooi en het toernooi volgeboekt is.<br>
-Zodra er een  deelnemer wordt verwijderd en de email notificaties worden verstuurd krijgen de aangemelde email adressen een bericht dat er weer ingeschreven kan worden.<br>
-<br>
-
 
 <?php
 if (isset($_GET['id'])){
@@ -99,6 +90,17 @@ $qry        = mysqli_query($con,"SELECT * From email_notificaties order by Veren
 
 $timest  = date('Ymd');
 $xlsx_file ="csv/email_notificaties_".$timest.".xlsx";
+?>
+<blockquote>
+<h3 style='padding:10pt;font-size:20pt;color:green;'>Aanmaak excel bestand voor <?php echo $toernooi_voluit;?></h3>
+<br>
+Er wordt een Excel bestand aangemaakt met daarin de aangemelde email notificaties binnen OnTip.<br>
+Hiervoor kan een deelnemer zich aanmelden als de functie is aangezet voor een toernooi en het toernooi volgeboekt is.<br>
+Zodra er een  deelnemer wordt verwijderd en de email notificaties worden verstuurd krijgen de aangemelde email adressen een bericht dat er weer ingeschreven kan worden.<br>
+<br>
+
+
+<?php
 
 // verwijder bestand indien aanwezig
 unlink($xlsx_file);
@@ -229,7 +231,7 @@ $i++;
 
  
 ?>
-<a href = '<?php echo $xlsx_file;?>' target = '_blank'>Klik hier voor bestand</a> 
+<a href = '<?php echo $xlsx_file;?>' target = '_blank'><img src = '../ontip/images/icon_excel.png'  width=50><br>Aangemaakt op <?php echo $timest;?>.<br>Klik hier voor bestand '<?php echo $xlsx_file;?>'</a> 
 </blockquote>
 </body>
 </html>
