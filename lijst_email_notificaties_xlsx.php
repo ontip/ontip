@@ -35,13 +35,28 @@ a    {text-decoration:none;color:blue;font-size: 8pt}
 include('mysqli.php');
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
+if (isset($_GET['id'])){	
+$vereniging_id = $_GET['id'];
+$toernooi      = $_GET['toernooi'];
+
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+while($row = mysqli_fetch_array( $qry )) {
+	 $var  = $row['Variabele'];
+	 $$var = $row['Waarde'];
+	}
+}
+else {
+		echo " Geen toernooi bekend :";
+};
+
+4
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
 <div style='background-color:white;'>
 <table >
-<tr><td style='background-color:white;' rowspan=1 width='280'><img src = '../ontip/images/ontip_logo.png' width='280'></td>
+<tr><td style='background-color:white;' rowspan=2 width='280'><img src = '../ontip/images/ontip_logo.png' width='280'></td>
 <td STYLE ='font-size: 36pt; background-color:white;color:green ;'>Email notificaties</TD></tr>
-
+<td STYLE ='font-size: 32pt; background-color:white;color:green ;'><?php echo $toernooi_voluit;?></TD></tr>
 </tr>
 </TABLE>
 </div>
@@ -61,8 +76,20 @@ Zodra er een  deelnemer wordt verwijderd en de email notificaties worden verstuu
 <?php
 if (isset($_GET['id'])){
 $vereniging_id = $_GET['id'];
+$toernooi      = $_GET['toernooi'];
+if (isset($toernooi)) {
+	$qry  = mysqli_query($con,"SELECT * From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
+while($row = mysqli_fetch_array( $qry )) {
+	 $var  = $row['Variabele'];
+	 $$var = $row['Waarde'];
+	}
+}
+else {
+		echo " Geen toernooi bekend :";
+};
 
-$qry        = mysqli_query($con,"SELECT * From email_notificaties where Vereniging_id = ".$vereniging_id." order by Vereniging_id  , Toernooi ") ;  
+
+$qry        = mysqli_query($con,"SELECT * From email_notificaties where Vereniging_id = ".$vereniging_id." and Toernooi = '".$toernooi."' order by Vereniging_id  , Toernooi ") ;  
 
 } else {
 $qry        = mysqli_query($con,"SELECT * From email_notificaties order by Vereniging_id  , Toernooi  ") ;  

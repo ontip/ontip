@@ -1552,7 +1552,7 @@ window.onload=do_onload
 	<?php if ($email_notificaties_jn  =='J'){ ?>	 
 	   <tr>
 			<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'">
-				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= "lijst_email_notificaties_xlsx.php?id=<?php echo $vereniging_id; ?>">Email notificaties '<b><font color= darkgreen><?php echo $vereniging ;?></font></b>' <img src='../ontip/images/icon_excel.jpg' border = 0 width =22  ><br><span style=' font-size:9pt;color:black;'>Lijst met deelnemers die zich hebben aangemeld voor email notificaties.</span></a>
+				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= "lijst_email_notificaties_xlsx.php?id=<?php echo $vereniging_id; ?>&toernooi=<?php echo $toernooi; ?>">Email notificaties '<b><font color= darkgreen><?php echo $toernooi_voluit ;?></font></b>' <img src='../ontip/images/icon_excel.jpg' border = 0 width =22  ><br><span style=' font-size:9pt;color:black;'>Lijst met deelnemers die zich hebben aangemeld voor email notificaties.</span></a>
 			</td>
 		</tr>
 		<?php } ?>	
