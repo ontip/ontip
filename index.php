@@ -4,18 +4,25 @@
 # Date              Version      Person
 # ----              -------      ------
 # 17mei2019         -            E. Hendrikx 
-# Symptom:   		    None.
+# Symptom:   		None.
 # Problem:     	    None
 # Fix:              None
 # Feature:          Migratie PHP 5.6 naar PHP 7
 # Reference: 
 
-# 7jun2019         -            E. Hendrikx 
+# 7jun2019          -            E. Hendrikx 
 # Symptom:   		None.
 # Problem:     	    None
 # Fix:              None
 # Feature:          Wijzigen link tbv PTB export
 #                   Toegevoegd link voor SMS berichten versturen vanuit Excel bestand
+# Reference: 
+
+# 22jun2019         -            E. Hendrikx 
+# Symptom:   		None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Lijst email notificaties
 # Reference: 
 ?>
 
@@ -1541,7 +1548,14 @@ window.onload=do_onload
 			<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'">
 				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= 'export_inschrijf_uitgebreid_xlsx.php?toernooi=<?php echo $toernooi; ?>'>Excel export - uitgebreid '<b><font color= darkgreen><?php echo $toernooi_voluit ;?></font></b>' <img src='../ontip/images/icon_excel.png' border = 0 width =22  ><br><span style=' font-size:9pt;color:black;'>Lijst van inschrijvingen met Namen, Licenties en Verenigingen t.b.v Excel (xlsx).</span></a>
 		 </td></tr>
-	
+		 
+	<?php if ($email_notificaties_jn  =='J'){ ?>	 
+	   <tr>
+			<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'">
+				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= "lijst_email_notificaties_xlsx.php?id=<?php echo $vereniging_id; ?>">Email notificaties '<b><font color= darkgreen><?php echo $vereniging ;?></font></b>' <img src='../ontip/images/icon_excel.jpg' border = 0 width =22  ><br><span style=' font-size:9pt;color:black;'>Lijst met deelnemers die zich hebben aangemeld voor email notificaties.</span></a>
+			</td>
+		</tr>
+		<?php } ?>	
 		 <tr>
 			<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'">
 				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= 'Welp_export_txt_inschrijflijst_stap1.php?toernooi=<?php echo $toernooi; ?>' >Aanmaak inschrijflijst bestand tbv Welp toernooi inschrijvingen '<b><font color= darkgreen><?php echo $toernooi_voluit ;?></font></b>' <img src='../ontip/images/icon_excel.jpg' border = 0 width =22  > <img src='../ontip/images/welp_logo.png' border =0 width =25><br><span style=' font-size:9pt;color:black;'>Maakt txt bestand aan om inschrijvingen te kunnen importeren in Welp.</span></a>
@@ -1588,7 +1602,7 @@ window.onload=do_onload
 			</td>
 		</tr>
 
-	
+
 		</table>
 	<?php } ?> 
 		<br><em>Maak een keuze uit een van de volgende menu opties door er op te klikken</em>  
