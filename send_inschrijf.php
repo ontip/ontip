@@ -41,6 +41,12 @@ ob_start();
 # Feature:           Geen controle op anti spam als licentie1 = 45909  ivm robotframe
 # Reference:
 
+# 23jun2019          1.0.4           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None
+# Fix:               None
+# Feature:           Update email notificatie als email notificatie kenmerk is meegegeven vanuit Inschrijfform
+# Reference:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
@@ -247,8 +253,8 @@ switch($soort_inschrijving){
 	 case 'single'  : $aantal_personen=1;break;
 	 case 'doublet' : $aantal_personen=2;break;
 	 case 'triplet' : $aantal_personen=3;break;
-   case '4x4'     : $aantal_personen=4;break;
-   case 'kwintet' : $aantal_personen=5;break;
+    case '4x4'     : $aantal_personen=4;break;
+    case 'kwintet' : $aantal_personen=5;break;
 	 case 'sextet'  : $aantal_personen=6;break;
 } // end switch
 
@@ -1855,7 +1861,18 @@ if ($uitgestelde_bevestiging_jn != 'J'){
   $bericht .= "<div style= 'font-family:verdana;font-size:10pt;color:red;'>Bewaar deze mail goed !</div><br>" . "\r\n\r\n\r\n\r\n";
 }
 
-// QRC code Ical event mee sturen
+//  23 jun 2019 verwerk inschrijven voor email notificatie
+
+if (isset($_POST['email_notificatie'])){
+	
+	$email_notificatie_kenmerk = $_POST['email_notificatie'];
+	
+	$query = "UPDATE `email_notificaties`  set Ingeschreven = 'J' where Notificatie_kenmerk = '".$email_notificatie_kenmerk."';";
+    mysqli_query($con,$query) or die ('Fout in update notificatie tabel');           
+
+	
+}
+
 
 $jaar  = substr($datum,0,4);
 $maand = substr($datum,5,2);
@@ -2061,6 +2078,10 @@ if ($ideal_betaling_jn  =='J'){
 <?php
 //exit;
 }
+
+
+
+
 
 ob_end_flush();
 ?>

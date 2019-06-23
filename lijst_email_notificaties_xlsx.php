@@ -151,8 +151,9 @@ unlink($xlsx_file);
             ->setCellValue('E2', 'Datum')
             ->setCellValue('F2', 'Naam')
             ->setCellValue('G2', 'Kenmerk')
-            ->setCellValue('H2', 'Email adres')
-            ->setCellValue('I2', 'Laatst');
+            ->setCellValue('H2', 'Ingeschreven')
+            ->setCellValue('I2', 'Email adres')
+            ->setCellValue('J2', 'Laatst');
 
  // details
  
@@ -177,8 +178,9 @@ $i=1;
             ->setCellValue('E'.$r, $row['Datum'])
             ->setCellValue('F'.$r, $row['Naam'])
             ->setCellValue('G'.$r, $row['Notificatie_kenmerk'])
-            ->setCellValue('H'.$r, $email)
-            ->setCellValue('I'.$r, $row['Laatst']);
+            ->setCellValue('H'.$r, $row['Ingeschreven'])
+            ->setCellValue('I'.$r, $email)
+            ->setCellValue('J'.$r, $row['Laatst']);
 
 
 $r++;
@@ -201,7 +203,7 @@ $i++;
     );
     
    $objPHPExcel->getActiveSheet()->getStyle('A1:A1')->applyFromArray($style);       
-   $objPHPExcel->getActiveSheet()->getStyle('A2:I2')->applyFromArray($border_bottom);   
+   $objPHPExcel->getActiveSheet()->getStyle('A2:J2')->applyFromArray($border_bottom);   
    
     // pas breedte kolommen aan      
    $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(5);   
@@ -211,8 +213,9 @@ $i++;
    $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(12);   
    $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(26);   
    $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(12);   
-   $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(32);   
-   $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(22);   
+   $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(12);   
+   $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(35);   
+   $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(22);   
    
    $objPHPExcel->getActiveSheet()->getStyle('A1:I2')->getFont()->setBold(true);
 
