@@ -21,6 +21,13 @@ ob_start();
 # Feature:          PHP7
 # Reference: 
 
+# 26jun2019           1.0.1           E. Hendrikx
+# Symptom:   		      None.
+# Problem:       	    None
+# Fix:                None.
+# Feature:            email notificatie verzenden
+# Reference: 
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -41,7 +48,6 @@ else {
 	$sms_send = 'N';
 }
 	
-
 //echo "SELECT * from inschrijf where Id='".$id."' and  Kenmerk  ='".$kenmerk."'  ";
 
 $qry           = mysqli_query($con,"SELECT * from inschrijf where Id='".$id."' and  Kenmerk  ='".$kenmerk."'  ")    or die(' Fout in select met kenmerk' ); 
@@ -97,6 +103,23 @@ while($row = mysqli_fetch_array( $qry2 )) {
 if (!isset($sms_bevestigen_zichtbaar_jn)) {
 	$sms_bevestigen_zichtbaar_jn = 'N';
 }
+
+
+if (!isset($email_notificaties_jn)){
+	$email_notificaties_jn ='N';
+} 
+
+
+if ($email_notificaties_jn =='J'){
+	$variabele = 'email_notificaties_jn';
+  $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select notifi');  
+  $result    = mysqli_fetch_array( $qry1);
+ 
+ $keuze     = substr($result['Waarde'],0,1);
+ $kanaal    = substr($result['Parameters'],1,1);
+	
+}
+
 
 // Ophalen sms gegevens
 $qry3             = mysqli_query($con,"SELECT Verzendadres_SMS From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select3');  
@@ -232,6 +255,102 @@ $bericht .= "Wedstrijd commissie ".$vereniging."."."\r\n";
 mail($email_sender, $subject, $bericht, $headers); 
 
 
+/// email notificaties versturen
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// send email notificatie
+
+if 	($email_notificaties_jn =='J'  and $kanaal =='E'  ){
+
+//	echo "<br>Max aantal spelers : ".$max_splrs;
+//	echo "<br>Aantal reserves    : ".$aantal_reserves;
+	
+	//echo "SELECT count(*) as Aantal from inschrijf where Toernooi = '".$toernooi."' and Vereniging_id = ".$vereniging_id;
+	
+$qry                = mysqli_query($con,"SELECT count(*) as Aantal from inschrijf where Toernooi = '".$toernooi."' and Vereniging_id = ".$vereniging_id."  ")    or die(' Fout in select inschrijf count' ); 
+$result             = mysqli_fetch_array( $qry );
+$aantal_deelnemers  = $result['Aantal'];
+
+//	echo "<br>Aantal deelnemers    : ".$aantal_deelnemers;
+	
+/// als aantal deelnemers < max spelers en reserves = 0 	
+if ($aantal_deelnemers < $max_splrs  and $aantal_reserves  == 0){
+
+
+  // Ophalen notificatie gegevens
+   
+   $qry             = mysqli_query($con,"SELECT * From email_notificaties where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."'  and Ingeschreven ='N'  ")     or die(' Fout in select notificaties');  
+    while($row = mysqli_fetch_array( $qry )) {
+
+   $id               = $row['Id'];
+   $naam             = $row['Naam'];
+   $email            = $row['Email'];
+   $email_encrypt    = $row['Email_encrypt'];
+   $licentie         = $row['Licentie'];
+   $kenmerk          = $row['Notificatie_kenmerk'];
+     
+   if ($email =='[versleuteld]'){ 
+       $email    = versleutel_string($email_encrypt);    
+   }
+   
+ //     echo "Notificatie naar ".$naam."- ".$email;
+   
+    // aanmaak email bericht
+    $from = $subdomein."@ontip.nl";	
+    
+    $headers  = 'MIME-Version: 1.0' . "\r\n";
+    $headers .= 'Content-type: text/html; charset="UTF-8"' . "\r\n";
+    $email_noreply = $email_organisatie;
+    $email_return  = $email_organisatie;
+    
+    $headers .= 'From: OnTip '. $subdomein. ' <'.$from.'>' . "\r\n" .	 
+           'Return-Path: '. $email_return  . "\r\n" . 
+           'Reply-To: '. $email_organisatie . "\r\n" .
+           'X-Mailer: PHP/' . phpversion();
+    $headers  .= "\r\n";
+    
+    $subject  = 'Email notificatie '.$toernooi_voluit;
+    
+    $bericht = "<table>"   . "\r\n";
+    $bericht .= "<tr><td><img src= '". $url_logo ."' width=80></td>"   . "\r\n";
+    $bericht .= "<td style= 'font-family:verdana;font-size:12pt;color:blue;'><b>". htmlentities($toernooi_voluit, ENT_QUOTES | ENT_IGNORE, "UTF-8") ."<br><span style= 'font-family:Ariale;font-size:14pt;color:green;'>". strftime("%A %e %B %Y", mktime(0, 0, 0, $maand , $dag, $jaar) )  ."</span><br>". htmlentities($vereniging_output_naam , ENT_QUOTES | ENT_IGNORE, "UTF-8") ."</b></td></tr>" . "\r\n";
+    $bericht .= "</table>"   . "\r\n";
+    $bericht .= "<br><hr/>".   "\r\n";
+    $bericht .= "<h3 style='font-family:verdana;font-size:10pt;color:black;'><u>Email notificatie</u></h3>".   "\r\n";
+    
+    $bericht .= "<br><span style='font-family:verdana;font-size:10pt;color:black;'>U ontvangt deze Email notificatie omdat er een plek is vrijgekomen voor onderstaand toernooi.  </span><br>".   "\r\n";
+    
+    $bericht .= "<br><table  Style='font-family:verdana;font-size:9pt;border-collapse: collapse;background-color:white;padding:5pt;border-color:darkgrey;'>"   . "\r\n";
+    $bericht .= "<tr><td  width=200>Toernooi  </td><td colspan = 2>"          .  $toernooi_voluit       ."</td></tr>".  "\r\n";
+    $bericht .= "<tr><td  width=200>Max deelnemers </td><td colspan = 2>"     .  $max_splrs       ."</td></tr>".  "\r\n";
+    $bericht .= "<tr><td  width=200>Huidig aantal  </td><td colspan = 2>"     .  $aantal_deelnemers      ."</td></tr>".  "\r\n";
+    $bericht .= "<tr><td  width=200>Naam  </td><td colspan = 2>"              .  $naam                  ."</td></tr>".  "\r\n";
+    $bericht .= "<tr><td  width=200>Email      </td><td colspan = 2>"         .  $email                 ."</td></tr>".  "\r\n";
+    $bericht .= "<tr><td  width=200>Kenmerk notificatie   </td><td colspan = 2>"    .  $kenmerk        ."</td></tr>".  "\r\n";
+    $bericht .= "</table>"   . "\r\n";
+    $bericht .= "<br><br><span style='font-family:verdana;font-size:10pt;color:black;font-weight:bold;'>Klik op onderstaande link om u in te schrijven.</span>".   "\r\n";
+    
+    $bericht .= "<br><div style= 'font-family:verdana;font-size:10pt;color:red;'><a href='https://www.ontip.nl/".substr($prog_url,3)."Inschrijfform.php?toernooi=".$toernooi."&email_notificatie=".$kenmerk."'>Klik op deze link</a></div>" . "\r\n";
+    
+    $bericht .= "<br><div style= 'font-family:verdana;font-size:8.5pt;color:black;padding-top:20pt;'><hr/><img src = 'https://www.ontip.nl/ontip/images/OnTip_banner_klein.jpg' width='40'> Deze automatische mail is aangemaakt vanuit OnTIP. (c) Erik Hendrikx 2011-".date('Y')."</div>" . "\r\n";
+    
+//echo $bericht;
+
+ 
+      	$_subject = "=?utf-8?b?".base64_encode($subject)."?=";
+        mail($email, $_subject, $bericht, $headers,"-finfo@ontip.nl");
+ 
+
+}// end while
+
+}  // end if aantal deelnemers < max spelers
+
+
+} // end email_notificaties
+
+
+
+
 //// SMS
 
 $Telefoon = $result['Telefoon'];
@@ -341,6 +460,14 @@ $sms_bericht_lengte = strlen($sms_bericht);
  
 
 }
+
+
+
+
+
+
+
+
 
  ?>
  <!----- /////////////////////////////////////////   close window in popup ---------------------------------------------------------->

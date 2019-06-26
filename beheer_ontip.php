@@ -45,20 +45,27 @@
 # Reference: 
 
 # 15juni2019        1.0.3            E. Hendrikx
-# Symptom:   		None.
-# Problem:       	None.
+# Symptom:   		    None.
+# Problem:       	  None.
 # Fix:              None
 # Feature:          Recensie zichtbaar
 # Reference: 
 
-# 21juni2019        1.0.3            E. Hendrikx
-# Symptom:   		None.
-# Problem:       	None.
+# 21juni2019        1.0.4            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  None.
 # Fix:              None
 # Feature:          Aanpassing info tekst email notificatie
 # Reference: 
 
- 
+# 26juni2019        1.0.5            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  None.
+# Fix:              None
+# Feature:          Notificatie als SMS
+# Reference: 
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 ?>
 <html>
@@ -452,7 +459,9 @@ $url_website                    = $row['Url_website'];
 $url_redirect                   = $row['Url_redirect'];
 $vereniging_output_naam         = $row['Vereniging_output_naam'];
 $indexpagina_achtergrond_kleur  = $row['Indexpagina_achtergrond_kleur']; 
- 
+$verzend_adres_SMS              = $row['Verzendadres_SMS'];
+
+
 if ($vereniging_output_naam !=''){ 
     $_vereniging = $row['Vereniging_output_naam'];
 } else { 
@@ -743,7 +752,7 @@ $fonts      = mysqli_query($con,$sql);
 </DIV>
 
 <DIV onclick='event.cancelBubble = true;' class=popup id='email_notificaties'>Via deze instelling kan worden aangegeven of notificaties worden verzonden naar deelnemers die zich hiervoor hebben opgegeven als er weer plekken zijn vrijgekomen nadat het toernooi in 
-eerste instantie vol was.<br>Voorwaarde is wel dat het aantal reserves gelijk moet zijn aan 0. Aanzetten van de notificatie zet deze waarde automatisch op 0.<br>
+eerste instantie vol was.<br>Voorwaarde is wel dat het aantal reserves gelijk moet zijn aan 0. Aanzetten van de notificatie zet deze waarde automatisch op 0.<br>Indien men gebruikmaakt van de SMS dienst kan dit ook een SMS bericht zijn.<br>
  <a class=closeLink href='#' onclick='hideCurrentPopup(); return false;'><br>[Sluit deze tip]</a>
 </DIV>
 
@@ -1686,13 +1695,21 @@ echo "'><span><br>Maximaal 1 email adres !!";
     	
 <tr>
 <?php
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// email_notificaties_jn
 $variabele = 'email_notificaties_jn';
  $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
  $result    = mysqli_fetch_array( $qry1);
  $id        = $result['Id'];
- $keuze     = $result['Waarde'];
-
+ 
+ $keuze     = substr($result['Waarde'],0,1);
+ $kanaal    = substr($result['Parameters'],0,1);
+ 
+ if ($keuze =='J' and $kanaal ==''){
+ 	   $kanaal = 'E';
+}
+ 
+  
 $variabele = 'aantal_reserves';
  $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
  $result    = mysqli_fetch_array( $qry1);
@@ -1708,7 +1725,7 @@ if ($aantal_reserves > 0){
  	}
 ?>
  
- <td class='varname'>Email notificaties</td><td style='text-align:center;background-color:#00288a;'><a href="non_js_help.html" style= 'font-size:7pt;color:blue;' class=popupLink onclick="return !showPopup('email_notificaties', event)">
+ <td class='varname'>Notificaties</td><td style='text-align:center;background-color:#00288a;'><a href="non_js_help.html" style= 'font-size:7pt;color:blue;' class=popupLink onclick="return !showPopup('email_notificaties', event)">
      	<img src='../ontip/images/info.jpg' border = 0 width=20></a>
 </td>
 <td class='content' colspan = 2 >   
@@ -1718,6 +1735,15 @@ if ($aantal_reserves > 0){
   if ($keuze =='J') {
       echo "<input type='radio' name='email_notificaties_jn' value = 'J' checked/> Ja ";
       echo "<input type='radio' name='email_notificaties_jn' value = 'N'/> Nee. ";  	
+      
+      if ($kanaal == 'E'){
+         echo "<input type='radio' name='email_notificaties_kanaal' value = 'Email' checked/> Email ";
+         echo "<input type='radio' name='email_notificaties_kanaal' value = 'SMS'/> SMS. ";  	
+      } else {
+      	 echo "<input type='radio' name='email_notificaties_kanaal' value = 'Email' /> Email ";
+         echo "<input type='radio' name='email_notificaties_kanaal' value = 'SMS'  checked/> SMS. ";  	
+      }
+      
     }
    else {
      	echo "<input type='radio' name='email_notificaties_jn' value = 'J' /> Ja ";
@@ -1729,13 +1755,20 @@ if ($aantal_reserves > 0){
 <td class='content' colspan = 2>
 <?php
 if ($keuze =='J') {
-echo "<span style='padding-left:25pt;'> Email notificaties zijn ingeschakeld.";
+	
+	  if ($kanaal == 'E'){
+	     echo "<span style='padding-left:25pt;'> Email notificaties zijn ingeschakeld.";
+    } else {
+	     echo "<span style='padding-left:25pt;'> SMS notificaties zijn ingeschakeld.";
+    }
+
+
   }  else {
-echo "<span style='padding-left:25pt;'> Email notificaties zijn uitgeschakeld.";
+echo "<span style='padding-left:25pt;'> Notificaties zijn uitgeschakeld.";
  	}
  	
  	if ($aantal_reserves > 0 ){
- 		echo "&nbspAantal reserves moet 0 zijn";
+ 		echo "&nbsp<font color = red>Aantal reserves moet 0 zijn.</font>";
  	}
  	echo "</span>";
  	

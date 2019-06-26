@@ -16,30 +16,37 @@
 
 # 25jan2019         1.0.2            E. Hendrikx
 # Symptom:   		    None.
-# Problem:       	None
+# Problem:       	  None
 # Fix:              None
 # Feature:          Migratie naar PHP 7
 # Reference:
 
 # 3mei2019          1.0.3            E. Hendrikx
-# Symptom:   		None.
-# Problem:       	Bij voorlopige bevesting = J en $uitgestelde_bevestiging_vanaf boven 0, dan staat er twee keer de melding dat het een voorlopige bevestiging is
+# Symptom:   		    None.
+# Problem:       	  Bij voorlopige bevesting = J en $uitgestelde_bevestiging_vanaf boven 0, dan staat er twee keer de melding dat het een voorlopige bevestiging is
 # Fix:              $uitgestelde_bevestiging_vanaf alleen in combinatie met uitgestelde_bevesting = N  
 # Feature:          None
 # Reference:
 
 # 15juni2019        1.0.4            E. Hendrikx
-# Symptom:   		None.
-# Problem:       	None.
+# Symptom:   		    None.
+# Problem:       	  None.
 # Fix:              None
 # Feature:          Recensie zichtbaar
 # Reference: 
 
 # 21juni2019        1.0.5            E. Hendrikx
-# Symptom:   		None.
-# Problem:       	None.
+# Symptom:   		    None.
+# Problem:       	  None.
 # Fix:              None
 # Feature:          Bij aanzetten email notificaties wordt aantal reserves op 0 gezet
+# Reference: 
+
+# 26juni2019        1.0.6            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  None.
+# Fix:              None
+# Feature:          Notificatie als SMS
 # Reference: 
 
 
@@ -1343,8 +1350,10 @@ $variabele = 'email_notificaties_jn';
  
 if ($count == 1)  {  
 	$keuze       = $_POST['email_notificaties_jn'];
-    $query       = "UPDATE config  SET Waarde  = '".$keuze."',   Laatst  = NOW()  WHERE  Id  = ".$id."  ";
- //    echo $query. "<br>";
+	$kanaal      = $_POST['email_notificaties_kanaal'];
+	
+	$query       = "UPDATE config  SET Waarde  = '".$keuze."', Parameters = '".$kanaal."' ,  Laatst  = NOW()  WHERE  Id  = ".$id."  ";
+   //  echo $query. "<br>";
     mysqli_query($con,$query) or die ('Fout in update  email_notificatie_jn'); 	
 		
 	if ($keuze == 'J')  {  
