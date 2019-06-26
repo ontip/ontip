@@ -4,10 +4,17 @@
 # Date              Version      Person
 # ----              -------      ------
 # 22jun2019          1.0.1           E. Hendrikx
-# Symptom:   		 None.
-# Problem:       	 None.
+# Symptom:   		     None.
+# Problem:       	   None.
 # Fix:               None.
 # Feature:           Email organisatie als BCC .
+# Reference: 
+
+# 26jun2019          1.0.2            E. Hendrikx 
+# Symptom:   		     None.
+# Problem:     	     None
+# Fix:               None
+# Feature:           Ook SMS mogelijk
 # Reference: 
 
 ob_start();
