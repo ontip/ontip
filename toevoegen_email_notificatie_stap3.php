@@ -11,9 +11,8 @@ h2 {color:blue ;background-color:white; font-size: 11.0pt ; font-family:Arial, H
 
 // --></style>
 <body>
+De notificatie is toegevoegd voor dit toernooi.<br>
 
-Uw vraag/opmerking is verstuurd naar de beheerder.<br>
-Indien u uw email adres heeft ingevuld, ontvangt u een kopie op dit adres.<br>
 <a href='index.php' style='font-family:cursive;font-size:11pt;color:blue;'>Klik hier om naar het menu scherm te gaan.</a>
 
 </body>
