@@ -267,14 +267,14 @@ mail($email_organisatie, $_subject, $bericht, $headers, "-finfo@ontip.nl");
 
 if 	($email_notificaties_jn =='J'){
 
-	echo "<br>Max aantal spelers : ".$max_splrs;
-	echo "<br>Aantal reserves    : ".$aantal_reserves;
+//	echo "<br>Max aantal spelers : ".$max_splrs;
+//	echo "<br>Aantal reserves    : ".$aantal_reserves;
 	
 $qry                = mysqli_query($con,"SELECT count(*) as Aantal from inschrijf where Toernooi = '".$toernooi."' and Vereniging_id = ".$vereniging_id."  ")    or die(' Fout in select inschrijf count' ); 
 $result             = mysqli_fetch_array( $qry );
 $aantal_deelnemers  = $result['Aantal'];
 
-	echo "<br>Aantal deelnemers    : ".$aantal_deelnemers;
+	// echo "<br>Aantal deelnemers    : ".$aantal_deelnemers;
 	
 /// als aantal deelnemers < max spelers en reserves = 0 	
 if ($aantal_deelnemers < $max_splrs  and $aantal_reserves  == 0){
