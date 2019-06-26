@@ -1,3 +1,17 @@
+<?php 
+# toevoegen_email_notificaties_stap1.php
+# aanmelden voor notificaties
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 26jun2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Ook SMS mogelijk
+# Reference: 
+?>
 <html>
 <head>
 <title>Toevoegen Email notificatie voor toernooi</title>
@@ -115,7 +129,7 @@ $row3             = mysqli_fetch_array( $qry3 );
 $verzendadres_sms   = $row3['Verzendadres_SMS'];
 $trace             = $row3['Mail_trace'];
 $url_logo          = $row3['Url_logo']; 
-$grootte_logo   = $row['Grootte_logo'];
+$grootte_logo      = $row['Grootte_logo'];
 ?>
 
 <body bgcolor="<?php echo($achtergrond_kleur); ?>" text="<?php echo($tekstkleur); ?>" link="<?php echo($link); ?>" alink="<?php echo($link); ?>" vlink="<?php echo($link); ?>">
@@ -135,11 +149,12 @@ if (!isset($smal)){?>
 <?php } ?>
 <br>
 <blockquote>
-<div style='color:black;font-size:10pt;font-family:verdana;'>Zoals je gemerkt hebt is het toernooi momenteel volgeboekt. Wil je toch graag deelnemen aan dit toernooi,dan kan je je aanmelden voor een email notificatie.
-	Indien een deelnemer zijn of haar inschrijving intrekt of de organisatie verwijdert een inschrijving, zal OnTip direct een Email sturen naar de personen die zich hiervoor hebben opgegeven. <br>
+<div style='color:black;font-size:10pt;font-family:verdana;'>Zoals je gemerkt hebt is het toernooi momenteel volgeboekt. Wil je toch graag deelnemen aan dit toernooi,dan kan je je aanmelden voor een email of SMSnotificatie.
+	Indien een deelnemer zijn of haar inschrijving intrekt of de organisatie verwijdert een inschrijving, zal OnTip direct een Email of SMS sturen naar de personen die zich hiervoor hebben opgegeven. <br>
   In het Email bericht dat u dan krijgt staat een link naar het OnTip inschrijf formulier. Als u deze link gebruikt voorkomt u dat u na inschrijving nogmaals notificaties ontvangt. Mocht iemand u voor zijn, dan blijven de notificaties verstuurd worden als er nog een plek vrijkomt.
 <br>
-   Na invullen van deze pagina wordt u toegevoegd aan de Email notificatie voor dit toernooi. U krijgt hiervan een bevestiging op het opgegeven email adres.</div><br>
+   Na invullen van deze pagina wordt u toegevoegd aan de Email of SMS notificaties voor dit toernooi. U krijgt hiervan een bevestiging op het opgegeven email adres.<br>
+   SMS notificaties zijn alleen beschikbaar als de vereniging zich heeft aangemeld voor de SMS dienst.</div><br>
 
 
 <FORM action='toevoegen_email_notificatie_stap2.php' method='post' name ='Form1'>
@@ -157,8 +172,17 @@ if (!isset($smal)){?>
 <tr><th width='150' class='tab'>Toernooi</th><td style='font-size:12pt;font-weight:bold;'><?php echo $toernooi_voluit;?></td></tr>
 <tr><th width='150' class='tab'>Datum</th><td style='font-size:12pt;font-weight:bold;'><?php echo strftime("%A %e %B %Y", mktime(0, 0, 0, $maand , $dag, $jaar));?></td></tr>
 <tr><th width='150' class='tab'>Naam    *</th><td><input type='text'  name='Naam'       size=40/></td></tr>
-<tr><th class='tab'>Vereniging </label></th><td><label><input type='text'  name='Vereniging_speler'    size=40/></label></td></tr>
-<tr><th class='tab'>Email*    </th><td><label><input type='text'            name='Email'       size=40/></label></td></tr>
+<tr><th class='tab'>Vereniging </th><td><input type='text'  name='Vereniging_speler'    size=40/></td></tr>
+<tr><th class='tab'>Email*    </th><td><input type='text'            name='Email'       size=40/></td></tr>
+
+<?php
+if ( $verzendadres_sms !=''){?>
+<tr><th class='tab'>Telefoon (SMS)    </th><td><input type='text'            name='Telefoon'       size=40/></td></tr>
+<?php } else { ?>
+<tr><th class='tab'>Telefoon (SMS)    </th><td style='color:red;'>Vereniging heeft geen OnTip SMS dienst.</td></tr>
+<?php }  ?>
+
+
 
 </table>
 <br>

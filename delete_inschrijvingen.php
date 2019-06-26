@@ -45,7 +45,7 @@ $respons    =  $_POST['respons'];
 $notificaties   =  $_POST['notificaties'];
 
 
-echo "Toernooi :".$toernooi;
+//echo "Toernooi :".$toernooi;
 // Controles
 $error   = 0;
 $message = '';

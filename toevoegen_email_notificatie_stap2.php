@@ -20,9 +20,11 @@ include('mysqli.php');
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
 setlocale(LC_ALL, 'nl_NL');
 
+$telefoon ='';
 $toernooi           = $_POST['toernooi'];
 $vereniging_id      = $_POST['vereniging_id'];
 $email              = $_POST['Email'];
+$telefoon           = $_POST['Telefoon'];
 $naam               = $_POST['Naam'];
 $licentie           = $_POST['Licentie'];
 $vereniging_speler  = $_POST['Vereniging_speler'];
@@ -89,7 +91,10 @@ if($error ==0){
 // versleutel email let op @##
 $email_encrypt = versleutel_string('@##'.$email);
 
-  
+// versleutel telefoon let op @##
+$telefoon_encrypt = versleutel_string('@##'.$telefoon);
+
+
 $qry  = mysqli_query($con,"SELECT * From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 
 // Definieeer variabelen en vul ze met waarde uit tabel
@@ -122,8 +127,10 @@ $length = 4;
 
 $kenmerk = $string;
 
-$query = "INSERT INTO `email_notificaties` (`Id`, `Toernooi`, `Vereniging_id`, `Vereniging`, `Datum`, `Naam`, `Licentie`, `Email`, `Email_encrypt`, `Notificatie_kenmerk`, `Ingeschreven`, `Telefoon`, `Laatst`) 
-           VALUES  (0, '".$toernooi."', ".$vereniging_id.", '".$vereniging."', '".$datum."', '".$naam."', '".$licentie."', '[versleuteld]', '".$email_encrypt."', '".$kenmerk."', 'N', '', now()  )";
+$query = "INSERT INTO `email_notificaties` (`Id`, `Toernooi`, `Vereniging_id`, `Vereniging`, `Datum`, `Naam`, `Licentie`, `Email`, `Email_encrypt`, `Notificatie_kenmerk`, 
+                                            `Ingeschreven`, `Telefoon`, `Telefoon_encrypt`, `Laatst`) 
+           VALUES  (0, '".$toernooi."', ".$vereniging_id.", '".$vereniging."', '".$datum."', '".$naam."', '".$licentie."', '[versleuteld]', '".$email_encrypt."',
+                     '".$kenmerk."', 'N', '[versleuteld]', '".$telefoon_encrypt."', now()  )";
 
  
 mysqli_query($con,$query) or die ('Fout in insert trigger tabel');           
