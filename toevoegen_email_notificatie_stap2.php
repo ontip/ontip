@@ -28,6 +28,7 @@ $telefoon           = $_POST['Telefoon'];
 $naam               = $_POST['Naam'];
 $licentie           = $_POST['Licentie'];
 $vereniging_speler  = $_POST['Vereniging_speler'];
+$kanaal             = $_POST['email_notificaties_kanaal'];
 
 $error   = 0;
 $message = '';
@@ -38,10 +39,32 @@ if ($naam == '') {
 	$error = 1;
 }
 
-if ($email == '') {
+if ($kanaal =='Email' and  $email == '') {
 	$message .= "* Email adres is niet ingevuld.<br>";
 	$error = 1;
+} 
+
+if ($kanaal =='SMS' and  $telefoon == '') {
+	$message .= "* Telefoon nummer is niet ingevuld.<br>";
+	$error = 1;
 }
+
+if ($kanaal =='Email' ) {
+    $telefoon = '';
+    $telefoon_encrypt  ='';
+ } else {
+ 	// versleutel email let op @##
+  $email_encrypt = versleutel_string('@##'.$email);
+}
+
+if ($kanaal =='SMS' ) {
+    $email = '';
+    $email_encrypt  ='';
+ } else {
+ 	// versleutel email let op @##
+  $telefoon_encrypt = versleutel_string('@##'.$telefoon);
+}
+
 
 if ($vereniging_speler == '') {
 	$message .= "* Vereniging  is niet ingevuld.<br>";
@@ -88,11 +111,6 @@ if ($error == 1){
 
 if($error ==0){
 
-// versleutel email let op @##
-$email_encrypt = versleutel_string('@##'.$email);
-
-// versleutel telefoon let op @##
-$telefoon_encrypt = versleutel_string('@##'.$telefoon);
 
 
 $qry  = mysqli_query($con,"SELECT * From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
@@ -168,7 +186,7 @@ $bericht .= "</table>"   . "\r\n";
 $bericht .= "<br><hr/>".   "\r\n";
 $bericht .= "<h3 style='font-family:verdana;font-size:10pt;color:black;'><u>Aangemeld voor Email notificaties</u></h3>".   "\r\n";
 
-$bericht .= "<br><span style='font-family:verdana;font-size:10pt;color:black;'>U ontvangt deze Email omdat u zich heeft aangemeld voor Email notificaties omdat het toernooi is volgeboekt. Zodra er een inschrijving wordt ingetrokken of verwijderd ontvangt u op onderstaand email adres een notificatie.  </span><br>".   "\r\n";
+$bericht .= "<br><span style='font-family:verdana;font-size:10pt;color:black;'>U ontvangt deze Email omdat u zich heeft aangemeld voor  notificaties omdat het toernooi is volgeboekt. Zodra er een inschrijving wordt ingetrokken of verwijderd ontvangt u  een notificatie.  </span><br>".   "\r\n";
 
 $bericht .= "<br><table  Style='font-family:verdana;font-size:9pt;border-collapse: collapse;background-color:white;padding:5pt;border-color:darkgrey;'>"   . "\r\n";
 $bericht .= "<tr><td  width=200>Toernooi  </td><td colspan = 2>"          .  $toernooi       ."</td></tr>".  "\r\n";
@@ -176,11 +194,17 @@ $bericht .= "<tr><td  width=200>Naam  </td><td colspan = 2>"              .  $na
 $bericht .= "<tr><td  width=200>Vereniging  </td><td colspan = 2>"        .  $vereniging_speler       ."</td></tr>".  "\r\n";
 	if($licentie_jn =='J'){ 
 $bericht .= "<tr><td  width=200>Licentie  </td><td colspan = 2>"          .  $licentie       ."</td></tr>".  "\r\n";
-}		
+}	
+if ($kanaal =='Email' ) {	
 $bericht .= "<tr><td  width=200>Email      </td><td colspan = 2>"         .  $_POST['Email']         ."</td></tr>".  "\r\n";
+} else {
+	$bericht .= "<tr><td  width=200>Telefoon (SMS)      </td><td colspan = 2>"         .  $_POST['Telefoon']         ."</td></tr>".  "\r\n";
+}
+
+
 $bericht .= "<tr><td  width=200>Kenmerk notificatie   </td><td colspan = 2>"         .  $kenmerk        ."</td></tr>".  "\r\n";
 $bericht .= "</table>"   . "\r\n";
-$bericht .= "<br><br><span style='font-family:verdana;font-size:10pt;color:black;font-weight:bold;'>In de notificatie staat de link waarmee u kunt inschrijven. Reageer snel op de notificatie, want ook andere belangstellenden kunnen een notificatie hebben ontvangen.</span>".   "\r\n";
+$bericht .= "<br><br><span style='font-family:verdana;font-size:10pt;color:black;font-weight:bold;'>In de Email notificatie staat de link waarmee u kunt inschrijven. Reageer snel op de notificatie, want ook andere belangstellenden kunnen een notificatie hebben ontvangen.</span>".   "\r\n";
 
 $bericht .= "<br><div style= 'font-family:verdana;font-size:8.5pt;color:black;padding-top:20pt;'><hr/><img src = 'http://www.ontip.nl/ontip/images/OnTip_banner_klein.jpg' width='40'> Deze automatische mail is aangemaakt vanuit OnTIP. (c) Erik Hendrikx 2011-".date('Y')."</div>" . "\r\n";
 

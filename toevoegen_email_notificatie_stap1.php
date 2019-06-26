@@ -149,12 +149,12 @@ if (!isset($smal)){?>
 <?php } ?>
 <br>
 <blockquote>
-<div style='color:black;font-size:10pt;font-family:verdana;'>Zoals je gemerkt hebt is het toernooi momenteel volgeboekt. Wil je toch graag deelnemen aan dit toernooi,dan kan je je aanmelden voor een email of SMSnotificatie.
+<div style='color:black;font-size:10pt;font-family:verdana;'>Zoals je gemerkt hebt is het toernooi momenteel volgeboekt. Wil je toch graag deelnemen aan dit toernooi,dan kan je je aanmelden voor een email of SMS notificatie.
 	Indien een deelnemer zijn of haar inschrijving intrekt of de organisatie verwijdert een inschrijving, zal OnTip direct een Email of SMS sturen naar de personen die zich hiervoor hebben opgegeven. <br>
   In het Email bericht dat u dan krijgt staat een link naar het OnTip inschrijf formulier. Als u deze link gebruikt voorkomt u dat u na inschrijving nogmaals notificaties ontvangt. Mocht iemand u voor zijn, dan blijven de notificaties verstuurd worden als er nog een plek vrijkomt.
 <br>
    Na invullen van deze pagina wordt u toegevoegd aan de Email of SMS notificaties voor dit toernooi. U krijgt hiervan een bevestiging op het opgegeven email adres.<br>
-   SMS notificaties zijn alleen beschikbaar als de vereniging zich heeft aangemeld voor de SMS dienst.</div><br>
+   <b>SMS notificaties zijn alleen beschikbaar als de vereniging zich heeft aangemeld voor de SMS dienst.</b></div><br>
 
 
 <FORM action='toevoegen_email_notificatie_stap2.php' method='post' name ='Form1'>
@@ -171,13 +171,15 @@ if (!isset($smal)){?>
 <table border = '0'>
 <tr><th width='150' class='tab'>Toernooi</th><td style='font-size:12pt;font-weight:bold;'><?php echo $toernooi_voluit;?></td></tr>
 <tr><th width='150' class='tab'>Datum</th><td style='font-size:12pt;font-weight:bold;'><?php echo strftime("%A %e %B %Y", mktime(0, 0, 0, $maand , $dag, $jaar));?></td></tr>
-<tr><th width='150' class='tab'>Naam    *</th><td><input type='text'  name='Naam'       size=40/></td></tr>
-<tr><th class='tab'>Vereniging </th><td><input type='text'  name='Vereniging_speler'    size=40/></td></tr>
-<tr><th class='tab'>Email*    </th><td><input type='text'            name='Email'       size=40/></td></tr>
+<tr><th width='150' class='tab'>Naam    *</th><td><input type='text'  name='Naam'                 size=40/></td></tr>
+<tr><th class='tab'>Vereniging </th><td><input type='text'            name='Vereniging_speler'    size=40/></td></tr>
+<tr><th class='tab'>Email*    </th><td><input type='text'             name='Email'                size=40/></td></tr>
 
 <?php
 if ( $verzendadres_sms !=''){?>
-<tr><th class='tab'>Telefoon (SMS)    </th><td><input type='text'            name='Telefoon'       size=40/></td></tr>
+<tr><th class='tab'>Telefoon (SMS)    </th><td><input type='text'     name='Telefoon'             size=40/></td></tr>
+<tr><th class='tab'>Maak een keuze</th><td><input type='radio' name='email_notificaties_kanaal' value = 'Email' checked/> Email 
+	<input type='radio' name='email_notificaties_kanaal' value = 'SMS' />SMS</td></tr>
 <?php } else { ?>
 <tr><th class='tab'>Telefoon (SMS)    </th><td style='color:red;'>Vereniging heeft geen OnTip SMS dienst.</td></tr>
 <?php }  ?>
