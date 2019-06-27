@@ -58,7 +58,7 @@
         mail($email, $_subject, $bericht, $headers,"-finfo@ontip.nl");
      }
 
-  } // email notificatie
+ } // email notificatie
 
 
 // send SMS
@@ -67,7 +67,7 @@
      
      
    if ($telefoon =='[versleuteld]'){ 
-    $telefoon    = versleutel_string($telefoon_encrypt);    
+      $telefoon    = versleutel_string($telefoon_encrypt);    
    }
 
 $to          = $telefoon."@sms.messagebird.com";

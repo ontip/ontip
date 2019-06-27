@@ -49,6 +49,12 @@
 # Feature:          Notificatie als SMS
 # Reference: 
 
+# 27juni2019        1.0.7            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  None.
+# Fix:              None
+# Feature:          Bij aanzetten email notificaties wordt uitgestelde_bevestiging_vanaf op 0 gezet
+# Reference: 
 
 //header("Location: ".$_SERVER['HTTP_REFERER']);
 
@@ -1357,11 +1363,13 @@ if ($count == 1)  {
     mysqli_query($con,$query) or die ('Fout in update  email_notificatie_jn'); 	
 		
 	if ($keuze == 'J')  {  
-	$query       = "UPDATE config  SET Waarde  = '0',   Laatst  = NOW()  
+	     $query       = "UPDATE config  SET Waarde  = '0',   Laatst  = NOW()  
 	                   WHERE  Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'aantal_reserves'";
-
-         //    echo $query. "<br>";
         mysqli_query($con,$query) or die ('Fout in update aantal reserves ivm email_notificatie_jn'); 
+        $query       = "UPDATE config  SET Waarde  = '0',   Laatst  = NOW()  
+	                   WHERE  Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = 'uitgestelde_bevestiging_vanaf'";
+        mysqli_query($con,$query) or die ('Fout in update aantal reserves ivm email_notificatie_jn'); 
+
      	}
 	
   } else { 

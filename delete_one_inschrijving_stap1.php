@@ -16,8 +16,8 @@
 # ----              -------      ------
 
 # 5mei2019           1.0.1           E. Hendrikx
-# Symptom:   		 None.
-# Problem:       	 None
+# Symptom:   		     None.
+# Problem:       	   None
 # Fix:               PHP7.
 # Feature:           None.
 # Reference: 
