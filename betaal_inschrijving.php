@@ -50,7 +50,6 @@ include ('versleutel_kenmerk.php');
 $ip_adres = $_SERVER['REMOTE_ADDR'];
 $toernooi = $_GET['toernooi'];
 
-
 // uit config tabel	
 
 $sql         = mysqli_query($con,"SELECT Waarde as toernooi_voluit from config WHERE  Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Variabele ='toernooi_voluit'   ") or die(' Fout in select aantal');  
@@ -210,6 +209,37 @@ if ($error == 1){
 
 <h3 style='padding:10pt;font-size:20pt;color:red;'>Betaal pagina  <img src = 'http://www.ontip.nl/ontip/images/ideal.bmp'  width=35 border =0></h3>
     <p align="justify" Style='font-family:comic sans ms,sans-serif;color:blue;font-size:11pt;padding-left:15pt;'>Via deze pagina kan u een inschrijving voor een OnTip toernooi betalen</p>
+
+ <?php
+ 
+ $qry1          = mysqli_query($con,"SELECT * From ideal_transacties where Vereniging = '".$vereniging ."' 
+	                 and  Toernooi = '".$toernooi."' and Kenmerk = '".$_POST['Kenmerk']."'   ")     or die(' Fout in select ideal trx'); 
+      $result1       = mysqli_fetch_array( $qry1 );
+	  $betaal_status = $result1['Status'] ;
+	  
+	  if ($betaal_status  =='PAID'){?>
+
+<blockquote>
+    <table>
+    	<tr>
+        <td align="left" width="190" Style='font-family:Arial;font-size:9pt;color:black;'>Vereniging</td>
+        <td Style='background-color:white;color:blue;font-family:arial;font-size:12pt;'><?php echo $_vereniging;?> </td>
+      </tr>
+      <tr>
+        <td align="left" width="190" Style='font-family:Arial;font-size:9pt;color:black;'>Toernooi</td>
+        <td Style='background-color:white;color:blue;font-family:arial;font-size:12pt;'><?php echo $toernooi_voluit;?> </td>
+      </tr>
+   	  <tr><td align="left" width="190" Style='font-family:Arial;font-size:9pt;color:black;'>Soort toernooi      : </th><td><?php echo $soort ;?></td></tr>
+     <tr><td align="left" width="190" Style='font-family:Arial;font-size:9pt;color:black;'>Naam speler1  : </th><td> <?php echo $speler1;?></td></tr>	
+     <tr><td align="left" width="190" Style='font-family:Arial;font-size:9pt;color:black;'>Status : </th><td>Inschrijving is betaald</td></tr>	
+     </table>
+  </blockquote>
+
+	  <?php } else { ?>
+
+
+
+
  <?php     if  ($_POST['Kenmerk'] ==''){ ?>
 <FORM action="betaal_inschrijving.php?toernooi=<?php echo $toernooi;?>" method=post  name='myForm'>
 <?php } else { ?>
@@ -232,8 +262,12 @@ if ($error == 1){
      
       
     <?php 
-      if  ($_POST['Kenmerk'] !=''){ ?>
-       <tr>
+      if  ($_POST['Kenmerk'] !=''){ 
+	  
+	  
+	  
+	  ?>
+       <tr>           
         <td align="left" Style='font-family:Arial;font-size:9pt;color:black;'>Kenmerk inschrijving (zie bevestigingsmail)</td>
         <td><?php echo $_POST['Kenmerk']; ?></td>
         <input type="hidden" name="Kenmerk"  value="<?php echo $kenmerk;?>" /> 
@@ -245,7 +279,9 @@ if ($error == 1){
     	<tr><td align="left" width="190" Style='font-family:Arial;font-size:9pt;color:black;'>Inschrijfgeld  : </th><td>&euro;. <?php echo $kosten_team;?></td></tr>	
     	<tr><td align="left" width="190" Style='font-family:Arial;font-size:9pt;color:black;'>IDEAL opslag kosten : </th><td>&euro;. <?php echo number_format($ideal_opslag_kosten/100, 2, ',', ' ');?></td></tr>	
 	    <tr><td align="left" width="190" Style='font-family:Arial;font-size:9pt;color:black;'>Totale kosten       : </th><td>&euro;. <?php echo number_format($totale_kosten, 2, ',', ' ');?></td></tr>  
-       <input type="hidden" name="Totale_kosten"  value="<?php echo $totale_kosten;?>" /> 
+       
+	   
+	   <input type="hidden" name="Totale_kosten"  value="<?php echo $totale_kosten;?>" /> 
        
       
     <?php } else { ?> 
@@ -313,6 +349,8 @@ if ($error == 1){
   </blockquote>
  </form>
 
+
+	  <?php } // al betaald ?>
   <br>
     <p align="justify">
   
