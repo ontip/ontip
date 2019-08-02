@@ -70,7 +70,7 @@ $jaar  = 	substr ($datum , 0,4);
 
 echo "<table width=80%>";
 echo "<tr>";
-echo "<td><a href='index.php' target = '_top'><img src = 'http://www.boulamis.nl/boulamis_toernooi/hussel/images/OnTip_hussel.png' width='240'><br><span style='margin-left:15pt;font-size:12pt;font-weight:bold;color:darkgreen;'>".$vereniging."</span></a></td>";
+echo "<td><a href='index.php' target = '_top'><img src = 'images/OnTip_hussel.png' width='240'><br><span style='margin-left:15pt;font-size:12pt;font-weight:bold;color:darkgreen;'>".$vereniging."</span></a></td>";
 echo "<td width=70%><h1 style='color:blue;font-weight:bold;font-size:32pt; text-shadow: 3px 3px darkgrey;'>Hussel ". strftime("%A %e %B %Y", mktime(0, 0, 0, $maand , $dag, $jaar) )."</h1></td>";
 echo "</tr>";
 echo "</table>";

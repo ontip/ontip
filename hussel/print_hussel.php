@@ -52,7 +52,7 @@ function img_aanzetten(i){
 <?php
 
 ob_start();
-include 'mysql.php'; 
+include 'mysqli.php'; 
 
 
 $dag   = 	substr ($datum , 8,2); 
