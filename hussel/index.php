@@ -373,11 +373,6 @@ echo "</form></td>";
  	echo "<td width = 50><a style='font-size:8pt;' href = 'verwijder_spelers_beperkt_stap1.php' target ='_top'><img src='images/tag.jpg' height=40><br><center>Verwijder<br>beperkt</center></a></td>";
 }
 
-
-echo "<td width = 50><a style='font-size:8pt;text-align:center;'href='http://www.ontip.nl/boulamis/pdf/Handleiding OnTip Hussel.pdf' class='tooltip' target='_blank  title='Handleiding'><img src='../../boulamis/hussel/images/boek.jpg' width =40 border =0 ><br>Handleiding</a></td>";
-
-echo "<td width = 50><a style='font-size:8pt;text-align:center;'href='demo_filmpje_hussel.php' class='tooltip' target='_top'  title='Demo'><img src='../../boulamis/hussel/images/Youtube_logo.PNG' width =40 border =0 ><br>Demo</a></td>";
-
 echo "</tr>";
 echo "</table>";
 
