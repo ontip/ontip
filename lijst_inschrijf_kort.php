@@ -753,7 +753,7 @@ if ($extra_invulveld != '' and $invulveld_op_lijst_jn=='J' ){
     case "DE0": 	echo "<td style='". $td_style_w.";'>Deelnemer heeft verzocht inschrijving te verwijderen via mail.</td>";break;
     case "DE1": 	echo "<td style='". $td_style_w.";'>Deelnemer heeft verzocht inschrijving te verwijderen (geen mail bekend).</td>";break;
     case "DE2": 	echo "<td style='". $td_style_w.";'>Deelnemer heeft verzocht inschrijving te verwijderen (geen mail bekend, wel SMS).</td>";break;
-  	case "ID0": 	echo "<td style='". $td_style_w.";'>Nog niet bevestigd.Wacht evt op betaling via IDEAL.</td>";break;
+  	case "ID0": 	echo "<td style='". $td_style_w.";'>Nog niet bevestigd.Wacht op betaling .</td>";break;
   	case "ID1": 	echo "<td style='". $td_style_w.";'>Betaald via IDEAL.</td>";break;
   	case "ID2": 	echo "<td style='". $td_style_w.";'>Betaling via IDEAL afgebroken of mislukt.</td>";break;
   	case "ID1": 	echo "<td style='". $td_style_w.";'>Betaling via IDEAL mislukt of afgebroken.</td>";break;
