@@ -8,6 +8,14 @@
 # Fix:              None
 # Feature:          PHP7
 # Reference: 
+
+# 29aug2019         0.0.1       E. Hendrikx 
+# Symptom:	        None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Gebruik TAB toets mb TABindex
+# Reference: 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 ?>
 <html>
@@ -630,7 +638,11 @@ echo "<input type='hidden'  name ='controle_13'   value =".$controle_13.">";
 echo "<input type='hidden'  name ='aantal_rondes' value =".$aantal_rondes.">";  
 
 //// detail regels
+
+$r=1;
     while($row_score = mysqli_fetch_array( $sql_score )) {
+
+
 
    //  store id waarde
     echo "<input type='hidden'  name ='Id_".$i."' value =".$row_score['Id'].">";  
@@ -680,9 +692,9 @@ echo "<input type='hidden'  name ='aantal_rondes' value =".$aantal_rondes.">";
    }   ?>
    
     <td onclick="fill_input_voor1_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-    	     <input  style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor1'];?>'     name = 'Voor1_<?php echo $i;?>'  id = 'Voor1_<?php echo $i;?>'  size = 2/></td>		
+    	     <input  tabindex=1<?php echo $r;?>1 style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor1'];?>'     name = 'Voor1_<?php echo $i;?>'  id = 'Voor1_<?php echo $i;?>'  size = 2/></td>		
     <td onclick="fill_input_tegen1_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-    	     <input style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen1'];?>'      name = 'Tegen1_<?php echo $i;?>' id = 'Tegen1_<?php echo $i;?>' size = 2/></td>		
+    	     <input tabindex=1<?php echo $r;?>2 style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen1'];?>'      name = 'Tegen1_<?php echo $i;?>' id = 'Tegen1_<?php echo $i;?>' size = 2/></td>		
 	 
 	 
 	 <?php if ($row_score['Voor2'] != 0 and $row_score['Tegen2'] !=0  or ( $row_score['Voor2'] == 13 or $row_score['Tegen2'] == 13) ){
@@ -694,9 +706,9 @@ echo "<input type='hidden'  name ='aantal_rondes' value =".$aantal_rondes.">";
 	 
 	 
 	  <td onclick="fill_input_voor2_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-	  	     <input style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor2'];?>'      name = 'Voor2_<?php echo $i;?>'  id = 'Voor2_<?php echo $i;?>'  size = 2/></td>		
+	  	     <input  tabindex=2<?php echo $r;?>1 style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor2'];?>'      name = 'Voor2_<?php echo $i;?>'  id = 'Voor2_<?php echo $i;?>'  size = 2/></td>		
 	  <td onclick="fill_input_tegen2_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;' >
-    	     <input style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen2'];?>'      name = 'Tegen2_<?php echo $i;?>' id = 'Tegen2_<?php echo $i;?>' size = 2/></td>		
+    	     <input tabindex=2<?php echo $r;?>2 style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen2'];?>'      name = 'Tegen2_<?php echo $i;?>' id = 'Tegen2_<?php echo $i;?>' size = 2/></td>		
 	 
 	 <?php if ($row_score['Voor3'] != 0 and $row_score['Tegen3'] !=0  or ( $row_score['Voor3'] == 13 or $row_score['Tegen3'] == 13) ){
    	     $bg_color= 'lightgrey';
@@ -707,9 +719,9 @@ echo "<input type='hidden'  name ='aantal_rondes' value =".$aantal_rondes.">";
 		<?php 
  if ($aantal_rondes > 2){?>	 
 	 <td onclick="fill_input_voor3_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-	  	     <input style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor3'];?>'      name = 'Voor3_<?php echo $i;?>'  id = 'Voor3_<?php echo $i;?>'  size = 2/></td>		
+	  	     <input tabindex=3<?php echo $r;?>1 style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor3'];?>'      name = 'Voor3_<?php echo $i;?>'  id = 'Voor3_<?php echo $i;?>'  size = 2/></td>		
 	  <td onclick="fill_input_tegen3_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-    	     <input style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen3'];?>'      name = 'Tegen3_<?php echo $i;?>' id = 'Tegen3_<?php echo $i;?>' size = 2/></td>		
+    	     <input tabindex=3<?php echo $r;?>2  style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen3'];?>'      name = 'Tegen3_<?php echo $i;?>' id = 'Tegen3_<?php echo $i;?>' size = 2/></td>		
  
 <?php } ?>
    
@@ -726,9 +738,9 @@ echo "<input type='hidden'  name ='aantal_rondes' value =".$aantal_rondes.">";
      
    	
    	 <td onclick="fill_input_voor4_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-	  	     <input  style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor4'];?>'      name = 'Voor4_<?php echo $i;?>'  id = 'Voor4_<?php echo $i;?>'  size = 2/></td>		
+	  	     <input tabindex=4<?php echo $r;?>1  style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor4'];?>'      name = 'Voor4_<?php echo $i;?>'  id = 'Voor4_<?php echo $i;?>'  size = 2/></td>		
 	  <td onclick="fill_input_tegen4_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-    	     <input style='font-size:14pt;color:red;text-align:right;'  type'text'   value = '<?php echo $row_score['Tegen4'];?>'      name = 'Tegen4_<?php echo $i;?>' id = 'Tegen4_<?php echo $i;?>' size = 2/></td>		
+    	     <input tabindex=4<?php echo $r;?>2 style='font-size:14pt;color:red;text-align:right;'  type'text'   value = '<?php echo $row_score['Tegen4'];?>'      name = 'Tegen4_<?php echo $i;?>' id = 'Tegen4_<?php echo $i;?>' size = 2/></td>		
 	
 	
 	<?php if ($row_score['Voor5'] != 0 and $row_score['Tegen5'] !=0  or ( $row_score['Voor5'] == 13 or $row_score['Tegen5'] == 13) ){
@@ -738,9 +750,9 @@ echo "<input type='hidden'  name ='aantal_rondes' value =".$aantal_rondes.">";
      }   ?>
      
 	 <td onclick="fill_input_voor5_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-	  	     <input style='font-size:14pt;color:black;text-align:right;' type'text'   value = '<?php echo $row_score['Voor5'];?>'      name = 'Voor5_<?php echo $i;?>'  id = 'Voor5_<?php echo $i;?>'  size = 2/></td>		
+	  	     <input tabindex=5<?php echo $r;?>1 style='font-size:14pt;color:black;text-align:right;' type'text'   value = '<?php echo $row_score['Voor5'];?>'      name = 'Voor5_<?php echo $i;?>'  id = 'Voor5_<?php echo $i;?>'  size = 2/></td>		
 	  <td onclick="fill_input_tegen5_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-    	     <input style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen5'];?>'      name = 'Tegen5_<?php echo $i;?>' id = 'Tegen5_<?php echo $i;?>' size = 2/></td>		
+    	     <input tabindex=5<?php echo $r;?>2 style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen5'];?>'      name = 'Tegen5_<?php echo $i;?>' id = 'Tegen5_<?php echo $i;?>' size = 2/></td>		
 	
 	
 	
@@ -758,6 +770,7 @@ echo "<input type='hidden'  name ='aantal_rondes' value =".$aantal_rondes.">";
 	
 <?php 
 $i++;
+$r++;
 } // end while score
 ?>
 </table>
