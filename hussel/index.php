@@ -16,6 +16,12 @@
 # Feature:          Gebruik TAB toets mb TABindex
 # Reference: 
 
+# 4sep2019         0.0.1       E. Hendrikx 
+# Symptom:	        None.
+# Problem:     	    Bij meer dab 100 teams ging de overgang van  99 -100 niet goed
+# Fix:              Hersteld
+# Feature:          None
+# Reference: 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 ?>
 <html>
@@ -615,10 +621,10 @@ Beperkt</a></th>
 
 // er kunnen max 125 records in 1 keer geupdate worden. Pas veilige marge tot max 100 door gebruik te maken van  limit van. aantal
  if ($boven_100 == 'J')  {
-    $limit_tekst =  '100,100';
+    $limit_tekst =  '99,100';
     $i=100;
  }  else {
-  	$limit_tekst = '0,100';
+  	$limit_tekst = '0,99';
   	$i=1;
   }
  
@@ -692,9 +698,9 @@ $r=1;
    }   ?>
    
     <td onclick="fill_input_voor1_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-    	     <input  tabindex=1<?php echo $r;?>1 style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor1'];?>'     name = 'Voor1_<?php echo $i;?>'  id = 'Voor1_<?php echo $i;?>'  size = 2/></td>		
+    	     <input  tabindex=1<?php echo sprintf("%03d",$r);?>1 style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor1'];?>'     name = 'Voor1_<?php echo $i;?>'  id = 'Voor1_<?php echo $i;?>'  size = 2/></td>		
     <td onclick="fill_input_tegen1_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-    	     <input tabindex=1<?php echo $r;?>2 style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen1'];?>'      name = 'Tegen1_<?php echo $i;?>' id = 'Tegen1_<?php echo $i;?>' size = 2/></td>		
+    	     <input tabindex=1<?php echo sprintf("%03d",$r);?>2 style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen1'];?>'      name = 'Tegen1_<?php echo $i;?>' id = 'Tegen1_<?php echo $i;?>' size = 2/></td>		
 	 
 	 
 	 <?php if ($row_score['Voor2'] != 0 and $row_score['Tegen2'] !=0  or ( $row_score['Voor2'] == 13 or $row_score['Tegen2'] == 13) ){
@@ -706,9 +712,9 @@ $r=1;
 	 
 	 
 	  <td onclick="fill_input_voor2_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-	  	     <input  tabindex=2<?php echo $r;?>1 style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor2'];?>'      name = 'Voor2_<?php echo $i;?>'  id = 'Voor2_<?php echo $i;?>'  size = 2/></td>		
+	  	     <input  tabindex=2<?php echo sprintf("%03d",$r);?>1 style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor2'];?>'      name = 'Voor2_<?php echo $i;?>'  id = 'Voor2_<?php echo $i;?>'  size = 2/></td>		
 	  <td onclick="fill_input_tegen2_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;' >
-    	     <input tabindex=2<?php echo $r;?>2 style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen2'];?>'      name = 'Tegen2_<?php echo $i;?>' id = 'Tegen2_<?php echo $i;?>' size = 2/></td>		
+    	     <input tabindex=2<?php echo sprintf("%03d",$r);?>2 style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen2'];?>'      name = 'Tegen2_<?php echo $i;?>' id = 'Tegen2_<?php echo $i;?>' size = 2/></td>		
 	 
 	 <?php if ($row_score['Voor3'] != 0 and $row_score['Tegen3'] !=0  or ( $row_score['Voor3'] == 13 or $row_score['Tegen3'] == 13) ){
    	     $bg_color= 'lightgrey';
@@ -719,9 +725,9 @@ $r=1;
 		<?php 
  if ($aantal_rondes > 2){?>	 
 	 <td onclick="fill_input_voor3_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-	  	     <input tabindex=3<?php echo $r;?>1 style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor3'];?>'      name = 'Voor3_<?php echo $i;?>'  id = 'Voor3_<?php echo $i;?>'  size = 2/></td>		
+	  	     <input tabindex=3<?php echo sprintf("%03d",$r);?>1 style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor3'];?>'      name = 'Voor3_<?php echo $i;?>'  id = 'Voor3_<?php echo $i;?>'  size = 2/></td>		
 	  <td onclick="fill_input_tegen3_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-    	     <input tabindex=3<?php echo $r;?>2  style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen3'];?>'      name = 'Tegen3_<?php echo $i;?>' id = 'Tegen3_<?php echo $i;?>' size = 2/></td>		
+    	     <input tabindex=3<?php echo sprintf("%03d",$r);?>2  style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen3'];?>'      name = 'Tegen3_<?php echo $i;?>' id = 'Tegen3_<?php echo $i;?>' size = 2/></td>		
  
 <?php } ?>
    
@@ -738,9 +744,9 @@ $r=1;
      
    	
    	 <td onclick="fill_input_voor4_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-	  	     <input tabindex=4<?php echo $r;?>1  style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor4'];?>'      name = 'Voor4_<?php echo $i;?>'  id = 'Voor4_<?php echo $i;?>'  size = 2/></td>		
+	  	     <input tabindex=4<?php echo sprintf("%03d",$r);?>1  style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor4'];?>'      name = 'Voor4_<?php echo $i;?>'  id = 'Voor4_<?php echo $i;?>'  size = 2/></td>		
 	  <td onclick="fill_input_tegen4_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-    	     <input tabindex=4<?php echo $r;?>2 style='font-size:14pt;color:red;text-align:right;'  type'text'   value = '<?php echo $row_score['Tegen4'];?>'      name = 'Tegen4_<?php echo $i;?>' id = 'Tegen4_<?php echo $i;?>' size = 2/></td>		
+    	     <input tabindex=4<?php echo sprintf("%03d",$r);?>2 style='font-size:14pt;color:red;text-align:right;'  type'text'   value = '<?php echo $row_score['Tegen4'];?>'      name = 'Tegen4_<?php echo $i;?>' id = 'Tegen4_<?php echo $i;?>' size = 2/></td>		
 	
 	
 	<?php if ($row_score['Voor5'] != 0 and $row_score['Tegen5'] !=0  or ( $row_score['Voor5'] == 13 or $row_score['Tegen5'] == 13) ){
@@ -750,9 +756,9 @@ $r=1;
      }   ?>
      
 	 <td onclick="fill_input_voor5_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-	  	     <input tabindex=5<?php echo $r;?>1 style='font-size:14pt;color:black;text-align:right;' type'text'   value = '<?php echo $row_score['Voor5'];?>'      name = 'Voor5_<?php echo $i;?>'  id = 'Voor5_<?php echo $i;?>'  size = 2/></td>		
+	  	     <input tabindex=5<?php echo sprintf("%03d",$r);?>1 style='font-size:14pt;color:black;text-align:right;' type'text'   value = '<?php echo $row_score['Voor5'];?>'      name = 'Voor5_<?php echo $i;?>'  id = 'Voor5_<?php echo $i;?>'  size = 2/></td>		
 	  <td onclick="fill_input_tegen5_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>
-    	     <input tabindex=5<?php echo $r;?>2 style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen5'];?>'      name = 'Tegen5_<?php echo $i;?>' id = 'Tegen5_<?php echo $i;?>' size = 2/></td>		
+    	     <input tabindex=5<?php echo sprintf("%03d",$r);?>2 style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen5'];?>'      name = 'Tegen5_<?php echo $i;?>' id = 'Tegen5_<?php echo $i;?>' size = 2/></td>		
 	
 	
 	
@@ -782,13 +788,13 @@ $aantal         = $result['Aantal'];
 
 if ($aantal > 100 and  isset($_GET['boven_100'])){
 ?>
-<a href = 'index.php' target ='self'><img src= 'images/onder100.png' width =50></a>
+<a href = 'index.php' target ='_self'><img src= 'images/onder100.png' width =50></a>
 <?php } ?>
 
 <?php
 if ($aantal > 100 and  !isset($_GET['boven_100'])){
 ?>
-<a href = 'index.php?boven_100=J' target ='self'><img src= 'images/boven100.png' width =50></a>
+<a href = 'index.php?boven_100=J' target ='_self'><img src= 'images/boven100.png' width =50></a>
 <?php } ?>
 
 
