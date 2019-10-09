@@ -195,7 +195,18 @@ $i++;
 
  fclose($myfile);
  
+header("Content-type: application/octet-stream");
+//header("Content-Disposition: attachment; filename=\"OnTip_".$toernooi.".txt\"");
+
+$myfile = fopen("OnTip_".$toernooi.".txt", "r") or die("Unable to open file!");
+// Output one line until end-of-file
+		
+while(!feof($myfile)) {
+$line = fgets($myfile);
+			echo $line."\r\n";
+}
+ fclose($myfile);
+
 
 
 ?>
-Welp file: <a href = '<?php echo $log;?>' ><?php echo $log;?></a>

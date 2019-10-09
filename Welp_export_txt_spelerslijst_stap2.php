@@ -1,8 +1,26 @@
 <?php
-$toernooi = $_GET['toernooi'];
-header("Content-type: application/octet-stream");
-header("Content-Disposition: attachment; filename=\"SPL_".$toernooi.".txt\"");
+# 9okt2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    Aantal spelers niet goed opgehaald ivm verkeerd commando
+# Fix:              None
+# Feature:          None
+# Reference: 
 
+
+$toernooi = $_GET['toernooi'];
+//header("Content-type: application/octet-stream");
+//header("Content-Disposition: attachment; filename=\"SPL_".$toernooi.".txt\"");
+
+
+   $log = 'SPL_'.$toernooi.'.txt';
+ //  echo $log;
+	
+	
+    if (file_exists($log)){
+    	unlink($log);
+    }
+  
+ 
 
 //$filename  = "Spl_".$toernooi.".txt";
 // Database gegevens. 
@@ -91,18 +109,40 @@ mysqli_query($con,$query7) or die (mysql_error());
 $welp_spelers      = mysqli_query($con,"SELECT * from hulp_welp Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Naam" )    or die(mysql_error());  
 $count          = mysqli_num_rows($welp_spelers);	
 
-echo "<OnTip>\r\n";
+ $myfile = fopen($log, "w") or die("Unable to open file!");
+ $now = date('Y-m-d h:i:s');
+
+
+ fwrite($myfile, "<OnTip>"); 
 
 
 while($row = mysqli_fetch_array( $welp_spelers )) {	
 	
- echo  $row['Naam']. ";";
+ 	fwrite($myfile, "\n". $row['Naam']. ";"); 
+ //echo  $row['Naam']. ";";
  if (is_numeric($row['Licentie']) and  $row['Licentie'] <> '0' ) {
-		  echo  $row['Licentie'];
+			fwrite($myfile, $row['Licentie']. ";"); 
 }
- echo "\r\n";
+
 	
 	
 }// end while
+
+fclose($myfile);
+ 
+header("Content-type: application/octet-stream");
+header("Content-Disposition: attachment; filename=\"SPL_".$toernooi.".txt\"");
+
+
+$myfile = fopen("SPL_".$toernooi.".txt", "r") or die("Unable to open file!");
+// Output one line until end-of-file
+		
+while(!feof($myfile)) {
+$line = fgets($myfile);
+			echo $line."\r\n";
+}
+ fclose($myfile);
+
+
 
 ?>
