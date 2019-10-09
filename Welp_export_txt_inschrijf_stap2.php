@@ -12,6 +12,13 @@
 # Feature:          Migratie PHP 5.6 naar PHP 7
 # Reference: 
 
+# 9okt2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    Aantal spelers niet goed opgehaald ivm verkeerd commando
+# Fix:              None
+# Feature:          None
+# Reference: 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -36,7 +43,10 @@ else {
 };
 $aant_splrs_q = mysqli_query($con,"SELECT Count(*) from inschrijf WHERE Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' ")        or die(mysql_error()); 
 /// Bepalen aantal spelers voor dit toernooi
-$aant_splrs =  mysql_result($aant_splrs_q ,0); 
+//$aant_splrs =  mysql_result($aant_splrs_q ,0); 
+$result      = mysqli_fetch_array( $aant_splrs_q );
+$aant_splrs  = $result['Aantal'];
+
 
 // Inschrijven als individu of vast team
 
