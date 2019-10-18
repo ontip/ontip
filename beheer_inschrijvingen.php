@@ -318,6 +318,7 @@ $qry      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toer
      <li> IN0   =  Ingeschreven en bevestigd via email.
      <li> IN1   =  Ingeschreven. Geen email bekend.
      <li> IN2   =  Ingeschreven en gemeld via SMS.
+	 <li> IN3   =  Reservering omgezet naar inschrijving.Niet bevestigd
      <li> IM0   =  Inschrijving geimporteerd. Niet bevestigd.
      <li> IM1   =  Inschrijving geimporteerd. Bevestigd via Mail.
      <li> IM2   =  Inschrijving geimporteerd. Bevestigd via SMS.

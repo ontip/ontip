@@ -25,6 +25,14 @@
 # Fix:              None.
 # Feature:          Verwerk aantal spelers per datum in toernooi_datums_cyclus en toon ze in overzicht
 # Reference: 
+
+# 18okt2019         -            E. Hendrikx 
+# Symptom:         None.
+# Problem:     	   None.
+# Fix: 
+# Feature:       Status IN3 toegevoegd            
+# Reference: 
+
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
@@ -763,6 +771,7 @@ if ($extra_invulveld != '' and $invulveld_op_lijst_jn=='J' ){
   	case "IN0": 	echo "<td style='". $td_style_w.";'>Ingeschreven en bevestigd via Email.</td>";break;
   	case "IN1": 	echo "<td style='". $td_style_w.";'>Ingeschreven. Geen Email bekend.</td>";break;
   	case "IN2": 	echo "<td style='". $td_style_w.";'>Ingeschreven en bevestigd via SMS.</td>";break;
+  	case "IN3": 	echo "<td style='". $td_style_w.";'>Reservering omgezet naar inschrijving.Niet bevestigd.</td>";break;
   	case "RE0": 	echo "<td style='". $td_style_w.";'>Reservering aangemaakt en bevestigd via Email.</td>";break;
    	case "RE1": 	echo "<td style='". $td_style_w.";'>Reservering aangemaakt. Geen Email bekend.</td>";break;
    	case "RE2": 	echo "<td style='". $td_style_w.";'>Reservering geannuleerd via Email.</td>";break;

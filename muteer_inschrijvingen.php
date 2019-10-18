@@ -19,6 +19,14 @@
 # Fix:              None
 # Feature:          PHP7
 # Reference: 
+
+# 18okt2019         -            E. Hendrikx 
+# Symptom:         None.
+# Problem:     	   None.
+# Fix: 
+# Feature:       Status IN3 toegevoegd            
+# Reference: 
+
 ?>
 <html>
 <head>

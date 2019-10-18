@@ -11,7 +11,15 @@
 # Problem:     	    None
 # Fix:              None
 # Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference:
+
+# 18okt2019         -            E. Hendrikx 
+# Symptom:         None.
+# Problem:     	   None.
+# Fix: 
+# Feature:       Status IN3 toegevoegd            
 # Reference: 
+ 
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
@@ -547,7 +555,8 @@ if ($soort_inschrijving == 'single' or $inschrijf_methode =='single' ){
   	case "IN0": 	echo "<td style='". $td_style_w.";'>Ingeschreven en bevestigd via Email.</td>";break;
   	case "IN1": 	echo "<td style='". $td_style_w.";'>Ingeschreven. Geen Email bekend.</td>";break;
   	case "IN2": 	echo "<td style='". $td_style_w.";'>Inschrijving geimporteerd. Niet bevestigd.</td>";break;
-  	case "RE0": 	echo "<td style='". $td_style_w.";'>Reservering aangemaakt en bevestigd via Email.</td>";break;
+ 	case "IN3": 	echo "<td style='". $td_style_w.";'>Reservering omgezet naar inschrijving.Niet bevestigd.</td>";break;
+   	case "RE0": 	echo "<td style='". $td_style_w.";'>Reservering aangemaakt en bevestigd via Email.</td>";break;
    	case "RE1": 	echo "<td style='". $td_style_w.";'>Reservering aangemaakt. Geen Email bekend.</td>";break;
    	case "RE2": 	echo "<td style='". $td_style_w.";'>Reservering geannuleerd via Email.</td>";break;
    	case "RE3": 	echo "<td style='". $td_style_w.";'>Reservering geannuleerd. Geen Email bekend.</td>";break;

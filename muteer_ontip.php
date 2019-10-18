@@ -50,10 +50,17 @@
 # Reference: 
 
 # 27juni2019        1.0.7            E. Hendrikx
-# Symptom:   		    None.
-# Problem:       	  None.
+# Symptom:          None.
+# Problem:       	None.
 # Fix:              None
 # Feature:          Bij aanzetten email notificaties wordt uitgestelde_bevestiging_vanaf op 0 gezet
+# Reference: 
+
+# 18okt2019          1.0.6            E. Hendrikx
+# Symptom:   		None.
+# Problem:       	None.
+# Fix:              None
+# Feature:          Bij uitbreiden inschrijvingen status voor reserves aanpassen naar ingeschreven niet bevestigd
 # Reference: 
 
 //header("Location: ".$_SERVER['HTTP_REFERER']);
@@ -72,6 +79,13 @@ $result        = mysqli_fetch_array( $qry);
 $vereniging_id = $result['Id'];
 
 $toernooi = $_POST['toernooi'];
+
+// Als het aantal spelers wordt verhoogd eerst huidig aantal vastleggen
+$variabele = 'max_splrs';
+ $qry1      = mysqli_query($con,"SELECT Waarde From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
+ $max_splrs_vooraf   = $result['Waarde'];
+
 
 /// Generieke update
 
@@ -165,8 +179,8 @@ mysqli_query($con,$query) or die ('Fout in update euro');
 /// #n = newline  , #m = marquee , #z = zonder
                
 $qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' 
-                and Variabele = 'extra_koptekst' ") ;  
-$result       = mysqli_fetch_array( $qry);
+                    and Variabele = 'extra_koptekst' ") ;  
+$result             = mysqli_fetch_array( $qry);
 $extra_koptekst    = $result['Waarde'];
 $parameter = explode('#', $result['Parameters']);
 $new_line          =  substr($row['Waarde'],0,1);  // oude setting
@@ -1450,7 +1464,50 @@ else {
 	 	 
 	 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 18 okt 2019 aanpassen status inschrijvingen
+// aantal_inschrijvingen_vooraf is bepaald vooordat deze gemuteerd werd
 
+$variabele = 'max_splrs';
+ $qry1      = mysqli_query($con,"SELECT Waarde From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
+ $max_splrs_achteraf   = $result['Waarde'];
+
+ $qry1      = mysqli_query($con,"SELECT count(*) as Aantal From inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Status like 'RE%'   ")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
+ $aantal_reserves   = $result['Aantal'];
+//echo "<br>Aantal reserves in inschrijf ".$aantal_reserves;
+
+  // als aantal spelers vooraf < dan aantal inschrijvingen en er zijn reserveringen
+  
+  //echo "<br>MAX SPLRS vooraf ".$max_splrs_vooraf ;
+  //  echo "<br>MAX SPLRS achterraf  ".$max_splrs_achteraf ;
+
+ $verschil = $max_splrs_achteraf  - $max_splrs_vooraf;
+  //echo "<br>Verschil ".$verschil;
+    
+  if ($aantal_reserves > 0  and $verschil > 0 ){
+    
+	$qry2      = mysqli_query($con,"SELECT Id,Naam1 from inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' 
+                         and Status like 'RE%'   order by Inschrijving limit ".$verschil." ")     or die(' Fout in select 18 ok');  
+
+        while($row = mysqli_fetch_array( $qry2 )) {
+    //      echo "<br>Id : ". $row['Naam1'];
+		  
+		  $update_qry ="UPDATE inschrijf set Status = 'IN3'  where Id = ".$row['Id']." and Toernooi = '".$toernooi ."' ";
+		  
+			   mysqli_query($con,$update_qry) or die ('Fout in update inschrijf ivm reserves');   
+		} // end while
+   } // end if verschil
+  
+// indien aantal verlaagd wordt en er staan nog reserves op de lijst  wordt oorspronkelijk aantal teruggezet
+  
+     if ($aantal_reserves > 0  and $verschil < 0 ){
+            $update_qry ="UPDATE config  set Waarde  = '".$max_splrs_vooraf."'  where Variabele = 'max_splrs' and Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ";
+      // echo 		$update_qry;
+    	 mysqli_query($con,$update_qry) or die ('Fout in update config  ivm reserves');   
+   }// end if	   
+  
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 /// Naam van form wordt wel meegegeven maar heeft geen inhoud
