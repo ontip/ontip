@@ -1475,6 +1475,10 @@ $variabele = 'max_splrs';
  $qry1      = mysqli_query($con,"SELECT count(*) as Aantal From inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Status like 'RE%'   ")     or die(' Fout in select');  
  $result    = mysqli_fetch_array( $qry1);
  $aantal_reserves   = $result['Aantal'];
+ 
+ $qry1      = mysqli_query($con,"SELECT count(*) as Aantal From inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'    ")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
+ $aantal_inschrijf   = $result['Aantal'];
 //echo "<br>Aantal reserves in inschrijf ".$aantal_reserves;
 
   // als aantal spelers vooraf < dan aantal inschrijvingen en er zijn reserveringen
@@ -1503,6 +1507,13 @@ $variabele = 'max_splrs';
   
      if ($aantal_reserves > 0  and $verschil < 0 ){
             $update_qry ="UPDATE config  set Waarde  = '".$max_splrs_vooraf."'  where Variabele = 'max_splrs' and Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ";
+      // echo 		$update_qry;
+    	 mysqli_query($con,$update_qry) or die ('Fout in update config  ivm reserves');   
+   }// end if	   
+  
+  //  aantal in conf mag niet kleiner zijn dan aantal inschrijvingen
+      if ($max_splrs_achteraf  < $aantal_inschrijf ){
+            $update_qry ="UPDATE config  set Waarde  = '".$aantal_inschrijf ."'  where Variabele = 'max_splrs' and Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ";
       // echo 		$update_qry;
     	 mysqli_query($con,$update_qry) or die ('Fout in update config  ivm reserves');   
    }// end if	   
