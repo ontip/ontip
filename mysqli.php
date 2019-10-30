@@ -15,14 +15,15 @@
 
 $url_hostName = $_SERVER['HTTP_HOST'];
 
-     $hostname = "localhost"; 
+    
+      $hostname = "localhost"; 
      $username = "ontipnlv"; 
-     $password = "p9FV9VeY"; 
+  //   $password = "p9FV9VeY"; 
+	 $password = "w49WNfg0Rp"; 
      $database = "ontipnlv_db";
-     $ftp_server = 'ftp.ontip.nl'; 
      
-     $ftp_user_name    = $username;
-     $ftp_user_pass    = $password;
+     $ftp_user_name    = 'ontipnlv';
+     $ftp_user_pass    = "w49WNfg0Rp"; 
 
  
 $con=mysqli_connect($hostname,$username,$password,$database);

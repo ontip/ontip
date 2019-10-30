@@ -267,7 +267,7 @@ mysqli_query($con,"Delete from hulp_toernooi where Vereniging_id = '".$verenigin
 // Vul hulptabel 
 
 $query = "insert into hulp_toernooi (Toernooi, Vereniging, Vereniging_id, Datum) 
-( select Toernooi,Vereniging, Vereniging_id, Waarde from config     where Vereniging_id = '".$vereniging_id."' and Variabele ='datum' group by Vereniging, Vereniging_id, Toernooi,Waarde   )" ;
+  select Toernooi,Vereniging, Vereniging_id, Waarde from config     where Vereniging_id = '".$vereniging_id."' and Variabele ='datum' group by Vereniging, Vereniging_id, Toernooi,Waarde   " ;
 
 
 mysqli_query($con,$query) or die ('Fout in vullen hulp_toernooi'); 

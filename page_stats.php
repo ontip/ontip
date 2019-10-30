@@ -15,7 +15,7 @@ $query    = "INSERT INTO page_stats (Id, Vereniging, Vereniging_id,Page, Aantal,
 //                         echo $query;
 
 if (isset($con)){
-mysqli_query($con,$query);  
+//mysqli_query($con,$query);  
 } else {
 	mysqli_query($con,$query);  
 	
