@@ -1,4 +1,24 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 18okt2018          1.0.1            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  Ontbrekende vars
+# Fix:              Opgelost
+# Feature:          None.
+# Reference: 
+#
+
+# 31oct2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              Include versleutelstring in dt programma opgenomen omdat dit problemen gaf
+# Feature:          PHP7
+# Reference: 
+?>
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
 <html>
 <head>

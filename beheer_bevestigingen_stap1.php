@@ -18,6 +18,15 @@
 # Fix:              None
 # Feature:          Status IM0 (import) verwijderd uit selectie
 # Reference: 
+
+# 31oct2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              Include versleutelstring in dt programma opgenomen omdat dit problemen gaf
+# Feature:          PHP7
+# Reference: 
+
+
 ?>
 <html>
 <head>

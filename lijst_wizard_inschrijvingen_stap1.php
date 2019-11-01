@@ -1,3 +1,25 @@
+<?php
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 18okt2018          1.0.1            E. Hendrikx
+# Symptom:   		    None.
+# Problem:       	  Ontbrekende vars
+# Fix:              Opgelost
+# Feature:          None.
+# Reference: 
+#
+
+# 31oct2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              Include versleutelstring in dt programma opgenomen omdat dit problemen gaf
+# Feature:          PHP7
+# Reference: 
+?>
+
 <html>
 <head>
 <title>Lijst wizard inschrijvingen</title>
