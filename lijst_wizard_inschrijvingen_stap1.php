@@ -142,23 +142,21 @@ if ($extra_vraag != '') {
 
 <span style='color:black;font-size:10pt;font-family:arial;'>Via deze wizard kan je zelf een eigen lijst opmaken door de kolommen van je keuze te selecteren uit onderstaande lijst.</span><br><br>
 
+
+<FORM action='lijst_wizard_inschrijvingen_stap2.php' method='post'>
+
+
+
+
+<input type ='hidden' name= 'toernooi' value = '<?php echo $toernooi;?>' />
 <?php
-//// Tabel 
-
-// tabel binnen div
-
-echo "<FORM action='lijst_wizard_inschrijvingen_stap2.php' method='post'>";
-
-
-echo "<input type ='hidden' name= 'toernooi' value = '".$toernooi."' />";
-
 ////  Koptekst
 
 echo "<table border =2>";
 echo "<tr>";
 echo "<th>Nr.</th>";
 echo "<th>Selectie</th>";
-echo "<th>Kolom omschrijving</th>";
+echo "<th>Kolom omschrijving xxxx</th>";
 echo "</tr>";
 
 $i=0;
@@ -407,6 +405,7 @@ echo "</table>";
 
 echo "</span><br><br>";
 echo "<INPUT type='submit' value='Selectie keuze bevestigen' >"; 
+
 echo "</FORM>";
 echo "</blockquote>";
 ob_end_flush();
