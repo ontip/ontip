@@ -31,7 +31,7 @@ $destination_file = $paths.$toernooi.'_'.$datum_toernooi.'.pdf';
 
 echo "copy  naar  ".$destination_file ."<br>";
 
-$ftp_server       = $_POST['server'];
+$ftp_server       = '81.26.219.37'; 
 $max_file_size    = $_POST['max_file_size'];
 $ftp_user_name    = $username;
 $ftp_user_pass    = $password;

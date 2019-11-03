@@ -114,7 +114,7 @@ $max_file_size = 500000000;
 	
 ?>
 <form action="upload_pdf_flyer_stap2.php" method="POST" enctype="multipart/form-data">
-<input type="hidden" name="server" value="ftp.ontip.nl">
+<input type="hidden" name="server" value="81.26.219.37">
 <input type="hidden" name="toernooi" value="<?php echo $toernooi;?>">
 <input type="hidden" name="datum_toernooi" value="<?php echo $datum_toernooi;?>">
 <input type="hidden" name="max_file_size" value="<?php echo $max_file_size;?>">
