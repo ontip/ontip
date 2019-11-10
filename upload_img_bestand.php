@@ -22,8 +22,8 @@ $paths            = "/public_html/".substr($prog_url,3, strlen($prog_url))."imag
 
 echo "copy  naar  ".$paths."<br>";
 
-
-$ftp_server       = $_POST['server'];
+$ftp_server       = '81.26.219.37'; 
+//$ftp_server       = $_POST['server'];
 $max_file_size    = $_POST['max_file_size'];
 $ftp_user_name    = $username;
 $ftp_user_pass    = $password;

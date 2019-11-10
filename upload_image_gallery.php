@@ -16,6 +16,13 @@
 # Feature:          Migratie PHP 5.6 naar PHP 7
 # Reference: 
 
+# 10nov2019          -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Harde waarde voor ftp server na migratie ontip naar andere server na problemen
+# Reference: 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Database gegevens voor username en password
 include('mysqli.php');
@@ -36,7 +43,9 @@ $paths        = "/public_html/".substr($prog_url,3, strlen($prog_url))."images/"
 
 //$paths              = $prog_url;
 $toernooi         = $_POST['toernooi'];
-$ftp_server       = $_POST['server'];
+//$ftp_server       = $_POST['server'];
+$ftp_server       = '81.26.219.37'; 
+
 $max_file_size    = $_POST['max_file_size'];
 $ftp_user_name    = $username;
 $ftp_user_pass    = $password;
