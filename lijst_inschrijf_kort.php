@@ -857,7 +857,7 @@ $i++;
  if ($meerdaags_toernooi_jn !='N'){
 $colspan = ($aantal_spelers*2)+2;
 echo "<tr>"; 
-echo "<td colspan = ".$colspan." style= 'color:black;font-size:9pt;text-align:left;'>Totaal";
+echo "<td colspan = ".$colspan." style= 'background-color:white;color:black;font-size:9pt;text-align:left;'>Totaal";
 
 
   if ($meerdaags_toernooi_jn =='X'){

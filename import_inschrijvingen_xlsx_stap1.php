@@ -137,7 +137,7 @@ $max_file_size = 500000;
 	
 ?>
 <form action="import_inschrijvingen_xlsx_stap2.php" method="POST" enctype="multipart/form-data">
-<input type="hidden" name="server" value="ftp.ontip.nl">
+<input type="hidden" name="server" value="81.26.219.37">
 <input type="hidden" name="max_file_size" value="<?php echo $max_file_size;?>">
 <input type="hidden" name="toernooi" value="<?php echo $toernooi;?>" />
 
