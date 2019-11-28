@@ -11,6 +11,15 @@
 # Fix:              None
 # Feature:          PHP7
 # Reference: 
+
+# 28nov2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          check boxen vervangen door images
+# Reference: 
+
+
 ?>
 <html>
 <head>
@@ -73,7 +82,92 @@ input:focus, input.sffocus { background-color: lightblue;cursor:underline; }
     width: 50px;
 }
 
+  input.trash[type=checkbox] {
+    display:none;
+  }
+  input.draai[type=checkbox] {
+    display:none;
+  } 
+  
+  input.zend[type=checkbox] {
+    display:none;
+  }  
+  
+  input.sms[type=checkbox] {
+    display:none;
+  }  
+  
+  input.trash[type=checkbox]:checked + label
+    {
+	background:url('../ontip/images/trash_checked.png') no-repeat;
+       height: 25px;
+       width: 25px;  
+        display:inline-block;
+        padding: 0 0 0 0px;
+    }
+    
+ input.trash[type=checkbox] + label
+   {
+	   background:url('../ontip/images/not_checked.png') no-repeat;
+     height: 25px;
+       width: 25px;  
+       display:inline-block;
+       padding: 0 0 0 0px;
+   }
 
+ input.draai[type=checkbox]:checked + label
+    {
+	     background:url('../ontip/images/reset.png') no-repeat;
+       height: 25px;
+       width: 25px;  
+        display:inline-block;
+        padding: 0 0 0 0px;
+    }
+    
+ input.draai[type=checkbox] + label
+   {
+	   background:url('../ontip/images/not_checked.png') no-repeat;
+     height: 25px;
+       width: 25px;  
+       display:inline-block;
+       padding: 0 0 0 0px;
+   }
+   
+ input.zend[type=checkbox]:checked + label
+    {
+	     background:url('../ontip/images/email_icon.jpg') no-repeat;
+       height: 25px;
+       width: 25px;  
+        display:inline-block;
+        padding: 0 0 0 0px;
+    }
+    
+ input.zend[type=checkbox] + label
+   {
+	   background:url('../ontip/images/not_checked.png') no-repeat;
+     height: 25px;
+       width: 25px;  
+       display:inline-block;
+       padding: 0 0 0 0px;
+   }
+   
+ input.sms[type=checkbox]:checked + label
+    {
+	     background:url('../ontip/images/sms_icon.png') no-repeat;
+       height: 25px;
+       width: 25px;  
+        display:inline-block;
+        padding: 0 0 0 0px;
+    }
+    
+ input.sms[type=checkbox] + label
+   {
+	   background:url('../ontip/images/not_checked.png') no-repeat;
+     height: 25px;
+       width: 25px;  
+       display:inline-block;
+       padding: 0 0 0 0px;
+   }
 </style>
  <!----// Javascript voor input focus ------------>
  <Script Language="Javascript">
@@ -473,40 +567,48 @@ $qry      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toer
 </TABLE>
 </div>
 <hr color='red'/>
+
+<a style='font-size:8pt;color:blue;text-decoration:none;' href='index.php'>Terug naar Hoofdmenu</a>
+
+<br><br>
+<h1 style='font-size:20pt;color:green;font-family:arial;font-weight:bold;margin-left:15pt;'>Muteer inschrijvingen</h1>
 <?php
-echo "<a style='font-size:8pt;color:blue;text-decoration:none;' href='index.php'>Terug naar Hoofdmenu</a>";
-
-echo "<br><br><div style='font-size:20pt;color:green;font-family:arial;font-weight:bold;margin-left:15pt;'>Muteer inschrijvingen</div>";
-
 if ($start_row == 1){
-
-echo "<br><span style='margin-left:15pt;color:black;font-size:10pt;font-family:arial;'>Hier kan je eventuele typefouten in de naam corrigeren of records verwijderen uit de tabel. 
-       Een compleet toernooi moet verwijderd worden via het <img src='../ontip/images/prullenbak.jpg' width=20 border =0 alt='prullenbak'> icon in de beheerpagina. De gegevens worden dan in het archief opgeslagen t.b.v. statistieken.<br>";
+?>
+<br><span style='margin-left:15pt;color:black;font-size:10pt;font-family:arial;'>Hier kan je eventuele typefouten in de naam corrigeren of records verwijderen uit de tabel. 
+       Een compleet toernooi moet verwijderd worden via het <img src='../ontip/images/prullenbak.jpg' width=20 border =0 alt='prullenbak'> icon in de beheerpagina. De gegevens worden dan in het archief opgeslagen t.b.v. statistieken.<br>
        
-echo "<br><span style='margin-left:15pt;'><u>Betekenis van de eerste kolommen :</u> <br>
+<br><span style='margin-left:15pt;'><u>Betekenis van de eerste kolommen :</u> <br>
        <table width=50% style='margin-left:15pt;'>
        <tr><td><span style='font-size:9pt;color:blue;text-decoration:none;font-weight:bold;padding-right:3pt;' >Nr</span></td><td> Volgnummer , eventueel aan te passen.</td>
-       <td><span style='width:65pt;'><img src='../ontip/images/delete.png' width=14     border =0></td><td> Voor verwijdering van een inschrijving het vakje in deze kolom aanvinken. </td></tr>
+       <td><span style='width:65pt;'><img src='../ontip/images/trash_checked.png' width=14     border =0></td><td> Voor verwijdering van een inschrijving het vakje in deze kolom aanvinken. </td></tr>
        <tr><td><img src='../ontip/images/reset.png'      width=14 border =0></td><td> Verwisseling van volgorde van achternaam en voornaam. Dit geldt dan voor alle namen in die regel !!!.</td>
-       <td><img src='../ontip/images/email_icon.jpg' width=14 border =0></td><td> Opnieuw versturen van een bevestigingsmail.</td></tr>";
-       
+       <td><img src='../ontip/images/email_icon.jpg' width=14 border =0></td><td> Opnieuw versturen van een bevestigingsmail.</td></tr>
+     <?php  
        if ($sms_bevestigen_zichtbaar_jn  =='J'){
-       
-       echo"<tr><td><span style='font-size:9pt;color:darkgreen;text-decoration:none;font-weight:bold;padding-right:3pt;' > SMS</span></td><td>  Opnieuw versturen van een bevestigings SMS.</td></tr>";
-     }
-echo "</table></span>";
+       ?>
+       <tr>
+       	<td><span style='font-size:9pt;color:darkgreen;text-decoration:none;font-weight:bold;padding-right:3pt;' > SMS</span></td><td>  Opnieuw versturen van een bevestigings SMS.</td>
+       	</tr>
+       	<?php 
+     } ?>
+  </table></span>
 
-
+<?php
 }  // verbergen uitleg bij start > 1       
-       
-echo "<br><span style='margin-left:15pt;color:black;font-size:10pt;font-family:arial;'>De volgorde van de inschrijvingen kan aangepast worden door het volgnummer vooraan de regel aan te passen en op Bevestigen te klikken. Door op de kolomkop 'Nr' te klikken worden de volgnummers weer opeenvolgend (zonder dubbele of gaten) gemaakt.</span> 
-      <br><span style='margin-left:15pt;color:black;font-size:10pt;font-family:arial;'>Na aanbrengen van wijzingen en of verwijderen op de knop bevestigen drukken onder of boven aan de pagina.Door op <b>Originele sortering</b> te klikken wordt de lijst gesorteerd op volgorde van inschrijving. Klik daarna op Bevestigen om de volgorde op te slaan.</span>";
+  ?>     
+<br><span style='margin-left:15pt;color:black;font-size:10pt;font-family:arial;'>De volgorde van de inschrijvingen kan aangepast worden door het volgnummer vooraan de regel aan te passen en op Bevestigen te klikken. Door op de kolomkop 'Nr' te klikken worden de volgnummers weer opeenvolgend (zonder dubbele of gaten) gemaakt.</span> 
+      <br><span style='margin-left:15pt;color:black;font-size:10pt;font-family:arial;'>Na aanbrengen van wijzingen en of verwijderen op de knop bevestigen drukken onder of boven aan de pagina.Door op <b>Originele sortering</b> te klikken wordt de lijst gesorteerd op volgorde van inschrijving. Klik daarna op Bevestigen om de volgorde op te slaan.</span>
       
-if ($aant_rows > 25){    
-      echo "<br><span style='margin-left:15pt;color:black;font-size:10pt;font-family:arial;'>Bij meer dan 25 regels wordt de pagina gesplitst en dient er gebladerd te worden via de navigatie knoppen.</span> ";
+ <?php     
+if ($aant_rows > 25){    ?>
+      <br><span style='margin-left:15pt;color:black;font-size:10pt;font-family:arial;'>Bij meer dan 25 regels wordt de pagina gesplitst en dient er gebladerd te worden via de navigatie knoppen.</span>
+<?php
 }
-echo "</span><br><br>";
+?>
+</span><br><br>
 
+<?php
 
 //// Tabel 
 
@@ -1057,7 +1159,7 @@ if ($soort_inschrijving =='single' or  $inschrijf_methode  == 'single' ){
 echo "<table border =2>";
 echo "<tr>";
 echo "<th width=30><a href = 'reset_volgnummer_inschrijf.php?toernooi=".$toernooi."' alt='Volgnummers resetten'>Nr</a></th>";
-echo "<th  style= 'color:red;font-weight:bold;'><img src='../ontip/images/delete.png'       width=20 border =0 alt='Verwijderen'></th>";
+echo "<th  style= 'color:red;font-weight:bold;'><img src='../ontip/images/trash_checked.png'       width=20 border =0 alt='Verwijderen'></th>";
 echo "<th  style= 'color:green;font-weight:bold;'><img src='../ontip/images/reset.png'      width=20 border =0 alt='Achternaam naar voren'></th>";
 echo "<th  style= 'color:green;font-weight:bold;'><img src='../ontip/images/email_icon.jpg' width=20 border =0 alt='Herzenden mail'></th>";
 
@@ -1156,7 +1258,7 @@ echo "</tr>";
 echo "<tr>";
 echo "<th width=30><a href = 'reset_volgnummer_inschrijf.php?toernooi=".$toernooi."' alt='Volgnummers resetten'>Nr</a></th>";
 
-echo "<th colspan = 1 style= 'color:red;font-weight:bold;'><img src='../ontip/images/delete.png' width=20 border =0 alt='Verwijderen'></th>";
+echo "<th colspan = 1 style= 'color:red;font-weight:bold;'><img src='../ontip/images/trash_checked.png' width=20 border =0 alt='Verwijderen'></th>";
 echo "<th colspan = 1 style= 'color:green;font-weight:bold;'><img src='../ontip/images/reset.png' width=20 border =0 alt='Achternaam naar voren'></th>";
 echo "<th colspan = 1 style= 'color:green;font-weight:bold;'><img src='../ontip/images/email_icon.jpg' width=20 border =0 alt='Herzenden mail'></th>";
 
@@ -1278,48 +1380,42 @@ for ($i=$start_row;$i<= $end_row;$i++){
    echo $row['Volgnummer'];
    echo ">";
    
-   
-   echo "<td style='text-align:right;padding:5pt;background-color:#d3d3d3;' class='tooltip'  title='verwijderen'>";
-   echo "<INPUT TYPE='hidden' NAME='Id-";
-   echo $i;
-   echo "' VALUE='";
-   echo $row['Id'];
-   echo "'>";
-   
-   echo "<input type='checkbox' name='Check[]' value ='";
-   echo $row['Id'];
-   echo "'   unchecked alt='Verwijderen'>"; 
-   echo "</td>";
-   
-   echo "<td style='text-align:right;padding:5pt;background-color:#ffdab9;' class='tooltip'  title='draaien'>";
-   echo "<input type='checkbox' name='Draai[]' value ='";
-   echo $row['Id'];
-   echo "'   unchecked>"; 
-   echo "</td>";
+   ?>
+   <td style='text-align:right;padding:5pt;background-color:#d3d3d3;' class='tooltip'  title='verwijderen'>
+       <INPUT TYPE='hidden' NAME='Id-<?php echo $i?>' VALUE='<?php echo $row['Id'];?>'>
+       <input type='checkbox' class = 'trash' name='Check[]' value ="<?php echo $row['Id'];?>" id="trash_<?php echo $row['Id'];?>"  unchecked ><label for="trash_<?php echo $row['Id'];?>"></label>   
+  </td>
+    
+   <td style='text-align:right;padding:5pt;background-color:#ffdab9;' class='tooltip'  title='draaien'>
+     <input type='checkbox' class = 'draai' name='Draai[]' value ="<?php echo $row['Id'];?>"  id="draai_<?php echo $row['Id'];?>"  unchecked><label for="draai_<?php echo $row['Id'];?>"></label>           
+    </td>
 
+<?php  
 if ($row['Email'] != '') { 
-   echo "<td style='text-align:right;padding:5pt;background-color:#b0e0e6;' class='tooltip'  title='herzenden mail'>";
-   echo "<input type='checkbox' name='Mail[]' value ='";
-   echo $row['Id'];
-   echo "'   unchecked>"; 
-   echo "</td>";
- } else { 
+	?>
+	   <td style='text-align:right;padding:5pt;background-color:#b0e0e6;' class='tooltip'  title='herzenden mail'>
+     <input type='checkbox' class = 'zend' name='Mail[]' value ="<?php echo $row['Id'];?>"  id="zend_<?php echo $row['Id'];?>"  unchecked><label for="zend_<?php echo $row['Id'];?>"></label>           
+    </td>
+<?php }
+
+ else { 
  	 echo "<td style='text-align:right;padding:5pt;background-color:#b0e0e6;' class='tooltip'  title='herzenden mail'>";
    echo "</td>";
   }
  
-if ($sms_bevestigen_zichtbaar_jn =='J' ){
+if ($sms_bevestigen_zichtbaar_jn =='J'){
  if ($row['Telefoon'] != '') { 
-   echo "<td style='text-align:right;padding:5pt;background-color:#CCFFCC;' class='tooltip'  title='herzenden SMS'>";
-   echo "<input type='checkbox' name='SMS[]' value ='";
-   echo $row['Id'];
-   echo "'   unchecked>"; 
-   echo "</td>";
- } else { 
+ 		?>
+	   <td style='text-align:right;padding:5pt;background-color:#b0e0e6;' class='tooltip'  title='herzenden SMS'>
+     <input type='checkbox' class = 'sms' name='SMS[]' value ="<?php echo $row['Id'];?>"  id="sms_<?php echo $row['Id'];?>"  unchecked><label for="sms_<?php echo $row['Id'];?>"></label>           
+    </td>
+<?php }
+  else { 
  	 echo "<td style='text-align:right;padding:5pt;background-color:#CCFFCC;' class='tooltip'  title='herzenden SMS'>";
    echo "</td>";
-  }
-}
+  }// end telefoon
+}/// bevestigen
+
  
    echo "<td>";
    echo "<input name= 'Naam1-";
@@ -1470,48 +1566,44 @@ if(isset($extra_invulveld) and $extra_invulveld != ''){
    echo $row['Volgnummer'];
    echo ">";
   
+   ?>
    
-   echo "<td style='text-align:right;padding:5pt;background-color:#d3d3d3;' class='tooltip'  title='verwijderen'>";
-   echo "<INPUT TYPE='hidden' NAME='Id-";
-   echo $i;
-   echo "' VALUE='";
-   echo $row['Id'];
-   echo "'>";
-   echo "<input type='checkbox' name='Check[]' value ='";
-   echo $row['Id'];
-   echo "'   unchecked alt= 'Verwijderen'>"; 
-   echo "</td>";
-   
-   echo "<td style='text-align:right;padding:5pt;background-color:#ffdab9;' class='tooltip'  title='draaien'>";
-   echo "<input type='checkbox' name='Draai[]' value ='";
-   echo $row['Id'];
-   echo "'   unchecked>"; 
-   echo "</td>";
- 
+   <td style='text-align:right;padding:5pt;background-color:#d3d3d3;' class='tooltip'  title='verwijderen'>
+       <INPUT TYPE='hidden' NAME='Id-<?php echo $i?>' VALUE='<?php echo $row['Id'];?>'>
+       <input type='checkbox' class = 'trash' name='Check[]' value ="<?php echo $row['Id'];?>" id="trash_<?php echo $row['Id'];?>"  unchecked alt='Verwijderen'><label for="trash_<?php echo $row['Id'];?>"></label>   
+  </td>
+    
+   <td style='text-align:right;padding:5pt;background-color:#ffdab9;' class='tooltip'  title='draaien'>
+     <input type='checkbox' class = 'draai' name='Draai[]' value ="<?php echo $row['Id'];?>"  id = "draai_<?php echo $row['Id'];?>"  unchecked><label for="draai_<?php echo $row['Id'];?>"></label>           
+    </td>
+    
+<?php  
 if ($row['Email'] != '') { 
-   echo "<td style='text-align:right;padding:5pt;background-color:#b0e0e6;' class='tooltip'  title='herzenden mail'>";
-   echo "<input type='checkbox' name='Mail[]' value ='";
-   echo $row['Id'];
-   echo "'   unchecked>"; 
-   echo "</td>";
- } else { 
+	?>
+	   <td style='text-align:right;padding:5pt;background-color:#b0e0e6;' class='tooltip'  title='herzenden mail'>
+     <input type='checkbox' class = 'zend' name='Mail[]' value ="<?php echo $row['Id'];?>"  id="zend_<?php echo $row['Id'];?>"  unchecked><label for="zend_<?php echo $row['Id'];?>"></label>           
+    </td>
+<?php }
+
+  else { 
  	 echo "<td style='text-align:right;padding:5pt;background-color:#b0e0e6;' class='tooltip'  title='herzenden mail'>";
    echo "</td>";
- }
-
+  }
 
 if ($sms_bevestigen_zichtbaar_jn =='J'){
  if ($row['Telefoon'] != '') { 
-   echo "<td style='text-align:right;padding:5pt;background-color:#CCFFCC;' class='tooltip'  title='herzenden SMS'>";
-   echo "<input type='checkbox' name='SMS[]' value ='";
-   echo $row['Id'];
-   echo "'   unchecked>"; 
-   echo "</td>";
-}  else { 
+ 		?>
+	   <td style='text-align:right;padding:5pt;background-color:#b0e0e6;' class='tooltip'  title='herzenden SMS'>
+     <input type='checkbox' class = 'sms' name='SMS[]' value ="<?php echo $row['Id'];?>"  id="sms_<?php echo $row['Id'];?>"  unchecked><label for="sms_<?php echo $row['Id'];?>"></label>           
+    </td>
+<?php }
+  else { 
  	 echo "<td style='text-align:right;padding:5pt;background-color:#CCFFCC;' class='tooltip'  title='herzenden SMS'>";
    echo "</td>";
-  }
-}
+  }// end telefoon
+}/// bevestigen
+
+
     
    echo "<td>";
    echo "<input name= 'Naam1-";
