@@ -11,6 +11,13 @@
 # Feature:           PHP7
 # Reference: 
 
+# 25dec2019          1.0.1           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 Volgorde deelnemers
+# Fix:               None
+# Feature:           PHP7
+# Reference: 
+
 
 header("Content-type: text/csv");
 header("Content-Disposition: attachment; filename=\"".$datum." ".$toernooi." deelnemers.txt\"");
@@ -115,7 +122,7 @@ $spaties = '                                                                    
 
 // uitvullen van var lengte velden
 
-$spelers      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Inschrijving desc" )    or die('Fout in select');  
+$spelers      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' order by Inschrijving asc" )    or die('Fout in select');  
 
 $i                 = 1;
 $team              = 0;
