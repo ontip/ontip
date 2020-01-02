@@ -432,11 +432,12 @@ while($row = mysqli_fetch_array( $qry )) {
 if (!isset($begin_inschrijving)){
 		echo " <div style='text-align:center;padding:5pt;background-color:white;color:red;font-size:11pt;' >"; 
 		die( " Er is geen toernooi bekend in het systeem onder de naam '".$toernooi."'.");
-		break;
 		echo "</div>";
 };
 
 // uit vereniging tabel	
+$vereniging_output_naam ='';
+$_vereniging  = '';
 	
 $qry                            = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'   ")     or die(' Fout in select');  
 $row                            = mysqli_fetch_array( $qry );

@@ -1240,10 +1240,7 @@ if (!isset($Extra_compl)){
 if (!isset($Extra_invulveld_antwoord)){
 	$Extra_invulveld_antwoord ='';
 }
-
-
-
-
+ 
 $query = "INSERT INTO inschrijf(Id, Volgnummer, Toernooi, Vereniging,Vereniging_id, Datum, 
                                 Naam1, Licentie1, Vereniging1, 
                                 Naam2, Licentie2, Vereniging2, 
@@ -1262,7 +1259,7 @@ $query = "INSERT INTO inschrijf(Id, Volgnummer, Toernooi, Vereniging,Vereniging_
                          '".$Naam6."'     ,'".$Licentie6."'   , '".$Vereniging6."' , 
                          '".$Telefoon."'  ,'".$Email."'       , '".$Bankrekening."',
                          '".$Opmerkingen."','".$Extra_compl."', '".$Extra_invulveld_antwoord."','".$status."','".$date."','".$kenmerk."'  )";
- //echo $query;
+ echo $query;
  mysqli_query($con,$query) or die (mysqli_error()); 
  
  /// 5 dec 2017
