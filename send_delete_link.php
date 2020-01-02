@@ -39,13 +39,16 @@ $toernooi_voluit  = $result['Waarde'];
 /// Insert in config bestand met sleutel. Zonder dit record kan niet verwijderd worden
 
 $query_del = "delete from config where Vereniging = '".$vereniging."'  and Toernooi ='".$toernooi."'  and Variabele = 'delete_key' ";
+
+
 mysqli_query($con,$query_del) or die ('Fout in verwijderen delete key'); 
 
 
-$query = "INSERT INTO `config` (`Id`, `Regel`, `Vereniging`, `Toernooi`,  `Variabele`, `Waarde`,`Laatst` ) 
-        VALUES (0, 9999, '".$vereniging."','".$toernooi."' , 'delete_key', '".$key."', NOW())";
+$query = "INSERT INTO `config` (`Id`, `Regel`, `Vereniging`, `Vereniging_id`, `Toernooi`,  `Variabele`, `Waarde`,`Laatst` ) 
+        VALUES (0, 9999, '".$vereniging."',".$vereniging_id.", '".$toernooi."' , 'delete_key', '".$key."', NOW())";
 
-mysqli_query($con,$query) or die (mysql_error()); 
+
+mysqli_query($con,$query) or die ('Fout in insert : '.$query); 
   
 // opvragen ivm uniek record id
 
