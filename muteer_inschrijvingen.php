@@ -182,7 +182,18 @@ return $encrypt;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 else {
-	 $bin_e = '';
+// init arrays
+
+$asc_w= array();
+$asc_k= array();
+$k_bit= array();
+$w_bit= array();
+$e_bit= array();
+$bin_w= array();
+$bin_k= array();
+$bin_e= array();
+$dec_e= array();
+
 	$_text = substr($_text,3,$len-2);
 // encrypt  (vanaf pos 3 ivm @##)
 for ($i=0;$i<$len-3;$i++){
@@ -201,16 +212,21 @@ for ($i=0;$i<$len-3;$i++){
 	 $bin_k[$i] = sprintf('%08d', decbin($asc_k[$i]));
 	 
 	 ///  compare bit by bit and create encrypted password
-	 
+		  $e_bit='';
 	 for ($j=0;$j<8;$j++){
 	   
 	  $w_bit[$j] = substr($bin_w[$i],$j,1);
+	  
+	//  echo "<br> w.". $j. "= ".substr($bin_w[$i],$j,1);
+   //   echo "<br> k.".$j. "= ".substr($bin_k[$i],$j,1);
+	  
 	  $k_bit[$j] = substr($bin_k[$i],$j,1);
 	  
 	  if ($w_bit[$j] == $k_bit[$j]) {
-	    	$e_bit[$j]  = 0;}
+	    	$e_bit  = 0;
+			}
 	  	else {
-	  	  $e_bit[$j]  = 1;
+	  	  $e_bit  = 1;
 	  }
 	  
 	  
