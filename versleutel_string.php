@@ -3,6 +3,7 @@
 
 function versleutel_string($_text)
 {
+	
 	// key_string moet even lang zijn als max email 
 $key_string = "R00489659994743393930384774774747474747477777777777779383939337861326361271327132781327813278132713271727132771327127127127127171777777777777737373717181871129726432954265316abc5432189765";
 $encrypt    = '';
@@ -15,21 +16,20 @@ $pos = strpos($_text,"##");
 
 // init arrays
 
-$asc_w= [];
-$asc_k= [];
-$k_bit= [];
-$w_bit= [];
-$e_bit= [];
-$bin_w= [];
-$bin_k= [];
-$bin_e= [];
-$dec_e= [];
+$asc_w = [];
+$asc_k = [];
+$k_bit = [];
+$w_bit = [];
+$e_bit = [];
+$bin_w = [];
+$bin_k = [];
+$bin_e = [];
+$dec_e = [];
 
 
 // bepaal richting van decrypt
 if ($pos  != 1){
 	
-
 	$k   = 0 ;
 // echo $len;
 
@@ -45,14 +45,18 @@ for ($i=0;$i<$len;$i=$i+3){
 	 
 	 $bin_w[$k] = sprintf('%08d', decbin($asc_w[$k]));
 	 $bin_k[$k] = sprintf('%08d', decbin($asc_k[$k]));
+	 
 	 $bin_e[$k] = '';
 	   
-	 ///  compare and create encrypted password
+	 ///  compare and create encrypted value
 	 
+	 $e_bit = [];
 	 for ($j=0;$j<8;$j++){
 	   
 	  $w_bit[$j] = substr($bin_w[$k],$j,1);
 	  $k_bit[$j] = substr($bin_k[$k],$j,1);
+	  
+	  
 	  
 	  if ($w_bit[$j] == $k_bit[$j]) {             /// vergelijk met sleutelwaarde
 	    	$e_bit[$j]  = 0;}
@@ -80,35 +84,60 @@ return $encrypt;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 else {
-	 $bin_e = '';
+	// init arrays
+
+$asc_w = [];
+$asc_k = [];
+$k_bit = [];
+$w_bit = [];
+$e_bit = [];
+$bin_w = [];
+$bin_k = [];
+$bin_e = [];
+$dec_e = [];
 	$_text = substr($_text,3,$len-2);
+	
 // encrypt  (vanaf pos 3 ivm @##)
 for ($i=0;$i<$len-3;$i++){
 	
    // conversie letter naar ascii waarde
 	 $z        = $i+$key_index;
 	 $asc_w[$i]= ord(substr($_text,$i,1));
+	
+  //   echo "<br>char  w: ".substr($_text,$i,1);
+  //   echo "<br>ASCII  w: ".$asc_w[$i];
+	 
+	 
 	 $asc_k[$i]= ord(substr($key_string,$z,1));
 	 
-	 // conversie ascii waarde letter naar binary waarde
-	 $bin_w[$i] = decbin($asc_w[$i]);
-	 $bin_k[$i] = decbin($asc_k[$i]);
-	 
+//	  echo "<br>ASCII  k: ".$asc_k[$i];
+	 	  
+	 // conversie ascii waarde letter naar binary waarde	 
 	 // add leading zero to bin to len 8
 	 $bin_w[$i] = sprintf('%08d', decbin($asc_w[$i]));
 	 $bin_k[$i] = sprintf('%08d', decbin($asc_k[$i]));
 	 
-	 ///  compare bit by bit and create encrypted password
+	//  echo "<br>BIN  w: ".$bin_w[$i];
+	//  echo "<br>BIN  k: ".$bin_k[$i];
+
+
+	 ///  compare bit by bit and create encrypted value
 	 
+	  $e_bit='';
 	 for ($j=0;$j<8;$j++){
 	   
 	  $w_bit[$j] = substr($bin_w[$i],$j,1);
+	  
+	//  echo "<br> w.". $j. "= ".substr($bin_w[$i],$j,1);
+   //   echo "<br> k.".$j. "= ".substr($bin_k[$i],$j,1);
+	  
 	  $k_bit[$j] = substr($bin_k[$i],$j,1);
 	  
 	  if ($w_bit[$j] == $k_bit[$j]) {
-	    	$e_bit[$j]  = 0;}
+	    	$e_bit  = 0;
+			}
 	  	else {
-	  	  $e_bit[$j]  = 1;
+	  	  $e_bit  = 1;
 	  }
 	  
 	  
@@ -116,7 +145,7 @@ for ($i=0;$i<$len-3;$i++){
 	  	$bin_e[$i] ='';
 	 }   	
 	
- 	 $bin_e[$i] = $bin_e[$i].$e_bit[$j];
+ 	 $bin_e[$i] = $bin_e[$i].$e_bit;
 	
 	
 	
@@ -140,9 +169,11 @@ return $asc_string;
 
 /// test
 /*
+echo "heen";
 $text='@##erik.hendrikx@gmail.com';
 echo "<br>".versleutel_string($text);
 
+echo "<br>terug";
 $encrypt = versleutel_string($text);
 echo "<br>Terug: ".versleutel_string($encrypt);
 */
