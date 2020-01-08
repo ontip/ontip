@@ -432,7 +432,7 @@ $query="UPDATE inschrijf
                    status       = '".$status."'
             WHERE  Id           = ".$id.";  ";
 
-//echo $i.".    ". $query."<br>";
+echo $i.".    ". $query."<br>";
  mysqli_query($con,$query) or die ('Fout in update inschrijving'); 
 
 // versleutel email
