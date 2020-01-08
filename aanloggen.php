@@ -45,9 +45,9 @@ if (window.attachEvent) window.attachEvent("onload", sfFocus);
 </Script>
 </head>
 
-<body BACKGROUND="../ontip/images/ontip_grijs.jpg" width =40 bgproperties=fixed >
+<body BACKGROUND="../ontip/images/ontip_grijs.jpg" width =40 bgproperties=fixed  OnLoad="document.myForm.Naam.focus();" >
 <br>
-<form method = 'post' action='verwerk_aanlog.php' target="_top">
+<form method = 'post' action='verwerk_aanlog.php' target="_top"  name ='myForm'>
 <?php
 include('mysqli.php');	
 /* Set locale to Dutch */

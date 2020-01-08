@@ -288,11 +288,7 @@ $toernooien = mysqli_query($con,"SELECT h.Toernooi,  Waarde , Datum from config 
    where c.Variabele     = 'toernooi_voluit' 
      and c.Vereniging_id    = '".$vereniging_id."' order by Datum ");
  
- mysqli_query($con,"OPTIMIZE table  hulp_toernooi ") or die('Fout in optimize tabel');   
-
-
-
-
+ 
 $aantal_toernooien = mysqli_num_rows($toernooien);
   
 //$qry                    = mysqli_query($con,"SELECT * from hulp_toernooi where Vereniging = '".$vereniging."' and Datum >= '".$today."'   order by Datum ")           or die(' Fout in select eerstv');  
