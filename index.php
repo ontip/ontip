@@ -1589,7 +1589,7 @@ window.onload=do_onload
 	<?php if ($bond =='NJBB'){ ?>	 
 		 <tr>
 			<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'">
-				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= 'export_leden_csv.php'>Import leden met licenties (csv) <?php echo $vereniging;?> <img src='../ontip/images/icon_excel.jpg' border = 0 width =22  ><br><span style=' font-size:9pt;color:black;'>Maakt csv bestand aan met Namen + Licenties.</span></a>
+				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= 'import_leden_csv_stap1.php'>Import leden met licenties (csv) <?php echo $vereniging;?> <img src='../ontip/images/icon_excel.jpg' border = 0 width =22  ><br><span style=' font-size:9pt;color:black;'>Maakt csv bestand aan met Namen + Licenties.</span></a>
 		 </td></tr>
 	<?php }  ?> 	
 			 <tr>

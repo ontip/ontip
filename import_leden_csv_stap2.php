@@ -32,10 +32,11 @@ set_time_limit(300);//for setting
 
 //$parts            = explode("/", $prog_url);
 $paths            = "/public_html/".substr($prog_url,3,-1)."/csv/";
-$ftp_server       = $_POST['server'];
+$ftp_server       = '81.26.219.37';
 $max_file_size    = $_POST['max_file_size'];
 $ftp_user_name    = $username;
-$ftp_user_pass    = $password;
+$ftp_user_pass    = 'w49WNfg0Rp';
+
 $name             = $_FILES['userfile']['name'];
 $source_file      = $_FILES['userfile']['tmp_name'];
 $destination_file = $paths. $_FILES['userfile']['name'];
