@@ -11,6 +11,15 @@
 # Fix:              None
 # Feature:          Migratie PHP 5.6 naar PHP 7
 # Reference: 
+
+# 10jan2020         -            E. Hendrikx 
+# Symptom:   		None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Andere aanroep mpdf
+# Reference: 
+
+
 ?>
 <html>
 <head>
@@ -376,26 +385,9 @@ $html .='
 //==============================================================
 //==============================================================
 
-include("../ontip/mpdf/mpdf.php");
+require_once  '../ontip//mpdf/vendor/autoload.php';
 
-// $mpdf=new mPDF(); 
-
-$mpdf = new mPDF('',   // mode - default ''
-                                                '',    // format - A4, for example, default ''
-                                                0,     // font size - default 0
-                                                '',    // default font family
-                                                8,    // margin_left
-                                                8,    // margin right
-                                                8,    // margin top
-                                                8,    // margin bottom
-                                                3,     // margin header
-                                                4,     // margin footer
-                                                'P');  // L - landscape, P - portrait
-                                                
-                                               
-$mpdf=new mPDF();
-$mpdf->allow_charset_conversion=true;
-$mpdf->charset_in='utf-8';
+$mpdf = new \Mpdf\Mpdf();
 
 $mpdf->WriteHTML($html);
 
