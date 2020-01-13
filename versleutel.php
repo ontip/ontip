@@ -16,7 +16,15 @@ $len = strlen($wachtwoord);
 
 /// als lengte is groter dan 11 dan wordt gevraagd een wachtwoord te decrypten 
 if ($len > 11) {
-	
+	$asc_w = [];
+$asc_k = [];
+$k_bit = [];
+$w_bit = [];
+$e_bit = [];
+$bin_w = [];
+$bin_k = [];
+$bin_e = [];
+$dec_e = [];
 	$k   = 0 ;
 // echo $len;
 
@@ -67,6 +75,15 @@ return $encrypt;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 else {
+$asc_w = [];
+$asc_k = [];
+$k_bit = [];
+$w_bit = [];
+$e_bit = [];
+$bin_w = [];
+$bin_k = [];
+$bin_e = [];
+$dec_e = [];
 
 for ($i=0;$i<$len;$i++){
 	
