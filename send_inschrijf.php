@@ -142,12 +142,13 @@ $Postcode ='';
 // Database gegevens. 
 include('mysqli.php');
 include ('versleutel_kenmerk.php'); 
+include ('../boulamis/versleutel_string.php'); 
 
 //echo "test";
 
 //include ('versleutel_string.php'); 
 /// encrypten van string  (begin altijd met @##)
-
+/*
 function versleutel_string($_text)
 {
 	// key_string moet even lang zijn als max email 
@@ -162,16 +163,15 @@ $pos = strpos($_text,"##");
 
 // init arrays
 
-$asc_w= array();
-$asc_k= array();
-$k_bit= array();
-$w_bit= array();
-$e_bit= array();
-$bin_w= array();
-$bin_k= array();
-$bin_e= array();
-$dec_e= array();
-
+$asc_w = [];
+$asc_k = [];
+$k_bit = [];
+$w_bit = [];
+$e_bit = [];
+$bin_w = [];
+$bin_k = [];
+$bin_e = [];
+$dec_e = [];
 
 // bepaal richting van decrypt
 if ($pos  != 1){
@@ -227,7 +227,15 @@ return $encrypt;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 else {
-	 $bin_e = '';
+$asc_w = [];
+$asc_k = [];
+$k_bit = [];
+$w_bit = [];
+$e_bit = [];
+$bin_w = [];
+$bin_k = [];
+$bin_e = [];
+$dec_e = [];
 	$_text = substr($_text,3,$len-2);
 // encrypt  (vanaf pos 3 ivm @##)
 for ($i=0;$i<$len-3;$i++){
@@ -284,7 +292,7 @@ for ($i=0;$i<$len-3;$i++){
 return $asc_string;
 } // end else
 } // end function
-
+*/
 
 $url_hostName = $_SERVER['HTTP_HOST'];
 setlocale(LC_ALL, 'nl_NL');
@@ -1181,9 +1189,6 @@ if ($error == 1){
 if ($error == 0 and $message == ''){
 
 
-
-
-
 // standaard opmerking niet meenemen.
 
 if ($Opmerkingen == "Typ hier evt opmerkingen."){
@@ -1259,7 +1264,7 @@ $query = "INSERT INTO inschrijf(Id, Volgnummer, Toernooi, Vereniging,Vereniging_
                          '".$Naam6."'     ,'".$Licentie6."'   , '".$Vereniging6."' , 
                          '".$Telefoon."'  ,'".$Email."'       , '".$Bankrekening."',
                          '".$Opmerkingen."','".$Extra_compl."', '".$Extra_invulveld_antwoord."','".$status."','".$date."','".$kenmerk."'  )";
- echo $query;
+ //echo $query;
  mysqli_query($con,$query) or die (mysqli_error()); 
  
  /// 5 dec 2017
@@ -2051,6 +2056,7 @@ if ($Email != $email_organisatie){
 	$_subject = "=?utf-8?b?".base64_encode($subject)."?=";
   mail($Email, $_subject, $bericht, $headers,"-finfo@ontip.nl");
 }
+echo $headers;
 
 };              /// indien email ingevuld
 
