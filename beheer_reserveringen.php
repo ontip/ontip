@@ -103,7 +103,7 @@ include('mysqli.php');
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 // 6 jul 2018 EHE  versleutel_string voor Email
-include ('../ontip/versleutel_string.php'); // tbv telnr en email
+include ('../boulamis/versleutel_string.php'); // tbv telnr en email
 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
