@@ -30,13 +30,18 @@ ob_start();
 # Feature:           Ook SMS mogelijk voor email notificatie 
 # Reference: 
 
-
+# 14jan2020          1.0.4           E. Hendrikx
+# Symptom:   		     None.
+# Problem:       	   None
+# Fix:               None
+# Feature:           versleutel_string als include vanaf boulamis folder
+# Reference:
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Database gegevens. 
 include('mysqli.php');
 include ('versleutel_kenmerk.php'); 
-include ('../ontip/versleutel_string.php'); // tbv telnr en email
+include ('../boulamis/versleutel_string.php'); // tbv telnr en email
 setlocale(LC_ALL, 'nl_NL');
 
 $pageName = basename($_SERVER['SCRIPT_NAME']);

@@ -42,10 +42,17 @@ ob_start();
 # Reference:
 
 # 23jun2019          1.0.4           E. Hendrikx
-# Symptom:   		 None.
-# Problem:       	 None
+# Symptom:   		     None.
+# Problem:       	   None
 # Fix:               None
 # Feature:           Update email notificatie als email notificatie kenmerk is meegegeven vanuit Inschrijfform
+# Reference:
+
+# 10jan2020          1.0.4           E. Hendrikx
+# Symptom:   		     None.
+# Problem:       	   None
+# Fix:               None
+# Feature:           versleutel_string als include
 # Reference:
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
