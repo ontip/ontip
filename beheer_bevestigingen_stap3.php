@@ -28,6 +28,13 @@
 # Feature:          PHP7
 # Reference: 
 
+# 14jan2020           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              Include versleutelstring vanaf boulamis folder
+# Feature:          PHP7
+# Reference: 
+
 ob_start();
 ini_set('display_errors', 'OFF');
 error_reporting(E_ALL);
@@ -37,9 +44,9 @@ setlocale(LC_ALL, 'nl_NL');
 
 include ('mysqli.php');
 include ('versleutel_kenmerk.php'); 
-//include ('../ontip/versleutel_string.php'); // tbv telnr en email
+include ('../boulamis/versleutel_string.php'); // tbv telnr en email
 
-
+/*
 /// encrypten van string  (begin altijd met @##)
 
 function versleutel_string($_text)
@@ -178,7 +185,7 @@ for ($i=0;$i<$len-3;$i++){
 return $asc_string;
 } // end else
 } // end function
-
+*/
 
 
 
