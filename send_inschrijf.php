@@ -2063,7 +2063,7 @@ if ($Email != $email_organisatie){
 	$_subject = "=?utf-8?b?".base64_encode($subject)."?=";
   mail($Email, $_subject, $bericht, $headers,"-finfo@ontip.nl");
 }
-echo $headers;
+//echo $headers;
 
 };              /// indien email ingevuld
 

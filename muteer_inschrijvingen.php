@@ -102,7 +102,9 @@ if (window.attachEvent) window.attachEvent("onload", sfFocus);
 
 //// Database gegevens. 
 include ('mysqli.php');
-//include ('../ontip/versleutel_string.php'); // tbv telnr en email
+include ('../boulamis/versleutel_string.php'); // tbv telnr en email
+
+/*
 function versleutel_string($_text)
 {
 	// key_string moet even lang zijn als max email 
@@ -255,6 +257,8 @@ for ($i=0;$i<$len-3;$i++){
 return $asc_string;
 } // end else
 } // end function
+*/
+
 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
@@ -432,7 +436,7 @@ $query="UPDATE inschrijf
                    status       = '".$status."'
             WHERE  Id           = ".$id.";  ";
 
-echo $i.".    ". $query."<br>";
+//echo $i.".    ". $query."<br>";
  mysqli_query($con,$query) or die ('Fout in update inschrijving'); 
 
 // versleutel email
