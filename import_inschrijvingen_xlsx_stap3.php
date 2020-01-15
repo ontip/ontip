@@ -145,7 +145,7 @@ $message ='';
                                   '".$naam6."'     ,'".$licentie6."'   , '".$vereniging6."' , 
                                   '".$email."'     ,'".$telefoon."'    , '".$status."'      , now()  )";
      // echo $query;
-        mysqli_query($con,$query) or die ('Fout in insert inschrijving ');       	
+        mysqli_query($con,$query) or die ('Fout in insert inschrijving '. $query);       	
        	
             // voor het voorkomen van dubbele inschrijvingen
           
