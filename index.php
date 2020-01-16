@@ -19,10 +19,17 @@
 # Reference: 
 
 # 22jun2019         -            E. Hendrikx 
-# Symptom:   		None.
+# Symptom:   		    None.
 # Problem:     	    None
 # Fix:              None
 # Feature:          Lijst email notificaties
+# Reference: 
+
+# 16jan2020        -            E. Hendrikx 
+# Symptom:   		    Geen link naar beheer reserveringen.
+# Problem:     	    None
+# Fix:              Query toegevoegd
+# Feature:          None
 # Reference: 
 ?>
 
@@ -290,9 +297,6 @@ $toernooien = mysqli_query($con,"SELECT h.Toernooi,  Waarde , Datum from config 
  
  mysqli_query($con,"OPTIMIZE table  hulp_toernooi ") or die('Fout in optimize tabel');   
 
-
-
-
 $aantal_toernooien = mysqli_num_rows($toernooien);
   
 //$qry                    = mysqli_query($con,"SELECT * from hulp_toernooi where Vereniging = '".$vereniging."' and Datum >= '".$today."'   order by Datum ")           or die(' Fout in select eerstv');  
@@ -448,6 +452,12 @@ if ($_check !=  $_vereniging){
 if ($vereniging_output_naam !=''){ 
     $_vereniging = $row['Vereniging_output_naam'];
 }
+
+// 16 jan 2020
+   $qry6    = mysqli_query($con,"SELECT count(*) as Aantal From inschrijf where Vereniging = '".$vereniging."' and Toernooi = '".$toernooi."' and Status in ('RE0', 'RE1','RE4')  ")         or die(' Fout in select res'); 
+   $result  = mysqli_fetch_array( $qry6);
+   $aantal_reserves = $result['Aantal'];
+
 
 //  26 oktober 2016  Aanpassijng ivm migratie ///
 if ($onderhoud_ontip =='J'){ ?>
