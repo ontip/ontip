@@ -115,7 +115,7 @@ $url = substr($prog_url,3);
  
  // de ontip link 
 $form_link = $url_redirect."inschrijf_form_smal.html?toernooi=".$toernooi;
-$form_link = str_replace('https:','http:', $form_link);
+//$form_link = str_replace('https:','http:', $form_link);
 
 
 $qrc_link  = $prog_url."/images/qrc/qrcf_".$toernooi.".png";
@@ -167,5 +167,7 @@ echo "<center><img src = ".$targetfile." border  = 0 width = 300></center>";
 ?>
 <span style='font-size:10pt;color:black;padding:15pt;'>Door deze code met uw smartphone of tablet te scannen *(via QR Code lezer App) kunt u het inschrijfformulier het toernooi direct openen. De code afbeelding kunt u via de rechtermuisknop (Afbeelding opslaan als..) kopieren om deze vervolgens op website of flyer te gebruiken.
 
-
+<?php
+echo "<br><br><em  style ='margin-left:15pt;'>Link:".$form_link."</em>";
+?>
 
