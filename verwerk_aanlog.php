@@ -20,6 +20,13 @@
 # Feature:          PHP7.
 # Reference: 
 
+# 26jan2020          1.0.2            E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None
+# Fix:               None
+# Feature:           IP adres als md5 opslaan ivm hack op ip
+# Reference: 
+
 ob_start();
 include 'mysqli.php'; 
 //include 'versleutel.php'; 
@@ -113,7 +120,7 @@ if (strlen($wachtwoord) < 4){
 if ($error == 0){
 
 $encrypt = md5($wachtwoord);
-
+$ip      = md5($_SERVER['REMOTE_ADDR']);
 
 $sql      = mysqli_query($con,"SELECT count(*) as Aantal FROM namen WHERE  Naam='".$naam."' and (Wachtwoord='".$encrypt."' or Wachtwoord_encrypt ='".$encrypt."' ) and Vereniging_id = ".$vereniging_id."  ") or die('Aanloggen: Fout in select');  
 $result   = mysqli_fetch_array( $sql );
@@ -125,7 +132,8 @@ mysqli_query($con,"Update namen set Laatst = now(),
                               Aangelogd = 'J',
                               Wachtwoord = '[versleuteld]',
                               Wachtwoord_encrypt = '".$encrypt."' ,
-                              IP_adres = '". $_SERVER['REMOTE_ADDR']."' 
+                              IP_adres_md5 = '". $ip."' ,
+					          IP_adres     = '[versleuteld]' 
                         WHERE Naam='".$naam."' and Vereniging_id = ".$vereniging_id."  ");
 
 }

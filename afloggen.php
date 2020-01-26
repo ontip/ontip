@@ -13,15 +13,22 @@
 # Feature:          None.
 # Reference: 
 #
+# 26jan2020          1.0.2            E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None
+# Fix:               None
+# Feature:           IP adres als md5 opslaan ivm hack op ip
+# Reference: 
 
 header("Location: ".$_SERVER['HTTP_REFERER']);
 ob_start();
 
 include 'mysqli.php'; 
 mysqli_query($con,"Update namen set Laatst = now(),
-                              IP_adres = '' ,
+                              IP_adres     = '' ,
+						      IP_adres_md5 = '' ,
                               Aangelogd = 'N'
-                       WHERE IP_adres = '". $_SERVER['REMOTE_ADDR']."'   ");
+                       WHERE IP_adres_md5 = '". md5($_SERVER['REMOTE_ADDR'])."'   ");
 
 // expire cookies to logoff
 setcookie ("aangelogd", "", time() - 3600);
