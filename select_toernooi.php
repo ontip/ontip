@@ -37,9 +37,11 @@ while($row = mysqli_fetch_array( $qry )) {
 	 $var = $row['Variabele'];
 	 $$var = $row['Waarde'];
 	}
+$ip        = md5($_SERVER['REMOTE_ADDR']);
+
 
 mysqli_query($con,"Update namen set Toernooi = '".$toernooi."' 
-                        WHERE Aangelogd = 'J'  and Vereniging_id = ".$vereniging_id."  and IP_adres = '". $_SERVER['REMOTE_ADDR']."' ");
+                        WHERE Aangelogd = 'J'  and Vereniging_id = ".$vereniging_id."  and IP_adres_md5 = '". $ip."' ");
                         
 
 // Aanmaken cookie ivm selectie toernooi

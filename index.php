@@ -314,9 +314,10 @@ if ($aantal_toernooien < 2 ) {
     $row      = mysqli_fetch_array( $qry );
     $var      = substr($row['Datum'],0,10);
     $toernooi = $row['Toernooi'];   	 
+    $ip        = md5($_SERVER['REMOTE_ADDR']);
   
      mysqli_query($con,"Update namen set Toernooi = '".$toernooi."' 
-                        WHERE Aangelogd = 'J'  and Vereniging_id = ".$vereniging_id."  and IP_adres = '". $_SERVER['REMOTE_ADDR']."' ");
+                        WHERE Aangelogd = 'J'  and Vereniging_id = ".$vereniging_id."  and IP_adres_md5 = '". $ip."' ");
  
   
    if ($toernooi =='') {
@@ -330,7 +331,7 @@ if ($aantal_toernooien < 2 ) {
 
 // haal geselecteerd toernooi op (bij select_toernooi wordt deze opgeslagen in de namen tabel
 
-$sql         = mysqli_query($con,"SELECT Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
+$sql         = mysqli_query($con,"SELECT Toernooi FROM namen WHERE  IP_adres_md5 = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
 $result      = mysqli_fetch_array( $sql );
 $toernooi    = $result['Toernooi'];
 
