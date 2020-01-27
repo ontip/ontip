@@ -4,14 +4,14 @@
 # Date              Version      Person
 # ----              -------      ------
 # 17mei2019         -            E. Hendrikx 
-# Symptom:   		None.
+# Symptom:   		    None.
 # Problem:     	    None
 # Fix:              None
 # Feature:          Migratie PHP 5.6 naar PHP 7
 # Reference: 
 
 # 7jun2019          -            E. Hendrikx 
-# Symptom:   		None.
+# Symptom:   		    None.
 # Problem:     	    None
 # Fix:              None
 # Feature:          Wijzigen link tbv PTB export
@@ -479,8 +479,8 @@ if ($onderhoud_ontip =='J'){ ?>
 <?php
 
 if ($aangelogd == 'J'){
-	$ip_adres = $_SERVER['REMOTE_ADDR'];
-	    $sql      = mysqli_query($con,"SELECT * FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select');  
+	$ip_adres = md5($_SERVER['REMOTE_ADDR']);
+	    $sql      = mysqli_query($con,"SELECT * FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres_md5 = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select');  
 	    $result   = mysqli_fetch_array( $sql );
       $rechten  = $result['Beheerder'];         	
       $laatste_wijziging_wachtwoord     = $result['Laatste_wijziging_wachtwoord'];
