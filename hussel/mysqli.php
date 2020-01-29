@@ -17,7 +17,7 @@ $url_hostName = $_SERVER['HTTP_HOST'];
 
      $hostname  = "localhost"; 
      $username  = "ontipnlv"; 
-     $password  = "p9FV9VeY"; 
+   $password = "w49WNfg0Rp"; 
      $database  = "ontipnlv_db";
      $ftp_server = 'ftp.ontip.nl'; 
      
