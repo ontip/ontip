@@ -1,3 +1,24 @@
+<?php
+# toernooi_schema.pdf
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 17mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+
+# 30jan2020         -            E. Hendrikx 
+# Symptom:   		None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Andere aanroep mpdf
+# Reference: 
+
+?>
 <html>
 <title>PHP Toernooi Inschrijvingen</title>
 <head>

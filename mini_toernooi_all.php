@@ -1,7 +1,7 @@
 <?php
 $today      = date("Y-m-d");
 $now        = date("Y-m-d H:i");
-$vereniging = 'Boulamis';
+//$vereniging = 'Boulamis';
 
 include('mysqli.php');
 
@@ -90,10 +90,10 @@ $aantal    = $result['Aantal'];
 			             onmouseover="style.backgroundColor='lightgrey';Style.color='blue'"
                    onmouseout="style.backgroundColor='white';Style.color='black'"                   > 	
             	
-		         <a style= 'text-decoration:none;vertical-align:middle;font-size:9pt;font-family:Comic sans, sans-serif;font-weight:bold;color:black;' href ='http://www.boulamis.nl/site2019/page_inschrijf.php?toernooi=<?php echo $toernooi;?>' target='_top' >
+		         <a style= 'text-decoration:none;vertical-align:middle;font-size:9pt;font-family:Comic sans, sans-serif;font-weight:bold;color:black;' href ='<?php echo $prog_url; ?>Inschrijfform.php?toernooi=<?php echo $toernooi;?>' target='_top' >
 		         	    <img style='padding-right:5pt;' src ='../ontip/images/ontip_logo_zonder_bg.jpg' width=40 border = 0>Inschrijven <?php echo $toernooi_voluit;?> <?php echo strftime("%a %e %b %Y", mktime(0, 0, 0, $maand , $dag, $jaar)); ?></a>
 		         	    <span style='font-size:9pt;color:darkgreen;font-size:9pt;font-family:Comic sans, sans-serif;font-weight:bold;'><br>Aantal inschrijvingen tot nu :<b> <?php echo $aantal;?></b> van <?php echo $max_splrs;?></span>
-		         	    <span style='padding-left:10pt;'><a href='http://www.boulamis.nl/site2019/page_lijst_inschrijf.php?toernooi=<?php echo $toernooi;?>'" target='_top'>  <img  src ='../ontip/images/lists-icon.png' width=15 border =0 alt='Lijst deelnemers'> </a>  </span> 	    	 
+		         	    <span style='padding-left:10pt;'><a href="<?php echo $prog_url; ?>Inschrijfform.php?toernooi=<?php echo $toernooi;?>'" target='_top'>  <img  src ='../ontip/images/lists-icon.png' width=15 border =0 alt='Lijst deelnemers'> </a>  </span> 	    	 
 		         	    
 		         	    
 			      <?php } else {?>

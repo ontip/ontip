@@ -1,3 +1,24 @@
+<?php
+# toernooi_schema.pdf
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 17mei2019         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Migratie PHP 5.6 naar PHP 7
+# Reference: 
+
+# 30jan2020         -            E. Hendrikx 
+# Symptom:   		None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Andere aanroep mpdf
+# Reference: 
+
+?>
 <html>
 <head>
 <title>Toernooi schema</title>
@@ -104,6 +125,8 @@ ob_start();
 
 // Database gegevens. 
 include('mysqli.php');
+//include('action.php');
+
 $pageName = basename($_SERVER['SCRIPT_NAME']);
 include('page_stats.php');
 
@@ -278,8 +301,12 @@ $b = 1;          /// baan teller
 $k = 1;          /// team teller per ronde
 
 /// init arrays
-$kolom1[]         = array(0);
-$kolom2[]         = array(0); 
+$kolom1        = array();
+$kolom2        = array(); 
+$baan          = array();
+$namen_lijst = array();
+$vereniging_lijst = array();
+
 
 // eerste ronde
 for ($k=0;$k<$aant_splrs;$k=$k+2){
@@ -287,7 +314,6 @@ for ($k=0;$k<$aant_splrs;$k=$k+2){
 /// maak aparte strings voor teams en tegenstanders en baan
 $team         = substr($spelers,$k*3,3);              //  A, C, E
 $tegenstander = substr($spelers,($k+1)*3,3);          //  B, D, F
-
 
 $kolom1[$j]           .= sprintf("%03d",$team);       
 $kolom2[$j]           .= sprintf("%03d",$tegenstander); 
@@ -307,7 +333,7 @@ echo "baan           ronde ".$j . "-       " . $baan[$j] . "<br>";
 // vanaf 2e ronde uitgaan van de eerte wedstrijd en dan doorschuiven van posities
 for ($j=2;$j<=$aant_rondes;$j++){
 
-$len = ($aant_splrs/2) *3;
+$len                = ($aant_splrs/2) *3;
 $kolom1[$j]         = substr($kolom1[$j-1],0,3).substr($kolom1[$j-1],6,$len-6).substr($kolom2[$j-1],$len-3,3);
 $kolom2[$j]         = substr($kolom1[$j-1],3,3).substr($kolom2[$j-1],0,$len-3);
 
@@ -350,19 +376,11 @@ echo "<th colspan = 1 Style='width:80pt;font-size:".$font_size.";'>Ronde ".$j."<
 
 }
 
-
-
-
-
 echo "</tr>";
 
 
 $i=1;
 $b=1;    // baan teller
-$namen_lijst[0]='';
-
-/// init arrays
-$baan[]         = array(0);
 
 
 // detail regels
@@ -404,6 +422,8 @@ if ($letter_nummer == 'Nummers'){
 if ($vrijloting == 'J' and $j == $aant_splrs) {
 	 $_team = 'Vrij' ;
 }
+
+
 
 
 if ($invul_namen =='J'){
@@ -547,10 +567,11 @@ $j        = sprintf("%03d",$j);      // omzetten naar 3 chars
  		     	
      }
 
-
-//echo " tegenstander :" . $_tegenstander . "<br>";
-//echo " aantal       :" . sprintf("%03d",$aant_splrs). "<br>";
-//echo " vrijloting   :" . $vrijloting . "<br>";
+/*
+ echo " tegenstander :" . $_tegenstander . "<br>";
+ echo " aantal       :" . sprintf("%03d",$aant_splrs). "<br>";
+ echo " vrijloting   :" . $vrijloting . "<br>";
+*/
 
 if ($vrijloting == 'J' and sprintf("%03d",$_tegenstander) == sprintf("%03d",$aant_splrs) ) {
 	 $tegenstander = 'Vrij' ;
