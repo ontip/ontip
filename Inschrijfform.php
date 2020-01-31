@@ -23,18 +23,26 @@
 # Reference:
 
 # 24feb2019         1.0.3           E. Hendrikx 
-# Symptom:   		    None.
+# Symptom:   		None.
 # Problem:     	    None.
 # Fix:              None.
 # Feature:          datum toernooi cyclus niet vermelden als max is bereikt. Max wordt bijgehouden toernooi_datums_cyclus per datum
 # Reference: 
 
 # 3mei2019         1.0.4            E. Hendrikx
-# Symptom:   		    None.
-# Problem:       	  Bij voorlopige bevesting = J en $uitgestelde_bevestiging_vanaf boven 0, dan staat er twee keer de melding dat het een voorlopige bevestiging is
+# Symptom:   		None.
+# Problem:       	Bij voorlopige bevesting = J en $uitgestelde_bevestiging_vanaf boven 0, dan staat er twee keer de melding dat het een voorlopige bevestiging is
 # Fix:              $uitgestelde_bevestiging_vanaf alleen in combinatie met uitgestelde_bevesting = N  
 # Feature:          None
 # Reference:
+
+# 31jan2020         1.0.4            E. Hendrikx
+# Symptom:   		Selectie toernooien in de kop werkt niet
+# Problem:       	Aantal toernooien klopte niet in functie msqli_num_rows. Vervangen door count(*)
+# Fix:              None
+# Feature:          None
+# Reference:
+
 
  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -658,19 +666,19 @@ mysqli_query($con,"Delete from hulp_toernooi where Vereniging = '".$vereniging."
 // Insert alle toernooien voor deze vereniging in hulp toernooi
 
 $insert = mysqli_query($con,"INSERT INTO hulp_toernooi
-(`Toernooi`, `Vereniging`, `Datum`) 
- select distinct Toernooi, Vereniging, Waarde from config where Vereniging = '".$vereniging."' and Variabele = 'Datum' and   Waarde >= '".$today."' ");
+(`Toernooi`, `Vereniging`,`Vereniging_id`,Inschrijving_open,  `Datum`) 
+ select distinct Toernooi, Vereniging,Vereniging_id,'N',  Waarde from config where Vereniging = '".$vereniging."' and Variabele = 'Datum' and   Waarde >= '".$today."' ");
 
 // Update Inschrijving_open
  
 $update = mysqli_query($con,"UPDATE hulp_toernooi as t
  join config as c
   on t.Toernooi          = c.Toernooi and
-     t.Vereniging        = c.Vereniging 
-   set t.Inschrijving_open  = 'N'
-   where t.Vereniging = '".$vereniging."' and 
+     t.Vereniging_id        = c.Vereniging_id 
+   set t.Inschrijving_open  = 'J'
+   where t.Vereniging_id = ".$vereniging_id." and 
     c.Variabele    = 'begin_inschrijving'
-  and c.Waarde > '".$today."'  ");
+  and c.Waarde <= '".$today."'  ");
 
 // Update toernooi_voluit
  
@@ -683,8 +691,9 @@ $update = mysqli_query($con,"UPDATE hulp_toernooi as t
     c.Variabele    = 'toernooi_voluit' ");
 
 $update             = mysqli_query($con,"UPDATE hulp_toernooi set Inschrijving_open = 'N'  where Vereniging = 'Boulamis' and Toernooi = 'erik_test_toernooi' ");
-$qry_toernooien     = mysqli_query($con,"SELECT Toernooi,Toernooi_voluit From hulp_toernooi where Vereniging = '".$vereniging ."' and  Inschrijving_open <> 'N' order by Datum ")     or die(' Fout in select 2');  
-$aantal_toernooien  = mysqli_num_rows($qry_toernooien);
+$qry_toernooien     = mysqli_query($con,"SELECT count(*) as Aantal From hulp_toernooi where Vereniging_id = ".$vereniging_id ." and  Inschrijving_open <> 'N' order by Datum ")     or die(' Fout in select 2');  
+$result             = mysqli_fetch_array($qry_toernooien);
+$aantal_toernooien  = $result['Aantal'];
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Lees configuratie tabel tbv toernooi gegevens
@@ -1308,7 +1317,7 @@ if (!isset($_GET['simpel'])){ ?>
       <!--///   select box als er meer toernooien zijn ----------////-------->  	
     	<?php
        if ($aantal_toernooien > 1  and $toernooi_selectie_zichtbaar_jn  == 'J'){ ?>
-       	 Inschrijven 
+       	 Inschrijven
            <select name="forma" onchange="location = this.options[this.selectedIndex].value;" style='left-padding:5pt;color:<?php echo $koptekst_kleur; ?>;font-size:20px;font-family:<?php echo $font_koptekst; ?>;background-color:<?php echo($achtergrond_kleur); ?>;'>
            	<option style='left-padding:5pt;font-weight:bold;color:<?php echo $koptekst_kleur; ?>;font-size:20px;font-family:<?php echo $font_koptekst; ?>;' value="<?php echo $prog_url;?>Inschrijfform.php?toernooi=<?php echo $toernooi;?>" selected><?php echo $toernooi_voluit;?></option>
     	   
