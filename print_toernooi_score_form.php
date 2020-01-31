@@ -1,3 +1,15 @@
+<?php
+# print_toernooi_score_form.php
+# print score briefjes adhv aangemaakt toernooi schema
+# 31jan2020         -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          Andere aanroep mpdf
+# Reference: 
+
+
+?>
 <html>
 <head>
 <title>Toernooi schema</title>
@@ -93,23 +105,6 @@ else {
 <body>
 
 <?php
-include("../ontip/mpdf/mpdf.php");
-$mpdf=new mPDF();
-$mpdf->allow_charset_conversion=true;
-$mpdf->charset_in='windows-1252';
-$mpdf = new mPDF('',   // mode - default ''
-                                                '',    // format - A4, for example, default ''
-                                                0,     // font size - default 0
-                                                '',    // default font family
-                                                10,    // margin_left
-                                                10,    // margin right
-                                                4,     // margin top
-                                                3,     // margin bottom
-                                                3,     // margin header
-                                                2,     // margin footer
-                                                'P');  // L - landscape, P - portrait
-                                                
-                                           
 
 echo "<div style='border: red solid 1px;padding-left:5px;'>";  
 echo"<h1>Toernooi schema ". $toernooi_voluit ." <h1>"; 
@@ -137,6 +132,21 @@ if ($invul_namen =='J'){
 
 $html='';
 
+// set page margins
+	$html='<style>@page {
+    margin-top: 0.54cm;
+    margin-bottom: 0.54cm;
+    margin-left: 1.175cm;
+    margin-right: 1.175cm;
+    @media print
+        { html
+          { zoom: 50%;
+          }
+        }
+    }</style>';
+    
+    
+    
 
   ///// $j is teller voor aantal teams
 for ($j=1;$j <= $aant_splrs;$j++){
@@ -164,7 +174,7 @@ if ($letter_nummer == 'Nummers'){
 <?php
 $html .= "<table border=0 width=100% >
 	<tr>
-		<td style='border: 3px solid orange; border-collapse: separate;padding-left:5px;width:120px;font-size:16pt'>Team : ". $_team."</td>
+		<td style='border: 3px solid orange; border-collapse: separate;padding-left:5px;width:120px;font-size:14pt'>Team : ". $_team."</td>
 	  <td style='padding-left:5px;font-size:11pt;text-align:center;'><b>". $toernooi_voluit."</b></td>
 	  <td style='padding-left:5px;font-size:11pt;text-align:right;'>". $vereniging."</td>
   </tr>
@@ -209,16 +219,16 @@ $html .= "<th width=100 style='border: 1px solid black; border-collapse: separat
  
 	
 $html .= "<tr>
-		<td style='font-color:black;text-align:right;font-size:12pt;border: 1px solid black; border-collapse: separate;'>".$k.".</td>
-		<td style='font-color:black;text-align:center;font-size:12pt;border: 1px solid black; border-collapse: separate;'>".$_team."</td>
-		<td style='font-color:black;text-align:center;font-size:12pt;border: 1px solid black; border-collapse: separate;'>".$row['Tegenstander']."</td>";
+		<td style='font-color:black;text-align:right;font-size:11pt;border: 1px solid black; border-collapse: separate;'>".$k.".</td>
+		<td style='font-color:black;text-align:center;font-size:11pt;border: 1px solid black; border-collapse: separate;'>".$_team."</td>
+		<td style='font-color:black;text-align:center;font-size:11pt;border: 1px solid black; border-collapse: separate;'>".$row['Tegenstander']."</td>";
 
 		if ($baan_toewijzing =='J'){ 
-     $html .="<td style='font-color:black;text-align:center;font-size:12pt;border: 1px solid black; border-collapse: separate;'>".$row['Baan']."</td>";
+     $html .="<td style='font-color:black;text-align:center;font-size:11pt;border: 1px solid black; border-collapse: separate;'>".$row['Baan']."</td>";
     }
-$html .= "<td style='font-color:black;text-align:center;font-size:12pt;border: 1px solid black; border-collapse: separate;'></td>
-          <td style='font-color:black;text-align:center;font-size:12pt;border: 1px solid black; border-collapse: separate;'></td>
-          <td style='font-color:black;text-align:center;font-size:12pt;border: 1px solid black; border-collapse: separate;'></td></tr>";
+$html .= "<td style='font-color:black;text-align:center;font-size:11pt;border: 1px solid black; border-collapse: separate;'></td>
+          <td style='font-color:black;text-align:center;font-size:11pt;border: 1px solid black; border-collapse: separate;'></td>
+          <td style='font-color:black;text-align:center;font-size:11pt;border: 1px solid black; border-collapse: separate;'></td></tr>";
 	
 	} /// end k
 
@@ -226,7 +236,7 @@ $html .= "</table><br>";
 $html .="<table width=100%>
 	      <tr>
         <td style='font-size:9pt;text-align:left;color:blue;'>Dit toernooi wordt gespeeld volgens de regels van de NJBB.</td>
-        <td style='font-size:8pt;text-align:right;color:darkgrey;'><img src='http://www.ontip.nl/ontip/images/OnTip_banner.png' width=25 border =0 />  (c)".date(Y).".</td>
+        <td style='font-size:8pt;text-align:right;color:darkgrey;'><img src='http://www.ontip.nl/ontip/images/OnTip_banner.png' width=25 border =0 />  (c)".date('Y').".</td>
         </tr></table>";
   
   
@@ -242,14 +252,29 @@ $html .="<table width=100%>
 
  }/// end j
  
-// Afsluiten                                             
+// Afsluiten  
+$former = error_reporting(E_ALL ^ E_NOTICE);
+                                           
+require_once  '../ontip//mpdf/vendor/autoload.php';
+
+$mpdf = new \Mpdf\Mpdf();
+/*
+margin_left: 15
+•margin_right: 15
+•margin_top: 16
+•margin_bottom: 16
+•margin_header: 9
+•margin_footer: 9
+ */
+ 
+                                           
 
 $mpdf->WriteHTML($html);
 $mpdf->Output($output_pdf,'F');
 
 echo "<br><br>Als bij een tweede keer aanmaken de output niet is wat je verwacht, druk op F5 om het scherm te verversen.";
-echo "<center><br><br><iframe src='".$output_pdf."' width='580' height='680' style='border: none;'></iframe></center>";
-echo "<br><a style='font-size:10pt;' href = ".$output_pdf." target='_blank'>Klik hier voor aangemaakte PDF Flyer in een apart window te openen.</a>";
+echo "<center><br><br><iframe src='".$output_pdf."' width=100% height='680' style='border: none;'></iframe></center>";
+echo "<br><a style='font-size:10pt;' href = ".$output_pdf." target='_blank'>Klik hier voor aangemaakte PDF  in een apart window te openen.</a>";
 ?>
 
 
