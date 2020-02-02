@@ -103,11 +103,6 @@ $url_redirect = $row['Url_redirect'];
 
 <?php
 
-if ($vereniging =='Boulamis'){
-	  $url_redirect = 'https://www.ontip.nl/boulamis/';
-	 // $url_redirect ='';
-}	  
-
 
 if ($toernooi !=''){
 
