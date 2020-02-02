@@ -138,7 +138,7 @@ exit;
 }
 
 //// Check op rechten
-$sql      = mysqli_query($con,"SELECT Beheerder,Naam FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres = '".$ip_adres."' and Aangelogd = 'J'  ") or die(' Fout in select'); 
+$sql      = mysqli_query($con,"SELECT Beheerder,Naam FROM namen WHERE Vereniging_id = ".$vereniging_id." and IP_adres_md5 = '".md5($ip_adres)."' and Aangelogd = 'J'  ") or die(' Fout in select'); 
 $result   = mysqli_fetch_array( $sql );
 $rechten  = $result['Beheerder'];
 
