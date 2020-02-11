@@ -33,6 +33,13 @@
 # Feature:       Status IN3 toegevoegd            
 # Reference: 
 
+# 11feb2020         -            E. Hendrikx 
+# Symptom:         None.
+# Problem:     	   probleem met insert into hulp_toernooi
+# Fix:             database aanpassing (kolom breedte) en soort_licentie uit insert gehaald
+# Feature:         Status IN3 toegevoegd            
+# Reference: 
+
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
@@ -1005,7 +1012,6 @@ $i++;
 };
 
 
-
 ?>
 </table>	
 	
@@ -1019,50 +1025,50 @@ mysqli_query($con,"Delete from hulp_inschrijf  ") or die('Fout in schonen tabel'
 
 // Vul hulptabel (6x )
 
-$query = "insert into hulp_inschrijf (Toernooi, Vereniging, Naam, Soort_Licentie) 
-( select Toernooi, Vereniging1, Naam1, Right(Licentie1, 1) from inschrijf
+$query = "insert into hulp_inschrijf (Toernooi, Vereniging, Naam) 
+( select Toernooi, Vereniging1, Naam1 from inschrijf 
     where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' )" ;
 
-mysqli_query($con,$query) or die (mysqli_error()); 
+mysqli_query($con,$query) or die ('Fout in insert hulp1: '.$query); 
 
 if ($soort_inschrijving !='single'){
-$query = "insert into hulp_inschrijf (Toernooi, Vereniging, Naam, Soort_Licentie) 
-( select Toernooi, Vereniging2, Naam2, Right(Licentie2, 1) from inschrijf
+$query = "insert into hulp_inschrijf (Toernooi, Vereniging, Naam) 
+( select Toernooi, Vereniging2, Naam2 from inschrijf 
     where Toernooi = '".$toernooi."'and Vereniging = '".$vereniging."' )" ;
 
-mysqli_query($con,$query) or die (mysqli_error()); 
+mysqli_query($con,$query) or die ('Fout in insert hulp2'); 
 }
 
 if ($soort_inschrijving =='triplet' or $soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet' ){
-$query = "insert into hulp_inschrijf (Toernooi, Vereniging, Naam, Soort_Licentie) 
-( select Toernooi, Vereniging3, Naam3, Right(Licentie3, 1) from inschrijf
+$query = "insert into hulp_inschrijf (Toernooi, Vereniging, Naam) 
+( select Toernooi, Vereniging3, Naam3  from inschrijf
     where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."')" ;
 
-mysqli_query($con,$query) or die (mysqli_error()); 
+mysqli_query($con,$query) or die ('Fout in insert hulp3'); 
+}
+
+if ( $soort_inschrijving == '4x4' or $soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet' ){
+$query = "insert into hulp_inschrijf (Toernooi, Vereniging, Naam) 
+( select Toernooi, Vereniging4, Naam4 from inschrijf
+    where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."')" ;
+
+mysqli_query($con,$query) or die ('Fout in insert hulp4'); 
 }
 
 if ( $soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet' ){
-$query = "insert into hulp_inschrijf (Toernooi, Vereniging, Naam, Soort_Licentie) 
-( select Toernooi, Vereniging4, Naam4, Right(Licentie4, 1) from inschrijf
+$query = "insert into hulp_inschrijf (Toernooi, Vereniging, Naam) 
+( select Toernooi, Vereniging5, Naam5 from inschrijf
     where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."')" ;
 
-mysqli_query($con,$query) or die (mysqli_error()); 
-
-$query = "insert into hulp_inschrijf (Toernooi, Vereniging, Naam, Soort_Licentie) 
-( select Toernooi, Vereniging5, Naam5, Right(Licentie5, 1) from inschrijf
-    where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."')" ;
-
-mysqli_query($con,$query) or die (mysqli_error()); 
-
+mysqli_query($con,$query) or die ('Fout in insert hulp5'); 
 }
 
 if ( $soort_inschrijving == 'sextet' ){
-$query = "insert into hulp_inschrijf (Toernooi, Vereniging, Naam, Soort_Licentie) 
-( select Toernooi, Vereniging6, Naam6, Right(Licentie6, 1) from inschrijf
+$query = "insert into hulp_inschrijf (Toernooi, Vereniging, Naam) 
+( select Toernooi, Vereniging6, Naam6 from inschrijf
     where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."' )" ;
 
-mysqli_query($con,$query) or die (mysqli_error()); 
-
+mysqli_query($con,$query) or die ('Fout in insert hulp6'); 
 }
              
 $aantal   = mysqli_query($con,"select Vereniging, count(*) as Aantal from hulp_inschrijf  where length(Vereniging) > 0 group by Vereniging order by 2 desc" )   
@@ -1091,7 +1097,6 @@ echo "</table><br>";
 /// Maak xml file met de laatst opgeslagen inschrijvingen tbv restore
 include ('create_inschrijf_xml.php');
 ?>
-
 
 	<!--  Knoppen voor verwerking   ----->
 <TABLE>
