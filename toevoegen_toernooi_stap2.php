@@ -30,6 +30,17 @@
 ////  Programma aanpassingen
 ////  14-10-2013  Variabele boulemaatje_gezocht_zichtbaar_jn wordt toegevoegd vanuit dit programma en niet vanuit mytoernooi.txt.
 ////   6-07-2018  Variabele aangemaakt_door toegevoegd voor initiele aanmaak toernooi
+
+# Date              Version      Person
+# ----              -------      ------
+# 21feb20209          1.0.0       E. Hendrikx 
+# Symptom:   		 Ongeldige datum geeft probleem met insert in toernooi_ontip
+# Problem:     	     None
+# Fix:               checkdate functie
+# Feature:           
+# Reference: 
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
@@ -53,6 +64,19 @@ $_input_toernooi   = trim($_POST['_toernooi']);
 $_datum            = $_POST['datum_jaar']."-".sprintf("%02d",$_POST['datum_maand'])."-".sprintf("%02d",$_POST['datum_dag']);
 $error             = 0 ;
 $message           = '';
+
+$dag    = sprintf("%02d",$_POST['datum_dag']);
+$maand  = sprintf("%02d",$_POST['datum_maand']);
+$jaar    = $_POST['datum_jaar'];
+
+// checkdate ( int $month , int $day , int $year ) :
+$check = checkdate($_POST['datum_maand'], $_POST['datum_dag'], $_POST['datum_jaar']);
+
+if ($check === false) { 
+		$message .= "* Datum heeft een ongeldige waarde : ".$dag."-".$maand."-".$jaar.".<br>";
+   	$error = 1;
+}
+
 
 $_email_organisatie   = trim($_POST['_email_organisatie']);
 $aangemaakt_door      = $_POST['aangemaakt_door'];
@@ -875,9 +899,9 @@ if ($error == 1){
 <script language="javascript">
         alert("Er is iets fout gegaan bij het aanmaken van het toernooi.")
     </script>
-  <script type="text/javascript">
-       window.close(); 
-		</script>	
+ <script type="text/javascript">
+		history.back()
+	</script>
 <?php
 } else { 
 ?>

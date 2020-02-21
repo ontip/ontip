@@ -63,6 +63,16 @@
 # Feature:          Bij uitbreiden inschrijvingen status voor reserves aanpassen naar ingeschreven niet bevestigd
 # Reference: 
 
+# 21feb20209          1.0.0       E. Hendrikx 
+# Symptom:   		 Ongeldige datum geeft probleem met insert in toernooi_ontip
+# Problem:     	     None
+# Fix:               checkdate functie
+# Feature:           
+# Reference: 
+
+
+
+
 //header("Location: ".$_SERVER['HTTP_REFERER']);
 
 ini_set('display_errors', 'OFF');
@@ -354,6 +364,15 @@ $result       = mysqli_fetch_array( $qry);
 $datum        = $_POST['datum_jaar']."-".sprintf("%02d",$_POST['datum_maand'])."-".sprintf("%02d",$_POST['datum_dag']);
 $count        = mysqli_num_rows($qry);
 
+// checkdate ( int $month , int $day , int $year ) :
+$check = checkdate($_POST['datum_maand'], $_POST['datum_dag'], $_POST['datum_jaar']);
+
+if ($check === false) { 
+     /// reset naar vandaag
+     $datum = date('Y')."-".sprintf("%02d",date('m'))."-".sprintf("%02d",date('d')); 
+}
+
+
 if ($count > 0) {  
 //echo $datum;
   $query = "UPDATE config
@@ -375,6 +394,13 @@ if ($count > 0) {
 
 $begin_datumtijd = $_POST['begin_datum_jaar']."-".sprintf("%02d",$_POST['begin_datum_maand'])."-".sprintf("%02d",$_POST['begin_datum_dag'])." ".sprintf("%02d",$_POST['begin_datum_uur']).":".sprintf("%02d",$_POST['begin_datum_min']);
 
+$check = checkdate($_POST['begin_datum_maand'], $_POST['begin_datum_dag'], $_POST['begin_datum_jaar']);
+
+if ($check === false) { 
+     /// reset naar vandaag
+     $begin_datumtijd = date('Y')."-".sprintf("%02d",date('m'))."-".sprintf("%02d",date('d'))." 00:00";
+}
+
  $query = "UPDATE config
              SET Waarde  = '".$begin_datumtijd."' , 
                  Laatst     = NOW()
@@ -394,6 +420,14 @@ $einde_datumtijd   = $_POST['eind_inschrijving_jaar']."-".sprintf("%02d",$_POST[
 $count        = mysqli_num_rows($qry);
 
 if ($count > 0) {  
+
+$check = checkdate($_POST['eind_datum_maand'], $_POST['eind_datum_dag'], $_POST['eind_datum_jaar']);
+
+if ($check === false) { 
+     /// reset naar vandaag
+     $einde_datumtijd = date('Y')."-".sprintf("%02d",date('m'))."-".sprintf("%02d",date('d'))." 00:00"; 
+}
+
  $query = "UPDATE config
              SET Waarde  = '".$einde_datumtijd."' , 
                  Laatst     = NOW()
