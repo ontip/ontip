@@ -416,12 +416,12 @@ if ($check === false) {
 
 $qry          = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'    and Variabele = 'einde_inschrijving' ") ;  
 $result       = mysqli_fetch_array( $qry);
-$einde_datumtijd   = $_POST['eind_inschrijving_jaar']."-".sprintf("%02d",$_POST['eind_inschrijving_maand'])."-".sprintf("%02d",$_POST['eind_inschrijving_dag'])." ".sprintf("%02d",$_POST['eind_inschrijving_uur']).":".sprintf("%02d",$_POST['eind_inschrijving_min']);
 $count        = mysqli_num_rows($qry);
 
 if ($count > 0) {  
+$einde_datumtijd   = $_POST['eind_inschrijving_jaar']."-".sprintf("%02d",$_POST['eind_inschrijving_maand'])."-".sprintf("%02d",$_POST['eind_inschrijving_dag'])." ".sprintf("%02d",$_POST['eind_inschrijving_uur']).":".sprintf("%02d",$_POST['eind_inschrijving_min']);
 
-$check = checkdate($_POST['eind_datum_maand'], $_POST['eind_datum_dag'], $_POST['eind_datum_jaar']);
+$check = checkdate($_POST['eind_inschrijving_maand'], $_POST['eind_inschrijving_dag'], $_POST['eind_inschrijving_jaar']);
 
 if ($check === false) { 
      /// reset naar vandaag
