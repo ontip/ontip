@@ -1,4 +1,13 @@
 <?php
+# 21feb20209          1.0.0       E. Hendrikx 
+# Symptom:   		 Ongeldige datum geeft probleem met insert in toernooi_ontip
+# Problem:     	     None
+# Fix:               checkdate functie
+# Feature:           
+# Reference: 
+
+
+
 //header("Location: ".$_SERVER['HTTP_REFERER'].""); 
 function redirect($url) {
     if(!headers_sent()) {
@@ -43,10 +52,31 @@ $error =1;
 
 // check date format new
 
+// 01234567890
+// 2020-02-26
+
 
 $datum =   $_POST['datum_new'];
 echo $datum;
 
+$datum_maand = substr($datum ,5,2);
+$datum_jaar  = substr($datum ,0,4);
+$datum_dag   = substr($datum ,8,2);
+
+
+// checkdate ( int $month , int $day , int $year ) :
+$check = checkdate($datum_maand, $datum_dag, $datum_jaar);
+
+if ($check === false) { 
+     /// reset naar vandaag
+	 $error =1;
+	 ?>
+	 <script type="text/javascript">
+	   	alert("Datum is niet geldig <?php echo $datum;?> ")
+		  window.location.replace('<?php echo $url;?>')
+</script>
+<?php
+}
 
 //// 2017-01-10
 //// 01234567890
@@ -67,7 +97,7 @@ $sql      = mysqli_query($con,"SELECT * from toernooi_datums_cyclus  where  Vere
 	
 	while($row = mysqli_fetch_array( $sql )) { 		
 			  $datum     = $_POST['datum_'.$row['Id']];
-		    $locatie   = $_POST['locatie_'.$row['Id']];
+		      $locatie   = $_POST['locatie_'.$row['Id']];
 //// 2017-01-10
 //// 01234567890
 
