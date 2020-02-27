@@ -24,7 +24,7 @@
 
 <style type='text/css'><!-- 
 BODY {color:black ;font-size: 9pt ; font-family: Comic sans, sans-serif;background-color:white;}
-input:focus, input.sffocus { background: lightblue;cursor:underline; }
+input:focus, input.sffocus { background: lightblue;cursor:underline;font-size:12pt; }
 // -->
 </style>
  <Script Language="Javascript">
@@ -76,6 +76,14 @@ $datum_verloop_licentie   = $result['Datum_verloop_licentie'];
 $vereniging_output_naam   = $result['Vereniging_output_naam'];
 $today = date('ymd');
 
+//echo "SELECT count(*)as Aantal from inschrijf where date_format(Inschrijving,'Y-m-d') = '".date('Y-m-d')."' ";
+
+
+$qry2      = mysqli_query($con,"SELECT count(*)as Aantal from inschrijf where date_format(Inschrijving,'%Y-%m-%d') = '".date('Y-m-d')."' and Status not like 'IM%' ")           or die(' Fout in select 2'); 
+$result2   = mysqli_fetch_array( $qry2);
+$aantal_insc   = $result2['Aantal'];
+
+
 echo "<input type= 'hidden'  name= 'zendform' value ='".$today."' />";
 
 if ($datum_verloop_licentie !='0000-00-00'){
@@ -117,9 +125,9 @@ if ($vereniging_output_naam != '') {
 	<?php
 	if ($datum_verloop_licentie < $today ){ ?>
 		
-		<table border =1  style=';box-shadow: 5px 5px 3px #888888;'  width=25%>
+		<table border =1  style=';box-shadow: 5px 5px 3px #888888;'  width=70%>
 <tr><td rowspan = 4 style='background-color:white;vertical-align:middle;padding:5pt;text-align:center;'><img src =  '../ontip/images/OnTip_banner_klein.png' width = 75</td>
-<td width= 75% colspan = 2 Style='font-family:comic sans ms,sans-serif;color:red;font-size:10pt;background-color:white;padding-left:12pt;font-weight:bold;'><marquee >Uw OnTip licentie is verlopen sinds <?php echo $_datum_verloop; ?></marquee></td></tr>
+<td width= 75% colspan = 2 Style='font-family:comic sans ms,sans-serif;color:red;font-size:11pt;background-color:white;padding-left:12pt;font-weight:bold;'><marquee >Uw OnTip licentie is verlopen sinds <?php echo $_datum_verloop; ?></marquee></td></tr>
 <tr><td colspan =2 STYLE ='color:green;font-size:9pt;text-align:left;padding:5pt;background-color:white;text-align:justify;'><label>Uw vereniging wordt op of kort na <?php echo $_week6_erna ; ?> verwijderd uit de OnTip database. 
 	Tot die datum is inschrijven op de openstaande toernooien nog wel mogelijk.<br>Neem z.s.m. contact op met erik.hendrikx @ontip.nl voor de betaling van de licentiekosten. </td></tr> 
 <tr><td colspan =2 Style='font-family:comic sans ms,sans-serif;color:white;font-size:8pt;background-color:#045FB4;'>(c) OnTip <?php echo $_vereniging; ?></td></tr>
@@ -129,29 +137,29 @@ if ($vereniging_output_naam != '') {
 	
 <table border =1  style=';box-shadow: 5px 5px 3px #888888;'>
 <tr><td rowspan =5 style='background-color:white;vertical-align:middle;padding:5pt;'><img src =  '../ontip/images/OnTip_banner_klein.png' width = 75</td>
-<td colspan =2 Style='font-family:comic sans ms,sans-serif;color:white;font-size:10pt;background-color:#045FB4;padding-left:10pt;'>Vul hier je toegangscode en wachtwoord in</td></tr>
-<tr><th width='150'STYLE ='color:green;font-size:10pt;text-align:left;padding-left:10pt;background-color:white;'><label>Toegangscode   </label></th><td STYLE ='background-color:white;color:green;'><label><input type='text'      name='Naam'        size=21/></label></td></tr> 
-<tr><th width='150'STYLE ='color:green;font-size:10pt;text-align:left;padding-left:10pt;background-color:white;'><label>Wachtwoord  </label></th><td STYLE ='background-color:white;color:green;'><label><input type='password'     name='secureontip'  size=21/></label></td></tr>
+<td colspan =2 Style='font-family:comic sans ms,sans-serif;color:white;font-size:11pt;background-color:#045FB4;padding-left:10pt;'>Vul hier je toegangscode en wachtwoord in</td></tr>
+<tr><th width='170'STYLE ='color:green;font-size:11pt;text-align:left;padding-left:10pt;background-color:white;'><label>Toegangscode   </label></th><td STYLE ='background-color:white;color:green;'><label><input type='text'      name='Naam'        size=21/></label></td></tr> 
+<tr><th width='170'STYLE ='color:green;font-size:11pt;text-align:left;padding-left:10pt;background-color:white;'><label>Wachtwoord  </label></th><td STYLE ='background-color:white;color:green;'><label><input type='password'     name='secureontip'  size=21/></label></td></tr>
 <tr>
 	
 <?php  if ($today >= $_week4_ervoor and $today < $_week_ervoor) {   ?>
-        <th width='150' STYLE ='color:red;font-size:10pt;text-align:left;padding-left:10pt;background-color:white;'><label>Datum verloop licentie </label></th>
-	 			<td STYLE ='color:black;background-color:yellow;font-size:10pt;text-align:center;'><?php echo $_datum_verloop_licentie  ;?></td>
+        <th width='170' STYLE ='color:red;font-size:10pt;text-align:left;padding-left:10pt;background-color:white;'><label>Datum verloop licentie </label></th>
+	 			<td STYLE ='color:black;background-color:yellow;font-size:11pt;text-align:center;'><?php echo $_datum_verloop_licentie  ;?></td>
        <?php } ?>
 
        <?php  if ($today >= $_week_ervoor and $today < $datum_verloop_licentie) {   ?>
-       <th width='150' STYLE ='color:red;font-size:10pt;text-align:left;padding-left:10pt;background-color:white;'><label>Datum verloop licentie </label></th>
-	 			<td STYLE ='color:black;background-color:orange;font-size:10pt;text-align:center;'><?php echo $_datum_verloop_licentie  ;?></td>
+       <th width='170' STYLE ='color:red;font-size:10pt;text-align:left;padding-left:10pt;background-color:white;'><label>Datum verloop licentie </label></th>
+	 			<td STYLE ='color:black;background-color:orange;font-size:11pt;text-align:center;'><?php echo $_datum_verloop_licentie  ;?></td>
        <?php } ?>
        
        <?php if ($datum_verloop_licentie <= $today){ ?>
-       <th width='150' STYLE ='color:red;font-size:10pt;text-align:left;padding-left:10pt;background-color:white;'><label>Datum verloop licentie </label></th>
-          <td STYLE ='color:white;background-color:red;font-size:10pt;text-align:center;'><?php echo $_datum_verloop_licentie  ;?></td>
+       <th width='170' STYLE ='color:red;font-size:10pt;text-align:left;padding-left:10pt;background-color:white;'><label>Datum verloop licentie </label></th>
+          <td STYLE ='color:white;background-color:red;font-size:11pt;text-align:center;'><?php echo $_datum_verloop_licentie  ;?></td>
        <?php } ?>
 	 		
 		  <?php  if ($today < $_week4_ervoor  ) {   ?>
-		  <th width='150' STYLE ='color:green;font-size:10pt;text-align:left;padding-left:10pt;background-color:white;'><label>Datum verloop licentie </label></th>
-	 			<td STYLE ='color:black;font-size:10pt;text-align:center;background-color:white;'><?php echo $_datum_verloop_licentie  ;?></td>
+		  <th width='170' STYLE ='color:green;font-size:10pt;text-align:left;padding-left:10pt;background-color:white;'><label>Datum verloop licentie </label></th>
+	 			<td STYLE ='color:black;font-size:11pt;text-align:center;background-color:white;'><?php echo $_datum_verloop_licentie  ;?></td>
        <?php }  ?>
 </tr>
 
@@ -162,7 +170,7 @@ if ($vereniging_output_naam != '') {
 ?>
 
 <br>
-<div style='font-family:comic sans ms,sans-serif;color:darkgrey;font-size:10pt;'>Alleen toegangelijk voor wedstrijdcommissie en (website)beheerders met een toegangscode.<br>
+<div style='font-family:comic sans ms,sans-serif;color:darkgrey;font-size:11pt;'>Alleen toegangelijk voor wedstrijdcommissie en (website)beheerders met een toegangscode.<br>
 	Wachtwoord vergeten? <a href ='aanvraag_nieuw_wachtwoord.php' target='_self'> Klik hier om nieuwe aan te vragen.</a><br>
 	
 	
@@ -171,6 +179,27 @@ if ($vereniging_output_naam != '') {
 	
 	<input type ='submit' value= 'Klik hier na invullen'> </center>
 </form>
+
+<br>
+<center>
+	<div width=50>
+ <fieldset style ='background-color:white;text-align:justify;font-size:10pt; margin-left:185pt;margin-right:185pt ' >
+ 	
+		<legend style='color:red;font-size:9pt;'>Verzoek</legend> 
+
+De host provider van OnTip heeft een maximum van 200 emails per dag ingesteld. Bij overschrijding van die limiet worden die dag verder geen emails meer verzonden. Ook worden deze emails niet bewaard tot de volgende dag.<br>
+	Iedere inschrijving telt 2 email berichten.<br>
+	<br>
+	Indien je als beheerder handmatig inschrijvingen voor je toernooi moet invoeren, overweeg bij meer dan 5 inschrijvingen gebruik te maken van de import functie, waarbij je de namen van deelnemers in een Excel bestand opneemt.<br>
+	Het bespaart email berichten en het gaat ook sneller. De deelnemers krijgen dan geen bevestiging.
+<br>
+<br>
+<span style ='color:red;'> Aantal inschrijvingen heel OnTip voor vandaag tot nu toe : <?php echo $aantal_insc;?>.</span>
+	
+     	 <br><br>
+</fieldset>
+</div>
+</center>
 <br/>
 
 

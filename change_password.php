@@ -67,7 +67,7 @@ else { $naam = '';
 
 
 $ip        = $_SERVER['REMOTE_ADDR'];
-$sql      = mysqli_query($con,"SELECT Naam,Beheerder , Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
+$sql      = mysqli_query($con,"SELECT Naam,Beheerder , Toernooi FROM namen WHERE  IP_adres_md5 = '".md5($ip)."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select aantal');  
 $result   = mysqli_fetch_array( $sql );
 $naam     = $result['Naam'];
 ?>
