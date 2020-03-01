@@ -186,7 +186,7 @@ $email = '';
 
 // kontroleer of op deze PC iemand is aangelogd
 
-$sql      = mysqli_query($con,"SELECT Naam, Email FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select ip check');  
+$sql      = mysqli_query($con,"SELECT Naam, Email FROM namen WHERE  IP_adres_md5 = '".md5($ip)."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select ip check');  
 $result   = mysqli_fetch_array( $sql );
 $email     = $result['Email'];
 

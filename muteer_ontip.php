@@ -70,6 +70,12 @@
 # Feature:           
 # Reference: 
 
+# 28feb20209          1.0.0       E. Hendrikx 
+# Symptom:   		 Fout in update doorgaan toernooi
+# Problem:     	     None
+# Fix:               checkdate functie
+# Feature:           
+# Reference: 
 
 
 
@@ -379,6 +385,8 @@ if ($count > 0) {
              SET Waarde  = '".$datum."' , 
                  Laatst     = NOW()
                  WHERE  Id  = ".$result['Id']." ";
+
+//echo $query;
 
    mysqli_query($con,$query) or die ('Fout in update datum');                 
 }
@@ -723,7 +731,7 @@ $waarde       = $_POST['Waarde-'.$id];
 $reden        = $_POST['Reden-'.$id]; 
 $query        = "UPDATE config  SET Waarde  = '".$waarde."', Parameters  = '".$reden."', Laatst  = NOW()  WHERE  Id  = '".$id."'  ";
 //echo $query."<br>";
-mysqli_query($con,$query) or die ('Fout in update doorgaan toernooi ');   
+mysqli_query($con,$query) or die ('Fout in update doorgaan toernooi: '.$query);   
 
 } else {
 $reden        = $_POST['Reden-'.$id];
