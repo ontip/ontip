@@ -269,6 +269,10 @@ if ($bevestig_jn == 'N'){
 if ($Email !=''  and ($bevestig_ms = 'M' or $bevestig_ms = 'A')){
 	$_subject = "=?utf-8?b?".base64_encode($subject)."?=";
   mail($Email, $_subject, $bericht, $headers,"-finfo@ontip.nl");
+  
+      $function = basename($_SERVER['SCRIPT_NAME']);
+    include('../ontip/mail_stats.php');
+
 //  echo $bericht;
 }
 
@@ -319,7 +323,10 @@ if ($Email != $email_organisatie and $sms_bevestigen_zichtbaar_jn == 'J' and ($b
 //	ECHO "SEND SMS TO ". $to;
 	
 mail($to, $subject, $sms_bericht, $headers);
- 
+
+    $function = basename($_SERVER['SCRIPT_NAME']);
+    include('../ontip/mail_stats.php');
+
 if ($bevestig_jn  == 'J'){
  	$kenmerk  = "RESV:J:".$kenmerk;
  	}

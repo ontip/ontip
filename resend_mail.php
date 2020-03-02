@@ -150,26 +150,26 @@ $kenmerk  = substr($encrypt,0,4).".".substr($encrypt,4,4);
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // Diacrieten omzetten in vereniging en toernooi_voluit
 
-$vereniging        = str_replace("&#226", "т", $vereniging);
-$vereniging        = str_replace("&#233", "щ", $vereniging);
-$vereniging        = str_replace("&#234", "ъ", $vereniging);
-$vereniging        = str_replace("&#235", "ы", $vereniging);
-$vereniging        = str_replace("&#239", "я", $vereniging);
+$vereniging        = str_replace("&#226", "рам $vereniging);
+$vereniging        = str_replace("&#233", "чам $vereniging);
+$vereniging        = str_replace("&#234", "шам $vereniging);
+$vereniging        = str_replace("&#235", "щам $vereniging);
+$vereniging        = str_replace("&#239", "эам $vereniging);
 $vereniging        = str_replace("&#39",  "'", $vereniging);
-$vereniging        = str_replace("&#206", "╬", $vereniging);
+$vereniging        = str_replace("&#206", "╠в, $vereniging);
 
 $_Naam1 =  preg_replace('/[^a-z0-9\\040\\"\\.\\-\\_\\\\]/i',  '*' , $Naam1);
 
 $subject = '[ Kopie ] Inschrijving ';
 // subject pas aanpassen na subject ivm afkeuring mail op vreemde tekens in subject
 
-$toernooi_voluit   = str_replace("&#226", "т", $toernooi_voluit);
-$toernooi_voluit   = str_replace("&#233", "щ", $toernooi_voluit);
-$toernooi_voluit   = str_replace("&#234", "ъ", $toernooi_voluit);
-$toernooi_voluit   = str_replace("&#235", "ы", $toernooi_voluit);
-$toernooi_voluit   = str_replace("&#239", "я", $toernooi_voluit);
+$toernooi_voluit   = str_replace("&#226", "рам $toernooi_voluit);
+$toernooi_voluit   = str_replace("&#233", "чам $toernooi_voluit);
+$toernooi_voluit   = str_replace("&#234", "шам $toernooi_voluit);
+$toernooi_voluit   = str_replace("&#235", "щам $toernooi_voluit);
+$toernooi_voluit   = str_replace("&#239", "эам $toernooi_voluit);
 $toernooi_voluit   = str_replace("&#39",  "'",  $toernooi_voluit);
-$toernooi_voluit   = str_replace("&acirc;", "т",  $toernooi_voluit);
+$toernooi_voluit   = str_replace("&acirc;", "рам  $toernooi_voluit);
 
 $_toernooi_voluit = $toernooi_voluit;
 $subject .= $toernooi_voluit . '  ' ; 
@@ -443,7 +443,11 @@ $bericht .= "<br><div style= 'font-family:verdana;font-size:8.5pt;color:black;pa
 //echo $bericht;
  	$_subject = "=?utf-8?b?".base64_encode($subject)."?=";
   mail($to, $_subject, $bericht, $headers,"-finfo@ontip.nl");
-
+   
+  $function = basename($_SERVER['SCRIPT_NAME']);
+  include('../ontip/mail_stats.php');
+    
+    
 // }// not empty email
 } // volgend Mailid  in loop k
 

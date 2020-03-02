@@ -261,7 +261,10 @@ $subject   .= $toernooi_voluit;
 
 $_subject = "=?utf-8?b?".base64_encode($subject)."?=";
 mail($email_organisatie, $_subject, $bericht, $headers, "-finfo@ontip.nl"); 
-	
+ 
+ // mail stats
+   $function = basename($_SERVER['SCRIPT_NAME']);
+    include('../ontip/mail_stats.php');	
  	
   	
 }// end email organisatie

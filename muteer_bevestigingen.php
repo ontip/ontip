@@ -216,6 +216,10 @@ $bericht .= "</table>"   . "\r\n";
 
 if (!empty ($Email)){
        mail($Email, $subject, $bericht, $headers);
+       
+    $function = basename($_SERVER['SCRIPT_NAME']);
+    include('../ontip/mail_stats.php');
+
 } // end if Email gevuld
 
   
@@ -539,6 +543,10 @@ if ($bevestig_jn  == 'N' and ($Betaal_datum =='' or $Betaal_datum == '0000-00-00
 if (!empty ($Email)){
     if ($status != 'BE5' and $status != 'BE4' and $status != 'IN3' and ($bevestigd_ms = 'M' or $bevestigd_ms = 'A') ){
        mail($Email, $subject, $bericht, $headers);
+           
+    $function = basename($_SERVER['SCRIPT_NAME']);
+    include('../ontip/mail_stats.php');
+
     }
 
 } // end if Email gevuld
@@ -580,6 +588,10 @@ $bericht .= "<br><hr/><div style= 'font-family:Arial;font-size:10pt;color:blue;f
 
 if ($status != 'BE5' and $status != 'BE4' and ($bevestigd_ms = 'M' or $bevestigd_ms = 'A')){
 mail($email_organisatie, $subject, $bericht, $headers);
+
+    $function = basename($_SERVER['SCRIPT_NAME']);
+    include('../ontip/mail_stats.php');
+
 }
 
 
@@ -618,6 +630,9 @@ include('sms_tegoed.php');
        
 if ($sms_bevestigen_zichtbaar_jn == 'J' and $sms_tegoed > 1){
  mail($to, $subject, $sms_bericht, $headers);
+ 
+    $function = basename($_SERVER['SCRIPT_NAME']);
+    include('../ontip/mail_stats.php');
  
  if ($bevestig_jn  == 'J'){
  	$kenmerk  = "BVST:J:".$kenmerk;

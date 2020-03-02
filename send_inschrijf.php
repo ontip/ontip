@@ -1907,7 +1907,10 @@ $bericht .= $Opmerkingen . "\r\n";
 if ($Email != $email_organisatie){
 	$_subject = "=?utf-8?b?".base64_encode($subject)."?=";
    mail($email_organisatie, $_subject, $bericht, $headers, "-finfo@ontip.nl");
- //     mail($email_organisatie, $subject, $bericht, $headers);
+   $function = basename($_SERVER['SCRIPT_NAME']);
+   include('../ontip/mail_stats.php');
+   
+ 
 }
 
 //echo $Email ." -- ". $email_organisatie;
@@ -2062,6 +2065,8 @@ $bericht .= "<br><div style= 'font-family:verdana;font-size:8.5pt;color:black;pa
 if ($Email != $email_organisatie){
 	$_subject = "=?utf-8?b?".base64_encode($subject)."?=";
   mail($Email, $_subject, $bericht, $headers,"-finfo@ontip.nl");
+  $function = basename($_SERVER['SCRIPT_NAME']);
+  include('../ontip/mail_stats.php');
 }
 //echo $headers;
 
@@ -2119,6 +2124,10 @@ if (isset($Voucher_code) and $Voucher_code !='' and $voucher_code_richting == 'U
 ///  alleen sms versturen als mail adres niet gelijk is aan organisatie om te sms verkeer te beperken
 if ($Email != $email_organisatie and $sms_confirmation  == 'J'){
     mail($to, $subject, $sms_bericht, $headers);
+    $function = basename($_SERVER['SCRIPT_NAME']);
+    include('../ontip/mail_stats.php');
+
+
  
  // leg vast in tabel
  $query = "INSERT INTO sms_confirmations(Id, Toernooi, Vereniging,Vereniging_id, Datum, Verzender,
@@ -2169,7 +2178,10 @@ if (isset($sms_laatste_inschrijvingen) and $sms_laatste_inschrijvingen < ($aant_
 
   //echo $sms_bericht;     
   mail($to, $subject, $sms_bericht, $headers);
-
+  $function = 'sms bevestiging'; 
+  include('../ontip/mail_stats.php');   
+   
+   
 // leg vast in tabel
  $kenmerk = "LAATSTE: ".$aant_splrs;
                          

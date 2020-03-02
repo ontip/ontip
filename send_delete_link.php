@@ -178,15 +178,11 @@ $bericht .= "<a href = 'http://www.ontip.nl/".substr($prog_url,3)."delete_toerno
 $bericht .= "</div>";
 $bericht .= "<hr/><div style= 'style= 'font-family:verdana;font-size:7pt;color:black;padding-top:20pt;'><br><img src = 'http://www.ontip.nl/ontip/images/OnTip_banner_klein.jpg' width='40'> Deze mail is aangemaakt vanuit OnTIP het digitaal inschrijf formulier (c) Erik Hendrikx ".date('Y ')."</div>" . "\r\n";
 
-
-//echo $to;
-//echo $headers;
-
-//echo $bericht;
-
-
 mail($to, $subject, $bericht, $headers);
-
+ $function = basename($_SERVER['SCRIPT_NAME']);
+ include('../ontip/mail_stats.php');
+    
+    
 //// Change Title //////
 ?>
 <script language="javascript">

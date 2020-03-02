@@ -178,6 +178,9 @@ $bericht .= "<hr/><div style= 'style= 'font-family:verdana;font-size:9pt;color:b
 $_subject = "=?utf-8?b?".base64_encode($subject)."?=";
 mail($to, $_subject, $bericht, $headers, "-finfo@ontip.nl");
 
+$function = basename($_SERVER['SCRIPT_NAME']);
+include('../ontip/mail_stats.php');
+
 
 header ("location: aanvraag_verstuurd.php"); 
 

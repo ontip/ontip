@@ -79,9 +79,13 @@ $today = date('ymd');
 //echo "SELECT count(*)as Aantal from inschrijf where date_format(Inschrijving,'Y-m-d') = '".date('Y-m-d')."' ";
 
 
-$qry2      = mysqli_query($con,"SELECT count(*)as Aantal from inschrijf where date_format(Inschrijving,'%Y-%m-%d') = '".date('Y-m-d')."' and Status not like 'IM%' ")           or die(' Fout in select 2'); 
+$qry2      = mysqli_query($con,"SELECT count(*) as Aantal from inschrijf where date_format(Inschrijving,'%Y-%m-%d') = '".date('Y-m-d')."' and Status not like 'IM%' ")           or die(' Fout in select 2'); 
 $result2   = mysqli_fetch_array( $qry2);
 $aantal_insc   = $result2['Aantal'];
+
+$qry3      = mysqli_query($con,"SELECT count(*) as Aantal from mail_stats where date_format(Laatst,'%Y-%m-%d') = '".date('Y-m-d')."'  ")           or die(' Fout in select 3'); 
+$result3   = mysqli_fetch_array( $qry3);
+$aantal_emails   = $result3['Aantal'];
 
 
 echo "<input type= 'hidden'  name= 'zendform' value ='".$today."' />";
@@ -194,7 +198,7 @@ De host provider van OnTip heeft een maximum van 200 emails per dag ingesteld. B
 	Het bespaart email berichten en het gaat ook sneller. De deelnemers krijgen dan geen bevestiging.
 <br>
 <br>
-<span style ='color:red;'> Aantal inschrijvingen heel OnTip voor vandaag tot nu toe : <?php echo $aantal_insc;?>.</span>
+<span style ='color:red;'> Aantal inschrijvingen heel OnTip voor vandaag tot nu toe : <?php echo $aantal_insc;?>.Emails : <?php echo $aantal_emails;?> </span>
 	
      	 <br><br>
 </fieldset>
