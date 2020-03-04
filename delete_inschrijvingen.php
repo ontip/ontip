@@ -332,7 +332,7 @@ $bericht .= "<br><div style= 'style= 'font-family:verdana;font-size:9pt;color:bl
 
 mail($to, $subject, $bericht, $headers);
  // mail stats
-$pageName = basename($_SERVER['SCRIPT_NAME']);
+$function = basename($_SERVER['SCRIPT_NAME']);
 include('../ontip/mail_stats.php');
 
 
@@ -419,8 +419,8 @@ if ($aantal_deelnemers < $max_splrs  and $aantal_reserves  == 0){
       	$_subject = "=?utf-8?b?".base64_encode($subject)."?=";
         mail($email, $_subject, $bericht, $headers,"-finfo@ontip.nl");
         // mail stats
-        $pageName = basename($_SERVER['SCRIPT_NAME']);
-        include('../ontip/mail_stats.php');
+       $function = basename($_SERVER['SCRIPT_NAME']);
+       include('../ontip/mail_stats.php');
 
 
 }// end while

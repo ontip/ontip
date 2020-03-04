@@ -257,6 +257,8 @@ $_subject = "=?utf-8?b?".base64_encode($subject)."?=";
 
 if (!empty ($Email)){
        mail($Email, $_subject, $bericht, $headers,"-finfo@ontip.nl");
+	   $function = basename($_SERVER['SCRIPT_NAME']);
+       include('../ontip/mail_stats.php');
 } // end if Email gevuld
 
 // echo $bericht; 
@@ -310,6 +312,8 @@ $_subject = "=?utf-8?b?".base64_encode($subject)."?=";
 
 if (!empty ($Email)){
        mail($Email, $_subject, $bericht, $headers,"-finfo@ontip.nl");
+	   $function = basename($_SERVER['SCRIPT_NAME']);
+       include('../ontip/mail_stats.php');
 } // end if Email gevuld
   
 }// end  for  annuleren
@@ -361,9 +365,8 @@ $_subject = "=?utf-8?b?".base64_encode($subject)."?=";
 
 if (!empty ($Email) and strpos($Email,'@') > 0){
        mail($Email, $_subject, $bericht, $headers,"-finfo@ontip.nl");
-	   $pageName = basename($_SERVER['SCRIPT_NAME']);
+       $function = basename($_SERVER['SCRIPT_NAME']);
        include('../ontip/mail_stats.php');
-
 } // end if Email gevuld
  
   if (empty ($Email) or strpos($Email,'@') == 0){
@@ -432,9 +435,8 @@ $_subject = "=?utf-8?b?".base64_encode($subject)."?=";
 
 if (!empty ($Email) and strpos($Email,'@') > 0){
        mail($Email, $_subject, $bericht, $headers,"-finfo@ontip.nl");
-	   $pageName = basename($_SERVER['SCRIPT_NAME']);
+       $function = basename($_SERVER['SCRIPT_NAME']);
        include('../ontip/mail_stats.php');
- 
 } // end if Email gevuld
   
   
@@ -548,9 +550,8 @@ $_subject = "=?utf-8?b?".base64_encode($subject)."?=";
 
 if (!empty ($Email) and strpos($Email,'@') > 0){
        mail($Email, $_subject, $bericht, $headers,"-finfo@ontip.nl");
-	   $pageName = basename($_SERVER['SCRIPT_NAME']);
+       $function = basename($_SERVER['SCRIPT_NAME']);
        include('../ontip/mail_stats.php');
-
 } // end if Email gevuld
  
   if (empty ($Email) or strpos($Email,'@') == 0){
@@ -592,8 +593,8 @@ include('sms_tegoed.php');
        
 if ($sms_bevestigen_zichtbaar_jn == 'J' and $sms_tegoed > 1){
  mail($to, $subject, $sms_bericht, $headers);
- $pageName = basename($_SERVER['SCRIPT_NAME']);
-include('../ontip/mail_stats.php');
+ $function = basename($_SERVER['SCRIPT_NAME']);
+ include('../ontip/mail_stats.php');
 
  	$Kenmerk  = "BVST:N:".$Kenmerk;
 

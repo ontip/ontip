@@ -440,12 +440,12 @@ if (isset($adres) and $adres !='') {
 $bericht .= "<br><div style= 'font-family:verdana;font-size:8.5pt;color:black;padding-top:20pt;'><hr/><img src = 'http://www.ontip.nl/ontip/images/OnTip_banner_klein.jpg' width='40'> Deze automatische mail is aangemaakt vanuit OnTIP. (c) Erik Hendrikx 2011-".date('Y')."</div>" . "\r\n";
 
 //echo $bericht;
+if ($o <>'' and strpos($Email,'@') > 0 ) {
  	$_subject = "=?utf-8?b?".base64_encode($subject)."?=";
   mail($to, $_subject, $bericht, $headers,"-finfo@ontip.nl");
   
-$pageName = basename($_SERVER['SCRIPT_NAME']);
-include('../ontip/mail_stats.php');
-
+   $function = basename($_SERVER['SCRIPT_NAME']);
+   include('../ontip/mail_stats.php');
 
 // }// not empty email
 } // volgend Mailid  in loop k
