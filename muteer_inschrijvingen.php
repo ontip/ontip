@@ -102,162 +102,8 @@ if (window.attachEvent) window.attachEvent("onload", sfFocus);
 
 //// Database gegevens. 
 include ('mysqli.php');
-include ('../boulamis/versleutel_string.php'); // tbv telnr en email
+include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
-/*
-function versleutel_string($_text)
-{
-	// key_string moet even lang zijn als max email 
-$key_string = "R00489659994743393930384774774747474747477777777777779383939337861326361271327132781327813278132713271727132771327127127127127171777777777777737373717181871129726432954265316abc5432189765";
-$encrypt    = '';
-$key_index  = substr($key_string,1,3);
-$asc_string = '';
-
-$len = strlen($_text);
-$pos =  '';
-$pos = strpos($_text,"##");
-
-// init arrays
-
-$asc_w= array();
-$asc_k= array();
-$k_bit= array();
-$w_bit= array();
-$e_bit= array();
-$bin_w= array();
-$bin_k= array();
-$bin_e= array();
-$dec_e= array();
-
-
-// bepaal richting van decrypt
-if ($pos  != 1){
-	
-
-	$k   = 0 ;
-// echo $len;
-
-for ($i=0;$i<$len;$i=$i+3){
-	
-	// conversie letter naar ascii waarde
-	 $z        = $k+$key_index;
-	 $asc_w[$k]= substr($_text,$i,3);
-	 $asc_k[$k]= ord(substr($key_string,$z,1));
-		 
-	 // conversie ascii waarde letter naar binary waarde
-	 // add leading zero to bin to len 8
-	 
-	 $bin_w[$k] = sprintf('%08d', decbin($asc_w[$k]));
-	 $bin_k[$k] = sprintf('%08d', decbin($asc_k[$k]));
-	 $bin_e[$k] = '';
-	   
-	 ///  compare and create encrypted password
-	 
-	 for ($j=0;$j<8;$j++){
-	   
-	  $w_bit[$j] = substr($bin_w[$k],$j,1);
-	  $k_bit[$j] = substr($bin_k[$k],$j,1);
-	  
-	  if ($w_bit[$j] == $k_bit[$j]) {             /// vergelijk met sleutelwaarde
-	    	$e_bit[$j]  = 0;}
-	  	else {
-	  	  $e_bit[$j]  =1;
-	  }
-	 $bin_e[$k] = $bin_e[$k].$e_bit[$j];
-	
-	} // end for j
-	
-	// aanvullen met leading zero tot 3 lang
-	$dec_e[$k] = sprintf('%03d',bindec($bin_e[$k]));
-
-	
-	 /// plak de chars tot een woord
-	 $encrypt = $encrypt.chr($dec_e[$k]);
-$k++;	
-} /// end for i
-	
-/// return encrypte waarde
-return $encrypt;
-		
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-else {
-// init arrays
-
-$asc_w= array();
-$asc_k= array();
-$k_bit= array();
-$w_bit= array();
-$e_bit= array();
-$bin_w= array();
-$bin_k= array();
-$bin_e= array();
-$dec_e= array();
-
-	$_text = substr($_text,3,$len-2);
-// encrypt  (vanaf pos 3 ivm @##)
-for ($i=0;$i<$len-3;$i++){
-	
-   // conversie letter naar ascii waarde
-	 $z        = $i+$key_index;
-	 $asc_w[$i]= ord(substr($_text,$i,1));
-	 $asc_k[$i]= ord(substr($key_string,$z,1));
-	 
-	 // conversie ascii waarde letter naar binary waarde
-	 $bin_w[$i] = decbin($asc_w[$i]);
-	 $bin_k[$i] = decbin($asc_k[$i]);
-	 
-	 // add leading zero to bin to len 8
-	 $bin_w[$i] = sprintf('%08d', decbin($asc_w[$i]));
-	 $bin_k[$i] = sprintf('%08d', decbin($asc_k[$i]));
-	 
-	 ///  compare bit by bit and create encrypted password
-		  $e_bit='';
-	 for ($j=0;$j<8;$j++){
-	   
-	  $w_bit[$j] = substr($bin_w[$i],$j,1);
-	  
-	//  echo "<br> w.". $j. "= ".substr($bin_w[$i],$j,1);
-   //   echo "<br> k.".$j. "= ".substr($bin_k[$i],$j,1);
-	  
-	  $k_bit[$j] = substr($bin_k[$i],$j,1);
-	  
-	  if ($w_bit[$j] == $k_bit[$j]) {
-	    	$e_bit  = 0;
-			}
-	  	else {
-	  	  $e_bit  = 1;
-	  }
-	  
-	  
-	  if (!isset($bin_e[$i])) {
-	  	$bin_e[$i] ='';
-	 }   	
-	
- 	 $bin_e[$i] = $bin_e[$i].$e_bit[$j];
-	
-	
-	
-	} // end for j
-	
-	// aanvullen met leading zero tot 3 lang
-	$dec_e[$i] = sprintf('%03d',bindec($bin_e[$i]));
-
-	/// plak de chars tot een woord
-	$encrypt    = $encrypt.chr($dec_e[$i]);
-	$asc_string = $asc_string.$dec_e[$i];
-	 
-	 
-} /// end for i
- 
-/// return decimale asc string encrypte ivm mogelijke HTML waarden
-
-return $asc_string;
-} // end else
-} // end function
-*/
 
 
 /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
@@ -1116,21 +962,7 @@ $i--;
   <div class="g-recaptcha" data-sitekey="6LcuBVcUAAAAAHAIiFktH8ZZ22fLeBGKujfN-4ss"></div>   
 <br>
  
- 	<!--table>
-     <tr>
-	 <td width="190" style='font-size:10pt; color:blue;text-align:left;font-family:courier;padding:5pt;'><em>Anti Spam </em></td>
-        <td colspan = 2><input TYPE="TEXT" NAME="respons" SIZE="10" class="pink" Value='Typ hier code' style='font-size:10pt;' onclick="make_blank2();" >
-  	
-  
-   <span style='font-size:14pt; color:black;background-color:lightgrey;width:100pt;height:14pt;text-align:center;font-family:courier;padding:5pt;'  id ='challenge' onclick="changeFunc2(<?php echo $string; ?>);"><b><?php echo $string; ?></b></span>
-    <?php
-    echo "<input type='hidden' name='challenge'    value='". $string. "' /> "; 
-   
-   $string = "";
-   ?>     	
-  </td>
-  </tr>
-  </table-->
+ 
   </blockquote>
   
 <?php
@@ -1147,7 +979,6 @@ $to         = $email_organisatie;
 
 echo "<input type='hidden' name='Aantal' type='text' value ='".$i."'>";
 
-echo "<br><span style='margin-left:45pt;color:black;font-size:10pt;font-family:arial;'>Neem de Anti spam code over en klik op Ja om verwijderen te bevestigen. De verwijdering wordt gemeld via een email bericht aan <b>".$to.".</b></span><br><br><br>";
 ?>
 <span style='margin-left:45pt;' >
 <INPUT type='submit' value='Ja' >&nbsp&nbsp
