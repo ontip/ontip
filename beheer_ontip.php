@@ -748,10 +748,15 @@ eerste instantie vol was.<br>Voorwaarde is wel dat het aantal reserves gelijk mo
 <!----------------------  einde help teksten ------------------------------>
 
 <?php
+if (file_exists($url_logo)){
  $size = getimagesize ($url_logo); 
  $logo_width  = $size[0];
  $logo_height = $size[1];  	
- 
+} else {
+	$logo_width  = 100;
+    $logo_height = 100;
+} 
+
  // ongeveer uitkomen op 30 px voor height
 $calc        = ($logo_width / 30) ;
 $logo_width  = 30;
@@ -3825,7 +3830,7 @@ Op de Tab 'Uitleg' kunt u vinden waar welke instelling te vinden is.
     <br><br>
 
   <input type= 'hidden' name = 'vereniging_id'  value = '<?php echo $vereniging_id; ?>'/>
-  <input type= 'hidden' name = 'naam'           value = '<?php echo $_COOKIE['user']; ?>'/>
+  <!--input type= 'hidden' name = 'naam'           value = '<?php echo $_COOKIE['user']; ?>'/-->
   <input type= 'hidden' name = 'toernooi'       value = '<?php echo $toernooi; ?>'/>
 
 <!--- blockquote 21 nov -----> 

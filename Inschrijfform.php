@@ -1946,9 +1946,9 @@ if ($bestemd_voor !=''){
         	
        	<?php  if ($user_select =='Yes'){ 
         	
-         	/// Verwerk bestand met spelers            
+        // Verwerk bestand met spelers    
           $myFile = 'csv/licensies_vereniging.csv' ;    
-                                  
+          if (file_exists($myFile))  {                
           $fh       = fopen($myFile, 'r');  
           $line     = fgets($fh);                  /// skip kopregel1
           $line     = fgets($fh);                  /// skip kopregel2
@@ -1976,7 +1976,8 @@ if ($bestemd_voor !=''){
           } // end while
        echo "</SELECT>";
        
-      } // end user select
+        } // end file_exists
+	}//  user select
       ?>
                  	
      	 </td>
@@ -2091,7 +2092,7 @@ if ($bestemd_voor !=''){
         	
         	/// Verwerk bestand met spelers            
           $myFile = 'csv/licensies_vereniging.csv' ;    
-                                  
+           if (file_exists($myFile))  {                             
           $fh       = fopen($myFile, 'r');  
           $line     = fgets($fh);                  /// skip kopregel1
           $line     = fgets($fh);                  /// skip kopregel2
@@ -2115,8 +2116,9 @@ if ($bestemd_voor !=''){
 
           } // end while
        echo "</SELECT>";
-       
+       	} // end file_exists
       } // end user select
+	
       ?>	
         	
        	</td>
@@ -2237,7 +2239,7 @@ if ($bestemd_voor !=''){
         	
         	/// Verwerk bestand met spelers            
           $myFile = 'csv/licensies_vereniging.csv' ;    
-                                  
+             if (file_exists($myFile))  {                          
           $fh       = fopen($myFile, 'r');  
           $line     = fgets($fh);                  /// skip kopregel1
           $line     = fgets($fh);                  /// skip kopregel2
@@ -2261,7 +2263,7 @@ if ($bestemd_voor !=''){
 
           } // end while
        echo "</SELECT>";
-       
+			 } // file 
       } // end user select
       ?>
        </td>
@@ -2386,7 +2388,7 @@ if ($bestemd_voor !=''){
         	
         	/// Verwerk bestand met spelers            
           $myFile = 'csv/licensies_vereniging.csv' ;    
-                                  
+              if (file_exists($myFile))  {                         
           $fh       = fopen($myFile, 'r');  
           $line     = fgets($fh);                  /// skip kopregel1
           $line     = fgets($fh);                  /// skip kopregel2
@@ -2410,7 +2412,7 @@ if ($bestemd_voor !=''){
 
           } // end while
        echo "</SELECT>";
-       
+			  } // file exist
       } // end user select
       ?>
       
@@ -2459,8 +2461,7 @@ if ($bestemd_voor !=''){
     		      <INPUT TYPE="image" SRC="../ontip/images/icon_loep.png" alt="." width=22 border = 0   id= 'loep'>
     		   </span>
             <?php } ?>	
-         	
-          
+        
           	</td>
 
         <?php }
@@ -2534,7 +2535,7 @@ if ($bestemd_voor !=''){
         	
         	/// Verwerk bestand met spelers            
           $myFile = 'csv/licensies_vereniging.csv' ;    
-                                  
+            if (file_exists($myFile))  {                             
           $fh       = fopen($myFile, 'r');  
           $line     = fgets($fh);                  /// skip kopregel1
           $line     = fgets($fh);                  /// skip kopregel2
@@ -2558,7 +2559,7 @@ if ($bestemd_voor !=''){
 
           } // end while
        echo "</SELECT>";
-       
+			} // file exist
       } // end user select
       ?>
       
@@ -2682,7 +2683,7 @@ if ($bestemd_voor !=''){
         	
         	/// Verwerk bestand met spelers            
           $myFile = 'csv/licensies_vereniging.csv' ;    
-                                  
+             if (file_exists($myFile))  {                           
           $fh       = fopen($myFile, 'r');  
           $line     = fgets($fh);                  /// skip kopregel1
           $line     = fgets($fh);                  /// skip kopregel2
@@ -2706,7 +2707,7 @@ if ($bestemd_voor !=''){
 
           } // end while
        echo "</SELECT>";
-       
+			 } // fileexist
       } // end user select
       ?>
       
@@ -2853,7 +2854,7 @@ if ($bestemd_voor !=''){
         	
         	/// Verwerk bestand met spelers            
           $myFile = 'csv/licensies_vereniging.csv' ;    
-                                  
+              if (file_exists($myFile))  {                        
           $fh       = fopen($myFile, 'r');  
           $line     = fgets($fh);                  /// skip kopregel1
           $line     = fgets($fh);                  /// skip kopregel2
@@ -2877,7 +2878,7 @@ if ($bestemd_voor !=''){
 
           } // end while
        echo "</SELECT>";
-       
+			  } // file eixt
       } // end user select
       ?>	
         	
@@ -3394,6 +3395,9 @@ if ($bestemd_voor !=''){
 	///////////   Anti spam routine ////////////////////////////////////////////////////////////////////////////////////////
 	
 	  $length = 4; 
+	  $string ='';
+	  $characters = array();
+	  
 	  if( !isset($string )) { $string = '' ; }
 	  
 //    $characters = "23456789abcdefhijkmnprstuvwxyABCDEFG-+";

@@ -77,6 +77,9 @@ else {
   }
 }
 
+if (!isset($linkr)){
+	$linkr = 'blue';
+}
 
 /// Schoon hulp tabel
 
@@ -140,12 +143,14 @@ $qry          = mysqli_query($con,"SELECT distinct Vereniging,Toernooi, Datum Fr
 }
 
 $aantal       = mysqli_num_rows($qry);
-
+/*
 $qry1               = mysqli_query($con,"SELECT * From vereniging where Vereniging = '".$vereniging ."'  ")     or die(' Fout in select');  
  $result             = mysqli_fetch_array( $qry1);
  $indexpagina_kop_jn = $result['Indexpagina_kop_jn'];
  $url_logo           = $result['Url_logo'];
  $prog_url           = $result['Prog_url'];
+*/
+
 
 $indexpagina_kop_jn = 'N';
 

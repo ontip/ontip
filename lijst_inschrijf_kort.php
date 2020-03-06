@@ -161,9 +161,12 @@ else {
 };
 
 if (!isset($link_lijst_zichtbaar_jn)){
-	$link_lijst_zichtbaar_jn == 'J';
+	$link_lijst_zichtbaar_jn = 'J';
 }
-	
+
+if (!isset($aantal_reserves)){
+	$aantal_reserves = 0;
+}	
 
 if ($link_lijst_zichtbaar_jn == 'N' and !isset($_GET['lijst_zichtbaar']) ){
     ?>
