@@ -1527,7 +1527,7 @@ $variabele = 'max_splrs';
   
   //echo "<br>MAX SPLRS vooraf ".$max_splrs_vooraf ;
   //  echo "<br>MAX SPLRS achterraf  ".$max_splrs_achteraf ;
-
+ 
  $verschil = $max_splrs_achteraf  - $max_splrs_vooraf;
   //echo "<br>Verschil ".$verschil;
     

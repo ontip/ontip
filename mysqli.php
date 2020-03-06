@@ -63,7 +63,7 @@ $toernooi_voluit = '';
 $Grootte_logo = '';
 $user = '';
 $font_size = '';
-
+$bgcolor= 'white'; 
 
 //// Lees configuratie bestand tbv verenigingsnaam
 
