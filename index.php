@@ -1589,6 +1589,11 @@ window.onload=do_onload
 				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= 'Welp_export_txt_spelerslijst_stap1.php?toernooi=<?php echo $toernooi; ?>'>Aanmaak Spelerslijst bestand Welp toernooi spelerslijst '<b><font color= darkgreen><?php echo $toernooi_voluit ;?></font></b>' <img src='../ontip/images/icon_excel.jpg' border = 0 width =22  > <img src='../ontip/images/welp_logo.png' border =0 width =25><br><span style=' font-size:9pt;color:black;'>Maakt Spelerslijst bestand aan om deelnemers te kunnen selecteren in Welp.</span></a>
 		 </td>
 		 </tr>
+		  		 <tr>
+			<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'">
+				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= 'export_inschrijf_pws_xlsx.php?toernooi=<?php echo $toernooi; ?>'>Export inschrijvingen tbv PWS '<b><font color= darkgreen><?php echo $toernooi_voluit ;?></font></b>' <img src='../ontip/images/icon_excel.jpg' border = 0 width =22  > <br><span style=' font-size:9pt;color:black;'>Maakt Excel bestand aan om inschrijvingen te kunnen importeren in PWS van Sjaak Franken.</span></a>
+		 </td>
+		 </tr>
 
 	  <!--tr>
 			<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'">
