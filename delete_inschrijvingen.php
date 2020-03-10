@@ -98,6 +98,20 @@ include ('../ontip/versleutel_string.php'); // tbv telnr en email
 
 include('page_stats.php');
 
+// init arrays
+$naam1 = array();
+$naam2 = array();
+$naam3 = array();
+$naam4 = array();
+$naam5 = array();
+$naam6 = array();
+
+$ver_naam1 = array();
+$ver_naam2 = array();
+$ver_naam3 = array();
+$ver_naam4 = array();
+$ver_naam5 = array();
+$ver_naam6 = array();
 
 if ($error == 0){
 
@@ -109,13 +123,15 @@ for ($i=1;$i<= $Aantal;$i++){
   $sql        = mysqli_query($con,"SELECT * from inschrijf where Id = ".$id." ")     or die(' Fout in select: '.$id);  
   $result     = mysqli_fetch_array( $sql );
   
-  
   $naam1[$i]        = $result['Naam1'];
   $naam2[$i]        = $result['Naam2'];
   $naam3[$i]        = $result['Naam3'];
   $naam4[$i]        = $result['Naam4'];
   $naam5[$i]        = $result['Naam5'];
   $naam6[$i]        = $result['Naam6'];
+  
+  
+  
   $toernooi         = $result['Toernooi'];
   $ver_naam1[$i]    = $result['Vereniging1'];
   $ver_naam2[$i]    = $result['Vereniging2'];
@@ -126,10 +142,11 @@ for ($i=1;$i<= $Aantal;$i++){
      
 	//echo " Te verwijderen : " . $id."<br>";
 
-	
-  mysqli_query($con,"DELETE FROM inschrijf where Id= ".$id." ");
+ // uit inschrijf verwijderen
+ mysqli_query($con,"DELETE FROM inschrijf where Id= ".$id." ");
 
 // ook uit hulp_naam
+//echo "<br>"."Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam1[$i];
 
 mysqli_query($con,"Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam1[$i]."'  ") ;  
 mysqli_query($con,"Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam2[$i]."'  ") ;  
@@ -139,7 +156,7 @@ mysqli_query($con,"Delete from hulp_naam where Vereniging = '".$vereniging ."' a
 mysqli_query($con,"Delete from hulp_naam where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."' and  Naam = '".$naam6[$i]."'  ") ;  
 
 
-}
+}// end for
 
 // Ophalen toernooi gegevens
 $qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  

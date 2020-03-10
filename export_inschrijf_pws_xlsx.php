@@ -160,10 +160,17 @@ unlink($xlsx_file);
                    'name'  => 'calibri'
        ));
 	   
-   $blue7_style= array('font'  => 
+    $blue7_style= array('font'  => 
              array('bold'  => true,
                    'color' => array('rgb' => '0000ff'),
                    'size'  => 7,
+                   'name'  => 'calibri'
+       ));
+	   
+	$darkblue8_style= array('font'  => 
+             array('bold'  => true,
+                   'color' => array('rgb' => '00005A'),
+                   'size'  => 8,
                    'name'  => 'calibri'
        ));
 	   
@@ -174,8 +181,10 @@ unlink($xlsx_file);
                    'name'  => 'calibri'
        ));
 	   
-   $black10_style= array('font'  => 
-             array('bold'  => true,
+	   
+	   
+    $black10_style= array('font'  => 
+             array('bold'  => false,
                    'color' => array('rgb' => '000000'),
                    'size'  => 10,
                    'name'  => 'calibri'
@@ -262,7 +271,7 @@ unlink($xlsx_file);
  
   // header teksten
   $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('B1', '@')
+            ->setCellValue('B1', '(C)')
             ->setCellValue('B2', 'SF')
             ->setCellValue('B3', 'Inschrijfnr')
             ->setCellValue('C1', 'Inlichtingen:')
@@ -328,12 +337,12 @@ unlink($xlsx_file);
    $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(0);   
    $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(4); 
    
-   $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(24);   
-   $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(24);   
-   $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(24);   
-   $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(24);   
-   $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(24);   
-   $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(24); 
+   $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(28);   
+   $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(28);   
+   $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(28);   
+   $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(28);   
+   $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(28);   
+   $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(28); 
   // licenties   
    $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(12);   
    $objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(12);   
@@ -341,12 +350,14 @@ unlink($xlsx_file);
    $objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(4);   
 	                                                     
   // eerste 5 regels bold                                
-     $objPHPExcel->getActiveSheet()->getStyle('B1:L5')->applyFromArray($black11_style);       
+   $objPHPExcel->getActiveSheet()->getStyle('B1:L5')->applyFromArray($black11_style);       
    $objPHPExcel->getActiveSheet()->getStyle('B3')->applyFromArray($black9_style);
    $objPHPExcel->getActiveSheet()->getStyle('L1')->applyFromArray($black9_style);
    $objPHPExcel->getActiveSheet()->getStyle('D1')->applyFromArray($grey6_style);  
-   $objPHPExcel->getActiveSheet()->getStyle('E3:J3')->applyFromArray($grey6_style);  
+   $objPHPExcel->getActiveSheet()->getStyle('E3:H3')->applyFromArray($grey6_style);  
+   $objPHPExcel->getActiveSheet()->getStyle('I3')->applyFromArray($darkblue8_style);  
 
+  
    // afwijkend   
    $objPHPExcel->getActiveSheet()->getStyle('C3')->applyFromArray($blue7_style);
    $objPHPExcel->getActiveSheet()->getStyle('B1:B2')->applyFromArray($black9_style);
@@ -432,10 +443,18 @@ unlink($xlsx_file);
     // laatste regel botom
     $objPHPExcel->getActiveSheet()->getStyle('B'.$j.':L'.$j)->applyFromArray($border_bottom2);
  
+    /// details
+     $objPHPExcel->getActiveSheet()->getStyle('C6:K'.$j)->applyFromArray($black10_style);       
+ 
     /// beveilig alle cellen
    $objPHPExcel->getActiveSheet()->protectCells('B1:L'.$j, 'PHP');
    $objPHPExcel->getActiveSheet()->getProtection()->setSheet(true);
      
+	 /// copy
+	 $objPHPExcel->getActiveSheet()->rangeToArray('B6:L'.$j);
+	 
+	 
+	 
   // Rename worksheet
   
   $objPHPExcel->getActiveSheet()->setTitle('Inschrijvingen');
@@ -451,7 +470,7 @@ unlink($xlsx_file);
   
  
 ?>
-<a href = '<?php echo $xlsx_file;?>' target = '_blank'><img src = '../ontip/images/icon_excel.png'  width=50><br>Aangemaakt op <?php echo $timest;?>.<br>Klik hier voor bestand '<?php echo $xlsx_file;?>'</a> 
+<a style='font-size:11pt;' href = '<?php echo $xlsx_file;?>' target = '_blank'><img src = '../ontip/images/icon_excel.png'  width=50><br>Aangemaakt op <?php echo $timest;?>.<br>Klik hier voor bestand '<?php echo $xlsx_file;?>'</a> 
 </blockquote>
 </body>
 </html>

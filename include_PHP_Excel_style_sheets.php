@@ -39,6 +39,12 @@
             'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
         )
     );
+	
+	$ver_bottom_style = array(
+        'alignment' => array(
+            'vertical' => PHPExcel_Style_Alignment::VERTICAL_BOTTOM,
+        )
+    );
      
     $red_style_11= array('font'  => 
              array('bold'  => true,
