@@ -23,6 +23,13 @@
 # Feature:          TABindex voor 4 en 5 rondes gewijzigd.
 #                   Indien voor en tegen score beiden 0 zijn, niets tonen 
 # Reference: 
+
+# 15mar2020          1.0.1           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None.
+# Fix:               None.
+# Feature:           Rondes tbv Marathon instellen
+# Reference: 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 ?>
 <html>
@@ -274,6 +281,7 @@ if ($jaar <> date('Y') ){
 	$datum_string = strftime("%A %e %B ", mktime(0, 0, 0, $maand , $dag, $jaar) );
 }	
 
+
 $sql_score      = mysqli_query($con,"SELECT count(*)as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id."  and  Datum = '".$datum."'  ")     or die(' Fout in select spelers');  
 $result         = mysqli_fetch_array( $sql_score );
 $aantal         = $result['Aantal'];
@@ -286,14 +294,23 @@ $sql_score      = mysqli_query($con,"SELECT count(*) as Aantal From hussel_score
 $result         = mysqli_fetch_array( $sql_score );
 $aantal_beperkt = $result['Aantal'];
 
+$qry                 = mysqli_query($con,"SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'marathon_ronde'  ") ;  
+$result              = mysqli_fetch_array( $qry);
+$marathon_ronde       = $result['Waarde'];
 
-echo "<table width=99% border =0>";
-echo "<tr>";
-echo "<td>";
-echo "<img src = 'images/OnTip_hussel.png' width='200'>";
-echo "<br><span style='margin-left:15pt;font-size:10pt;font-weight:bold;color:darkgreen;'>".$output_naam_vereniging."</span></td>";
-echo "<td width=60%><h1 style='color:blue;font-weight:bold;font-size:32pt; text-shadow: 3px 3px darkgrey;'>";
+if ($marathon_ronde !=0 ){
+		$aantal_rondes = 1;
+}
 
+?>
+ <table width=99% border =0>
+ <tr>
+   <td>
+   <img src = 'images/OnTip_hussel.png' width='200'>
+    <br><span style='margin-left:15pt;font-size:10pt;font-weight:bold;color:darkgreen;'><?php echo $output_naam_vereniging;?></span></td>
+    <td width=55%><h1 style='color:blue;font-weight:bold;font-size:32pt; text-shadow: 3px 3px darkgrey;'>
+
+<?php
 if ($voorgeloot == 'On') {
 	
 $qry                 = mysqli_query($con,"SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'voorgeloot'  ") ;  
@@ -302,7 +319,7 @@ $toernooi            = $result['Parameters'];
 
 echo $toernooi . "<br>". $datum_string."</h1>";
 } else {
-echo "Hussel ". $datum_string."</h1>";
+echo "Hussel marathon ". $datum_string."</h1>";
 }
 
 if ($baan_schemas == 'On') {
@@ -347,9 +364,8 @@ echo "<span style='font-size:8pt;text-align:center;' ><input style= 'height:35pt
 
 echo "</form></td>";
 
-
-echo "<td  style='font-size:8pt;text-align:center;' width = 50>";
-
+if ( $marathon_ronde == 0){
+	echo "<td  style='font-size:8pt;text-align:center;' width = 50>";
 
 if ($aantal_rondes == 2){
 	echo "<FORM action='muteer_rondes.php?aantal_rondes=3' method='post'>"; 
@@ -367,7 +383,20 @@ if ($aantal_rondes == 5){
   echo "<span style='font-size:8pt;text-align:center;'  ><input style= 'height:35pt;' type='image' src='images/5rondes.png' alt='Klik hier' /><br>rondes</span>";
 } 
 
-echo "</form></td>";
+echo "</form>";
+
+} // als marathon_ronde
+else {?>
+   <td  style='font-size:8pt;text-align:center;' width = 190>
+
+	 <input style= 'height:35pt;' type='image' src='images/runner.jpg'  /><br>
+	   <a style='font-size:12pt;text-align:center;'href='muteer_marathon_ronde.php?min' onclick="document.getElementById('min1').submit();">-</a>
+	   <span style='font-size:9pt;text-align:center;padding:3pt;'  >Rondes</span>
+	   <a style='font-size:12pt;text-align:center;' href='muteer_marathon_ronde.php?plus' onclick="document.getElementById('min1').submit();">+</a>
+  
+<?php
+}
+echo "</td>";
 
 
 if ($aantal_ingevuld > 0) {
@@ -403,7 +432,9 @@ if ($datum_lock=='On'){
 // indien een stand in ronde1 is ingevuld verdwijnt de marquee met invul tip
 
 //echo "SELECT count(*)as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id." and Voor1 > 0 and Tegen1 > 0 and  Datum = '".$datum."'  ";
-$sql_score      = mysqli_query($con,"SELECT count(*)as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id." and Voor1 > 0 and Tegen1 > 0 and  Datum = '".$datum."'  ")     or die(' Fout in select spelers');  
+
+$sql_score      = mysqli_query($con,"SELECT count(*)as Aantal From hussel_score  where Vereniging_id = ".$vereniging_id." 
+     and Voor1 > 0 and Tegen1 > 0 and  Datum = '".$datum."' and Ronde = ".$marathon_ronde."  ")     or die(' Fout in select spelers');  
 $result         = mysqli_fetch_array( $sql_score );
 $aantal         = $result['Aantal'];
 
@@ -425,7 +456,8 @@ if ($aantal < 5 and $blokkeer_invoer == 'Off' ){
 
 //// Query voor spelers ophalen die nog niet eerder zijn geselecteerd
 
-$sql_splrs      = mysqli_query($con,"SELECT * From hussel_spelers  where Vereniging_id = ".$vereniging_id." and Naam not in ( select Naam from hussel_score where Vereniging_id = ".$vereniging_id." and  Datum = '".$datum."' ) order by Naam ")     or die(' Fout in select spelers');  
+$sql_splrs      = mysqli_query($con,"SELECT * From hussel_spelers  where Vereniging_id = ".$vereniging_id." and Naam not in ( 
+          select Naam from hussel_score where Vereniging_id = ".$vereniging_id." and  Datum = '".$datum."' and Ronde = ".$marathon_ronde."  ) order by Naam ")     or die(' Fout in select spelers');  
 
 ?>
 <?php
@@ -529,8 +561,22 @@ if ($blokkeer_invoer == 'Off' or $aantal ==0 ){
  
 	<th colspan=<?php echo $colspan;?>  ></th>
  
-  <th style='text-align:center;' colspan=2>Ronde 1</th>
-	<th style='text-align:center;' colspan=2>Ronde 2</th>
+   
+    <?php
+	if ($marathon_ronde > 0){?>
+		<th style='text-align:center;' colspan=2>Ronde <?php echo $marathon_ronde;?></th>
+		<?php 
+	} else {?>
+         <th style='text-align:center;' colspan=2>Ronde 1</th>
+    <?php } ?>
+
+
+ 
+   <?php 
+  if ($aantal_rondes > 1){?>
+   	<th style='text-align:center;' colspan=2>Ronde 2</th>
+  <?php }  ?>   
+
 <?php 
  if ($aantal_rondes > 2){?>
    	<th style='text-align:center;' colspan=2>Ronde 3</th>
@@ -595,11 +641,15 @@ Beperkt</a></th>
    
 		<th style='text-align:center;'>Voor</th>
 		<th style='color:red;text-align:center;'>Tegen</th>
+		
+		<?php 
+   if ($aantal_rondes > 1){?>		
 		<th style='text-align:center;'>Voor</th>
 		<th style='color:red;text-align:center;'>Tegen</th>
-		
-	<?php 
- if ($aantal_rondes > 2){?>	
+	<?php }  ?>  
+	
+	<?php
+  if ($aantal_rondes > 2){?>	
 		<th style='text-align:center;' >Voor</th>
 		<th style='color:red;text-align:center;'>Tegen</th>
 		
@@ -631,9 +681,9 @@ Beperkt</a></th>
  
   
 if ($voorgeloot == 'On') {
-$sql_score      = mysqli_query($con,"SELECT * FROM hussel_score WHERE  Vereniging_id = ".$vereniging_id." and Datum = '".$datum."' order by Lot_nummer , Naam ") or die(' Fout in select score');  
+$sql_score      = mysqli_query($con,"SELECT * FROM hussel_score WHERE  Vereniging_id = ".$vereniging_id." and Datum = '".$datum."' and Ronde = ".$marathon_ronde."  order by Lot_nummer , Naam ") or die(' Fout in select score');  
 } else {
-$sql_score      = mysqli_query($con,"SELECT * FROM hussel_score WHERE  Vereniging_id = ".$vereniging_id." and Datum = '".$datum."' order by Naam Limit ".$limit_tekst."  " ) or die(' Fout in select score');  
+$sql_score      = mysqli_query($con,"SELECT * FROM hussel_score WHERE  Vereniging_id = ".$vereniging_id." and Datum = '".$datum."' and Ronde = ".$marathon_ronde."  order by Naam Limit ".$limit_tekst."  " ) or die(' Fout in select score');  
 }
 
 $count          = mysqli_num_rows($sql_score);	
@@ -710,11 +760,13 @@ $r=1;
     	     <input tabindex=1<?php echo sprintf("%03d",$r);?>2 style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen1'];?>'      name = 'Tegen1_<?php echo $i;?>' id = 'Tegen1_<?php echo $i;?>' size = 2/></td>		
 	<?php }?>
  
+  	<?php 
+   if ($aantal_rondes > 1){?>	 
 	 <?php if ($row_score['Voor2'] != 0 and $row_score['Tegen2'] !=0  or ( $row_score['Voor2'] == 13 or $row_score['Tegen2'] == 13) ){
    	     $bg_color= 'lightgrey';
    	   } else {
    	   	 $bg_color= '#FFFFD4'; 
-   }   ?>
+      }   ?>
    
 	  <?php 
    if ($row_score['Voor2'] == 0 and $row_score['Tegen2']  == 0){?>
@@ -728,18 +780,18 @@ $r=1;
 	  	     <input  tabindex=2<?php echo sprintf("%03d",$r);?>1 style='font-size:14pt;color:black;text-align:right;' type'text'  value = '<?php echo $row_score['Voor2'];?>'      name = 'Voor2_<?php echo $i;?>'  id = 'Voor2_<?php echo $i;?>'  size = 2/></td>		
 	  <td onclick="fill_input_tegen2_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;' >
     	     <input tabindex=2<?php echo sprintf("%03d",$r);?>2 style='font-size:14pt;color:red;text-align:right;'  type'text'  value = '<?php echo $row_score['Tegen2'];?>'      name = 'Tegen2_<?php echo $i;?>' id = 'Tegen2_<?php echo $i;?>' size = 2/></td>		
-	<?php } ?>
+	  <?php } ?>
 
+   <?php } ?>
 	 
-	 <?php if ($row_score['Voor3'] != 0 and $row_score['Tegen3'] !=0  or ( $row_score['Voor3'] == 13 or $row_score['Tegen3'] == 13) ){
+	<?php 
+   if ($aantal_rondes > 2){?>	 
+ 
+  <?php if ($row_score['Voor3'] != 0 and $row_score['Tegen3'] !=0  or ( $row_score['Voor3'] == 13 or $row_score['Tegen3'] == 13) ){
    	     $bg_color= 'lightgrey';
    	   } else {
    	   	 $bg_color= '#FFFFD4'; 
      }   ?>
-	
-		<?php 
- if ($aantal_rondes > 2){?>	 
- 
  	  <?php 
    if ($row_score['Voor3'] == 0 and $row_score['Tegen3']  == 0){?>
 	 <td onclick="fill_input_voor3_field(<?php echo $i;?>);" style='background-color:<?php echo $bg_color; ?>;text-align:right;'>

@@ -1,3 +1,25 @@
+<?php
+# scorelijst.php
+#
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 5apr2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          PHP7
+# Reference: 
+
+# 15mar2020          1.0.1           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None.
+# Fix:               None.
+# Feature:           Rondes tbv Marathon instellen
+# Reference: 
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -62,6 +84,10 @@ setlocale(LC_ALL, 'nl_NL');
 
 $datum= $_GET['datum'];
 
+$qry                 = mysqli_query($con,"SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'marathon_ronde'  ") ;  
+$result              = mysqli_fetch_array( $qry);
+$marathon_ronde       = $result['Waarde'];
+
 
 //// 2015-05-19
 //// 01234567890
@@ -69,28 +95,50 @@ $datum= $_GET['datum'];
 $jaar =  substr($datum, 0,4);
 $maand =  substr($datum, 5,2);
 $dag =  substr($datum, 8,2);
+?>
 
 
-echo "<table width=80%>";
-echo "<tr>";
-echo "<td><img src = 'images/OnTip_hussel.png' width='80'><br><span style='margin-left:15pt;font-size:10pt;font-weight:bold;color:darkgreen;'>".$vereniging."</span></td>";
-echo "<td width=70%><h1 style='color:blue;font-weight:bold;font-size:26pt; text-shadow: 2px 2px darkgrey;text-align:center;'>Eindstand Hussel<br>
-     <span style='color:darkgreen;font-weight:bold;font-size:18pt; text-shadow: 2px 2px darkgrey;'>". strftime("%A %e %B %Y", mktime(0, 0, 0, $maand , $dag, $jaar) )."</span></h1>";
-echo "</table>";
+ <table width=80%>
+ <tr>
+  <td><img src = 'images/OnTip_hussel.png' width='80'><br><span style='margin-left:15pt;font-size:10pt;font-weight:bold;color:darkgreen;'><?php echo $vereniging;?></span></td>
+  <td width=70%><h1 style='color:blue;font-weight:bold;font-size:26pt; text-shadow: 2px 2px darkgrey;text-align:center;'>Eindstand Hussel<br>
+     <span style='color:darkgreen;font-weight:bold;font-size:18pt; text-shadow: 2px 2px darkgrey;'><?php echo strftime("%A %e %B %Y", mktime(0, 0, 0, $maand , $dag, $jaar) );?>
+	 </span></h1>
+	 
+	 <?php
+	 if ($marathon_ronde > 0){?>
+	 <h2 style='color:blue;font-weight:bold;font-size:18pt; color:red;text-align:center;'>Marathon ronde : <?php echo $marathon_ronde ;?></h2>
+	 <?php
+     }
+      ?> 
+	 
+	</td>
+</tr>
+	
+	 
+	 
+</table>
 
-
+<?php
 // Sorteer eerst op winst en dan op saldo
-$score     = mysqli_query($con,"SELECT * From hussel_score WHERE Datum = '".$datum."' and Vereniging_id = ".$vereniging_id."                            ORDER BY Winst DESC , Saldo DESC" )       or die(mysql_error());  
+$score     = mysqli_query($con,"SELECT * From hussel_score WHERE Datum = '".$datum."' and Vereniging_id = ".$vereniging_id."   and Ronde = ".$marathon_ronde."  ORDER BY Winst DESC , Saldo DESC" )       or die(mysql_error());  
 ?>
 <table class='noprint'>
 <tr>
 	<td class='noprint' onclick="window.print()"><img src='images/printer.jpg' border =0 width = 50 alt= 'Print pagina'></td> 		
-	<td class='noprint' onclick="window.location.href='scorelijst_csv.php?datum=<?php echo $datum;?>'"><img src='images/icon_excel.png' border =0 width = 50 alt= 'Export naar Excel'></td> 		
+	<td class='noprint' onclick="window.location.href='scorelijst_xlsx.php?datum=<?php echo $datum;?>'"><img src='images/icon_excel.png' border =0 width = 50 alt= 'Export naar Excel'></td> 		
+<td valign='center' >
+<a class='noprint'  onclick="window.location.href='marathon_scorelijst_xlsx.php?datum=<?php echo $datum;?>'"><img src='images/icon_excel.png' id='home' onmouseover='img_uitzetten(1)' onmouseout='img_aanzetten(1)' class='noprint' width=35 border='0' alt='Excel'></a>
+</td>
 <td valign='center' >
 <a class='noprint'  href ='index.php'><img src='images/home.jpg' id='home' onmouseover='img_uitzetten(1)' onmouseout='img_aanzetten(1)' class='noprint' width=35 border='0' alt='Terug naar begin'></a>
-</td></tr><tr>
+</td>
+
+</tr>
+<tr>
 <td class='noprint' Style='font-size:9pt;color:blue;text-align:center;padding:1pt;'>Print<br>deze pagina</td>
 <td class='noprint' Style='font-size:9pt;color:blue;text-align:center;padding:1pt;'>Lijst naar<br>Excel</td>
+<td class='noprint' Style='font-size:9pt;color:blue;text-align:center;padding:1pt;'>Marathon<br>score</td>
 <td class='noprint' Style='font-size:9pt;color:blue;text-align:center;padding:1pt;'>Terug<br>naar scores</td>
 </tr>
 </table>
@@ -123,16 +171,11 @@ while($row = mysqli_fetch_array( $score )) {
 	// Print out the contents of each row into a table
 	echo "<tr><td Style='width:25pt;text-align:right;'>".$i.".</td>";
 	
-	
-	
 	  if ($voorgeloot == 'On') {
      echo "<td Style='width:25pt;text-align:right;'>";  
       echo $row['Lot_nummer'];
       echo ".</td>";  
   }
-  
-  
-	
 	
 	echo "<td>".$row['Naam'];
 	echo "</td><td Style= 'text-align: right;padding 5pt;'>"; 

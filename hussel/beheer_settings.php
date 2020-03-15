@@ -12,7 +12,15 @@
 # Fix:              None
 # Feature:          PHP7
 # Reference: 
+
+# 15mar2020          1.0.1           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None.
+# Fix:               None.
+# Feature:           Rondes tbv Marathon instellen
+# Reference: 
 ?>
+
 <html>
 <head>
 <title>Jeu de Boules Hussel (C) 2009  Erik Hendrikx</title>
@@ -101,8 +109,11 @@ $vandaag = date ('Y')."-".date('m')."-".date('d');
 
 ?>
 <table width=80%    border = 1 cellspacing = 0 cellpadding=0>
-	<?php
-echo "<tr Style='color:blue;padding-left:2px;padding-right:2pt;'><td Style='text-align:center;color:blue;padding-left:2px;padding-right:2pt;border-top:1pt;font-size:9pt;'>";
+	
+ <tr Style='color:blue;padding-left:2px;padding-right:2pt;'>
+<td Style='text-align:center;color:blue;padding-left:2px;padding-right:2pt;border-top:1pt;font-size:9pt;'>
+
+<?php
 if ($aantal_rondes == 2){
 echo "<img src='images/2rondes.png' height=40><br>rondes";
 }
@@ -114,14 +125,14 @@ echo "<img src='images/3rondes.png' height=40><br>rondes";
 if ($aantal_rondes == 5){
 echo "<img src='images/5rondes.png' height=40><br>rondes";
 }
-
-echo "</td>";
-echo "<td  style='text-align:bottom;'><form action='muteer_rondes.php' method='post'><span style='color:black;font-weight:bold;'>Hiermee kan het aantal spelrondes aangepast worden. Zet een vinkje bij de gewenste keuze klik op de knop.</span><br><br>";
-
 ?>
-<table  width=90%>
-	<tr>
-		<td>
+
+</td>
+<td  style='text-align:bottom;'><form action='muteer_rondes.php' method='post'>
+ <span style='color:black;font-weight:bold;'>Hiermee kan het aantal spelrondes aangepast worden. Zet een vinkje bij de gewenste keuze klik op de knop.</span>
+ <br><br>
+
+
 <?php
 
 if ($aantal_rondes  == 2) {
@@ -140,13 +151,20 @@ if ($aantal_rondes  == 5) {
 	  echo "<br><input type='radio'  name='aantal_rondes' value='3'  /> Aantal rondes : 3";
 	 echo "<br><input type='radio'          name='aantal_rondes' value='5'  checked  /> Aantal rondes : 5";
 }
-
-	echo "<br><br><INPUT type='submit' value='Aanpassen'>";
-
-echo "</form>";
 ?>
+
+<br><br><INPUT type='submit' value='Aanpassen'>
+
+</form>
+
 </td>
+</tr>
+
+<tr>
+<td Style='text-align:center;color:blue;padding-left:2px;padding-right:2pt;font-size:9pt;'><img src='images/prullenbak.jpg' height=40><br>Verwijderen</td>
+
 <td style='vertical-align:top;'>
+
 	<?php
 	echo "<form action='muteer_verwijder_spelers.php' method='post'>"; 
 	 if ($verwijderen_spelers =='On'){?>
@@ -160,20 +178,14 @@ echo "</form>";
 ?>
 </td>
 </tr>
-</table>
+
+
+<tr Style='color:blue;padding-left:2px;padding-right:2pt;'>
+ <td Style='text-align:center;color:blue;padding-left:2px;padding-right:2pt;font-size:9pt;'><img src='images/datum.png' height=40><br>Datum vastzetten</td>
+ <td  style='text-align:bottom;'><form action='muteer_datum.php' method='post'><span style='color:black;font-weight:bold;'>Hiermee kan de datum van de hussel aangepast worden (standaard gelijk aan vandaag)<br> Zet een vinkje bij de gewenste keuze, vul evt een afwijkende datum in en klik op de knop.</span>
+ <br><br>
+
 <?php
-
-echo "</td>";
-echo "</tr>";
-
-?>
-
-<?php
-echo "<tr Style='color:blue;padding-left:2px;padding-right:2pt;'>";
-echo "<td Style='text-align:center;color:blue;padding-left:2px;padding-right:2pt;font-size:9pt;'><img src='images/datum.png' height=40><br>Datum vastzetten</td>";
-echo "<td  style='text-align:bottom;'><form action='muteer_datum.php' method='post'><span style='color:black;font-weight:bold;'>Hiermee kan de datum van de hussel aangepast worden (standaard gelijk aan vandaag)<br> Zet een vinkje bij de gewenste keuze, vul evt een afwijkende datum in en klik op de knop.</span><br><br>";
-
-
 if ($datum_lock == 'On') {
 	echo "<input type='radio'  name='lock' value='0'   /> Gelijk aan ".$vandaag." (vandaag, vervolgens automatisch aangepast) .";
   echo "<br><br><input type='radio'  name='lock' value='1'  checked /> Gelijk aan .";
@@ -186,10 +198,31 @@ else {
   	echo "Vaste waarde :  <input name='datum' type='text' size=10 value='".$datum."' > (formaat :  jjjj-mm-dd bijv 2015-09-17)";
     echo "<br><br><INPUT type='submit' value='Aanpassen en activeren'> ";
 }
-echo "</form>";
-echo "</td>";
-echo "</tr>";
 ?>
+</form>
+</td>
+</tr>
+
+<tr Style='color:blue;padding-left:2px;padding-right:2pt;'>
+<?php
+$qry                 = mysqli_query($con,"SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'marathon_ronde'  ") ;  
+$result              = mysqli_fetch_array( $qry);
+$marathon_ronde       = $result['Waarde'];
+?>
+ <td Style='text-align:center;color:blue;padding-left:2px;padding-right:2pt;font-size:9pt;'><img src='images/runner.jpg' height=40><br>Marathon ronde</td>
+ <td  style='text-align:bottom;'><form action='muteer_marathon_ronde.php' method='post'><span style='color:black;font-weight:bold;'>Hiermee kan de ronde van de hussel aangepast worden (standaard gelijk aan 0)<br> Vul een waarde in en klik op de knop.</span>
+ <br><span style = 'font-size:9;color:red;font-family:verdana;'>Let op ! Hiermee wordt het aantal speelrondes op 1 gezet in invulveld!</span><br>
+  <blockquote>
+<input type='text'  name='marathon_ronde' value='<?php echo $marathon_ronde;?>'  size = 1 /> <em> 0 is niet actief</em>
+<br>
+ </blockquote>
+ <INPUT type='submit' value='Aanpassen'>
+ 
+</form>
+</td>
+</tr>
+
+
 
 <?php
 echo "<tr Style='color:blue;padding-left:2px;padding-right:2pt;'><td Style='text-align:center;color:blue;padding-left:2px;padding-right:2pt;border-top:1pt;font-size:9pt;'>";

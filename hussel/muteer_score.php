@@ -9,6 +9,9 @@ $count_score   = $_POST['count_score'];
 $begin_waarde  = $_POST['begin_waarde'];
 $max_updates   =  $begin_waarde + $count_score;
 
+$qry                 = mysqli_query($con,"SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'marathon_ronde'  ") ;  
+$result              = mysqli_fetch_array( $qry);
+$marathon_ronde       = $result['Waarde'];
 
 	//////// verwijderen
 
@@ -317,6 +320,7 @@ if ($error == 0 and $id !='' ){
 /// update score
 $query        = "UPDATE hussel_score
                 SET Naam           = '".$naam."', 
+				    Ronde          = ".$marathon_ronde.", 
                     Voor1          = ".$voor1.", 
                     Tegen1         = ".$tegen1.", 
                     Voor2          = ".$voor2.", 
