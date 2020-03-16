@@ -209,14 +209,27 @@ $qry                 = mysqli_query($con,"SELECT * From hussel_config  where Ver
 $result              = mysqli_fetch_array( $qry);
 $marathon_ronde       = $result['Waarde'];
 ?>
- <td Style='text-align:center;color:blue;padding-left:2px;padding-right:2pt;font-size:9pt;'><img src='images/runner.jpg' height=40><br>Marathon ronde</td>
- <td  style='text-align:bottom;'><form action='muteer_marathon_ronde.php' method='post'><span style='color:black;font-weight:bold;'>Hiermee kan de ronde van de hussel aangepast worden (standaard gelijk aan 0)<br> Vul een waarde in en klik op de knop.</span>
- <br><span style = 'font-size:9;color:red;font-family:verdana;'>Let op ! Hiermee wordt het aantal speelrondes op 1 gezet in invulveld!</span><br>
-  <blockquote>
-<input type='text'  name='marathon_ronde' value='<?php echo $marathon_ronde;?>'  size = 1 /> <em> 0 is niet actief</em>
-<br>
- </blockquote>
- <INPUT type='submit' value='Aanpassen'>
+ <td Style='text-align:center;color:blue;padding-left:2px;padding-right:2pt;font-size:9pt;'><img src='images/runner.jpg' height=40><br>Marathon</td>
+ <td  style='text-align:bottom;'><form action='muteer_marathon_ronde.php' method='post'><span style='color:black;font-weight:bold;'>Hiermee kan de marathon aangezet worden (standaard uit)<br> Zet een vinkje bij de gewenste keuze en klik op de knop.</span>
+ <br><span style = 'font-size:9;color:red;font-family:verdana;'>Let op ! Per marathon ronde wordt er maar een speelronde gespeeld!</span><br>
+ <br>
+  <?php
+if ($marathon_ronde == 0) {?>
+	<input type='radio'  name='marathon_ronde' value='0' checked   /> Marathon niet geselecteerd
+  <br><input type='radio'  name='marathon_ronde' value='1'   /> Marathon geselecteerd
+   <br><br>
+  <INPUT type='submit' value='Activeren'>
+  <?php
+}
+else {?>
+ 	<input type='radio'  name='marathon_ronde' value='1' checked   /> Marathon geselecteerd
+  <br><input type='radio'  name='marathon_ronde' value='0'   /> Marathon niet geselecteerd
+   <br><br>
+ <INPUT type='submit' value='De-Activeren'>
+<?php
+}
+?>
+
  
 </form>
 </td>

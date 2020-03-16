@@ -303,7 +303,7 @@ if ($marathon_ronde !=0 ){
 }
 
 ?>
- <table width=99% border =0 cellpadding =0 cellspacing=0 >
+ <table width=99% border =1>
  <tr>
    <td>
    <img src = 'images/OnTip_hussel.png' width='200'>
@@ -389,7 +389,7 @@ echo "</form>";
 
 } // als marathon_ronde
 else {?>
-   <td  style='font-size:8pt;text-align:center;' width = 85>
+   <td  style='font-size:8pt;text-align:center;' width = 95>
 
 	 <input style= 'height:35pt;' type='image' src='images/runner.jpg'  /><br>
 	   <a style='font-size:12pt;text-align:center;'href='muteer_marathon_ronde.php?min' onclick="document.getElementById('min1').submit();">
