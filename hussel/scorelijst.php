@@ -126,9 +126,9 @@ $score     = mysqli_query($con,"SELECT * From hussel_score WHERE Datum = '".$dat
 <table class='noprint'>
 <tr>
 	<td class='noprint' onclick="window.print()"><img src='images/printer.jpg' border =0 width = 50 alt= 'Print pagina'></td> 		
-	<td class='noprint' onclick="window.location.href='scorelijst_xlsx.php?datum=<?php echo $datum;?>'"><img src='images/icon_excel.png' border =0 width = 50 alt= 'Export naar Excel'></td> 		
+	<td class='noprint' onclick="window.location.href='scorelijst_xlsx.php?datum=<?php echo $datum;?>'"><img src='images/icon_excel.png' border =0 width = 35 alt= 'Export naar Excel'></td> 		
 <td valign='center' >
-<a class='noprint'  onclick="window.location.href='marathon_scorelijst_xlsx.php?datum=<?php echo $datum;?>'"><img src='images/icon_excel.png' id='home' onmouseover='img_uitzetten(1)' onmouseout='img_aanzetten(1)' class='noprint' width=35 border='0' alt='Excel'></a>
+<a class='noprint'  onclick="window.location.href='marathon_scorelijst_xlsx.php?datum=<?php echo $datum;?>'"><img src='images/icon_excel.png' id='home' class='noprint' width=35 border='0' alt='Excel'></a>
 </td>
 <td valign='center' >
 <a class='noprint'  href ='index.php'><img src='images/home.jpg' id='home' onmouseover='img_uitzetten(1)' onmouseout='img_aanzetten(1)' class='noprint' width=35 border='0' alt='Terug naar begin'></a>

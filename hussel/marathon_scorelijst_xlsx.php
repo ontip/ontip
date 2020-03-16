@@ -1,5 +1,5 @@
 <?php
-# scorelijst_xlsx.php
+# marathon_scorelijst_xlsx.php
 #
 # Record of Changes:
 #
@@ -30,10 +30,6 @@ h3 {color:orange ;background-color:white; font-size: 11.0pt ; font-family:Arial,
 </head>
 <body>
 <?php
-$datum   = $_GET['datum'];
-$jaar    =  substr($datum, 0,4);
-$maand   =  substr($datum, 5,2);
-$dag     =  substr($datum, 8,2);
 
 // Database gegevens. 
 include('mysqli.php');
@@ -42,6 +38,11 @@ setlocale(LC_ALL, 'nl_NL');
 $qry                 = mysqli_query($con,"SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'marathon_ronde'  ") ;  
 $result              = mysqli_fetch_array( $qry);
 $marathon_ronde      = $result['Waarde'];
+
+$datum   = $_GET['datum'];
+$jaar    =  substr($datum, 0,4);
+$maand   =  substr($datum, 5,2);
+$dag     =  substr($datum, 8,2);
 
 ?>
  <table width=80%>
@@ -65,6 +66,9 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 //include('../include_PHPspreadsheet_styles.php');
+// functie om nummerieke waarde om te zetten naar letters voor de kolommen
+ include('include_convert_colnum_to_alpha.php') ;
+
 // styles
 
  $borders_outline_red = [
@@ -76,6 +80,14 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
     ],
 ];
 
+$red10_style= [
+        'font' => [
+          'bold' => false,
+		   'color' => [ 'rgb' => 'ff0000' ],
+            'size'  => 10,
+            'name'  => 'calibri',
+	          ],
+			 ];
 $red16_style= [
         'font' => [
           'bold' => true,
@@ -85,6 +97,7 @@ $red16_style= [
 	          ],
 			 ];
 
+
 $borders = [
     'borders' => [
         'allBorders' => [
@@ -93,6 +106,7 @@ $borders = [
         ],
     ],
 ];
+
  $border_bottom = [
     'borders' => [
         'bottom' => [
@@ -102,10 +116,19 @@ $borders = [
     ],
 ];
 
+ $border_bottom_red = [
+    'borders' => [
+        'bottom' => [
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
+            'color' => ['argb' => 'FFFF0000'],
+        ],
+    ],
+];
+
  $border_right = [
     'borders' => [
         'right' => [
-            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
             'color' => ['argb' => '00000000'],
         ],
     ],
@@ -129,6 +152,22 @@ $borders = [
 	          ],
 			 ];		
 
+    $black10_style= [
+        'font' => [
+          'bold' => false,
+		   'color' => [ 'rgb' => '000000' ],
+            'size'  => 10,
+            'name'  => 'calibri',
+	          ],
+			 ];		
+    $black10_bold_style= [
+        'font' => [
+          'bold' => true,
+		   'color' => [ 'rgb' => '000000' ],
+            'size'  => 10,
+            'name'  => 'calibri',
+	          ],
+			 ];		
 			 
   $black9_style= [
         'font' => [
@@ -138,11 +177,17 @@ $borders = [
             'name'  => 'calibri',
 	          ],
 			 ];			
-			 	
+
+  $hor_center_style = [
+       'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+             ],      
+    ];	
+	
 ///end styles
 
 $timest  = date('Y-m-d H:i:s');
-$xlsx_file ="xlsx/scorelijst_".$datum.".xlsx";
+$xlsx_file ="xlsx/marathon_scorelijst_".$datum.".xlsx";
 
 if (file_exists($xlsx_file)){
 	unlink($xlsx_file);
@@ -152,8 +197,8 @@ $sheet = $spreadsheet->getActiveSheet(0);
 
 $sheet     ->setCellValue('B1', 'Eindstand Marathon Hussel')
             ->setCellValue('D1', strftime("%A %e %B %Y", mktime(0, 0, 0, $maand , $dag, $jaar) ))
-            ->setCellValue('B4', 'Nr')
-            ->setCellValue('C4', 'Naam');
+            ->setCellValue('A5', 'Nr')
+            ->setCellValue('B5', 'Naam');
 
 $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
 $drawing->setName('Logo');
@@ -164,54 +209,228 @@ $drawing->setCoordinates('A1');
 $drawing->setWorksheet($spreadsheet->getActiveSheet());
 
 $spreadsheet->getActiveSheet()->getStyle('B1')->applyFromArray($red16_style);
-// merge cells in headers
-  $spreadsheet->getActiveSheet()->mergeCells('B1:C1');
-  
-//   detail regels
-$r=5;
-$i=1;
 
-$score     = mysqli_query($con,"SELECT * From hussel_score WHERE Datum = '".$datum."'  and Vereniging_id = ".$vereniging_id." and Ronde = ".$marathon_ronde." ORDER BY Winst DESC , Saldo DESC" )       or die('Fout in select');  
-while($row = mysqli_fetch_array( $score )) {
-	
-		
-	$sheet  ->setCellValue('B'.$r, $i)
-            ->setCellValue('C'.$r, $row['Naam'])
-            ->setCellValue('D'.$r, $row['Winst'])
-            ->setCellValue('E'.$r, $row['Saldo']);	
+// dikke lijnen
+$spreadsheet->getActiveSheet()->getStyle('A4:B4')->applyFromArray($border_bottom2); 
+ 
+
+// merge cells in headers
+$spreadsheet->getActiveSheet()->mergeCells('B1:C1');
+ 
+// headers bepalen adhv gespeelde wedstrijden
+$k=3;  // start vanaf kolom C
+
+ $wed     = mysqli_query($con,"SELECT Ronde From hussel_score WHERE Datum = '".$datum."'  and Vereniging_id = ".$vereniging_id." and Ronde > 0  group BY Ronde ORDER BY Ronde" ) or die('Fout in select rondes');  
+    while($row = mysqli_fetch_array( $wed)) { 
+ 
+ $kol1  =  convert_num_to_alpha($k);
+ $k++;
+ $kol2  =  convert_num_to_alpha($k);
+ $spreadsheet->getActiveSheet()->mergeCells($kol1.'4:'.$kol2.'4');
+ 
+ //echo "<br>".$kol1.'4:'.$kol2.'4';
+ 
+ $sheet     ->setCellValue($kol1.'4', 'Ronde '.$row['Ronde']);
+ $spreadsheet->getActiveSheet()->getStyle($kol1.'4')->applyFromArray($hor_center_style);
+ $spreadsheet->getActiveSheet()->getStyle($kol1.'4:'.$kol2.'4')->applyFromArray($borders); 
+
+ $sheet     ->setCellValue($kol1.'5', 'Winst');
+ $sheet     ->setCellValue($kol2.'5', 'Saldo');
+ 
+ $spreadsheet->getActiveSheet()->getColumnDimension($kol1)->setWidth(9);   
+ $spreadsheet->getActiveSheet()->getColumnDimension($kol2)->setWidth(9);   
+
+ $spreadsheet->getActiveSheet()->getStyle('A5:'.$kol2.'5')->applyFromArray($borders); 
+ 
+ $k++;
+  }
+ 
+ 
+ 
+ $kol1  =  convert_num_to_alpha($k);
+ $k++;
+ $kol2  =  convert_num_to_alpha($k);
+ $k++;
+ $kol3  =  convert_num_to_alpha($k);
+ 
+ // totaal tellingen header
+ $spreadsheet->getActiveSheet()->mergeCells($kol1.'4:'.$kol3.'4');
+ $sheet     ->setCellValue($kol1.'4', 'Totaal');
+ $sheet     ->setCellValue($kol1.'5', 'Gespeeld');
+ $sheet     ->setCellValue($kol2.'5', 'Winst');
+ $sheet     ->setCellValue($kol3.'5', 'Saldo');
+ 
+ $spreadsheet->getActiveSheet()->getStyle($kol1.'4')->applyFromArray($hor_center_style);
+ $spreadsheet->getActiveSheet()->getColumnDimension($kol1)->setWidth(10);   
+ $spreadsheet->getActiveSheet()->getColumnDimension($kol2)->setWidth(10);   
+ $spreadsheet->getActiveSheet()->getColumnDimension($kol3)->setWidth(10);   
+
+ $spreadsheet->getActiveSheet()->getStyle($kol1.'4:'.$kol3.'5')->applyFromArray($borders); 
+ $spreadsheet->getActiveSheet()->getStyle('A4:'.$kol3.'5')->applyFromArray($black10_bold_style);
+ 
+ $spreadsheet->getActiveSheet()->getStyle('A5:'.$kol3.'5')->applyFromArray($border_bottom_red); 
+ 
+ 
+//   detail regels
+$k=3;  // start vanaf kolom C
+
+$r=6;
+$i=1;
+$namen = array();
+
+// eerst kolom C vullen met de namen
+ $spelers    = mysqli_query($con,"SELECT Naam From hussel_score WHERE Datum = '".$datum."'  and Vereniging_id = ".$vereniging_id." and Ronde > 0  group BY Naam ORDER BY Naam" ) or die('Fout in select spelers');  
+
+  while($row = mysqli_fetch_array( $spelers)) { 
+
+   $sheet     ->setCellValue('A'.$r, $i.'.');
+   $sheet     ->setCellValue('B'.$r, $row['Naam']);
+   $namen[$i] = $row['Naam'];
+   $spreadsheet->getActiveSheet()->getStyle('A'.$r.':C'.$r)->applyFromArray($borders); 
+   
+   // blauwe regel bij even 
+	 if ($r % 2 != 0    ){ 
+    $spreadsheet->getActiveSheet()->getStyle('A'.$r.':C'.$r)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('D6EBFF');
+	 } //even
+   
   $i++;
   $r++;
-}// end while
+  }
+    $last_row = $r-1;
+	
+	
+ // de scores per ronde invullen 
+  $k=3;  // start vanaf kolom C
+  $j=1;
+  
+   $wed     = mysqli_query($con,"SELECT * From hussel_score WHERE Datum = '".$datum."'  and Vereniging_id = ".$vereniging_id." and Ronde > 0  group BY Ronde ORDER BY Ronde" ) or die('Fout in select rondes');  
+    while($row1 = mysqli_fetch_array( $wed)) { 
+	
+	 $kol1  =  convert_num_to_alpha($k);
+     $k++;
+     $kol2  =  convert_num_to_alpha($k);
+     $r=6;
+	 
+	  foreach ($namen as $naam){
+		$score     = mysqli_query($con,"SELECT * From hussel_score WHERE Datum = '".$datum."'  and Vereniging_id = ".$vereniging_id." and Ronde = ".$row1['Ronde']." and Naam = '".$naam."'  ") or die('Fout in select ronde '.$row1['Ronde'] );  
+    
+		      $row2 = mysqli_fetch_array( $score);
+			  if ($row2['Naam'] ==  $naam){
+				   $sheet     ->setCellValue($kol1.$r, $row2['Winst']);
+				   $sheet     ->setCellValue($kol2.$r, $row2['Saldo']);
+	
+                   $spreadsheet->getActiveSheet()->getStyle($kol1.$r.':'.$kol2.$r)->applyFromArray($black10_style);
+		
+				   if ($row2['Saldo'] < 0){
+                  $spreadsheet->getActiveSheet()->getStyle($kol2.$r.':'.$kol2.$r)->applyFromArray($red10_style);
+				   }
+		
+				    }
+				
+		$spreadsheet->getActiveSheet()->getStyle($kol1.$r.':'.$kol2.$r)->applyFromArray($borders); 
+	    $spreadsheet->getActiveSheet()->getStyle($kol2.'4:'.$kol2.$last_row)->applyFromArray($border_right); 
  
-  $sheet  ->setCellValue('D'.$r, '(c) Erik Hendrikx '.date('Y'));
-  $spreadsheet->getActiveSheet()->getStyle('D'.$r)->applyFromArray($black9_style);
+		  // blauwe regel bij even 
+	     if ($r % 2 != 0    ){ 
+            $spreadsheet->getActiveSheet()->getStyle('D'.$r.':'.$kol2.$r)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('D6EBFF');
+	      } //even
+	 
+	 
+		$r++;  
+	  }// end foreach
+	$k++;
+	}
+  
+	$last_kol = $kol2;
+   
+	
+    // totaal score	
+	$r=6;
+	
+ 	 $kol1  =  convert_num_to_alpha($k);
+     $k++;
+     $kol2  =  convert_num_to_alpha($k);
+     $k++;
+     $kol3  =  convert_num_to_alpha($k);
+     	
+	  foreach ($namen as $naam){
+	    $tot     = mysqli_query($con,"SELECT count(*) as Aantal, sum(Saldo) as TotSaldo , sum(Winst) as TotWinst From hussel_score WHERE Datum = '".$datum."'  and Vereniging_id = ".$vereniging_id." and Naam = '".$naam."' and Ronde > 0" ) or die('Fout in select rondes');  
+        $row3    = mysqli_fetch_array( $tot);
+	 
+	 	$sheet     ->setCellValue($kol1.$r, $row3['Aantal']);
+	 	$sheet     ->setCellValue($kol2.$r, $row3['TotWinst']);
+		$sheet     ->setCellValue($kol3.$r, $row3['TotSaldo']);
+		$spreadsheet->getActiveSheet()->getStyle($kol1.$r.':'.$kol3.$r)->applyFromArray($borders); 
+	    $spreadsheet->getActiveSheet()->getStyle($kol1.$r.':'.$kol3.$r)->applyFromArray($black10_bold_style);
+ 
+        $spreadsheet->getActiveSheet()->getStyle($kol1.$r.':'.$kol3.$r)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('fcfab3');
+ 
+	     // blauwe regel bij even 
+	     if ($r % 2 != 0    ){ 
+            $spreadsheet->getActiveSheet()->getStyle($kol1.$r.':'.$kol3.$r)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('D6EBFF');
+	      } //even
+
+
+	    $r++;  
+	  }// end foreach
+
+  // dikke lijnen
+  $spreadsheet->getActiveSheet()->getStyle($last_kol.'4:'.$last_kol.$last_row)->applyFromArray($border_right); 
+  $spreadsheet->getActiveSheet()->getStyle('A4:'.$kol3.$last_row)->applyFromArray($border_bottom_red); 
+  $spreadsheet->getActiveSheet()->getStyle('C3:'.$kol3.'3')->applyFromArray($border_bottom2); 
+  $spreadsheet->getActiveSheet()->getStyle($kol3.'4:'.$kol3.$last_row)->applyFromArray($border_right); 
+  $spreadsheet->getActiveSheet()->getStyle('B4:B'.$last_row)->applyFromArray($border_right); 
+
+
+   // tellingen per ronde
+    $k=3;  // start vanaf kolom C
+	$r= $last_row+1;
+	$sheet     ->setCellValue('B'.$r, 'Totaal aantal');
+	$spreadsheet->getActiveSheet()->getStyle('B'.$r)->applyFromArray($black10_bold_style);
+
+	  
+      $wed     = mysqli_query($con,"SELECT Ronde, count(*) as Aantal From hussel_score WHERE Datum = '".$datum."'  and Vereniging_id = ".$vereniging_id." and Ronde > 0  group BY Ronde ORDER BY Ronde" ) or die('Fout in select rondes');  
+          while($row4 = mysqli_fetch_array( $wed)) { 
+
+             $kol1  =  convert_num_to_alpha($k);
+             $k++;
+             $kol2  =  convert_num_to_alpha($k);
+  			 
+             $spreadsheet->getActiveSheet()->mergeCells($kol1.$r.':'.$kol2.$r);
+ 	         $sheet     ->setCellValue($kol1.$r, $row4['Aantal']);
+	         $spreadsheet->getActiveSheet()->getStyle($kol1.$r)->applyFromArray($black10_bold_style);
+             $spreadsheet->getActiveSheet()->getStyle($kol1.$r)->applyFromArray($hor_center_style);
+ 
+           $k++;
+		  }
+             $k++;
+             $kol3  =  convert_num_to_alpha($k);
+			 
+ 
+  $sheet  ->setCellValue($kol3.$r, '(c) Erik Hendrikx '.date('Y'));
+  $spreadsheet->getActiveSheet()->getStyle($kol3.$r)->applyFromArray($black9_style);
 
  $r--;
  
   // breedte kolommen
  
    $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(15);   
-   $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(8); 
-   $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(38);   
-   $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(12);   
-   $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(12);  
-   
- // borders 
-  $spreadsheet->getActiveSheet()->getStyle('B4:E'.$r)->applyFromArray($borders);
-  $spreadsheet->getActiveSheet()->getStyle('B4:E'.$r)->applyFromArray($black12_style);
+   $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(28); 
+  
 
-  // laatste regel botom
-  //  $objPHPExcel->getActiveSheet()->getStyle('B'.$j.':L'.$j)->applyFromArray($border_bottom2);
- 
    /// renamen werkblad
-    $spreadsheet->getActiveSheet()->setTitle('Score Hussel');
+    $spreadsheet->getActiveSheet()->setTitle('Score Marathon Hussel');
+	
 	 // set print Layout
   // Set Orientation, size and scaling
   $spreadsheet->getActiveSheet()->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
   $spreadsheet->getActiveSheet()->getPageSetup()->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4); 
-  $spreadsheet->getActiveSheet()->getPageSetup()->setFitToPage(true);
+ // $spreadsheet->getActiveSheet()->getPageSetup()->setFitToPage(true);
   $spreadsheet->getActiveSheet()->getPageSetup()->setFitToWidth(1);
   $spreadsheet->getActiveSheet()->getPageSetup()->setFitToHeight(0);
+
+	 // freeze eerste 5 regels en eerste 2 kolommen
+     $spreadsheet->getActiveSheet()->freezePane('C6');
 
 
 	// opslaan bestand
