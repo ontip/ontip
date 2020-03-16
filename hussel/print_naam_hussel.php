@@ -71,15 +71,21 @@ $dag =  substr($datum, 8,2);
 
 $sort = $_GET['sort'];
 
+$qry                 = mysqli_query($con,"SELECT * From hussel_config  where Vereniging_id = '".$vereniging_id ."' and Variabele = 'marathon_ronde'  ") ;  
+$result              = mysqli_fetch_array( $qry);
+$marathon_ronde       = $result['Waarde'];
 
+if ($marathon_ronde >0){
+	$aantal_rondes = 1;
+}
 
 if ($sort =='Naam') {
-	$score   = mysqli_query($con,"SELECT * From hussel_score WHERE Vereniging_id = ".$vereniging_id." and Datum = '".$datum."'  and Naam <> '' ORDER BY Naam " )     or die(mysql_error());  
+	$score   = mysqli_query($con,"SELECT * From hussel_score WHERE Vereniging_id = ".$vereniging_id." and Datum = '".$datum."'  and Naam <> '' and Ronde = ".$marathon_ronde." ORDER BY Naam " )     or die(mysql_error());  
 
 }
 
 if ($sort =='Lot') {
-	$score   = mysqli_query($con,"SELECT * From hussel_score WHERE Vereniging_id = ".$vereniging_id." and Datum = '".$datum."'  and Naam <> '' ORDER BY Lot_nummer" )     or die(mysql_error());  
+	$score   = mysqli_query($con,"SELECT * From hussel_score WHERE Vereniging_id = ".$vereniging_id." and Datum = '".$datum."'  and Naam <> '' and Ronde = ".$marathon_ronde." ORDER BY Lot_nummer" )     or die(mysql_error());  
 
 }
 
@@ -116,8 +122,16 @@ echo "<blockquote><table border = 1 Style='empty-cells: show;background-color:wh
 
 echo "	<tr>";
 echo "		<th colspan = '2' Style='width=100;background-color:white;border-color:black;' ></th>";
-echo "		<th colspan = '2'>Ronde 1</th>"; 
+
+if ($marathon_ronde >0){
+  echo "		<th colspan = '2'>Ronde ".$marathon_ronde."</th>"; 
+} else {
+	  echo "		<th colspan = '2'>Ronde 1</th>"; 
+}
+
+if ($aantal_rondes  > 1 ){
 echo "		<th colspan = '2'>Ronde 2</th>";
+}
 
 if ($aantal_rondes  > 2 ){
 echo "		<th colspan = '2'>Ronde 3</th>";
@@ -143,11 +157,14 @@ echo " 	  <th Style='width:25pt;''>Nr</th>";
 
 echo "		<th width='200'>Naam</th>"; 
 
-
 echo "		<th Style='width=60;'>V</th>";                          // ronde 1
 echo "		<th Style='width=60;' Id= 'tegen'>T</th>";
+
+if ($aantal_rondes  > 1 ){
+
 echo "		<th Style='width=60;'>V</th>";                          // ronde 2
 echo "		<th Style='width=60;' Id= 'tegen'>T</th>";
+}
 
 if ($aantal_rondes  > 2 ){
 
@@ -201,7 +218,7 @@ echo "  <tr>";
   	
   	echo "</td>"; 
   	
-  	  	
+ if ($aantal_rondes  > 1 ){ 	  	
   	 ///// Ronde 2
         
   	echo "<td  id= 'leeg' style ='text-align: right;padding:2pt;color:blue;'>";
@@ -211,6 +228,7 @@ echo "  <tr>";
   	echo "<td  id= 'leeg' style ='text-align: right;padding:2pt;color:red;'>";
   	
   	echo "</td>"; 
+ }
   	
   if ($aantal_rondes  > 2 ){	
      ///// Ronde 3

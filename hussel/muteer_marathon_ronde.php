@@ -26,6 +26,10 @@ if (isset($_GET['min'])){
 }
 
 
+  	if ($_marathon_ronde   >20){
+	    $_marathon_ronde = 20;
+  }
+
 
 	 $query="UPDATE hussel_config SET Waarde = ".$_marathon_ronde."   where  Vereniging_id = ".$vereniging_id." and Variabele = 'marathon_ronde'  ";   
 	//echo $query;

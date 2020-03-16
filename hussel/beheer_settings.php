@@ -217,20 +217,21 @@ $marathon_ronde       = $result['Waarde'];
 if ($marathon_ronde == 0) {?>
 	<input type='radio'  name='marathon_ronde' value='0' checked   /> Marathon niet geselecteerd
   <br><input type='radio'  name='marathon_ronde' value='1'   /> Marathon geselecteerd
-   <br><br>
-  <INPUT type='submit' value='Activeren'>
+  
+  
   <?php
 }
 else {?>
  	<input type='radio'  name='marathon_ronde' value='1' checked   /> Marathon geselecteerd
-  <br><input type='radio'  name='marathon_ronde' value='0'   /> Marathon niet geselecteerd
-   <br><br>
- <INPUT type='submit' value='De-Activeren'>
+	<br>&nbsp&nbspOf vul direct hier ronde in : <input type='text'  name='marathon_ronde' value='<?php echo $marathon_ronde;?>'  size=1 />. Waarde 0 schakelt marathon uit.
+    <br><input type='radio'  name='marathon_ronde' value='0'   /> Marathon niet geselecteerd
+ 
 <?php
 }
-?>
 
- 
+?>
+<br>
+ <br><INPUT type='submit' value='Wijzigen'>
 </form>
 </td>
 </tr>
