@@ -6,7 +6,7 @@ php convert string in html file
 *************************************************************************/
  
 $dbfile = $_GET['html'];
- $dbfile  = 'testdiv.html';
+// $dbfile  = 'testdiv.html';
  
  echo "<br> Convert ".$dbfile;
   
@@ -23,7 +23,6 @@ if (!copy($dbfile, $file2)) {
     echo "failed to copy $dbfile...\n";
 }
 file_put_contents($file2, str_replace("ontip.nl", "petanqueinschrijven.com", file_get_contents($dbfile)));
-//file_put_contents($file2,  file_get_contents($dbfile));
 
 
 
