@@ -1,12 +1,21 @@
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	</head>
-<body>
 <?php
+# resend_mail.php
+ # Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+# 16jul2020          1.0.1           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 http error 500 
+# Fix:               None.
+# Feature:           None.
+# Reference: 
+
 include('mysqli.php');
 include ('versleutel_kenmerk.php'); 
 include ('../ontip/versleutel_string.php'); // tbv telnr en email
+
+//include('action.php');
 
 $Aantal     =  $_POST['Aantal'];
 $challenge  =  $_POST['challenge'];
@@ -25,7 +34,7 @@ else {
 if ($challenge != $respons){
 	$message = "* Ingevulde Antispam code is niet gelijk aan opgegeven code.<br>";
 	$error = 1;
-}
+ }
 }
 
 
@@ -67,7 +76,7 @@ if ($error == 0){
 
 // Alle email adressen zijn in 1 keer doorgegeven
 
-$email_all =$_GET['Id'];
+$email_all =  $_GET['Id'];
 $mailid = explode(";", $email_all);
 
 $toernooi = $_POST['toernooi'];
@@ -79,7 +88,7 @@ $qry2             = mysqli_query($con,"SELECT * From config where Vereniging = '
 while($row = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row['Variabele'];
 	 $$var = $row['Waarde'];
-	}
+	} // end while
 
  
 /// aanmaken mailberichten 
@@ -114,6 +123,8 @@ for ($k=0;(!empty($mailid[$k]));$k++){
   $Vereniging6      = $row['Vereniging6'];
   $reservering      = $row['Reservering'];
   $Laatst           = $row['Inschrijving'];
+  $Kenmerk          = $row['Kenmerk'];
+
 
    // uit vereniging tabel	
        
@@ -123,28 +134,7 @@ $vereniging_id   = $result_v['Id'];
 $url_logo        = $result_v['Url_logo']; 
 $trace           = $result_v['Mail_trace'];
 
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  versleutel kenmerk
-
-$dag    = substr ($Laatst , 8,2);         
-$maand  = substr ($Laatst , 5,2);         
-$jaar   = substr ($Laatst , 0,4);     
-$uur    = substr ($Laatst , 11,2);     
-$minuut = substr ($Laatst , 14,2);     
-$sec    = substr ($Laatst , 17,2);     
-
-// $kenmerk = $jaar.sprintf("%02d",$maand).sprintf("%02d",$dag).".".sprintf("%02d",$uur).sprintf("%02d",$minuut).sprintf("%02d",$sec);
-
-$_kenmerk = $minuut.$sec.$dag.$uur;
-
-/// roep versleutel routine aan
-/// versleutel_licentie($waarde, $richting, $delta)
-$encrypt = versleutel_kenmerk($_kenmerk,'encrypt', 20);
-$kenmerk  = substr($encrypt,0,4).".".substr($encrypt,4,4);
-//echo "Kenmerk : ". $kenmerk. "<br>";
-//
+ 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // Diacrieten omzetten in vereniging en toernooi_voluit
@@ -188,10 +178,9 @@ $to =         $Email;
 }
  
 if ($Telefoon =='[versleuteld]'){ 
-$Telefoon            = versleutel_string($Telefoon_encrypt);    
+$Telefoon      = versleutel_string($Telefoon_encrypt);    
 }
 
- 
 $email_cc      = $email_cc;
 $email_noreply = $email_organisatie;
 
@@ -201,26 +190,14 @@ $from = $subdomein."@ontip.nl";
 
 $headers  = 'MIME-Version: 1.0' . "\r\n";
 $headers .= 'Content-type: text/html; charset="utf-8"' . "\r\n";
-
-
-////   Alleen BCC indien Trace J
-if ($trace == 'J' or $trace =='Y'){
-    $headers .= 'From: OnTip '. $subdomein. ' <'.$from.'>' . "\r\n" .	 
-       'Cc: '. $email_cc . "\r\n" .
-       'Bcc: '. $email_tracer . "\r\n" .
-       'Return-Path: '. $from  . "\r\n" . 
-       'Reply-To: '. $email_organisatie . "\r\n" .
-       'X-Mailer: PHP/' . phpversion();
-}	     
-else { 
-    $headers .= 'From: OnTip '. $subdomein. ' <'.$from.'>' . "\r\n" .	 
+$headers .= 'From: OnTip '. $subdomein. ' <'.$from.'>' . "\r\n" .	 
        'Cc: '. $email_cc . "\r\n" .
        'Return-Path: '. $email_return  . "\r\n" . 
        'Reply-To: '. $email_organisatie . "\r\n" .
        'X-Mailer: PHP/' . phpversion();
 }
 $headers  .= "\r\n";
-
+ 
 // uitgaande mail server
 //ini_set ( "SMTP", "mail.kpnmail.nl" ); 
 
@@ -243,14 +220,14 @@ $bericht .= "<br><<h3 style='font-family:verdana;font-size:10pt;color:black;'><u
 	
 if ($reservering =='J') {
 	$bericht .="<b>Het toernooi is volgeboekt. U hebt zich ingeschreven als reserve team of speler voor het geval er iemand afzegt. (Max. ".$aantal_reserves." reserves.)" .   "\r\n";
-  $bericht .="Wij nemen contact met u op. Indien u de dag voor het toernooi nog niets heeft vernomen, neem dan gerust contact op om te vragen of u toch kunt deelnemen.</b><br>" .   "\r\n";
+    $bericht .="Wij nemen contact met u op. Indien u de dag voor het toernooi nog niets heeft vernomen, neem dan gerust contact op om te vragen of u toch kunt deelnemen.</b><br>" .   "\r\n";
   
-  $query="UPDATE inschrijf       SET Reservering = 'J' 
+    $query="UPDATE inschrijf       SET Reservering = 'J' 
                where Toernooi     = '".$toernooi."' and
                      Vereniging   = '".$vereniging."' and
                      Inschrijving = '".$date."'  ";
  
-mysqli_query($con,$query) or die (mysql_error()); 
+mysqli_query($con,$query) or die ('fout in update: '.$query); 
 }
 
 /// opmaak Licentie en vereniging
@@ -367,7 +344,7 @@ if ($bankrekening_invullen_jn  == 'J' and $uitgestelde_bevestiging_jn == 'J'  ){
 $bericht .= "<tr><td  width=200>Bankrekening   </td><td>"    .  $Bankrekening      ."</td></tr>".  "\r\n";
 }
 
-$bericht .= "<tr><td  width=200>Kenmerk   </td><td>"         .  $kenmerk       ."</td></tr>".  "\r\n";
+$bericht .= "<tr><td  width=200>Kenmerk   </td><td>"         .  $Kenmerk       ."</td></tr>".  "\r\n";
 
 if (isset($extra_vraag)){
 $bericht .= "<tr><td  width=200>".$Vraag. " </td><td>"       .  $Extra      ."</td></tr>".  "\r\n";
@@ -397,7 +374,7 @@ Voor de betalingwijze wordt u verwezen naar de site.<br>Vermeld bij betalen als 
 
 $bericht .= "<div style= 'font-family:verdana;font-size:12pt;color:black;'>Uw inschrijving is verzonden naar ". $vereniging ."</div>" . "\r\n\r\n\r\n\r\n";
 $bericht .= "<hr/><div style= 'font-family:verdana;font-size:14pt;color:red;'>Bewaar deze mail goed !</div>" . "\r\n\r\n\r\n\r\n";
-$bericht .= "<div style= 'font-family:verdana;font-size:11pt;color:blue;'>Wilt u uw inschrijving intrekken ? <a href ='http://www.ontip.nl/".substr($prog_url,3)."send_cancel_inschrijving_link.php?toernooi=".$toernooi."&kenmerk=".$kenmerk."'>Klik dan op deze link</a></div>" . "\r\n";
+$bericht .= "<div style= 'font-family:verdana;font-size:11pt;color:blue;'>Wilt u uw inschrijving intrekken ? <a href ='https://www.ontip.nl/".substr($prog_url,3)."send_cancel_inschrijving_link.php?toernooi=".$toernooi."&kenmerk=".$kenmerk."'>Klik dan op deze link</a></div>" . "\r\n";
 
 // QRC code Ical event mee sturen
 
@@ -406,7 +383,7 @@ $maand = substr($datum,5,2);
 $dag   = substr($datum,8,2);
 
 $url       = explode("/",$prog_url);
-$qrc_link  = "http://www.ontip.nl/".$url[3]."/images/qrc/qrc_ical_".$toernooi."-".$jaar.$maand.$dag.".png";
+$qrc_link  = "https://www.ontip.nl/".$url[3]."/images/qrc/qrc_ical_".$toernooi."-".$jaar.$maand.$dag.".png";
 $qrc_file  = "../".$url[3]."/images/qrc/qrc_ical_".$toernooi."-".$jaar.$maand.$dag.".png";
 
 if (file_exists($qrc_file)) {         
@@ -417,6 +394,7 @@ if (file_exists($qrc_file)) {
 
 $bericht .= "<hr/><span Style='font-family:verdana;font-size:9pt;'>Wij spelen dit toernooi op deze locatie : <br></span>".   "\r\n";
 $bericht .= "<div>".   "\r\n";
+
 $bericht .= "<table>"   . "\r\n";
 
 
@@ -437,25 +415,29 @@ if (isset($adres) and $adres !='') {
 
 }// end if adres
 
-$bericht .= "<br><div style= 'font-family:verdana;font-size:8.5pt;color:black;padding-top:20pt;'><hr/><img src = 'http://www.ontip.nl/ontip/images/OnTip_banner_klein.jpg' width='40'> Deze automatische mail is aangemaakt vanuit OnTIP. (c) Erik Hendrikx 2011-".date('Y')."</div>" . "\r\n";
+$bericht .= "<br><div style= 'font-family:verdana;font-size:8.5pt;color:black;padding-top:20pt;'><hr/><img src = 'https://www.ontip.nl/ontip/images/OnTip_banner_klein.jpg' width='40'> Deze automatische mail is aangemaakt vanuit OnTIP. (c) Erik Hendrikx 2011-".date('Y')."</div>" . "\r\n";
 
 //echo $bericht;
-if ($o <>'' and strpos($Email,'@') > 0 ) {
+
+
+if ($to <>'' and strpos($to,'@') > 0 ) {
  	$_subject = "=?utf-8?b?".base64_encode($subject)."?=";
-  mail($to, $_subject, $bericht, $headers,"-finfo@ontip.nl");
-  
+    mail($to, $_subject, $bericht, $headers,"-finfo@ontip.nl");
+ 
+//echo "xxxxxxxxxxxxxxxxxxxxxx".$to; 
    $function = basename($_SERVER['SCRIPT_NAME']);
    include('../ontip/mail_stats.php');
 
-// }// not empty email
+ }// not empty email
+ 
+ 
 } // volgend Mailid  in loop k
 
 
 
-} // end if error
+//  } // end if error
 ?>
 <script language="javascript">
 		window.location.replace('beheer_inschrijvingen.php?<?php echo $replace; ?>');
 </script>
-</body>
-</html>
+ 

@@ -1508,9 +1508,9 @@ $sql      = mysqli_query($con,"SELECT * from toernooi_datums_cyclus  where  Vere
 	
 	while($row = mysqli_fetch_array( $sql )) { 		
 		     $datum = $row['Datum'];
-	        $dag   = 	substr ($datum , 8,2); 
-          $maand = 	substr ($datum , 5,2); 
-          $jaar  = 	substr ($datum , 0,4); 
+	         $dag   = 	substr ($datum , 8,2); 
+            $maand = 	substr ($datum , 5,2); 
+            $jaar  = 	substr ($datum , 0,4); 
       		$datums  = $datums.",".strftime("%A %e %B %Y", mktime(0, 0, 0, $maand , $dag, $jaar) ); 
       }
       $datums = substr($datums,1,250);
@@ -1570,7 +1570,6 @@ $email_return  = $email_organisatie;
 ////   Alleen BCC indien Trace J
 if ($trace == 'J' or $trace =='Y'){
     $headers .= 'From: OnTip '. $subdomein. ' <'.$from.'>' . "\r\n" .	 
-       'Cc: '. $email_cc . "\r\n" .
        'Bcc: '. $email_tracer . "\r\n" .
        'Return-Path: '. $from  . "\r\n" . 
        'Reply-To: '. $email_organisatie . "\r\n" .
@@ -1578,7 +1577,6 @@ if ($trace == 'J' or $trace =='Y'){
 }	     
 else { 
     $headers .= 'From: OnTip '. $subdomein. ' <'.$from.'>' . "\r\n" .	 
-       'Cc: '. $email_cc . "\r\n" .
        'Return-Path: '. $email_return  . "\r\n" . 
        'Reply-To: '. $email_organisatie . "\r\n" .
        'X-Mailer: PHP/' . phpversion();

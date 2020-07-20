@@ -2154,37 +2154,6 @@ $variabele = 'licentie_jn';
 echo "</span></td>";
 ?>
 </tr>
-
-<?php
-
-////// Maximum aantal spelers
-
- $variabele = 'max_splrs';
- $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
- $result    = mysqli_fetch_array( $qry1);
- $id        = $result['Id'];
-?>
- <tr>
- <td class='varname'>Max aantal inschrijvingen</td><td style='text-align:center;background-color:#00288a;'><a href="non_js_help.html" style= 'font-size:7pt;color:blue;' class='popupLink' onclick="return !showPopup('max_splrs', event)">
-     	<img src='../ontip/images/info.jpg' border = 0 width=20>  </a>
-</td>
-
-<td class='content' colspan=  4>
-
-<?php 
- echo "<span><input name= 'Waarde-";
- echo $id;
- echo "' type='text' size='5'  value ='";
- echo $result['Waarde'];
- 
- if ($inschrijf_methode =='vast' ){
- echo "'> (Doublet,Triplet, Kwintet en Sextet tellen als 1)</span></td>";
-} else {
-	echo "'> personen.</span></td>";
-}
-?>
-</tr>
-
 <?php
 
 ////// Minimum aantal spelers
@@ -2215,12 +2184,43 @@ echo "</span></td>";
  echo $min_splrs;
  
  if ($inschrijf_methode =='vast' ){
- echo "'> (Doublet,Triplet, Kwintet en Sextet tellen als 1)</span></td>";
+ echo "'>  Alleen getallen invoeren ! (Doublet,Triplet, Kwintet en Sextet tellen als 1)</span></td>";
 } else {
 	echo "'> personen.</span></td>";
 }
 ?>
 </tr>
+
+<?php
+
+////// Maximum aantal spelers
+
+ $variabele = 'max_splrs';
+ $qry1      = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
+ $id        = $result['Id'];
+?>
+ <tr>
+ <td class='varname'>Max aantal inschrijvingen</td><td style='text-align:center;background-color:#00288a;'><a href="non_js_help.html" style= 'font-size:7pt;color:blue;' class='popupLink' onclick="return !showPopup('max_splrs', event)">
+     	<img src='../ontip/images/info.jpg' border = 0 width=20>  </a>
+</td>
+
+<td class='content' colspan=  4>
+
+<?php 
+ echo "<span><input name= 'Waarde-";
+ echo $id;
+ echo "' type='text' size='5'  value ='";
+ echo $result['Waarde'];
+ 
+ if ($inschrijf_methode =='vast' ){
+ echo "'> Alleen getallen invoeren ! (Doublet,Triplet, Kwintet en Sextet tellen als 1)</span></td>";
+} else {
+	echo "'> personen.</span></td>";
+}
+?>
+</tr>
+
 
 
 <?php
@@ -2245,7 +2245,7 @@ $variabele = 'aantal_reserves';
  echo $id;
  echo "' type='text' size='2'  value ='";
  echo $result['Waarde'];
- echo "'> (Extra inschrijvingen als toernooi al vol is)</span></td>";
+ echo "'> Alleen getallen invoeren !  (Extra inschrijvingen als toernooi al vol is)</span></td>";
  
 ?>
 </tr>

@@ -63,20 +63,26 @@
 # Feature:          Bij uitbreiden inschrijvingen status voor reserves aanpassen naar ingeschreven niet bevestigd
 # Reference: 
 
-# 21feb20209          1.0.0       E. Hendrikx 
+# 21feb2020         1.0.0       E. Hendrikx 
 # Symptom:   		 Ongeldige datum geeft probleem met insert in toernooi_ontip
 # Problem:     	     None
 # Fix:               checkdate functie
 # Feature:           
 # Reference: 
 
-# 28feb20209          1.0.0       E. Hendrikx 
+# 28feb2020         1.0.0       E. Hendrikx 
 # Symptom:   		 Fout in update doorgaan toernooi
 # Problem:     	     None
 # Fix:               checkdate functie
 # Feature:           
 # Reference: 
 
+# 18jul2020          1.0.0       E. Hendrikx 
+# Symptom:   		 None
+# Problem:     	     None
+# Fix:               
+# Feature:           Check op numerieke waarde min_splrs, max_splrs en aantal_reserves
+# Reference: 
 
 
 //header("Location: ".$_SERVER['HTTP_REFERER']);
@@ -130,7 +136,7 @@ $query = "UPDATE config
 //echo $id."<br>";
 //echo $query. "<br>";
 //echo $var. "<br>";
-mysqli_query($con,$query) or die ('Fout in update id generiek'); 
+mysqli_query($con,$query) or die ('Fout in update id generiek: '.$id); 
 }
 
 
@@ -1509,25 +1515,43 @@ else {
 // 18 okt 2019 aanpassen status inschrijvingen
 // aantal_inschrijvingen_vooraf is bepaald vooordat deze gemuteerd werd
 
+// 18 jul numerieke waarde voor getallen
+
+
+$variabele = 'min_splrs';
+ $qry1      = mysqli_query($con,"SELECT Id,Waarde From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
+ if (!is_numeric($result['Waarde'])){
+		  $update    = mysqli_query($con,"UPDATE config set Waarde = 1 where Id = ".$result['Id']."  "); 
+		 }
+
 $variabele = 'max_splrs';
- $qry1      = mysqli_query($con,"SELECT Waarde From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $qry1      = mysqli_query($con,"SELECT Id,Waarde From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
  $result    = mysqli_fetch_array( $qry1);
  $max_splrs_achteraf   = $result['Waarde'];
+ if (!is_numeric($result['Waarde'])){
+		  $update    = mysqli_query($con,"UPDATE config set Waarde = 99 where Id = ".$result['Id']."  "); 
+		  $max_splrs_achteraf   = 99;
+		 }
+		 
+$variabele = 'aantal_reserves';
+ $qry1      = mysqli_query($con,"SELECT Id,Waarde From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
+ $result    = mysqli_fetch_array( $qry1);
+  
+ if (!is_numeric($result['Waarde'])){
+		  $update    = mysqli_query($con,"UPDATE config set Waarde = 17 where Id = ".$result['Id']."  "); 
+		   
+		 }
 
+		 
  $qry1      = mysqli_query($con,"SELECT count(*) as Aantal From inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Status like 'RE%'   ")     or die(' Fout in select');  
  $result    = mysqli_fetch_array( $qry1);
  $aantal_reserves   = $result['Aantal'];
- 
+ 		 
  $qry1      = mysqli_query($con,"SELECT count(*) as Aantal From inschrijf where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'    ")     or die(' Fout in select');  
  $result    = mysqli_fetch_array( $qry1);
  $aantal_inschrijf   = $result['Aantal'];
-//echo "<br>Aantal reserves in inschrijf ".$aantal_reserves;
-
-  // als aantal spelers vooraf < dan aantal inschrijvingen en er zijn reserveringen
   
-  //echo "<br>MAX SPLRS vooraf ".$max_splrs_vooraf ;
-  //  echo "<br>MAX SPLRS achterraf  ".$max_splrs_achteraf ;
- 
  $verschil = $max_splrs_achteraf  - $max_splrs_vooraf;
   //echo "<br>Verschil ".$verschil;
     
@@ -1560,8 +1584,9 @@ $variabele = 'max_splrs';
     	 mysqli_query($con,$update_qry) or die ('Fout in update config  ivm reserves');   
    }// end if	   
   
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /// Naam van form wordt wel meegegeven maar heeft geen inhoud
  if (isset($_POST['myForm1'])){
