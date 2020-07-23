@@ -625,6 +625,9 @@ $week6_erna     = strtotime ("+6 week", mktime(0,0,0,$maand,$dag,$jaar));
 $today          = date('Y-m-d');
 $_week6_erna    = date("Y-m-d", $week6_erna);
 }
+// init
+$aantal_reserves     = 0;  
+
 
 /// selectie bond  tbv vereniging lijst
 
@@ -3199,7 +3202,7 @@ if ($bestemd_voor !=''){
 	  if( !isset($string )) { $string = '' ; }
 	  
 //    $characters = "23456789abcdefhijkmnprstuvwxyABCDEFG-+";
-    $characters[] ='';
+    $characters = array();
     $characters = "123456789123456789";
     
     
