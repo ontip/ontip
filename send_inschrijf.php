@@ -71,6 +71,28 @@ ob_start();
 	</head>
 
 <?php
+// inits
+
+for ($i=1;$i<=6;$i++){
+ $var = 'Naam'.$i;
+ $$var = '';
+ $var = 'Vereniging'.$i;
+ $$var = '';
+ $var = 'Licentie'.$i;
+ $$var = '';
+ 
+}
+$licentie_jn        ='';
+$soort_inschrijving ='';
+$Email              = '';
+$Telefoon           = '';
+$toernooi_voluit    ='';
+$toernooi           = '';
+$bankrekening_invullen_jn  = '';
+$vereniging_output_naam = '';
+
+
+
 // formulier POST variabelen ophalen en kontroleren
 //include('action.php');
 
@@ -95,11 +117,6 @@ ob_start();
 //
 $date          = date('Y-m-d:H:i:s');
 $inschrijving  = $date;
-
-
-
-
-
 
 if (!isset($_POST['Licentie3'])){
 	$Licentie3 ='';
