@@ -93,10 +93,11 @@ $bericht .= "</table>"   . "\r\n";
 $bericht .= "<h4><u>Opmerkingen</u></h4>".   "\r\n";
 $bericht .= "<div style= 'font-family:verdana;font-size:9pt;'>". $Opmerkingen . "</div>".  "\r\n";
 
-mail($to, $subject, $bericht, $headers);
-
-
+if ($Naam <> ''){
+  mail($to, $subject, $bericht, $headers);
 }
+
+
 
 
 $check=$_POST['Check'];
@@ -113,19 +114,24 @@ $headers .= 'From: '. $email_noreply  . "\r\n" .
        'X-Mailer: PHP/' . phpversion();
 $headers  .= "\r\n";
 
+ 
 mail($to, $subject, $bericht, $headers);
 
 
 };              /// indien email ingevuld
 
+};	
 	
 	
-	
-	
+if ($Naam <> ''){	
 	
 header ("location: vraag_gesteld.php"); 
 
-
+} else {
+	
+echo "Ongeldige vraag."	;
+	
+}
 
 ob_end_flush();
 ?> 

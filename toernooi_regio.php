@@ -583,9 +583,7 @@ if ( $begin_inschrijving > $today ){
 if ($aantal >= $max_splrs  and $aantal_reserves == 0 and $einde  == 0) {
 		echo "<br><B>Dit toernooi is al VOLGEBOEKT !!!</B>";
 }
-   
-	
-	
+ 	
 	
 ?>
 	<br>
