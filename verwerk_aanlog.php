@@ -65,7 +65,7 @@ $url           = $_POST['return_page'];
 $error = 0;
 $msg   = '';
 
-if (strlen($wachtwoord) > 12){
+if (strlen($wachtwoord) > 16){
    $error = 1;
    $message = 'Wachtwoord is te lang (maximaal 12 karakters)<br>';
    $error_line      = explode("<br>", $message);   /// opsplitsen in aparte regels tbv alert
@@ -122,9 +122,13 @@ if ($error == 0){
 $encrypt = md5($wachtwoord);
 $ip      = md5($_SERVER['REMOTE_ADDR']);
 
+//echo  "SELECT count(*) as Aantal FROM namen WHERE  Naam='".$naam."' and (Wachtwoord='".$encrypt."' or Wachtwoord_encrypt ='".$encrypt."' ) and Vereniging_id = ".$vereniging_id."  ";
+
 $sql      = mysqli_query($con,"SELECT count(*) as Aantal FROM namen WHERE  Naam='".$naam."' and (Wachtwoord='".$encrypt."' or Wachtwoord_encrypt ='".$encrypt."' ) and Vereniging_id = ".$vereniging_id."  ") or die('Aanloggen: Fout in select');  
 $result   = mysqli_fetch_array( $sql );
 $count    = $result['Aantal'];
+
+//echo "<br>".$count;
 
 if ($count == 1){
 
@@ -169,6 +173,7 @@ $error_line      = explode("<br>", $message);   /// opsplitsen in aparte regels 
 if ($url ==''){
  $url = "OnTip_index.php";
 }
+echo   "OK";
 redirect($url);
 ob_end_flush();
 ?>

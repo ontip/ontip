@@ -17,6 +17,7 @@ $tot_secs  = 0;
 $sql      = mysqli_query($con,"SELECT Naam,Beheerder , Toernooi FROM namen WHERE  IP_adres_md5 = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select ip check');  
 $result   = mysqli_fetch_array( $sql );
 $count    = mysqli_num_rows($sql);
+//echo  "aangelogd: ".$count;
 
 if ($count > 0){
   $rechten  = $result['Beheerder'];
@@ -24,7 +25,7 @@ if ($count > 0){
   $toernooi = $result['Toernooi'];
 
 	// check op 2 uur geleden'
-	$sql1      = mysqli_query($con,"SELECT Laatst FROM namen WHERE  IP_adres_md5 = '".$ip."'  and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select ip');  
+  $sql1      = mysqli_query($con,"SELECT Laatst FROM namen WHERE  IP_adres_md5 = '".$ip."'  and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select ip');  
   $result1   = mysqli_fetch_array( $sql1 );
   $laatst    = $result1['Laatst'];
 
