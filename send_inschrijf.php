@@ -471,38 +471,38 @@ if ($Licentie6 == '' and $soort_inschrijving == 'sextet' and $licentie_jn == 'J'
 }
 // numerieke kontroles
 
-if ($Licentie1 != '' and  !is_numeric($Licentie1) and $licentie_jn == 'J' and strtoupper($Licentie1) != 'NNB'  ){
-		$message .= "* Licentie speler 1 is geen getal en geen NNB.<br>";
+if ($Licentie1 != '' and  !is_numeric($Licentie1) and $licentie_jn == 'J' and strtoupper($Licentie1) != 'NNB' and strtoupper($Licentie1) != 'N.v.t.' ){
+		$message .= "* Licentie speler 1 is geen getal en geen NNB of NVT.<br>";
 	$error = 1;
 }
-if ($Licentie2 != '' and  !is_numeric($Licentie2) and strtoupper($Licentie2) != 'NNB' and $soort_inschrijving != 'single' and $inschrijf_methode == 'vast'  and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
-		$message .= "* Licentie speler 2 is geen getal en geen NNB.<br>";
-	$error = 1;
-}
-
-if ($Licentie3 != '' and !is_numeric($Licentie3) and strtoupper($Licentie3) != 'NNB' and ($soort_inschrijving == 'triplet' or $soort_inschrijving == '4x4'  or $soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet')  and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
-		$message .= "* Licentie speler 3 is geen getal en geen NNB.<br>";
+if ($Licentie2 != '' and  !is_numeric($Licentie2) and strtoupper($Licentie2) != 'NNB' and strtoupper($Licentie1) != 'NVT' and $soort_inschrijving != 'single' and $inschrijf_methode == 'vast'  and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
+		$message .= "* Licentie speler 2 is geen getal en geen NNB of NVT.<br>";
 	$error = 1;
 }
 
-if ($Licentie4 != '' and  !is_numeric($Licentie4) and strtoupper($Licentie4) != 'NNB' and ($soort_inschrijving == '4x4'  or $soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet') and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
-	$message .= "* Licentie speler 4 is geen getal en geen NNB.<br>";
+if ($Licentie3 != '' and !is_numeric($Licentie3) and strtoupper($Licentie3) != 'NNB' and strtoupper($Licentie1) != 'NVT' and ($soort_inschrijving == 'triplet' or $soort_inschrijving == '4x4'  or $soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet')  and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
+		$message .= "* Licentie speler 3 is geen getal en geen NNB of NVT.<br>";
 	$error = 1;
 }
 
-if ($Licentie5 != '' and !is_numeric($Licentie5) and strtoupper($Licentie5) != 'NNB' and ($soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet') and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
-	$message .= "* Licentie speler 5 is geen getal en geen NNB.<br>";
+if ($Licentie4 != '' and  !is_numeric($Licentie4) and strtoupper($Licentie4) != 'NNB' and strtoupper($Licentie1) != 'NVT' and ($soort_inschrijving == '4x4'  or $soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet') and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
+	$message .= "* Licentie speler 4 is geen getal en geen NNB of NVT.<br>";
 	$error = 1;
 }
 
-if ($Licentie6 != '' and  !is_numeric($Licentie6) and strtoupper($Licentie6) != 'NNB' and $soort_inschrijving == 'sextet' and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
-	$message .= "* Licentie speler 6 is geen getal en geen NNB.<br>";
+if ($Licentie5 != '' and !is_numeric($Licentie5) and strtoupper($Licentie5) != 'NNB' and strtoupper($Licentie1) != 'NVT' and ($soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet') and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
+	$message .= "* Licentie speler 5 is geen getal en geen NNB of NVT.<br>";
+	$error = 1;
+}
+
+if ($Licentie6 != '' and  !is_numeric($Licentie6) and strtoupper($Licentie6) != 'NNB' and strtoupper($Licentie1) != 'NVT' and $soort_inschrijving == 'sextet' and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
+	$message .= "* Licentie speler 6 is geen getal en geen NNB of NVT.<br>";
 	$error = 1;
 }
 
 // licentie tussen 5 en 999999
 
-if ($Licentie1 != '' and ($Licentie1 < 1 or $Licentie1 > 999999)  and $licentie_jn == 'J' and strtoupper($Licentie1) != 'NNB' ){
+if ($Licentie1 != '' and ($Licentie1 < 1 or $Licentie1 > 999999)  and $licentie_jn == 'J' and strtoupper($Licentie1) != 'NNB' and strtoupper($Licentie1) != 'NVT'){
 		$message .= "* Licentie speler 1 is onwaarschijnlijk.<br>";
 	$error = 1;
 }
@@ -512,22 +512,22 @@ if ($Licentie2 != '' and ($Licentie2 < 1 or $Licentie2 > 999999) and strtoupper(
 	$error = 1;
 }
 
-if ($Licentie3 != '' and ($Licentie3 < 1 or $Licentie3 > 999999) and strtoupper($Licentie3) != 'NNB' and ($soort_inschrijving == 'triplet' or $soort_inschrijving == '4x4'  or $soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet')  and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
+if ($Licentie3 != '' and ($Licentie3 < 1 or $Licentie3 > 999999) and strtoupper($Licentie3) != 'NNB' and strtoupper($Licentie1) != 'NVT' and ($soort_inschrijving == 'triplet' or $soort_inschrijving == '4x4'  or $soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet')  and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
 		$message .= "* Licentie speler 3 is onwaarschijnlijk.<br>";
 	$error = 1;
 }
 
-if ($Licentie4 != '' and  ($Licentie4 < 1 or $Licentie4 > 999999) and strtoupper($Licentie4) != 'NNB' and ($soort_inschrijving == '4x4'  or $soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet') and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
+if ($Licentie4 != '' and  ($Licentie4 < 1 or $Licentie4 > 999999) and strtoupper($Licentie4) != 'NNB' and strtoupper($Licentie1) != 'NVT' and ($soort_inschrijving == '4x4'  or $soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet') and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
 	$message .= "* Licentie speler 4 is onwaarschijnlijk.<br>";
 	$error = 1;
 }
 
-if ($Licentie5 != '' and ($Licentie5 < 1 or $Licentie5 > 999999) and strtoupper($Licentie5) != 'NNB' and ($soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet') and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
+if ($Licentie5 != '' and ($Licentie5 < 1 or $Licentie5 > 999999) and strtoupper($Licentie5) != 'NNB' and strtoupper($Licentie1) != 'NVT' and ($soort_inschrijving == 'kwintet' or $soort_inschrijving == 'sextet') and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
 	$message .= "* Licentie speler 5 is onwaarschijnlijk.<br>";
 	$error = 1;
 }
 
-if ($Licentie6 != '' and  ($Licentie6 < 1 or $Licentie6 > 999999) and strtoupper($Licentie6) != 'NNB' and $soort_inschrijving == 'sextet' and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
+if ($Licentie6 != '' and  ($Licentie6 < 1 or $Licentie6 > 999999) and strtoupper($Licentie6) != 'NNB' and strtoupper($Licentie1) != 'NVT' and $soort_inschrijving == 'sextet' and $licentie_jn == 'J' and $inschrijf_methode == 'vast'){
 	$message .= "* Licentie speler 6 is onwaarschijnlijk.<br>";
 	$error = 1;
 }

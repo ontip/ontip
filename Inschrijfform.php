@@ -388,7 +388,9 @@ function show_hulp()
 {
 alert("Invul hulp" + '\n' + 
   "* Zoeken a.d.h.v licentie : vul Licentienr in en klik op de afbeelding van het loepje." + '\n' +
-  "* Bij klikken op het woord 'Licentie' wordt 'N.v.t.' ingevuld. " + '\n' +
+  "* Indien licentie nog niet bekend is, vul dan NNB in " + '\n' +
+  "* Indien licentie niet van toepassing is vul dan NVT in. " + '\n' +
+  "* Bij klikken op het woord 'Licentie' wordt 'NNB' ingevuld. " + '\n' +
   "* Bij klikken op het woord 'Vereniging' voor het invulvak, wordt de naam van de organiserende vereniging ingevuld." + '\n' +
   "* Nog een keer klikken op het woord 'Vereniging' voor het invulvak, maakt het invulveld weer leeg. " + '\n' +
   "* Klikken op het woord 'Naam' voor het invulvak, maakt het invulveld leeg. "
@@ -1936,7 +1938,7 @@ if ($bestemd_voor !=''){
       <tr>
       	<td style='font-size :10pt;width:10pt;'>1.</td>
         <?php          if ($licentie_jn != 'N') { ?>
-          <td width="80" onclick="fill_input_l1_field('N.v.t.');" ><em onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');" onmouseout="toggle(this,0)" class="normal" id= 'dot1'>Licentie nr</em></td>
+          <td width="80" onclick="fill_input_l1_field('NNB');" ><em onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');" onmouseout="toggle(this,0)" class="normal" id= 'dot1'>Licentie nr</em></td>
           <td width="85"><input TYPE="TEXT" NAME="Licentie1" SIZE="4" class="pink" style='background-color:<?php echo $achtergrond_kleur_input ?>;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  value = "<?php echo $licentie1;?>" ></td>
         <?php }
          else { 
@@ -2021,7 +2023,7 @@ if ($bestemd_voor !=''){
 
      if ($licentie_jn != 'N') { ?>
       <tr> 
-          <td width="120" onclick="fill_input_l1_field('N.v.t.');" ><em style='font-size:<?php echo $font_size; ?>pt;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  class="normal" id= 'dot1'>Licentie nr 1</em></td>
+          <td width="120" onclick="fill_input_l1_field('NNB');" ><em style='font-size:<?php echo $font_size; ?>pt;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  class="normal" id= 'dot1'>Licentie nr 1</em></td>
           <td width="85"><input TYPE="TEXT" NAME="Licentie1" SIZE="25" class="simple" style='font-size:<?php echo $font_size; ?>pt;background-color:<?php echo $achtergrond_kleur_input; ?>;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  value = "<?php echo $licentie1;?>" >
       
        <?php if ($bestemd_voor ==''){ ?>
@@ -2080,7 +2082,7 @@ if ($bestemd_voor !=''){
        <tr>
        	<td style='font-size :10pt;' >2.</td>
        	 <?php          if ($licentie_jn != 'N') { ?>
-        <td  onclick="fill_input_l2_field('N.v.t.');" padding-left="20"><em onmouseover="toggle(this,1)" onmouseout="toggle(this,0)" class="normal" id= 'dot1'>Licentie</em></td>
+        <td  onclick="fill_input_l2_field('NNB');" padding-left="20"><em onmouseover="toggle(this,1)" onmouseout="toggle(this,0)" class="normal" id= 'dot1'>Licentie</em></td>
         <td><input TYPE="TEXT" NAME="Licentie2" SIZE="4" class="pink" style='background-color:<?php echo $achtergrond_kleur_input ?>;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  value = "<?php echo $licentie2;?>"></td>
         <?php }
          else { 
@@ -2162,7 +2164,7 @@ if ($bestemd_voor !=''){
    
      if ($licentie_jn != 'N') { ?>
       <tr> 
-          <td width="80" onclick="fill_input_l2_field('N.v.t.');" padding-left="20"><em style='font-size:<?php echo $font_size; ?>pt;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  class="normal" id= 'dot1'>Licentie nr 2</em></td>
+          <td width="80" onclick="fill_input_l2_field('NNB');" padding-left="20"><em style='font-size:<?php echo $font_size; ?>pt;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  class="normal" id= 'dot1'>Licentie nr 2</em></td>
           <td width="85"><input TYPE="TEXT" NAME="Licentie2" SIZE="25" class="simple" style='font-size:<?php echo $font_size; ?>pt;background-color:<?php echo $achtergrond_kleur_input ?>;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  value = "<?php echo $licentie2;?>" >
 
           <?php if ($bestemd_voor ==''){ ?>
@@ -2226,7 +2228,7 @@ if ($bestemd_voor !=''){
         <tr>
         	<td style='font-size :10pt;'>3.</td>
          <?php          if ($licentie_jn != 'N') { ?>
-        <td width="50" onclick="fill_input_l3_field('N.v.t.');" padding-left="20"><em onmouseover="toggle(this,1)" onmouseout="toggle(this,0)" class="normal" id= 'dot1'>Licentie</em></td>
+        <td width="50" onclick="fill_input_l3_field('NNB');" padding-left="20"><em onmouseover="toggle(this,1)" onmouseout="toggle(this,0)" class="normal" id= 'dot1'>Licentie</em></td>
         <td><input TYPE="TEXT" NAME="Licentie3" SIZE="4" class="pink" style='background-color:<?php echo $achtergrond_kleur_input ?>;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');" value = "<?php echo $licentie3;?>"></td>
        <?php }
          else { 
@@ -2306,7 +2308,7 @@ if ($bestemd_voor !=''){
    
      if ($licentie_jn != 'N') { ?>
       <tr> 
-          <td width="80" onclick="fill_input_l3_field('N.v.t.');" padding-left="20"><em style='font-size:<?php echo $font_size; ?>pt;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  class="normal" id= 'dot1'>Licentie nr 3</em></td>
+          <td width="80" onclick="fill_input_l3_field('NNB');" padding-left="20"><em style='font-size:<?php echo $font_size; ?>pt;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  class="normal" id= 'dot1'>Licentie nr 3</em></td>
           <td width="85"><input TYPE="TEXT" NAME="Licentie3" SIZE="25" class="simple" style='font-size:<?php echo $font_size; ?>pt;background-color:<?php echo $achtergrond_kleur_input ?>;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  value = "<?php echo $licentie3;?>" >
           
             <?php if ($bestemd_voor ==''){ ?>
@@ -2376,7 +2378,7 @@ if ($bestemd_voor !=''){
         <tr>
         	<td style='font-size :10pt;'>4.</td>
         	   <?php          if ($licentie_jn != 'N') { ?>
-        <td  onclick="fill_input_l4_field('N.v.t.');" padding-left="20"><em onmouseover="toggle(this,1)" onmouseout="toggle(this,0)" class="normal" id= 'dot1'>Licentie</em></td>
+        <td  onclick="fill_input_l4_field('NNB');" padding-left="20"><em onmouseover="toggle(this,1)" onmouseout="toggle(this,0)" class="normal" id= 'dot1'>Licentie</em></td>
         <td ><input TYPE="TEXT" NAME="Licentie4" SIZE="4" class="pink" style='background-color:<?php echo $achtergrond_kleur_input ?>;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');" value = "<?php echo $licentie4;?>"></td>
         <?php }
          else { 
@@ -2456,7 +2458,7 @@ if ($bestemd_voor !=''){
    
      if ($licentie_jn != 'N') { ?>
       <tr> 
-          <td width="80" onclick="fill_input_l4_field('N.v.t.');" padding-left="20"><em style='font-size:<?php echo $font_size; ?>pt;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  class="normal" id= 'dot1'>Licentie nr 4</em></td>
+          <td width="80" onclick="fill_input_l4_field('NNB');" padding-left="20"><em style='font-size:<?php echo $font_size; ?>pt;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  class="normal" id= 'dot1'>Licentie nr 4</em></td>
           <td width="85"><input TYPE="TEXT" NAME="Licentie4" SIZE="25" class="simple" style='font-size:<?php echo $font_size; ?>pt;background-color:<?php echo $achtergrond_kleur_input ?>;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  value = "<?php echo $licentie4;?>" >
          	
          	  <?php if ($bestemd_voor ==''){ ?>
@@ -2523,7 +2525,7 @@ if ($bestemd_voor !=''){
        <tr>
        	<td style='font-size :10pt;'>5.</td>
          <?php          if ($licentie_jn != 'N') { ?>
-        <td onclick="fill_input_l5_field('N.v.t.');"  padding-left="20"><em onmouseover="toggle(this,1)" onmouseout="toggle(this,0)" class="normal" id= 'dot1'>Licentie</em></td>
+        <td onclick="fill_input_l5_field('NNB');"  padding-left="20"><em onmouseover="toggle(this,1)" onmouseout="toggle(this,0)" class="normal" id= 'dot1'>Licentie</em></td>
         <td><input TYPE="TEXT" NAME="Licentie5" SIZE="4" class="pink" style='background-color:<?php echo $achtergrond_kleur_input ?>;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');" value = "<?php echo $licentie5;?>"></td>
        <?php }
          else { 
@@ -2603,7 +2605,7 @@ if ($bestemd_voor !=''){
    
      if ($licentie_jn != 'N') { ?>
       <tr> 
-          <td width="80" onclick="fill_input_l5_field('N.v.t.');" padding-left="20"><em style='font-size:<?php echo $font_size; ?>pt;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  class="normal" id= 'dot1'>Licentie nr 5</em></td>
+          <td width="80" onclick="fill_input_l5_field('NNB');" padding-left="20"><em style='font-size:<?php echo $font_size; ?>pt;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  class="normal" id= 'dot1'>Licentie nr 5</em></td>
           <td width="85"><input TYPE="TEXT" NAME="Licentie5" SIZE="25" class="simple" style='background-color:<?php echo $achtergrond_kleur_input ?>;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  value = "<?php echo $licentie5;?>" >
            
            
@@ -2671,7 +2673,7 @@ if ($bestemd_voor !=''){
        <tr>
        	<td style='font-size :10pt;'>6.</td>
          <?php          if ($licentie_jn != 'N') { ?>
-        <td onclick="fill_input_l6_field('N.v.t.');"  padding-left="20"><em onmouseover="toggle(this,1)" onmouseout="toggle(this,0)" class="normal" id= 'dot1'>Licentie</em></td>
+        <td onclick="fill_input_l6_field('NNB');"  padding-left="20"><em onmouseover="toggle(this,1)" onmouseout="toggle(this,0)" class="normal" id= 'dot1'>Licentie</em></td>
         <td><input TYPE="TEXT" NAME="Licentie6" SIZE="4" class="pink" style='background-color:<?php echo $achtergrond_kleur_input ?>;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  value = "<?php echo $licentie6;?>"></td>
         <?php }
          else { 
@@ -2752,7 +2754,7 @@ if ($bestemd_voor !=''){
    
      if ($licentie_jn != 'N') { ?>
       <tr> 
-          <td width="80" onclick="fill_input_l5_field('N.v.t.');" padding-left="20"><em style='font-size:<?php echo $font_size; ?>pt;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  class="normal" id= 'dot1'>Licentie nr 6</em></td>
+          <td width="80" onclick="fill_input_l5_field('NNB');" padding-left="20"><em style='font-size:<?php echo $font_size; ?>pt;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  class="normal" id= 'dot1'>Licentie nr 6</em></td>
           <td width="85"><input TYPE="TEXT" NAME="Licentie6" SIZE="25" class="simple" style='font-size:<?php echo $font_size; ?>pt;background-color:<?php echo $achtergrond_kleur_input ?>;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  value = "<?php echo $licentie6;?>" >
           
           
@@ -2943,7 +2945,7 @@ if ($bestemd_voor !=''){
    
      if ($licentie_jn != 'N') { ?>
       <tr> 
-          <td width="80" onclick="fill_input_l1_field('N.v.t.');" padding-left="20"><em style='font-size:<?php echo $font_size; ?>pt;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  class="normal" id= 'dot1'>Licentie 1</em></td>
+          <td width="80" onclick="fill_input_l1_field('NNB');" padding-left="20"><em style='font-size:<?php echo $font_size; ?>pt;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  class="normal" id= 'dot1'>Licentie 1</em></td>
           <td width="85"><input TYPE="TEXT" NAME="Licentie1" SIZE="4" class="simple" style='font-size:<?php echo $font_size; ?>pt;background-color:<?php echo $achtergrond_kleur_input ?>;' onfocus="change(this,'black','lightblue');" onblur="change(this,'black','<?php echo $achtergrond_kleur_input ?>');"  value = "<?php echo $licentie1;?>" >
           <span onmouseover="toggle(this,1)" onmouseout="toggle(this,0)"  class='tooltip'  title='Zoek op ingevuld licentie nr. Naam en vereniging mogen dan niet zijn ingevuld'>
     		<INPUT TYPE="image" SRC="../ontip/images/icon_loep.png" alt="." width=22 border = 0   id= 'loep'></span>
