@@ -1558,6 +1558,11 @@ window.onload=do_onload
 			<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'">
 				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= 'export_inschrijf_tbv_hussel_xlsx.php?toernooi=<?php echo $toernooi; ?>'>Excel export - namen tbv Hussel  '<b><font color= darkgreen><?php echo $toernooi_voluit ;?></font></b>' <img src='../ontip/images/icon_excel.jpg' border = 0 width =22  ><br><span style=' font-size:9pt;color:black;'>Lijst(xlsx) van Namen t.b.v Hussel programma(import functie).</span></a>
 		 </td></tr>
+		 
+		 	 <tr>
+			<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'">
+				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= 'export_inschrijf_tbv_hussel_sql.php?toernooi=<?php echo $toernooi; ?>'>SQL export - namen tbv Hussel  '<b><font color= darkgreen><?php echo $toernooi_voluit ;?></font></b>' <img src='../ontip/images/icon_excel.jpg' border = 0 width =22  ><br><span style=' font-size:9pt;color:black;'>txt bestand met sql inserts van Namen t.b.v Hussel programma(import functie).</span></a>
+		 </td></tr>
 	<?php } ?>	
 	 
 		 <tr>
@@ -1802,6 +1807,21 @@ window.onload=do_onload
    	 	<tr>
 			<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'">
 				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= "create_qrcode_ical_event.php?toernooi=<?php echo $toernooi; ?>">Aanmaak QRC Code tbv Agenda Smartphone '<font color= darkgreen>'<b><font color= darkgreen><?php echo $toernooi_voluit ;?></font></b>'</font>' <img src='../ontip/images/qrc.png' border = 0 width =28 ><br><span style=' font-size:9pt;color:black;'>Via QRC image direct het toernooi opnemen in de Agenda van je smartphone.</span></a>
+				<?php 
+	          $qrc_link     = 'images/qrc/qrc_ical_'.$toernooi.'-'.$jaar.$maand.$dag.'.png'; 
+   				if (file_exists($qrc_link)){ ?>
+	     			<br><a  style= 'font-size:9pt;color:blue;' onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'"  href= '<?php echo $qrc_link;?>' border = 0 width =28 target='_blank' >Klik hier voor aangemaakt QRC image tbv Agenda Smartphone</a>
+		    	<?php } ?>	
+			</td>
+		</tr>
+		<tr>
+			<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'">
+				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= "create_qrcode_ontip.php">Aanmaak QRC Code overzichtspagina toernooien <img src='../ontip/images/qrc.png' border = 0 width =28 ><br><span style=' font-size:9pt;color:black;'>Via QRC image direct openen van overzichtspagina alle toernooien eigen vereniging.</span></a>
+			</td>
+		</tr>
+   	 	<tr>
+			<td STYLE ='font-size: 11pt;color:blue;background-color:white;'  class="menuoff" onmouseover="className='menuon';" onmouseout="className='menuoff'">
+				<a  STYLE ='font-size: 11pt;color:blue;'  onmouseover="this.style.color = 'red'" onmouseout="this.style.color = 'blue'" href= "create_qrcode_app_uitslag.php?toernooi=<?php echo $toernooi; ?>">Aanmaak QRC Code tbv App uitslag '<font color= darkgreen>'<b><font color= darkgreen><?php echo $toernooi_voluit ;?></font></b>'</font>' <img src='../ontip/images/qrc.png' border = 0 width =28 ><br><span style=' font-size:9pt;color:black;'>Via QRC image app openen om de uitslag door te geven.</span></a>
 				<?php 
 	          $qrc_link     = 'images/qrc/qrc_ical_'.$toernooi.'-'.$jaar.$maand.$dag.'.png'; 
    				if (file_exists($qrc_link)){ ?>

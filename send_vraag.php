@@ -26,6 +26,12 @@ if (isset($_POST['zendform']))
 $error   = 0;
 $message = '';
 
+if (!isset($_POST['zendform'])){
+	$message .= "* Mail niet verzonden uit ontip programma<br>";
+	$error = 1;
+}
+
+
 if ($challenge != $respons){
 	$message .= "* Anti spam is niet (juist) ingevuld<br>";
 	$error = 1;

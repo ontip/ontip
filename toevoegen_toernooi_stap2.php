@@ -33,21 +33,23 @@
 
 # Date              Version      Person
 # ----              -------      ------
-# 21feb20209          1.0.0       E. Hendrikx 
-# Symptom:   		 Ongeldige datum geeft probleem met insert in toernooi_ontip
+# 21feb2020          1.0.0       E. Hendrikx 
+# Symptom:   		     Ongeldige datum geeft probleem met insert in toernooi_ontip
 # Problem:     	     None
 # Fix:               checkdate functie
 # Feature:           
 # Reference: 
 
+# 23jun2021          1.0.0       E. Hendrikx 
+# Symptom:   		 Geen <br> in foutmelding duplicate toernooi waardoor deze niet getoond werd
+# Problem:     	     None
+# Fix:               <br> toegevoegd
+# Feature:           
+# Reference: 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-?>
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/Basis.dwt" codeOutsideHTMLIsLocked="false" -->
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	</head>
-<?php
+ 
+  
 ob_start();
 
 ini_set('display_errors', 'On');
@@ -65,6 +67,8 @@ $_datum            = $_POST['datum_jaar']."-".sprintf("%02d",$_POST['datum_maand
 $error             = 0 ;
 $message           = '';
 
+ 
+
 $dag    = sprintf("%02d",$_POST['datum_dag']);
 $maand  = sprintf("%02d",$_POST['datum_maand']);
 $jaar    = $_POST['datum_jaar'];
@@ -73,10 +77,11 @@ $jaar    = $_POST['datum_jaar'];
 $check = checkdate($_POST['datum_maand'], $_POST['datum_dag'], $_POST['datum_jaar']);
 
 if ($check === false) { 
-		$message .= "* Datum heeft een ongeldige waarde : ".$dag."-".$maand."-".$jaar.".<br>";
+	$message .= "* Datum heeft een ongeldige waarde : ".$dag."-".$maand."-".$jaar.".<br>";
    	$error = 1;
 }
 
+ 
 
 $_email_organisatie   = trim($_POST['_email_organisatie']);
 $aangemaakt_door      = $_POST['aangemaakt_door'];
@@ -109,7 +114,7 @@ if ($_datum == '') {
 
 $today = date('Y')."-".date('m')."-".date('d');
 if ($_datum < $today){
-  $message .= "* Datum toernooi mag niet in het verleden liggen.<br>";
+    $message .= "* Datum toernooi mag niet in het verleden liggen.<br>";
 	$error = 1;
 }
 
@@ -118,33 +123,38 @@ if ($_email_organisatie == '') {
 	$error = 1;
 }
 
+ 
+
 
 if (!isset($_POST['akkoord'] )){
 	$message .= "* U dient akkoord te gaan met de voorwaarden door een vinkje te zetten bij 'Ik ga akkoord ....'.<br>";
 	$error = 1;
 }
-	
+ 
+
 //// Converteer spaties naar underscores
 
 $_input_toernooi  = trim($_input_toernooi);   // skip start and  end spaces
 
 // kontroleer of toernooi al bestaat
 if ($_input_toernooi !=''){
-$_input_toernooi  = str_replace (" ","_",$_input_toernooi);
-$sql     = mysqli_query($con,"SELECT count(*) as Aantal FROM config  WHERE Vereniging = '".$vereniging."' and Toernooi = '".$_input_toernooi."'" );
-$result  = mysqli_fetch_array( $sql );
-$count   = $result['Aantal'];
+  $_input_toernooi  = str_replace (" ","_",$_input_toernooi);
+   
+  $sql     = mysqli_query($con,"SELECT count(*) as Aantal FROM config  WHERE Vereniging = '".$vereniging."' and Toernooi = '".$_input_toernooi."'" );
+  $result  = mysqli_fetch_array( $sql );
+  $count   = $result['Aantal'];
 
 if ($count > 0 ) {
-	$message .= "* Er bestaat al een toernooi met de naam ". $_input_toernooi."";
+	$message .= "* Er bestaat al een toernooi met de naam ". $_input_toernooi."<br>";
 	$error = 1;
 }
 
 }
+ 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Toon foutmeldingen in popup
 
-if ($error != 0){
+if ($error > 0){
   $error_line      = explode("<br>", $message);   /// opsplitsen in aparte regels tbv alert
   ?>
    <script language="javascript">
@@ -894,6 +904,8 @@ if ($_input_toernooi != '' and $vereniging !='') {
 }/// einde controles
 ;
 if ($error == 1){
+	 
+
 	
 ?>
 <script language="javascript">
@@ -901,8 +913,9 @@ if ($error == 1){
     </script>
  <script type="text/javascript">
 		history.back()
-	</script>
+	</script-->
 <?php
+ 
 } else { 
 ?>
 <script language="javascript">
@@ -911,5 +924,5 @@ if ($error == 1){
 
 <?php
  }
- 
+ exit;
 ?> 

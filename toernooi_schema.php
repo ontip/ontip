@@ -54,6 +54,21 @@ ob_start();
 if(isset($_GET['toernooi'])){ 
   	$toernooi = $_GET['toernooi'];   
 include 'mysqli.php';   	
+
+/// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
+
+$aangelogd = 'N';
+
+include('aanlog_checki.php');	
+
+if ($aangelogd !='J'){
+?>	
+<script language="javascript">
+		window.location.replace("aanloggen.php");
+</script>
+<?php
+exit;
+}
   	
 /// Ophalen aantal spelers
 $sql        = mysqli_query($con,"SELECT count(*) as Aantal from inschrijf where Vereniging = '".$vereniging ."' and Toernooi ='".$toernooi."'  ")     or die(' Fout in select');  

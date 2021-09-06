@@ -1,0 +1,166 @@
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Hans Juckers' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Peter Heuveling' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Ank Gijsbers' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Wim Gijsbers' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Hans Bus' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Peter Ten Hengel' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Etienne  Calenbach' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Henk Bokkers' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Gerda Bokkes' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Piet Huijs' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Saskia van Rheenen' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Truus Kuijt' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Wus Lustig' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Menny Lustig' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Sietse Luppen' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Arjan Kok' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Hille de Graaf' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Klaas Heijnen' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Gerrie Duijst' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Tijmen Duijst' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Grietje Meester' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Adrie Heinen' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Jan de Graaf' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Henk van den Hoogen' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Fridjof de Rijke' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Ruud ter Haar' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Wout Heinen' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Teuny Heinen' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Petra Hendrikx' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Henk Starreveld' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Henk Heijnen' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Loes Heijnen' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Bertus Koelewijn' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Pea Koelewijn' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Jan Anbeek' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'H van Schaik' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Gert Scherpenzeel' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Ineke van der Heide' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Mariette Korf' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Vincent Korf' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Piet Knoester' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Monique Knoester' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Sino van der Heide' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Hilda vd Geest' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Reina Vink' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Theo Broekhoff' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Els Broekhoff' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Hans Verkerk' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Hennie Ruitenbeek' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Ruben Spelbos' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Cees Clijnk' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Bas de Jongh' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Martien van Herwijnen' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Bep Wilderbeek' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Wout Koelewijn' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Roel Huisman' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Coby Huisman' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Jopie Vermeulen' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Ria van Dorresteijn' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Ejan van Beek' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Eef van de Beek' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Hilco de Graaf' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Berry Grisel' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Thea Grisel' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Jan Anbeek' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Richard Nijs' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Henk Koelewijn' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Margaret Sitselaar' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Corrie ter Haar' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Jan Kuiper' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Christien Kuiper' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Sinus Hilbrands' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Gerrie Hilbrands' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Arie Stitselaar' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Cees de Ligt' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Jerrill Bang Afoe' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Jos van Doorn' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Nico Verschuren' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Wout Schouten' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Iwan Gard' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Guillaume Spiering' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Irene Cuello' );
+INSERT into hussel_score  (Vereniging,Vereniging_id,Datum,Ronde,Naam )  
+                         VALUES ('Boulamis',4, '2021-09-11',0,'Daniëlle Snijders' );

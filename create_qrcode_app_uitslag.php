@@ -1,10 +1,22 @@
 <?php
+# Record of Changes:
+#
+# Date              Version      Person
+# ----              -------      ------
+#
+# 5apr2019           -            E. Hendrikx 
+# Symptom:   		    None.
+# Problem:     	    None
+# Fix:              None
+# Feature:          PHP7
+# Reference: 
+
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
 ?>
 <html>
 <head>
-<title>Aanmaak QR Code inschrijf_form_smal</title>
+<title>Aanmaak QR Code tbv app</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="shortcut icon" type="image/x-icon" href="images/logo.ico">
 <script src="../ontip/js/utility.js"></script>
@@ -99,9 +111,10 @@ $url_redirect = $row['Url_redirect'];
 </table>
 
 
-<h3 style='padding:1pt;font-size:20pt;color:green;'>QRC Inschrijfformulier t.b.v smartphone (smalle weergave) '<?php echo $toernooi_voluit; ?>' 
+<h3 style='padding:1pt;font-size:20pt;color:green;'>QRC App voor invoer uitslag '<?php echo $toernooi_voluit; ?>' </h3>
 
 <?php
+
 
 
 if ($toernooi !=''){
@@ -109,9 +122,7 @@ if ($toernooi !=''){
 $url = substr($prog_url,3);
  
  // de ontip link 
-$form_link = $url_redirect."inschrijf_form_smal.html?toernooi=".$toernooi;
-$form_link = str_replace('http:','https:', $form_link);
-
+$form_link = $url_redirect."doorgeven_uitslag_stap1.php?toernooi=".$toernooi;
 
 $qrc_link  = $prog_url."/images/qrc/qrcf_".$toernooi.".png";
 $qrc_file  = "images/qrc/qrcf_".$toernooi.".png";
@@ -128,8 +139,9 @@ QRcode::png("".$form_link."", "".$qrc_link."", "L", 4, 4);
 echo "<br>";
 
 // Plaats OnTip logo rechtsonder in QRC
+
  
-$logo_file = 'https://www.ontip.nl/ontip/images/OnTip_banner_qrc.png'; 
+$logo_file = 'http://www.ontip.nl/ontip/images/OnTip_banner_qrc.png'; 
 $image_file = $qrc_file;
 $targetfile = $qrc_link;
 
@@ -139,7 +151,6 @@ $fotoH = imagesy($photo);
 $logoImage = imagecreatefrompng($logo_file); 
 $logoW = imagesx($logoImage); 
 $logoH = imagesy($logoImage); 
-
 
 $photoFrame = imagecreatetruecolor($fotoW,$fotoH); 
 
@@ -158,11 +169,12 @@ imagecopy($photoFrame, $logoImage, $dest_x, $dest_y, 0, 0, $logoW, $logoH);
 imagejpeg($photoFrame, $targetfile);  
 
 echo "<center><img src = ".$targetfile." border  = 0 width = 300></center>";
-
+ 
 ?>
+<br>
 <span style='font-size:10pt;color:black;padding:15pt;'>Door deze code met uw smartphone of tablet te scannen *(via QR Code lezer App) kunt u het inschrijfformulier het toernooi direct openen. De code afbeelding kunt u via de rechtermuisknop (Afbeelding opslaan als..) kopieren om deze vervolgens op website of flyer te gebruiken.
 
-<?php
-echo "<br><br><em  style ='margin-left:15pt;'>Link:".$form_link."</em>";
-?>
 
+<br>
+<br><em style='font-size:9pt;color:black;'> QRC link :<?php echo $form_link;?></em>
+ 
