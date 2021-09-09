@@ -6,15 +6,9 @@
 # Feature:          None
 # Reference: 
 
-
-
 ob_start();
 $toernooi = $_GET['toernooi'];
-//header("Content-type: application/octet-stream");
-//header("Content-Disposition: attachment; filename=\"OnTip_".$toernooi.".txt\"");
-
-
-
+$timest = date('Ymdhis');
     $log = 'OnTip_'.$toernooi.'.txt';
  //  echo $log;
 	
@@ -196,7 +190,9 @@ $i++;
  fclose($myfile);
  
 header("Content-type: application/octet-stream");
-//header("Content-Disposition: attachment; filename=\"OnTip_".$toernooi.".txt\"");
+header("Content-Disposition: attachment; filename=\"OnTip_".$toernooi.".txt\"");
+  
+   
 
 $myfile = fopen("OnTip_".$toernooi.".txt", "r") or die("Unable to open file!");
 // Output one line until end-of-file
@@ -210,3 +206,5 @@ $line = fgets($myfile);
 
 
 ?>
+
+ 
