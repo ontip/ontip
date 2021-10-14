@@ -156,9 +156,10 @@ include('include_navbar.php') ;
 
 <br>
 <div class= 'container'   >
+ 	<FORM action='change_password_stap2.php' class="needs-validation" novalidate   autocomplete="off" name= 'myForm' id= 'myForm' method='post' target="_top">
+
  <div class= 'card w-100'>
  
- 	<FORM action='send_chgpassword_link.php'  method='post' autocomplete="off" name= 'myForm' id= 'myForm' method='post' target="_top">
 
   <div class= 'card card-header'>
     <h4>Aanpassen wachtwoord</h4>
@@ -174,19 +175,24 @@ include('include_navbar.php') ;
 <input type="hidden" name="naam"           value="<?php echo $naam; ?>" /> 
   
   <div class="row mb-3">
+    <label for="inputEmail3" class="col-sm-4 col-form-label text-left">Vereniging</label>
+    <div class="col-sm-8">
+          <input type="text" autocomplete="autocomplete_off_hack_xfr4!k" name ='naam' disabled class="form-control" id="exampleInputEmail1" aria-describedby="naamHelp" value ='<?php echo $vereniging;?>'>
+      
+    </div>
+  </div>
+   <div class="row mb-3">
     <label for="inputEmail3" class="col-sm-4 col-form-label text-left">Toegangscode</label>
     <div class="col-sm-8">
           <input type="text" autocomplete="autocomplete_off_hack_xfr4!k" name ='naam' required class="form-control" id="exampleInputEmail1" aria-describedby="naamHelp" placeholder="Naam">
-            <span class="valid-feedback">OK</span>
-           <span class="invalid-feedback">Geen toegangscode ingevuld</span>
+      <span class='row mb-8'   id="errNm1" style='color:red;font-size:1.2vh;'></span>
     </div>
   </div>
   <div class="row mb-3">
     <label for="inputPassword3" class="col-sm-4 col-form-label">Bestaand wachtwoord</label>
     <div class="col-sm-8">
-              <input type="password" autocomplete="autocomplete_off_hack_xfr4!k" name ='wachtwoord_bron' required class="form-control" id="exampleInputEmail1" aria-describedby="naamHelp" placeholder="Bestaand wachtwoord">
-            <span class="valid-feedback">OK</span>
-           <span class="invalid-feedback">Geen wachtwoord ingevuld</span>
+      <input type="password" autocomplete="autocomplete_off_hack_xfr4!k" name ='wachtwoord_bron' required class="form-control" id="exampleInputEmail1" aria-describedby="naamHelp" placeholder="Bestaand wachtwoord">
+      <span class='row mb-8'   id="errNm2" style='color:red;font-size:1.2vh;'></span>
     </div>
   </div>
   
@@ -194,8 +200,7 @@ include('include_navbar.php') ;
     <label for="inputPassword3" class="col-sm-4 col-form-label">Nieuw wachtwoord</label>
     <div class="col-sm-8">
        <input type="password" autocomplete="autocomplete_off_hack_xfr4!k" name ='wachtwoord_new1' required class="form-control" id="exampleInputEmail1" aria-describedby="naamHelp" placeholder="Wachtwoord (4-16 karakters)">
-            <span class="valid-feedback">OK</span>
-           <span class="invalid-feedback">Geen wachtwoord ingevuld</span>
+       <span class='row mb-8'   id="errNm3" style='color:red;font-size:1.2vh;'></span>
     </div>
   </div>
  
@@ -203,18 +208,15 @@ include('include_navbar.php') ;
     <label for="inputPassword3" class="col-sm-4 col-form-label">Nieuw wachtwoord herhaling</label>
     <div class="col-sm-8">
        <input type="password" autocomplete="autocomplete_off_hack_xfr4!k" name ='wachtwoord_new2' required class="form-control" id="exampleInputEmail1" aria-describedby="naamHelp" placeholder="Wachtwoord (4-16 karakters)">
-            <span class="valid-feedback">OK</span>
-           <span class="invalid-feedback">Geen wachtwoord ingevuld</span>
+       <span class='row mb-8'   id="errNm4" style='color:red;font-size:1.2vh;'></span>
     </div>
   </div>
- 
-   <div class ='row errorTxt'> 
-    <div class='col-6'   id="errNm1" style='color:red;font-size:1.0vh;' ></div>
-    <div class='col-6'   id="errNm2" style='color:red;font-size:1.0vh;'></div>
- 
-   </div>
+  
    
    
+   
+  
+ 
    
 <table width=90%>
 
@@ -230,7 +232,9 @@ include('include_navbar.php') ;
 	 
 	<table  width=100%>
 		 <tr>
-		
+	     <td style ='font-size:1.2vh;text-align:left;'>
+             <a href='<?php echo $pageName;?>' role='button' class="btn btn-secondary">Herstellen </button>	
+			 </td>	
             <td style ='font-size:1.2vh;text-align:right;'>
              <button type="submit" class="btn btn-primary">Verzenden <i style='font-size:1.6vh;' class='fa fa-paper-plane'></i></button>	
 			 </td>
@@ -241,11 +245,11 @@ include('include_navbar.php') ;
 
 	</div>
 
-</form>
 
 	
   </div> <!--- card ---->
-	 
+
+</form>	 
 </div>  <!--  container ---->
 <br>
 
@@ -256,11 +260,12 @@ include('include_footer.php');
 <!-- Footer -->
   </body>
 </html>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="js/bootstrap-switch/highlight.js"></script>
-    <script src="js/bootstrap-switch/bootstrap-switch.js"></script>
-    <script src="js/bootstrap-switch/main.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
 
 <script>
  
@@ -269,45 +274,42 @@ $( "#myForm" ).validate({
   rules: {
     naam: {
       required: true,
-     
-    },
+     },
 	 wachtwoord_bron: {
        required: true,
-       digits: true,
-	   minlength:4,
-	   maxlength:4
+       minlength:4,
+	   maxlength:16,
     },
 	 wachtwoord_new1: {
        required: true,
        minlength:4,
-	   maxlength:16
+	   maxlength:16,
     },
 	 wachtwoord_new2: {
        required: true,
        minlength:4,
-	   maxlength:16
+	   maxlength:16,
     },
   },// end rules
   
    messages: {
       naam: {
-        required: "Toegangscodee is verplicht",
-	    
+        required: "Toegangscode (naam) is verplicht",
      },   
 	  wachtwoord_bron: {
         required: "Wachtwoord is verplicht",
-        minlength: "Moet minimaal 4 karakters bevatten",
-        maxlength: "Mag maximaal 16 karakters bevatten",
+        minlength: "Wachtwoord moet minimaal 4 karakters bevatten",
+        maxlength: "Wachtwoord mag maximaal 16 karakters bevatten",
      },     
       wachtwoord_new1: {
         required: "Nieuw wachtwoord is verplicht",
-        minlength: "Moet minimaal 4 karakters bevatten",
-        maxlength: "Mag maximaal 16 karakters bevatten",
+        minlength: "Wachtwoord moet minimaal 4 karakters bevatten",
+        maxlength: "Wachtwoord mag maximaal 16 karakters bevatten",
      },     
        wachtwoord_new2: {
         required: "Nieuw herhaald wachtwoord is verplicht",
-        minlength: "Moet minimaal 4 karakters bevatten",
-        maxlength: "Mag maximaal 16 karakters bevatten",
+        minlength: "Wachtwoord moet minimaal 4 karakters bevatten",
+        maxlength: "Wachtwoord mag maximaal 16 karakters bevatten",
      },     	 
    },  // end messages
   errorPlacement: function(error, element) {
@@ -315,12 +317,14 @@ $( "#myForm" ).validate({
             if (element.attr("name") == "naam" ) {
                 $("#errNm1").text($(error).text());
             }
-   		
-			if (element.attr("name") == "wachtwoord_bron" ) {
+   	     	if (element.attr("name") == "wachtwoord_bron" ) {
 			    $("#errNm2").text($(error).text() );
             }
-			if (element.attr("name") == "pin" ) {
+			if (element.attr("name") == "wachtwoord_new1" ) {
 			    $("#errNm3").text($(error).text() );
+            }
+				if (element.attr("name") == "wachtwoord_new2" ) {
+			    $("#errNm4").text($(error).text() );
             }
             
         }// end error placement
@@ -328,12 +332,4 @@ $( "#myForm" ).validate({
 	
 });
 
-$("#input , #textarea").on('input', function(evt) {
-          var input = $(this);
-          var start = input[0].selectionStart;
-          $(this).val(function (_, val) {
-            return val.toUpperCase();
-          });
-          input[0].selectionStart = input[0].selectionEnd = start;
-        });
 </script>

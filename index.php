@@ -31,6 +31,13 @@
 # Fix:              Query toegevoegd
 # Feature:          None
 # Reference: 
+
+# 27sep2021        -            E. Hendrikx 
+# Symptom:   		 Wijzigen wachtwoord werkt niet
+# Problem:     	    None
+# Fix:              Nieuwe link 
+# Feature:          None
+# Reference: 
 ?>
 
 <html>
@@ -534,7 +541,7 @@ if (substr($laatste_wijziging_wachtwoord,0,4) == '0000'){
 <td style= 'font-size:8pt;vertical-align:middle;font-weight:bold;font-family:verdana;'>Uw licentie verloopt:<br>
          <?php echo $_datum_verloop; ?>
    <span style= 'font-size:8pt;vertical-align:middle;font-weight:bold;font-family:verdana;'><br>Uw wachtwoord verloopt:<br>
-         <?php echo $_verloop_wachtwoord  ; // PHP:  2009-03-31; ?><a style='padding-left:4pt; font-size:9pt;' href='change_password.php' target='_self'>wijzig wachtwoord</a>
+         <?php echo $_verloop_wachtwoord  ; // PHP:  2009-03-31; ?><a style='padding-left:4pt; font-size:9pt;' href='change_password_stap1.php' target='_self'>wijzig wachtwoord</a>
    </span>
 </td>
 

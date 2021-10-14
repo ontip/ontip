@@ -15,14 +15,20 @@
 #
 ?>
 <html>
+<title>OnTip aanlogscherm</title>
 <head>
-	<meta http-equiv="refresh">
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	 
+	
+	<meta charset="utf-8">
+	
+	
 	<link rel="shortcut icon" type="image/x-icon" href="../ontip/images/OnTip_banner_klein.ico">    
 	<base target="_blank">
-	<title>OnTip aanlogscherm</title>
+	
 
 <style type='text/css'><!-- 
+@charset "utf-8";
 BODY {color:black ;font-size: 9pt ; font-family: Comic sans, sans-serif;background-color:white;}
 input:focus, input.sffocus { background: lightblue;cursor:underline;font-size:12pt; }
 // -->

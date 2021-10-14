@@ -1250,7 +1250,7 @@ $variabele = 'meerdaags_toernooi_jn';
   	          	echo "<input type='radio' name='meerdaags_toernooi_jn' value = 'N'        /> Nee ";break;
   	         	case "X":
   	          	echo "<input type='radio' name='meerdaags_toernooi_jn' value = 'J'  /> Ja ";
-  	          	echo "<input type='radio' name='meerdaags_toernooi_jn' value = 'X'  checked /><a href='beheer_cyclus_datums.php?toernooi=".$toernooi."' target='Toernooi'>Cyclus [".$count."]</a> ";
+  	          	echo "<input type='radio' name='meerdaags_toernooi_jn' value = 'X'  checked /><a href='beheer_cyclus_datums_stap1.php?toernooi=".$toernooi."' target='Toernooi'>Cyclus [".$count."]</a> ";
   	          	echo "<input type='radio' name='meerdaags_toernooi_jn' value = 'N'        /> Nee ";break;
   	         	default:
   	          	echo "<input type='radio' name='meerdaags_toernooi_jn' value = 'J'  /> Ja ";
