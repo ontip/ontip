@@ -1,85 +1,110 @@
-<?php
-//// export_inschrijf_naam_ver_xlsx.php  (c) Erik Hendrikx 2017
-//// Maakt een Excel xlsx bestand met de inschrijvingen voor een toernooi.
-# Record of Changes:
+ <?php
+ # Record of Changes:
 #
 # Date              Version      Person
 # ----              -------      ------
-# 8mei2019          -            E. Hendrikx 
-# Symptom:   		    None.
-# Problem:     	    None
-# Fix:              None
-# Feature:          Migratie PHP 5.6 naar PHP 7
+# 29apr2021          1.0.1           E. Hendrikx
+# Symptom:   		 None.
+# Problem:       	 None.
+# Fix:               None.
+# Feature:           None.
 # Reference: 
 
-# 21juni2019          -            E. Hendrikx 
-# Symptom:   		 None.
-# Problem:     	     None
-# Fix:               None
-# Feature:           Huidige datum in kop naar kolom G
-# Reference
+ini_set('default_charset','UTF-8');
+setlocale(LC_ALL, 'nl_NL');
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-?>
-<html>
-	<head>
-		<title>OnTip export inschrijvingen</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="shortcut icon" type="image/x-icon" href="images/logo.ico">     
-		<style type=text/css>
-body { font-family:Verdana; }
-
-a    {text-decoration:none;color:blue;font-size: 8pt}
-</style>
-	</head>
-<body>
-<?php
-// Database gegevens. 
-include('mysqli.php');
-
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
-
-/// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
+include('mysqli.php'); 
+$today = date('Y-m-d');
+$ip    = $_SERVER['REMOTE_ADDR'];
+$pageName        = basename($_SERVER['SCRIPT_NAME']);
+$now             = date('d-m-Y H:i');  // 201701171234              
+include('include_write_logfile.php');
+ 
+ /// Als eerste kontrole op laatste aanlog. Indien langer dan 2uur geleden opnieuw aanloggen
 
 $aangelogd = 'N';
-
 include('aanlog_checki.php');	
-
+ 
 if ($aangelogd !='J'){
 ?>	
 <script language="javascript">
-		window.location.replace("aanloggen.php");
+		window.location.replace("aanloggen.php?url=<?php echo $pageName;?>");
 </script>
 <?php
 exit;
 }
 
 $toernooi = $_GET['toernooi'];
+
+//// SQL Queries
+//$qry      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."'
+//              and Status in ('BE0','BE1','BE2','BE3','BE8','BE9','BED', 'BEG', 'IM0', 'ID0')  order by Inschrijving ASC" )    or die(mysql_error());  
+               
 // Ophalen toernooi gegevens
-if (!isset($toernooi)) {
-		echo " Geen toernooi bekend :";
-		exit;
-		
-};
 
-         
+$qry2             = mysqli_query($con,"SELECT * From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
+while($row2 = mysqli_fetch_array( $qry2 )) {
+	 $var  = $row2['Variabele'];
+	 $$var = $row2['Waarde'];
+	}              
+	
 ?>
 
-<div style='background-color:white;'>
-<table >
-<tr><td style='background-color:white;' rowspan=2 width='280'><img src = '../ontip/images/ontip_logo.png' width='280'></td>
-<td STYLE ='font-size: 36pt; background-color:white;color:green ;'>Toernooi inschrijving <?php echo $vereniging; ?></TD></tr>
-<td STYLE ='font-size: 32pt; background-color:white;color:blue ;'> <?php echo $toernooi_voluit; ?></TD>
-</tr>
-</TABLE>
-</div>
-<hr color='red'/>
+<html>
+ <head>
+ <title>OnTip - import en export</title>
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="../ontip/css/fontface.css" rel="stylesheet" type="text/css" />
+ <link href="../ontip/css/standard.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" type="image/x-icon" href="images/logo.ico">
+ 
+ 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-<span style='text-align:right;'><a href='index.php'>Terug naar Hoofdmenu</a></span><br>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+ <!-- my personal set for font awesome icons --->
+<script src='https://kit.fontawesome.com/87a108c0d7.js' crossorigin='anonymous'></script>
+ 
+<style>
+ 
+
+ <?php
+ include("css/standard.css")
+  ?>
+  h5 {font-weight:bold;}
+</style>
+<script language="javascript">
+function changeColor(color,id) {
+document.getElementById('item1').style.color = "red";
+};
+</script>
+
+ </head>
+
+<body >
+ 
+ <?php
+$short_menu='Ja';
+include('include_navbar.php') ;
+?>
 
 
+<br>
+<div class= 'container'   >
+ <div class= 'card w-100'>
+    <div class= 'card card-header'>
+    <h3><i class="fas fa-file-excel"></i> Excel export "<?php echo $toernooi_voluit;?>"</h3>
+   
+   </div>
+ 
+   <div class= 'card card-body'>
+  
+    
 <?php
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Lees configuratie tabel tbv toernooi gegevens  (soort inschrijving e.d)
@@ -99,10 +124,9 @@ $inschrijf_methode   = $result['Parameters'];
 $timest    = date('Y-m-d h:i:s');
 $xlsx_file ="csv/inschr_naam_ver_".$toernooi."_".$timest.".xlsx";
 
-
 ?>
-<blockquote>
-<h3 style='padding:10pt;font-size:20pt;color:green;'>Aanmaak excel export voor "<?php echo $toernooi_voluit;?>"</h3>
+ <br>
+<p STYLE ='font-size:1.4vh;'>Dit programma maakt een Excel bestand met de inschrijvingen en bevat de namen en verenigingen in aparte kolommen.</p>
 <br>
 <?php
 
@@ -408,9 +432,33 @@ $i++;
   $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
   $objWriter->save($xlsx_file);
 
+  
+ if ($xlsx_file !=''){?>
+  <div><i class="fas fa-file-excel"></i> Aangemaakt op <?php echo date('d-m-Y h:i:s');?></div>
+  <?php } ?>
+  
+  </div> <!--- card body ---->
+  
+  <div class = 'card card-footer'>
+  <table class='w-100'>
+     <tr>
+	   <td  style='text-align:left;'>
+	     <input type="button" value="Vorige pagina" class='btn btn-sm btn-info' onclick="history.back()" /> 
+         </td>
+	  <td  style='text-align:right;'>
+	 <?php
+		 if ($xlsx_file !=''){?>
+		<a style='font-size:12pt;' role = 'button'  class ='btn btn-sm btn-success' href = '<?php echo $xlsx_file;?>' target = '_blank'><i class="fa fa-download" aria-hidden="true"></i> Download bestand</a> 
+     <?php } ?>	  </td>    
+	 </tr>
+	 </table>
+  </DIV>
  
-?>
-<a href = '<?php echo $xlsx_file;?>' target = '_blank'><img src = '../ontip/images/icon_excel.png'  width=50><br>Aangemaakt op <?php echo $timest;?>.<br>Klik hier voor bestand '<?php echo $xlsx_file;?>'</a> 
-</blockquote>
-</body>
+	 
+</div>  <!--  card  ---->
+	</div>  <!--  container ---->
+ <!-- Footer -->
+
+<!-- Footer -->
+ </body>
 </html>

@@ -79,12 +79,14 @@ if ($count == 0){
 <html>
  <head>
  <meta charset="utf-8">
- <title>OnTip - Beheer cyclus datums</title>
+ <title>OnTip</title>
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
  <meta name="viewport" content="width=device-width, initial-scale=1">
  <link href="../ontip/css/fontface.css" rel="stylesheet" type="text/css" />
  <link href="../ontip/css/standard.css" rel="stylesheet" type="text/css" />
- <link rel="shortcut icon" type="image/x-icon" href="images/logo.ico">
+ <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+ <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+
  
  <script src='https://www.google.com/recaptcha/api.js'></script>
  
@@ -166,101 +168,31 @@ include('include_navbar.php') ;
  
 
   <div class= 'card card-header'>
-   <h4 ><i class="fa fa-calendar" aria-hidden="true"></i> Beheer datums voor Toernooi Cyclus "<?php echo $toernooi_voluit;?>"</h4>
+   <h4 >Uitleg menu Import - Export</h4>
    </div>
-   
-	
+ 
     <div class= 'card card-body'>
        <br>
-       <span style='color:black;font-size:1.4vh;font-family:arial;'>Een toernooi cyclus bestaat uit een aantal toernooien (max 10). 
-	   In dit scherm kan je datums (max 10) koppelen aan dit toernooi om een cyclus aan te maken. De eerste datum is gelijk aan de opgegeven datum voor het toernooi.<br>
-  	    De datums worden automatisch op volgorde gesorteerd.Klik op het kalender icon <i class="fa fa-calendar" aria-hidden="true"></i> in het input veld om een datum te kiezen uit de kalender.<br>
-		  	     
-        De datum die gelijk is aan de initiele toernooi datum kan je niet verwijderen, wel aanpassen.   
-		Indien gewenst kan je een afwijkende speellocatie opgeven die als extra informatie op het formulier wordt getoond.<br>	   
+       <span style='color:black;font-size:1.6 vh;font-family:arial;'>Onder deze menu optie vind je de programma links waarmee vanuit OnTip bestanden kunnen worden ingelezen (import)
+	   of aangemaakt (export) met betrekking tot deelnemerslijsten en inschrijvingen.<br>	
+           Het kan zijn dat nog niet alle menu opties actief zijn.De niet actieve links zijn grijs en kunnen niet geselecteerd worden. 
+           In de loop van de tijd zullen steeds meer opties geactiveerd worden. De oude programma links kunnen gevonden worden in het oude beheer programma. Deze is te bereiken door op woord OnTip linksboven te klikken.<br>
+               <br>
+               Door te klikken op het woord OnTip linksboven,kom je altijd terug in het beheerprogramma.	   
         </span>  
-     	 <br><br>
-  
-			<table class='table table-bordered table-striped table-response w-100'>
-			 <thead>
-		   <tr>
-		      <th style='font-size:1.8vh;font-family:verdana;text-align:center;color:red;'><i class="fas fa-trash-alt"></i></th>
-		      <th>Datum nr</th>
-			  <th>Invoer datum</th>
-			  <th>Datum tekst</th>
-		      <th>Afwijkende locatie</th>
-			</tr>
-		   	</thead>
-			<tbody>
-		        
-			 <?php
-			          $qry      = mysqli_query($con,"SELECT * From toernooi_datums_cyclus where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."' order by Datum" )     or die(' Fout in select2');  
-                    
-                    $i=1;
-                    while($row = mysqli_fetch_array( $qry )) {
-	
-	                  $id     = $row['Id'];
-	                  $_datum = $row['Datum'];
-	                  $dag    = 	substr ($_datum , 8,2); 
-                      $maand  = 	substr ($_datum , 5,2); 
-                      $jaar   = 	substr ($_datum , 0,4); 
-	                  
-	                  ?>
-		     		 <tr>
-					 <td>
-		        	 <?php
-		        		// niet verwijderen als datum = toernooi datum
-		        		 if ($datum != $_datum){?>
-		                    <input type='checkbox' name= 'delete[]' class='trash d-print-none' id= 'trash_<?php echo $row['Id']; ?>' value='<?php echo $row['Id']; ?>' /><label for="trash_<?php echo $row['Id']; ?>"></label>
-			         		<?php } else {?>
-		        		
-		     		 		<?php } ?>		         		 			
-                      <td  style='font-weight:bold;font-family:verdana;'>Datum <?php echo $i;?></td>
-					  <td style=' font-family:verdana;text-align:center;'>
-					     <input type="date"  id='datum' required name="datum_<?php echo $id;?>" placeholder ='kies datum' value ="<?php echo $_datum;?>">
-		                       <p style="display:none; color:#DA2C07;font-size:1.2vh;" id="datum_error">
-                                        Er is geen datum geselecteerd
-                              </p> 
-			        	  <td><?php echo strftime("%A %e %B %Y", mktime(0, 0, 0, $maand , $dag, $jaar) )  ?></td>
-		        	  <td style='padding-left: 2px;padding-right: 0px;' >
-		        	  	   <input  style=' font-family:verdana;' type = 'text' name = 'locatie_<?php echo $id;?>'  value ="<?php echo $row['Locatie'];?>" size =40></td>
-			 	<tr>
-			 			
-			 		<?php 
-			 		$i++;
-			 		}?> 		
-			 			 
-			 	<tr>
-			 		<td  style='text-align:center;'>+</td><td>Volgende datum </td>
-			 		<td  style='ffont-family:verdana;text-align:center;'>
-				     <input type="date"  id='datum_new'   name="datum_new" placeholder ='kies datum' >
-			
-		<td colspan =2 style='padding-left: 2px;padding-right: 0px; color:blue;'>  <-- Vul hier de datum in  van de volgende dag.</td></tr>
-  </tbody>
-  </table>
-  
-  
-  <br><span style='color:black;font-size:1.4vh;font-family:arial;'>Door een vinkje te zetten in het lege vierkant in de eerste kolom, kan je een datum verwijderen.<br></span>
-  	<span style='color:red;font-size:1.4vh;font-family:arial;font-weight:bold;'>Vul alleen een locatie in als deze afwijkt van de standaard locatie!!</span><br><br></div>
-  
-  
-   
+      
 
 
 </div> <!--- body--->
 <div  class ='card-footer'>
-	 
-	<table  width=100%>
-		 <tr>
+	 	  <table class='w-100'>
+     <tr>
+	   <td width=25% style='text-align:left;'>
+	     <input type="button" value="Vorige pagina" class='btn btn-sm btn-info' onclick="history.back()" /> 
+         </td>
 	     
-            <td style ='font-size:1.2vh;text-align:right;'>
-             <button type="submit" class="btn btn-primary">Klik hier na invullen</button>	
-			 </td>
-          </tr>
-     </table>
-      	
-	
-
+	 </tr>
+	 </table>
 	</div>
 
 
