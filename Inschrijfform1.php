@@ -1034,7 +1034,7 @@ $variabele       = 'toernooi_gaat_door_jn';
 $variabele       = 'extra_koptekst';
  $qry1           = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."'  and Variabele = '".$variabele ."'")     or die(' Fout in select');  
  $result         = mysqli_fetch_array( $qry1);
- $parameter      = explode('#', $result['Parameters']);
+ $text_effect     = $result['Parameters'];
  $extra_koptekst = $result['Waarde'];
  
 ///  oude situatie extra koptekst op een volgende regel als deze begint met %
@@ -1067,8 +1067,8 @@ if ($_text_effect =='#m' or $_text_effect =='#n' or $_text_effect == '#z'){
 $lichtkant = 'Nee';
 
 switch ($text_effect){
-	case 'n': $extra_koptekst = "<br>". $extra_koptekst;break;
-	case 'm': $lichtkrant     = 'Ja';break;
+	case '#n': $extra_koptekst = "<br>". $extra_koptekst;break;
+	case '#m': $lichtkrant     = 'Ja';break;
 	default : $extra_koptekst  = $extra_koptekst;break;
 } // end switch
 
