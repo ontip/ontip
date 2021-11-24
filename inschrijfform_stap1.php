@@ -284,7 +284,7 @@ input.avg[type=checkbox]:checked + label
     margin-right: 8px;
 }
  
-.btn { box-shadow: 3px 5px #888888;border-radius: 15px;}
+
 table { border:4px solid  black, box-shadow: 5px 10px #888888;
 }  
 h2 {font-size:2.0vh;}
@@ -304,7 +304,7 @@ tr  {height:1.0vh;}
 
 /* If the screen size is 601px wide or more, set the font-size of <class> to 1.4 */
 @media screen and (min-width: 601px) {
-  p.koptekst,td.koptekst, a.koptekst, div.uitleg,span.uitleg, li {
+  p.koptekst,td.koptekst, a.koptekst, div.uitleg,span.uitleg, li,a,btn {
     font-size: 1.4vh;
 	color:black;
   }
@@ -312,7 +312,7 @@ tr  {height:1.0vh;}
 
 /* If the screen size is 600px wide or less, set the font-size of <class> to 1.6 */
 @media screen and (max-width: 600px) {
-  p.koptekst,td.koptekst, div.uitleg,span.uitleg, li {
+  p.koptekst,td.koptekst, div.uitleg,span.uitleg, li,a , btn{
     font-size: 1.6vh;
 	color:black;
   }
@@ -377,16 +377,20 @@ function toggleInput(thisname) {
 ?>
 <!---- novalidate  class="needs-validation" -->
 <br>
-<div class= 'container'   >
+ 
+ 
  <FORM  action='inschrijfform_stap2.php' class="needs-validation" novalidate autocomplete="off" name= 'myForm' id= 'myForm' method='post' target="_top">	 
        <input type="hidden" name="zendform"             value="1" /> 
        <input type="hidden" name="toernooi"             value="<?php echo $toernooi;?>" /> 
        <input type="hidden" name="vereniging"           value="<?php echo $vereniging;?>" /> 
        <input type="hidden" name="soort"                value="<?php echo $soort_inschrijving;?>" /> 
        <input type="hidden" name="inschrijf_methode"    value="<?php echo $inschrijf_methode;?>" /> 
+       <input type="hidden" name="min_splrs"            value="<?php echo $min_splr;?>" /> 
+       <input type="hidden" name="max_splrs"            value="<?php echo $max_splr;?>" /> 
+       <input type="hidden" name="inschrijf_methode"    value="<?php echo $inschrijf_methode;?>" /> 
 
 
- <div class= 'card w-100'>
+ <div class= 'card col-lg-8 col-md-6 col-sm-12 col-xs-12'>
   <div class= 'card card-header' style='background-color:<?php echo $achtergrond_kleur ; ?>;'>
  	<h4 style='font-family:<?php echo $font_koptekst; ?>;color: <?php echo $koptekst_kleur; ?>;'> Inschrijfformulier <?php echo $toernooi_voluit;?></h4>
 	 
@@ -404,18 +408,18 @@ function toggleInput(thisname) {
   <h4 style='color:red;'>Toernooi gegevens</h4>
   <br>
   
-   <table class='table table-striped w-100   table-bordered' style='box-shadow: 3px 8px #888888;'>
+   <table class='table table-striped w-100   table-bordered'  >
      <tr>
-	  <th class='w-25' width=50%  >Toernooi</th>
+	  <th class ='w-50' >Toernooi</th>
 	  <td><?php echo $toernooi_voluit;?></td>
 	  </tr>
 	   <tr>
-	  <th class='w-25' width=50%  >Vereniging</th>
+	  <th class ='w-50' >Vereniging</th>
 	  <td><?php echo $vereniging;?> <?php echo $plaats;?></td>
 	  </tr>
 	  
 	   <tr>
-	  <th class='w-25' width=50%  >Adres locatie</th>
+	  <th class ='w-50' >Adres locatie</th>
 	  <td><?php echo $adres;?>  </td>
 	  </tr>
 	  
@@ -475,37 +479,37 @@ function toggleInput(thisname) {
 	<?php } ?>
 	
 	 <tr>
-	  <th class='w-25' width=50%  >Soort toernooi</th>
+	  <th class ='w-50' >Soort toernooi</th>
 	  <td><?php echo $soort_inschrijving;?></td>
 	  </tr>
 	  
 	  <tr>
-	  <th class='w-25' width=50%  >Soort inschrijving</th>
+	  <th class ='w-50' >Soort inschrijving</th>
 	  <td><?php echo $inschrijf_methode;?></td>
 	  </tr>
 	   
 	  <tr>
-	  <th class='w-25' width=50%  >Toegang voor</th>
+	  <th class ='w-50' >Toegang voor</th>
 	  <td><?php echo $toegang;?></td>
 	  </tr>
 	  
 	  <tr>
-	  <th class='w-25' width=50%  >Melden</th>
+	  <th class ='w-50' >Melden</th>
 	  <td><?php echo $meld_tijd_prefix; ?> <?php echo $meld_tijd; ?></td>
 	  </tr>
 	
       <tr>
-	  <th class='w-25' width=50%  >Start toernooi</th>
+	  <th class ='w-50' >Start toernooi</th>
 	  <td><?php echo $aanvang_tijd;?></td>
 	  </tr>
 	   
 	  <tr>
-	  <th class='w-25' width=50%  >Kosten</th>
+	  <th class ='w-50' >Kosten</th>
 	  <td><?php echo $kosten_team;?></td>
 	  </tr>
 	  
 	  <tr>
-	  <th class='w-25' width=50%  >Prijzen</th>
+	  <th class ='w-50' >Prijzen</th>
 	  <td><?php echo $prijzen;?></td>
 	  </tr>
 	 </table>
@@ -515,22 +519,22 @@ function toggleInput(thisname) {
 	 <br>
 	  <table class='table table-striped w-100   table-bordered'>
 	  <tr>
-	  <th class='w-25' width=50%  >Minimum aantal deelnemers</th>
+	  <th class='w-50'    >Minimum aantal deelnemers</th>
 	  <td><?php echo $min_splrs;?></td>
 	  </tr>
 	  
 	  <tr>
-	  <th class='w-25' width=50%  >Maximum aantal deelnemers</th>
+	  <th class='w-50'    >Maximum aantal deelnemers</th>
 	  <td><?php echo $max_splrs;?></td>
 	  </tr>
 	  
 	  <tr>
-	  <th class='w-25' width=50%  >Maximum aantal reserves</th>
+	  <th class='w-50'    >Maximum aantal reserves</th>
 	  <td><?php echo $aantal_reserves;?></td>
 	  </tr>
 	  
 	    <tr>
-	  <th class='w-25' width=50%  >Aantal inschrijvingen</th>
+	  <th class='w-50'    >Aantal inschrijvingen</th>
 	  <td><?php echo $aant_splrs;?></td>
 	  </tr>
 	  	
@@ -636,9 +640,7 @@ if ($vol_geboekt ==0 and $einde == 0){?>
 	   <?php } ?>
   </b>
   </p>	 
- <br>
- 
-	 	
+  
 	<!----------------------------------------------- invoer spelers ------------------------------------------//----->
 	
 	
@@ -646,11 +648,11 @@ if ($vol_geboekt ==0 and $einde == 0){?>
  <h4 style='color:red;'>Spelers</h4>
  <h6>Vul de onderstaande gegevens in</h6>
  <br>
- <table class='table    table-responsive table-bordered w-auto'>
+ <table class='table table-responsive table-bordered w-100'>
    <thead>
    <tr>
     <th    width=3%>#</th>
-	<th    style = 'display:<?php echo $licentie_option;?>;'>Licentie</th>
+	<th     style = 'display:<?php echo $licentie_option;?>;'>Licentie</th>
 	<th     >Naam</th>
 	<th     >Vereniging</th>
 	</tr>
@@ -662,7 +664,7 @@ if ($vol_geboekt ==0 and $einde == 0){?>
    <td width=3% ><b><?php echo $nr;?></b></td>
   	<td   style = 'display:<?php echo $licentie_option;?>;' >
 	  <div class="form-group">
-          <input   type="text"  name ='licentie<?php echo $nr;?>' size = 2 required class="form-control"   placeholder="Licentie ">
+          <input   type="text"  name ='licentie<?php echo $nr;?>'   required class="form-control"   placeholder="Licentie ">
               <span class="invalid-feedback">Geen licentie ingevuld.<br>Indien onbekend vul nnb in</span>  
 	   </div>
 	</td>
@@ -1022,21 +1024,18 @@ if ($vol_geboekt ==0 and $einde == 0){?>
 	    <div class='col-8'>	
 	 <label for="exampleInputEmail1"><b>Wil je meedoen met dit toernooi, maar heb je geen boule maatje ?<br>Of wil je je opgeven als reserve speler ?</b></label>
               </div>
-       <div class='col-2'>	
-	   <a href='boulemaatje_gezocht_stap1.php?toernooi=<?php echo $toernooi;?>' role='button' class='btn btn-sm btn-danger shadow p-3 mb-5'>"Boulemaatje gezocht" </a>
-        	
-
-  
-		</div> 
+       <div class='col-4 text-center'>	
+	   <a style='font-size:1.4vh;'href='boulemaatje_gezocht_stap1.php?toernooi=<?php echo $toernooi;?>' role='button' class='btn btn-sm btn-danger'>Boulemaatje<br>gezocht</a>
+  		</div> 
 	  </div> <!-- row-->	
 	  	<?php } ?> 
 	 <hr>
  <br>
-	  <div class= 'row'  > 
-	  <div class='col-6'>	
+	 
      <h6><b>Vraag of opmerkingen</b></h6>
-	 </div>
-	  <div class='col-6'>	
+	 	
+	  <div class= 'row'  >  
+	  <div class='col-12'>	
       <div class="form-outline">
        <textarea style='font-size:1.4vh;' class="form-control" name='opmerkingen'  id="textAreaExample2" rows="4"   placeholder= "Type hier uw vraag of opmerking"></textarea>
         </div> 
@@ -1071,13 +1070,13 @@ if ($vol_geboekt ==0 and $einde == 0){?>
 	<table  width=100%>
 		 <tr>
 	        <td style ='font-size:1.2vh;text-align:left;'>
-			 <a href ='lijst_inschrijf_kort.php?toernooi=<?php echo $toernooi;?>' target='_blank' role='button' class ='btn btn-sm btn-success'><i class="fas fa-list"></i> Lijst deelnemers</a>
+			 <a href ='lijst_inschrijf_kort.php?toernooi=<?php echo $toernooi;?>' target='_blank' role='button' class ='btn btn-sm btn-success'><i class="fas fa-list  d-none d-xl-inline"></i> Lijst deelnemers</a>
   		 </td>
 		 	        <td style ='font-size:1.2vh;text-align:center'>
-			 <a href ='<?php echo $url_website ?>' target='_blank' role='button' class ='btn btn-sm btn-success'><i class="fas fa-globe"></i> Naar website</a>
+			 <a href ='<?php echo $url_website ?>' target='_blank' role='button' class ='btn btn-sm btn-success'><i class="fas fa-globe d-none d-xl-inline"></i> Naar website</a>
   		 </td>
          <td style ='font-size:1.2vh;text-align:right;'>
-             <button type="submit" class="btn btn-primary">Verzenden <i style='font-size:1.6vh;' class='fa fa-paper-plane'></i></button>	
+             <button type="submit" class="btn btn-sm btn-primary">Verzenden  </button>	
 			 </td>
  </tr>
      </table>
@@ -1086,14 +1085,7 @@ if ($vol_geboekt ==0 and $einde == 0){?>
    </div>
   </div> <!--- card ---->
 	 </form>	
-</div>  <!--  container ---->
-<br>
-
- <!-- Footer -->
-<?PHP
-include('include_footer.php');
-?>
-<!-- Footer -->
+  
   </body>
 </html>
 <script>

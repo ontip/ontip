@@ -319,7 +319,7 @@ while($row = mysqli_fetch_array( $qry )) {?>
  	   
  	   <?php echo $stats_oms;?>
 	      	 </td>
-	   	     <td><a href = "beheer_bevestigingen_stap2.php?id=<?php echo $row['Id'];?>&toernooi=<?php echo $toernooi;?>"  target ='_self'>Klik hier om te selecteren</a></td>
+	   	     <td><a href = "beheer_bevestigingen_stap2.php?id=<?php echo $row['Id'];?>&toernooi=<?php echo $toernooi;?>"   target ='_self'>Klik hier om te selecteren</a></td>
 	           </tr> 
 	  	        
 <?php

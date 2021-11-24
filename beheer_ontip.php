@@ -420,6 +420,7 @@ if (!isset($toernooi)){
 } // isset
 
 // Definieer variabelen en vul ze met waarde uit tabel config
+echo "SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ";
 
 $qry  = mysqli_query($con,"SELECT * From config where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' ")     or die(' Fout in select');  
 while($row = mysqli_fetch_array( $qry )) {

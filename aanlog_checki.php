@@ -5,13 +5,6 @@ $count     = 0;
 $laatst    = '';
 $tot_secs  = 0;
 
-//echo "check";
-//echo "xx" .$vereniging;
-//echo $ip;
-
-//echo "SELECT Naam,Beheerder , Toernooi FROM namen WHERE  IP_adres = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ";
-
-
 // kontroleer of op deze PC iemand is aangelogd
 
 $sql      = mysqli_query($con,"SELECT Naam,Beheerder , Toernooi FROM namen WHERE  IP_adres_md5 = '".$ip."' and  Vereniging_id = ".$vereniging_id." and Aangelogd ='J'  ") or die(' Fout in select ip check');  

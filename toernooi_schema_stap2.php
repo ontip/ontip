@@ -215,6 +215,7 @@ if ($toernooi =='') {
    else {  ?>
   <div    style='border: red solid 1px;padding-left:5px;'> 
     <h1>Toernooi schema <?php echo $rondes;?>  voorgeloot<h1>
+	 </div>
 	<?php
   }
 ?>
@@ -246,11 +247,10 @@ if ($vrijloting == 'J'){
 <input type='hidden' name='Tekens'      value="<?php echo $tekens; ?>" /> 
 <input type='hidden' name='Baan_toewijzing'      value="<?php echo $baan_toewijzing; ?>" /> 
 
-<span role= 'button' class="btn btn-success noprint"  ><i class="fas fa-file-pdf"></i>  Klik hier voor PDF score formulieren</span>
-
+<input type= 'submit' role= 'button' class="btn btn-success noprint" value="Klik hier voor PDF score formulieren" > 
 
 </center><br>
-<br><span class='noprint'> De aanmaak van het PDF document met de score briefjes kan wat tijd kosten. Een moment geduld a.u.b</span>
+
 </form>
 
 

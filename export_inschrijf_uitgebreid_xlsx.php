@@ -33,14 +33,9 @@ if ($aangelogd !='J'){
 <?php
 exit;
 }
-
-$toernooi = $_GET['toernooi'];
-
-//// SQL Queries
-//$qry      = mysqli_query($con,"SELECT * from inschrijf Where Toernooi = '".$toernooi."' and Vereniging = '".$vereniging."'
-//              and Status in ('BE0','BE1','BE2','BE3','BE8','BE9','BED', 'BEG', 'IM0', 'ID0')  order by Inschrijving ASC" )    or die(mysql_error());  
-               
+             
 // Ophalen toernooi gegevens
+// toernooi naam opgehaald vanuit mysqli.php
 
 $qry2             = mysqli_query($con,"SELECT * From config where Vereniging_id = ".$vereniging_id ." and Toernooi = '".$toernooi ."'  ")     or die(' Fout in select2');  
 
@@ -48,7 +43,11 @@ while($row2 = mysqli_fetch_array( $qry2 )) {
 	 $var  = $row2['Variabele'];
 	 $$var = $row2['Waarde'];
 	}              
-	
+
+$qry        = mysqli_query($con,"SELECT * From config  where Vereniging = '".$vereniging ."' and Toernooi = '".$toernooi ."' and Variabele = 'soort_inschrijving'  ") ;  
+$result     = mysqli_fetch_array( $qry);
+$inschrijf_methode    = $result['Parameters'];
+$soort_inschrijving   = $result['Waarde'];
 ?>
 
 <html>

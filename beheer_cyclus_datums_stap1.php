@@ -112,7 +112,7 @@ input.trash[type=checkbox] {
   
 input.trash[type=checkbox] + label
    {
-	   background:url('../ontip/images/trash_not_checked.png') no-repeat;
+	   background:url('../ontip/images/not_checked.png') no-repeat;
      height: 25px;
        width: 25px;  
        display:inline-block;
